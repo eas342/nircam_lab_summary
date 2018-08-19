@@ -149,7 +149,7 @@
 %%
 %% If you wish, you may supply running head information, although
 %% this information may be modified by the editorial offices.
-\shorttitle{\aastex\ sample article}
+\shorttitle{NIRCam Lab Studies}
 \shortauthors{Schlawin et al.}
 %%
 %% You can add a light gray and diagonal water-mark to the first page 
@@ -167,7 +167,7 @@
 
 \begin{document}
 
-\title{A Template Article using \aastex v6.1}
+\title{Lessons Learned for JWST Transiting Planet Time Series from Ground-based Studies of NIRCam Detectors}
 
 %% LaTeX will automatically break titles if they run longer than
 %% one line. However, you may use \\ to force a line break if
@@ -224,10 +224,36 @@
 933 North Cherry Avenue \\
 Tucson, AZ 85721, USA}
 
-\author[0000-0000-0000-0000]{John Smith}
-\affil{American Astronomical Society \\
-2000 Florida Ave., NW, Suite 300 \\
-Washington, DC 20009-1231, USA}
+\author{Jarron Leisenring}
+\affiliation{Steward Observatory \\
+933 North Cherry Avenue \\
+Tucson, AZ 85721, USA}
+
+\author{Karl Misselt}
+\affiliation{Steward Observatory \\
+933 North Cherry Avenue \\
+Tucson, AZ 85721, USA}
+
+\author{Rafia Bushra}
+\affiliation{Steward Observatory \\
+933 North Cherry Avenue \\
+Tucson, AZ 85721, USA}
+
+\author{Douglas Kelly}
+\affiliation{Steward Observatory \\
+933 North Cherry Avenue \\
+Tucson, AZ 85721, USA}
+
+\author{Thomas Beatty}
+\affiliation{Steward Observatory \\
+933 North Cherry Avenue \\
+Tucson, AZ 85721, USA}
+
+\author{Marcia Rieke}
+\affiliation{Steward Observatory \\
+933 North Cherry Avenue \\
+Tucson, AZ 85721, USA}
+
 
 %% Note that the \and command from previous versions of AASTeX is now
 %% depreciated in this version as it is no longer necessary. AASTeX 
@@ -244,7 +270,11 @@ Washington, DC 20009-1231, USA}
 %% Mark off the abstract in the ``abstract'' environment. 
 \begin{abstract}
 
-This is a template article that I'll use for starting future articles.
+JWST transmission and emission spectra of transiting exoplanets will provide invaluable glimpses at exoplanet atmospheres that reveal the composition and temperature structure at a level never achieved before.
+This promising science from JWST, however, will require exquisite precision and understanding of systematic errors that can impact the time series of planets crossing in front of and behind their host stars.
+This is especially true in the search for biosignatures in temperature atmospheres on Earth-sized planets that may contain liquid water.
+Here, we provide the lessons learned from ground-based characterization of the NIRCam H2RG detectors, which will be used for exoplanet spectra and are similar to the JWST NIRISS and NIRSpec instruments.
+We summarize the lessons learned from cryogenic vacuum campaigns 2 and 3 at NASA Goddard and NASA Johnson with the flight hardware as well as laboratory tests of the same detectors at the University of Arizona's Steward Observatory.
 
 \end{abstract}
 
@@ -271,31 +301,46 @@ stars: variables: general}
 
 \section{Introduction} \label{sec:intro}
 
-Here's the background and why this paper is important.
+JWST will provide powerful new measurements of exoplanet atmospheres with spectroscopy from 0.6 to 12 $\mu$m
+\citep{beichman2014pasp,greene2016jwst_trans,howe2017informationJWST,barstow2015jwstSystematics,schlawin2018JWSTforecasts}
+The sensitivity of JWST combined with its unprecedented wavelength coverage on exoplanets will enable it to measure the abundance of carbon-bearing molecules (CO, CO$2$ and CH$_4$) as well as study cooler, smaller planets than previously characterized.
 
+The extreme precision needed to study Earth-like planets is 
 Section \ref{sec:obs} describes the observations. 
+
+Known detector effects that could affect stability:
+\begin{itemize}[noitemsep]
+	\item Intrapixel sensitivity - including sub-pixel flat fielding issues, sub-pixel crosshatching on the detectors
+	\item Asic-specific effects - pre-amp reset
+\end{itemize}
 
 \section{Observations}\label{sec:obs}
 
 \begin{deluxetable*}{ccCrlc}[b!]
-\tablecaption{Summary of observations \label{tab:mathmode}}
-\tablecolumns{6}
-\tablenum{2}
+\tablecaption{Summary of Tests \label{tab:mathmode}}
+\tablecolumns{7}
+%\tablenum{2}
 \tablewidth{0pt}
 \tablehead{
-\colhead{UT start time} &
-\colhead{Type\tablenotemark{a}} &
-\colhead{Seeing} & \colhead{Filter} & \colhead{Inst.} \\
-\colhead{(YYYY-mm-dd)} & \colhead{} &
-\colhead{(arcsec)} & \colhead{} & \colhead{}
+\colhead{Name} &
+\colhead{Location} &
+\colhead{UT dates} &
+\colhead{Best Stability} & 
+\colhead{Light Source} & 
+\colhead{Instrument Mode} \\
+\colhead{} &
+\colhead{} &
+\colhead{(YYYY-mm-dd)} &
+\colhead{(ppm)} &
+\colhead{}
 }
 \startdata
-2012-01-20 & Transit & \sim 0.\arcsec5 & prism & SpeX \\
-2012-01-20 & Transit & 1.\arcsec5 & R & MORIS \\
-2012-01-22 & Sec. Eclipse & \nodata & G141 & HST \\
+CV 3       & NASA Goddard  & 2016       & 500   & LED           & WLP8 imaging \\
+OTIS       & NASA Goddard  & 2017       &       & Continuum     & Grism spectroscopy \\
+GL dewar   & Steward Obs.  & 2015-2016  &       & LED	        & flood-illuminated imaging \\
+Asic dewar & Steward Obs.  & 2017-2019  &       & LED           & pinhole flood-illuminated imaging \\
 \enddata
-\tablenotetext{a}{Type of observation.}
-\tablecomments{Summary of observations.}
+\tablecomments{Cryogenic vacuum (CV).}
 \end{deluxetable*}
 
 

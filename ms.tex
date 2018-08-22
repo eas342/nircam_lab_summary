@@ -110,6 +110,8 @@
 \newcommand\latex{La\TeX}
 \newcommand{\exampleConstant}{0.04}
 \newcommand{\degree}{^\circ}
+\newcommand{\spitzer}{{\it Spitzer}}
+\newcommand{\kepler}{{\it Kepler}}
 
 %% Reintroduced the \received and \accepted commands from AASTeX v5.2
 \received{July 1, 2016}
@@ -272,8 +274,8 @@ Tucson, AZ 85721, USA}
 
 JWST transmission and emission spectra of transiting exoplanets will provide invaluable glimpses at exoplanet atmospheres that reveal the composition and temperature structure at a level never achieved before.
 This promising science from JWST, however, will require exquisite precision and understanding of systematic errors that can impact the time series of planets crossing in front of and behind their host stars.
-This is especially true in the search for biosignatures in temperature atmospheres on Earth-sized planets that may contain liquid water.
-Here, we provide the lessons learned from ground-based characterization of the NIRCam H2RG detectors, which will be used for exoplanet spectra and are similar to the JWST NIRISS and NIRSpec instruments.
+This is especially true if JWST is used to search for biosignatures in temperature atmospheres on Earth-sized planets that may contain liquid water.
+Here, we provide the lessons learned from ground-based characterization of the NIRCam H2RG detectors, which will be used for exoplanet spectra and are the same type of detectors used in JWST's NIRISS and NIRSpec instruments.
 We summarize the lessons learned from cryogenic vacuum campaigns 2 and 3 at NASA Goddard and NASA Johnson with the flight hardware as well as laboratory tests of the same detectors at the University of Arizona's Steward Observatory.
 
 \end{abstract}
@@ -304,6 +306,16 @@ stars: variables: general}
 JWST will provide powerful new measurements of exoplanet atmospheres with spectroscopy from 0.6 to 12 $\mu$m
 \citep{beichman2014pasp,greene2016jwst_trans,howe2017informationJWST,barstow2015jwstSystematics,schlawin2018JWSTforecasts}
 The sensitivity of JWST combined with its unprecedented wavelength coverage on exoplanets will enable it to measure the abundance of carbon-bearing molecules (CO, CO$2$ and CH$_4$) as well as study cooler, smaller planets than previously characterized.
+
+JWST has also been considered for observations of temperate Earth-like planets that orbit their stars at a distance where where water could be in liquid form on their surface.
+The TRAPPIST-1 system \citep{gillon2016trappist1Discovery,gillon2017trappist-1sevenp} presents an exciting opportunity to study Earth-sized stars orbiting a 0.1~R$_\odot$ M-type star.
+By putting together 30 transits, it may be possible to collect enough photons to detect CO$_2$ and possible O$_3$ in the atmosphere of TRAPPIST-1 d with JWST \citep{barstow2016trappist1habitable} if clouds have a minimal impact to its atmosphere.
+A critical question in studying a planet like TRAPPIST-1 d, however, is whether photon-limited performance is possible with JWST observations.
+
+Experience with the Hubble Space Telescope (HST), \spitzer, and \kepler\ shows that there many potential systematics that can affect high precision time series \citep[e.g.][]{beichman2014pasp}.
+Many of these effects are detector-related including charge trapping on HST's detector \citep{berta2012flat_gj1214,zhou2017chargeTrap}, intra-pixel sensitivity on the short wavelength bands of \spitzer\ IRAC \citep{moralesCalderon2006LdwarfsWeatherIPC} and sensitivity to pointing jitter with \kepler\footnote{https://keplerscience.arc.nasa.gov/K2/Performance.shtml} \citep{beichman2014pasp}.
+
+Ground-based 
 
 The extreme precision needed to study Earth-like planets is 
 Section \ref{sec:obs} describes the observations. 

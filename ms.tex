@@ -363,6 +363,14 @@ The flight NIRCam detectors, controllers, electronics, optics and instrument har
 The GL dewar experiments used flight detectors, but a different controller (Leach).
 The Asic dewar located at Steward Observatory in Tucson, Arizona used a spare NIRCam detector, a spare asic controller and the flight software, but no flight optics.
 
+The instrument modes tested included mostly imaging with narrowband LEDs, but there was also a test with spectroscopy on a broadband source.
+The WLP8 imaging tests are where a point source is de-focused by 8 waves with a weak lens (WLP8).
+This mode was designed for wavefront sensing, but is also useful for high-precision time series because it spreads the light over many pixels.
+The weak lens produces a point spread function (PSF) that is hexagonal like JWST's mirrors and has a flat-to-flat width of $\sim$108 pixels and a vertex-to-vertex width of $\sim$136 pixels.
+The hexagonal PSF also has a central vertical peak which can be used for aperture centering.
+The tests with dewars did not have NIRCam optics and instead were flood illuminated with a light source that had large spatial variations due to a non-uniform source.
+One of the stability tests during the OTIS test at NASA Johnson was a grism spectroscopy mode that used the F322W2 to illuminate the detector with a slitless spectrum covering 2.4 to 4.0~$\mu$m.
+ 
 \begin{deluxetable*}{ccCrlc}[b!]
 \tablecaption{Summary of Ground-Based Tests}\label{tab:testSummary}
 \tablecolumns{7}
@@ -382,10 +390,11 @@ The Asic dewar located at Steward Observatory in Tucson, Arizona used a spare NI
 \colhead{}
 }
 \startdata
-CV 3       & NASA Goddard  & 2016       & 500   & LED           & WLP8 imaging \\
-OTIS       & NASA Goddard  & 2017       &       & Continuum     & Grism spectroscopy \\
-GL dewar   & Steward Obs.  & 2015-2016  &       & LED	        & flood-illuminated imaging \\
-Asic dewar & Steward Obs.  & 2017-2019  &       & LED           & pinhole flood-illuminated imaging \\
+CV 3       & NASA Goddard  & 2016       & 500   	& LED           & WLP8 imaging \\
+OTIS       & NASA Johnson  & 2017       &   2200    	& Continuum     & Grism spectroscopy \\
+OTIS       & NASA Johnson  & 2017       &   21,000    	& Continuum     & WLP8 Imaging \\
+GL dewar   & Steward Obs.  & 2015-2016  &       	& LED	        & flood-illuminated imaging \\
+Asic dewar & Steward Obs.  & 2017-2019  &       	& LED           & pinhole flood-illuminated imaging \\
 \enddata
 \tablecomments{Cryogenic vacuum (CV).}
 \end{deluxetable*}

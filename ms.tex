@@ -332,10 +332,10 @@ The sensitivity of JWST combined with its unprecedented wavelength coverage on e
 
 JWST has also been considered for observations of temperate Earth-like planets that orbit their stars at a distance where where water could be in liquid form on their surface.
 The TRAPPIST-1 system \citep{gillon2016trappist1Discovery,gillon2017trappist-1sevenp} presents an exciting opportunity to study Earth-sized stars orbiting a 0.1~R$_\odot$ M-type star.
-By putting together 30 transits, it may be possible to collect enough photons to detect CO$_2$ and possibly O$_3$ in the atmosphere of TRAPPIST-1 d with JWST \citep{barstow2016trappist1habitable} if clouds have a minimal impact to its atmosphere.
+By putting together 10-30 transits, it will be possible to collect enough photons to detect CO$_2$ \citep{barstow2016trappist1habitable,krissansen-totton2018trappist1eJWST} and, optimistically, O$_3$ in the atmosphere of TRAPPIST-1 d with JWST if clouds have a minimal impact to its atmosphere \citep{barstow2016trappist1habitable}.
 A critical question in studying a planet like TRAPPIST-1 d, however, is whether photon-limited performance is possible with JWST observations.
 
-Experience with the Hubble Space Telescope (HST), \spitzer, and \kepler\ shows that there many potential systematics that can affect high precision time series and prevent photon-limited performance unless corrected for \citep[e.g.][]{beichman2014pasp}.
+Experience with the Hubble Space Telescope (HST), \spitzer, and \kepler\ shows that many systematics can affect high precision time series and prevent photon-limited performance unless corrected for \citep[e.g.][]{beichman2014pasp}.
 Many of these effects are detector-related including charge trapping on HST's detector \citep{berta2012flat_gj1214,zhou2017chargeTrap}, intra-pixel sensitivity on the short wavelength bands of \spitzer\ IRAC \citep{moralesCalderon2006LdwarfsWeatherIPC} and sensitivity to pointing jitter with \kepler\footnote{https://keplerscience.arc.nasa.gov/K2/Performance.shtml} \citep{beichman2014pasp}.
 
 The NIRCam instrument \citep{rieke2005nircamSPIE} contains a slitless grism mode \citep{greene2017jatisNIRCam} that is analogous to the WFC3 grism mode on HST that has been successfully employed on many transiting planets \citep[e.g.]{deming13,kreidberg2014wasp43,sing2016continuum,wakeford2017hatp26}.
@@ -344,7 +344,7 @@ This grism mode can be used simultaneously with short wavelength weak lens imagi
 
 Section \ref{sec:experiments} describes the experiments on the ground that are used to prepare for JWST observations in flight.
 
-\subsection{Known Detector Effects}
+\section{Known Detector Effects}
 Known detector effects that could affect stability include:
 \begin{itemize}[noitemsep]
 	\item Intrapixel sensitivity - including sub-pixel flat fielding issues and sub-pixel crosshatching on the detectors \citep{shapiro2018crosshatch}
@@ -355,6 +355,14 @@ The NIRCam grism subarrays include reference pixels to mitigate these pre-amp of
 	\item Even/odd offsets - alternating columns have different bias levels. Additionally, there are offsets between columns that can change from frame to frame, especially on NIRCam's LW detector
 	\item kTC noise - a random process due to the unknown amount of charge stored at the reset voltage level
 \end{itemize}
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.4\columnwidth]{allamps.pdf}
+\caption{Reference pixel time series for a two ramp integration showing pre-amplifier resets.}\label{fig:sampFig}
+\end{figure}
+
+allamps.pdf
 
 \section{Ground-based Experiments}\label{sec:experiments}
 
@@ -407,20 +415,16 @@ Asic dewar & Steward Obs.  & 2017-2019  &       	& LED           & pinhole flood
 Figure \ref{fig:sampFig} shows a sample figure on its own.
 Figure \ref{fig:gridFig} shows a grid figure.
 
-\begin{figure}[!hbtp]
-\centering
-\includegraphics[width=.4\columnwidth]{sample_img.pdf}
-\caption{Sample Image.}\label{fig:sampFig}
-\end{figure}
+
 
 \subsection{Grid Figures}\label{sec:gridFig}
 
-\begin{figure*}
-\gridline{\fig{sample_img.pdf}{0.3\textwidth}{Red Figure}
-          \fig{sample_red.png}{0.3\textwidth}{Green Figure}
-          }
-\caption{Two figures side by side.\label{fig:gridFig}}
-\end{figure*}
+%\begin{figure*}
+%\gridline{\fig{sample_img.pdf}{0.3\textwidth}{Red Figure}
+%          \fig{sample_red.png}{0.3\textwidth}{Green Figure}
+%          }
+%\caption{Two figures side by side.\label{fig:gridFig}}
+%\end{figure*}
 
 
 %% If you wish to include an acknowledgments section in your paper,

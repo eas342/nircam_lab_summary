@@ -347,14 +347,28 @@ Section \ref{sec:experiments} describes the experiments on the ground that are u
 \section{Known Detector Effects}
 Known detector effects that could affect stability include:
 \begin{itemize}[noitemsep]
-	\item Intrapixel sensitivity - including sub-pixel flat fielding issues and sub-pixel crosshatching on the detectors \citep{shapiro2018crosshatch}
-	\item Pre-amp reset offsets (an Asic-related effect) The NIRCam detectors' pre-amps are reset once per frame (as opposed to once per integration) to prevent large amplifier drifts over an integration \citep{robberto2014refPixPreAmp}.
-The resets cause discontinuities in the (bias?) level that can be seen on reference pixels.
-The NIRCam grism subarrays include reference pixels to mitigate these pre-amp offsets.
-	\item 1/f noise - this is a noise source where most of the noise power is concentrated as low frequencies. 1/f noise causes spatial correlations in the fast-read direction (along detector rows). It is highly correlated between amplifiers, suggesting that it is caused by a common reference voltage. 1/f noise is efficiently removed by reference pixels
-	\item Even/odd offsets - alternating columns have different bias levels. Additionally, there are offsets between columns that can change from frame to frame, especially on NIRCam's LW detector
-	\item kTC noise - a random process due to the unknown amount of charge stored at the reset voltage level
+	\item \textbf{Intrapixel sensitivity:} - including sub-pixel flat fielding issues and sub-pixel crosshatching on the detectors \citep{shapiro2018crosshatch}
+	\item \textbf{Pre-amp reset offsets:} (an Asic-related effect) 
+The resets cause discontinuities in the pedestal level of all pixels between frames. This is an effect where averaging over more pixels does not decrease the noise, but reference pixel or background subtraction can. These are discussed in Section \ref{sec:preAmp}.
+	\item \textbf{1/f noise:} This is a noise source where most of the noise power is concentrated as low frequencies. 1/f noise causes spatial correlations in the fast-read direction (along detector rows). It is highly correlated between amplifiers, suggesting that it is caused by a common reference voltage. 1/f noise is efficiently removed by reference pixels
+	\item \textbf{Even/odd offsets:} Alternating columns have different bias levels. Additionally, there are offsets between columns that can change from frame to frame, especially on NIRCam's LW detector
+	\item \textbf{kTC noise:} A random process due to the unknown amount of charge stored at the reset voltage level
 \end{itemize}
+
+\subsection{Pre-amp Reset Offsets}\label{sec:preAmp}
+
+The NIRCam detectors' pre-amplifiers (pre-amps) have a reference voltage that can drift with time.
+This can affect the pedestal level of all pixels over long ($\gtrsim$ 20 minute timescales).
+These pre-amplifier levels can either be reset at the beginning of an integration with samples up the ramp or with each frame up the ramp.
+The NIRCam detectors are usually set to reset once per frame to prevent large amplifier drifts over an integration \citep{robberto2014refPixPreAmp}.
+However, a set of darks was collected at Lockheed CV with a reset only once per integration.
+
+In the Lockheed CV test, the pedestal level of all pixels could be seen to drift over 19.3 minute dark integrations by 5 to 100 DN.
+The drift was usually linear over these 19 minute exposures, but in one case was observed to drift downward from 100 DN to -50 DN and back to 100 DN.
+The timescales for pre-amp resets are relevant to exoplanet time series, which have transit durations of $\sim0.5 to 3$ hours for typical targets \citep{robberto2014refPixPreAmp}.
+However, reference pixel subtraction can efficiently remove pre-amp drifts, so with proper data reduction and subarrays that include reference pixels, the pre-amp drifts can be used.
+It is also likely that background subtraction can mitigate the pre-amp reset offsets from time series integrations.
+The NIRCam grism subarrays and dispersed source location are placed at the edge of the NIRCam Long Wavelength detector to ensure reference pixels are saved with active pixels.
 
 \begin{figure}[!hbtp]
 \centering
@@ -362,7 +376,6 @@ The NIRCam grism subarrays include reference pixels to mitigate these pre-amp of
 \caption{Reference pixel time series for a two ramp integration showing pre-amplifier resets.}\label{fig:sampFig}
 \end{figure}
 
-allamps.pdf
 
 \section{Ground-based Experiments}\label{sec:experiments}
 
@@ -398,6 +411,7 @@ One of the stability tests during the OTIS test at NASA Johnson was a grism spec
 \colhead{}
 }
 \startdata
+Lockheed CV& Lockheed Martin& 2014??    & \nodata   & Darks         & Long Darks \\ 
 CV 3       & NASA Goddard  & 2016       & 500   	& LED           & WLP8 imaging \\
 OTIS       & NASA Johnson  & 2017       &   2200    	& Continuum     & Grism spectroscopy \\
 OTIS       & NASA Johnson  & 2017       &   21,000    	& Continuum     & WLP8 Imaging \\

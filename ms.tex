@@ -346,11 +346,14 @@ Section \ref{sec:experiments} describes the experiments on the ground that are u
 
 
 \section{A Primer on Detector Operation}
+\textcolor{red}{\textbf{NOTE: This section needs checking for factual accuracy by a detector expert}}
 It is helpful to review the basic operation of a NIRCam detector in order to understand the systematics affecting time series.
 Figure \ref{fig:npSchematic} shows a schematic of an NP semiconductor junction for a H2RG detector from \citet{smith2008imgPersistence}.
+The crystalline HgCdTe structure has 4 valence electrons that form covalent bonds in a tetrahedral structure.
+By varying the relative amount of Hg, Cd an Te (doping), it is possible to increase or decrease the number of electrons to create mobile charge carriers that moving along the crystaline lattice.
 The N-type semiconductor is a negatively-doped HgCdTe crystalline structure that has negative charge carriers (electrons).
 The P-type semiconductor is a positively-doped HgCdTe crystalline structure that has positive charge carriers (vacant holes in the lattice structure than can move like electrons).
-In reality, the physical size of the P-type semiconductor is much smaller than the N-type and the N-type is responsible for detecting photons.
+
 
 \begin{figure}[!hbtp]
 \centering
@@ -361,13 +364,19 @@ In reality, the physical size of the P-type semiconductor is much smaller than t
 The junction of these two materials enables electrons to flow from the N-type material to the P-type material where it can complete a valence shell in the semiconductor material.
 This produces a negative charge on the P-type side.
 Conversely, the positively charged holes from the P-type material flow to the N-type material to complete the valence shell and this produces a positive charge.
-Since there are no charge carriers in the region of electrons in the P-type material and holes in the N-type material, this is called the depletion region.
+In the region where electrons have completed the valence shells in the P-type material and holes in the N-type material, the valence shells are complete.
+This region spanning across the two semiconductor materials is called the depletion region.
 The positive net charge on the N-type material and negative charge in the P-type material causes a voltage (potential) difference across the detector that can be measured with an amplifier.
+
+Furthermore, the junction is ``reverse-biased'' with a positive potential on the N-type material and negative potential on the P-type material to draw more electrons.
+The reverse bias causes more charge carriers to flow across the NP junction and this increases the size of the depletion region, which also increases the well depth or capacity of electrons that the detector may collect before saturation.
+The reverse bias is applied 
+Figure \ref{fig:npSchematic} shows the case where the density of charge carriers is equal in the N-type and P-type semiconductors, but in reality, the density of In reality, the physical size of the P-type semiconductor is much smaller than the N-type and the N-type is responsible for detecting photons.
 
 Note that Figure \ref{fig:npSchematic} shows the mobile charge carriers only, so the depletion region, with no mobile charges is positively charged on the N-type side and negatively charged on the P-type side.
 The undepleted region is electrically neutral because the nuclei of the N-type material have an equal number of extra protons as the negatively charged electrons.
 Similarly, the undepleted region of the P-type semiconductor has fewer protons in its atomic nuclei producing an overall neutral charge.
-Textbook NP junction schematics sometimes instead show the net charge.
+Textbook NP junction schematics usually show the net charge and thus symbolize the regions with charge carriers as empty and the depletion region with ``+'' symbols on the N-type semiconductor and ``-'' symbols on the P-type˚.
 
 When an incoming photon hits the (check if this is correct) n-type depletion region, it will excite the hole to a higher energy level and this will return it to the P-type side.
 A second photon will excite another hole from the N-side that causes it to flow to the P side.

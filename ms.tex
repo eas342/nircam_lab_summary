@@ -169,7 +169,7 @@
 
 \begin{document}
 
-\title{Lessons Learned for JWST Transiting Planet Time Series from Ground-based Studies of NIRCam Detectors}
+\title{Lessons Learned for JWST Transiting Planet Time Series from Ground-based Studies of the NIRCam Detectors}
 
 %% LaTeX will automatically break titles if they run longer than
 %% one line. However, you may use \\ to force a line break if
@@ -333,7 +333,7 @@ The sensitivity of JWST combined with its unprecedented wavelength coverage on e
 JWST has also been considered for observations of temperate Earth-like planets that orbit their stars at a distance where where water could be in liquid form on their surface.
 The TRAPPIST-1 system \citep{gillon2016trappist1Discovery,gillon2017trappist-1sevenp} presents an exciting opportunity to study Earth-sized stars orbiting a 0.1~R$_\odot$ M-type star.
 By putting together 10-30 transits, it will be possible to collect enough photons to detect CO$_2$ \citep{barstow2016trappist1habitable,krissansen-totton2018trappist1eJWST} and, optimistically, O$_3$ in the atmosphere of TRAPPIST-1 d with JWST if clouds have a minimal impact to its atmosphere \citep{barstow2016trappist1habitable}.
-A critical question in studying planets like TRAPPIST-1 d/e, however, is whether photon-limited performance is possible with JWST observations.
+A critical question in studying planets like TRAPPIST-1 d/e, however, is whether photon-limited performance is possible with JWST observations \textcolor{red}{Double Check!}.
 
 Experience with the Hubble Space Telescope (HST), \spitzer, and \kepler\ shows that many systematics can affect high precision time series and prevent photon-limited performance unless corrected for \citep[e.g.][]{beichman2014pasp}.
 Many of these effects are detector-related including charge trapping on HST's detector \citep{berta2012flat_gj1214,zhou2017chargeTrap}, intra-pixel sensitivity on the short wavelength bands of \spitzer\ IRAC \citep{moralesCalderon2006LdwarfsWeatherIPC} and sensitivity to pointing jitter with \kepler\footnote{https://keplerscience.arc.nasa.gov/K2/Performance.shtml} \citep{beichman2014pasp}.
@@ -344,7 +344,42 @@ This grism mode can be used simultaneously with short wavelength weak lens imagi
 
 Section \ref{sec:experiments} describes the experiments on the ground that are used to prepare for JWST observations in flight.
 
+
+\section{A Primer on Detector Operation}
+It is helpful to review the basic operation of a NIRCam detector in order to understand the systematics affecting time series.
+Figure \ref{fig:npSchematic} shows a schematic of an NP semiconductor junction for a H2RG detector from \citet{smith2008imgPersistence}.
+The N-type semiconductor is a negatively-doped HgCdTe crystalline structure that has negative charge carriers (electrons).
+The P-type semiconductor is a positively-doped HgCdTe crystalline structure that has positive charge carriers (vacant holes in the lattice structure than can move like electrons).
+In reality, the physical size of the P-type semiconductor is much smaller than the N-type and the N-type is responsible for detecting photons.
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.6\columnwidth]{smith_np_junction.png}
+\caption{A cartoon schematic of a H2RG detector from \citet{smith2008imgPersistence}. }\label{fig:npSchematic}
+\end{figure}
+
+The junction of these two materials enables electrons to flow from the N-type material to the P-type material where it can complete a valence shell in the semiconductor material.
+This produces a negative charge on the P-type side.
+Conversely, the positively charged holes from the P-type material flow to the N-type material to complete the valence shell and this produces a positive charge.
+Since there are no charge carriers in the region of electrons in the P-type material and holes in the N-type material, this is called the depletion region.
+The positive net charge on the N-type material and negative charge in the P-type material causes a voltage (potential) difference across the detector that can be measured with an amplifier.
+
+Note that Figure \ref{fig:npSchematic} shows the mobile charge carriers only, so the depletion region, with no mobile charges is positively charged on the N-type side and negatively charged on the P-type side.
+The undepleted region is electrically neutral because the nuclei of the N-type material have an equal number of extra protons as the negatively charged electrons.
+Similarly, the undepleted region of the P-type semiconductor has fewer protons in its atomic nuclei producing an overall neutral charge.
+Textbook NP junction schematics sometimes instead show the net charge.
+
+When an incoming photon hits the (check if this is correct) n-type depletion region, it will excite the hole to a higher energy level and this will return it to the P-type side.
+A second photon will excite another hole from the N-side that causes it to flow to the P side.
+This continues and depletes the size of the depletion region until there is a smaller charge difference across the NP junction.
+
+produce a negatively charged region on the P-type conductor. positive and negative charge carriers to join as completed valence electron shells in the lattice.
+
+
+
+
 \section{Known Detector Effects}
+
 Known detector effects that could affect stability include:
 \begin{itemize}[noitemsep]
 	\item \textbf{Intrapixel sensitivity:} - including sub-pixel flat fielding issues and sub-pixel crosshatching on the detectors \citep{shapiro2018crosshatch}

@@ -332,26 +332,30 @@ The sensitivity of JWST combined with its unprecedented wavelength coverage on e
 
 JWST has also been considered for observations of temperate Earth-like planets that orbit their stars at a distance where where water could be in liquid form on their surface.
 The TRAPPIST-1 system \citep{gillon2016trappist1Discovery,gillon2017trappist-1sevenp} presents an exciting opportunity to study Earth-sized stars orbiting a 0.1~R$_\odot$ M-type star.
-By putting together 10-30 transits, it will be possible to collect enough photons to detect CO$_2$ \citep{barstow2016trappist1habitable,krissansen-totton2018trappist1eJWST} and, optimistically, O$_3$ in the atmosphere of TRAPPIST-1 d with JWST if clouds have a minimal impact to its atmosphere \citep{barstow2016trappist1habitable}.
-A critical question in studying planets like TRAPPIST-1 d/e, however, is whether photon-limited performance is possible with JWST observations \textcolor{red}{Double Check!}.
+By putting together 10-30 transits, it will be possible to collect enough photons to detect CO$_2$ \citep{barstow2016trappist1habitable,krissansen-totton2018trappist1eJWST}.
+Optimistically, 30 transits may be enough to detect O$_3$ in the atmosphere of TRAPPIST-1 d with JWST if clouds have a minimal impact to its atmosphere \citep{barstow2016trappist1habitable}.
+A critical question in studying planets like TRAPPIST-1 d/e, however, is whether photon-limited performance is possible with JWST observations.
 
 Experience with the Hubble Space Telescope (HST), \spitzer, and \kepler\ shows that many systematics can affect high precision time series and prevent photon-limited performance unless corrected for \citep[e.g.][]{beichman2014pasp}.
 Many of these effects are detector-related including charge trapping on HST's detector \citep{berta2012flat_gj1214,zhou2017chargeTrap}, intra-pixel sensitivity on the short wavelength bands of \spitzer\ IRAC \citep{moralesCalderon2006LdwarfsWeatherIPC} and sensitivity to pointing jitter with \kepler\footnote{https://keplerscience.arc.nasa.gov/K2/Performance.shtml} \citep{beichman2014pasp}.
 
-The NIRCam instrument \citep{rieke2005nircamSPIE} contains a slitless grism mode \citep{greene2017jatisNIRCam} that is analogous to the WFC3 grism mode on HST that has been successfully employed on many transiting planets \citep[e.g.]{deming13,kreidberg2014wasp43,sing2016continuum,wakeford2017hatp26}.
-The grism mode will collect moderate resolution R$\sim$1100-1700 spectra and employ the long wavelength channel to cover the wavelength range 2.4 to 5.0~$\mu$m.
-This grism mode can be used simultaneously with short wavelength weak lens imaging or the Dispersed Hartmann Sensor mode \citep{schlawin2017dhs}. If it becomes an approved and implemented mode, the DHS will permit spectroscopy from 1.0 to 2.0~$\mu$m and will work for very bright targets inaccessible by other modes.
+The NIRCam instrument \citep{rieke2005nircamSPIE} contains a slitless grism mode \citep{greene2017jatisNIRCam} that is analogous to the WFC3 grism mode on HST that has been successfully employed on many transiting planets \citep[e.g.][]{deming13,kreidberg2014wasp43,sing2016continuum,wakeford2017hatp26}.
+The grism mode will collect moderate resolution R$\sim$1100-1700 spectra and employ the long wavelength channel to cover the wavelength range from 2.4 to 5.0~$\mu$m.
+This grism mode can be used simultaneously with short wavelength weak lens imaging or the Dispersed Hartmann Sensor mode \citep{schlawin2017dhs}. If it becomes an approved and implemented mode, the DHS will permit spectroscopy simultaneous from 1.0 to 2.0~$\mu$m because of a dichroic beamsplitter that divides the light from NIRCam into two different channels.
+The DHS mode will permit time series spectroscopy on very bright targets ($K_S \sim 1$) inaccessible by other modes.
 
+Section \ref{sec:detectorPrimer} gives a review of NIRCam's detector operation.
+Section \ref{sec:knownEffects} lists the known systematic effects that can impeded high precision time series and increase the noise above the photon and read noise.
 Section \ref{sec:experiments} describes the experiments on the ground that are used to prepare for JWST observations in flight.
 
 
-\section{A Primer on Detector Operation}
+\section{A Primer on Detector Operation}\label{sec:detectorPrimer}
 \textcolor{red}{\textbf{NOTE: This section needs checking for factual accuracy by a detector expert}}
-It is helpful to review the basic operation of a NIRCam detector in order to understand the systematics affecting time series.
+It is helpful to review the basic operation of a NIRCam detector in order to understand the systematics affecting time series \citep[e.g.][]{rieke2007irDetectorReview}.
 Figure \ref{fig:npSchematic} shows a schematic of an NP semiconductor junction for a H2RG detector from \citet{smith2008imgPersistence}.
 The crystalline HgCdTe structure has 4 valence electrons that form covalent bonds in a tetrahedral structure.
 By varying the relative amount of Hg, Cd an Te (doping), it is possible to increase or decrease the number of electrons to create mobile charge carriers that moving along the crystaline lattice.
-The N-type semiconductor is a negatively-doped HgCdTe crystalline structure that has negative charge carriers (electrons) .
+The N-type semiconductor is a negatively-doped HgCdTe crystalline structure that has negative charge carriers (electrons).
 The P-type semiconductor is a positively-doped HgCdTe crystalline structure that has positive charge carriers (vacant holes in the lattice structure than can move like electrons).
 
 
@@ -369,9 +373,11 @@ In the region where electrons have completed the valence shells in the P-type ma
 This region spanning across the two semiconductor materials is called the depletion region, because it contains no mobile charge carriers.
 The positive net charge on the N-type material and negative charge in the P-type material causes a voltage (potential) difference across the detector.
 
-Furthermore, the junction is ``reverse-biased'' with a positive potential on the N-type material and negative potential on the P-type material to draw more electrons.
-The reverse bias reduces the number of mobile charge carriers and increases the size of the depletion region, which also increases the well depth or capacity of electrons that the detector may collect before saturation.
-The reverse bias is applied at each reset at the beginning of a detector's integration (\textbf{Check!}).
+The NP junction in Figure \ref{fig:npSchematic} is ``reverse-biased'' with a positive potential on the N-type material and negative potential on the P-type.
+The positive potential on the N-type material attracts the negative charge carriers (electrons) whereas the negative potential on the P-type material attracts the  positve charge carriers (holes).
+The reverse bias thus reduces the number of mobile charge carriers and increases the size of the depletion region.
+The increased depletion region size also increases the well depth or capacity of electrons that the detector may collect before saturation.
+The reverse bias is applied at each reset at the beginning of a detector's integration (\textbf{\textcolor{red}{Check!}}).
 Figure \ref{fig:npSchematic} shows the case where the density of charge carriers is equal in the N-type and P-type semiconductors, but in reality, the density of the P-type semiconductor is much higher than the N-type, so the depletion region has a larger physical size on the N-type side.
 
 Note that Figure \ref{fig:npSchematic} shows the mobile charge carriers only, so the depletion region, with no mobile charges is positively charged on the N-type side and negatively charged on the P-type side.
@@ -382,11 +388,11 @@ The schematic in Figure \ref{fig:npSchematic} instead shows the mobile charge ca
 
 When an incoming photon hits the (check if this wording is correct) n-type depletion region, it will excite an electron from the valence to conduction band which creates an electron-hole pair \citep{rieke2007irDetectorReview}.
 The electron moves to the extremity of the depletion zone in the N-type material whereas the positive hole generated crosses the NP junction and adds a mobile charge to the P-type side.
-The incoming photon has the effect of increasing the size of the depletion region.
+The incoming photon has the effect of decreasing the size of the depletion region.
 A second photon will excite another hole from the N-side that causes it to flow to the P side.
-This continues and depletes the size of the depletion region until there is a smaller charge difference across the NP junction.
+This continues and decreases the size of the depletion region.
 The diffusion of charge carriers across the junction creates an electric current that can be measured in a circuit.
-(\textbf{Why does the literature refer to the current, as opposed to the voltage? I thought you measure a voltage and then reset? Is this the gate voltage?})
+(\textbf{Why does the literature \citep{rieke2007irDetectorReview,zhou2017chargeTrap} refer to the current, as opposed to the voltage? I thought you measure a voltage and then reset? Is this the gate voltage?})
 
 As the size of the depletion region decreases, the detector becomes decreasingly sensitive to new photons.
 Thus, the NIRCam HgCdTe detectors are never strictly linear.
@@ -394,14 +400,17 @@ Eventually, with enough photons, the depletion region is too small to create ele
 This is where the detector approaches saturation and no longer changes voltage with more light.
 
 A sensitive amplifier converts the measured voltage potential into a signal.
-The electronic circuit that digitizes the voltages is tuned to ensure the 16 bits (65,536 possible Data numbers) measure the voltage across the NP junction from the value just after reset before photons are detected all the way to saturation where the maximum number of photons are collected.
+The electronic circuit that digitizes the voltages is tuned to ensure the 16 bits (65,536 possible Data Numbers) measure the voltage across the NP junction from the value just after reset (before photons are detected) to the saturation voltage where the maximum number of photons are collected and no more electron-hole pairs can be produced in the depletion region.
 The minimum voltage is several thousands of counts above zero to ensure that changes in the bias signal do not below 0.
-The 16,536 DN level is tuned to be just above the HgCdTe full well capacity to measure full saturation.
+The 65,536 DN level is tuned to be just above the HgCdTe full well capacity to measure full saturation.
 
 \subsection{Charge Trapping}
+All HgCdTe detectors show a signal after bright illumination even if the illumination is removed; this is called persistence.
+The mechanism proposed to explain persistence is that charges are trapped in the depletion region and are released at later times \citep{smith2008imgPersistence} 
+These charge traps will keep electrons and holes in the depletion region even after detector reset.
+These traps then will release the charge at later times, which will create an artificial signal that affects the measured voltage the same way that incoming photons strike the depletion region.
 
-
-\section{Known Detector Effects}
+\section{Known Detector Effects}\label{sec:knownEffects}
 
 Known detector effects that could affect stability include:
 \begin{itemize}[noitemsep]

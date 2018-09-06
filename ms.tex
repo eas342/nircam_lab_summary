@@ -362,7 +362,13 @@ The P-type semiconductor is a positively-doped HgCdTe crystalline structure that
 \begin{figure}[!hbtp]
 \centering
 \includegraphics[width=.6\columnwidth]{smith_np_junction.png}
-\caption{A cartoon schematic of a H2RG detector from \citet{smith2008imgPersistence}. }\label{fig:npSchematic}
+\caption{A cartoon schematic of a H2RG detector from \citet{smith2008imgPersistence}.
+The green and tan regions depict the N-type and P-type semiconductors.
+The undepleted zones of the semiconductor (textured regions) contain mobile charge carriers whereas the depletion region (solid green and tan zones) have no mobile carriers and all electrons in the valence state.
+The depletion region is widest after detector reset and shrinks as the detector is illuminated with photons that create electron-hole pairs.
+Charged traps for negative and positive carriers (depicted as round circles) will fill as the wells fills up.
+The charge traps do not immediately empty with a detector reset, but instead release at later times causing a spurious signal.
+This spurious signal (highlighted with red circles), causes a voltage change in future integrations that appears the same as a true signal from incoming photons.}\label{fig:npSchematic}
 \end{figure}
 
 The junction of these two materials enables electrons to flow from the N-type material to the P-type material where it can complete a valence shell in the semiconductor material.
@@ -391,8 +397,7 @@ The electron moves to the extremity of the depletion zone in the N-type material
 The incoming photon has the effect of decreasing the size of the depletion region.
 A second photon will excite another hole from the N-side that causes it to flow to the P side.
 This continues and decreases the size of the depletion region.
-The diffusion of charge carriers across the junction creates an electric current that can be measured in a circuit.
-(\textbf{Why does the literature \citep{rieke2007irDetectorReview,zhou2017chargeTrap} refer to the current, as opposed to the voltage? I thought you measure a voltage and then reset? Is this the gate voltage?})
+The diffusion of charge carriers across the junction changes the voltage across the NP junction, which can be measured with a sensitive amplifier circuit.
 
 As the size of the depletion region decreases, the detector becomes decreasingly sensitive to new photons.
 Thus, the NIRCam HgCdTe detectors are never strictly linear.
@@ -406,9 +411,18 @@ The 65,536 DN level is tuned to be just above the HgCdTe full well capacity to m
 
 \subsection{Charge Trapping}
 All HgCdTe detectors show a signal after bright illumination even if the illumination is removed; this is called persistence.
-The mechanism proposed to explain persistence is that charges are trapped in the depletion region and are released at later times \citep{smith2008imgPersistence} 
+The mechanism that is proposed to explain persistence is that charges are trapped in the depletion region after illumination by photons as the detector well fills \citep{smith2008imgPersistence,leisenring2016persistence}.
+After the reverse-bias voltage is applied (a reset) in an ideal detector, the depletion region will be devoid of mobile charge carriers (electrons and holes).
+However, in real detectors, some charges are trapped within the depletion region.
+During a future integration, these charges will be released and shrink the size of the depletion region, filling a pixel with spurious signal (Data Numbers) not related to that integration's illumination by photons.
+This is visible after an illumination by a source, where a residual image of a bright star can appear in dark regions or dark frames following the illumination.
+
+the depletion region contains mobile charge carriers 
 These charge traps will keep electrons and holes in the depletion region even after detector reset.
 These traps then will release the charge at later times, which will create an artificial signal that affects the measured voltage the same way that incoming photons strike the depletion region.
+
+The NIRCam detector shows low levels of persistence compared to previous generation detectors.
+
 
 \section{Known Detector Effects}\label{sec:knownEffects}
 

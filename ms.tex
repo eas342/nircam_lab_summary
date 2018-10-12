@@ -151,7 +151,7 @@
 %%
 %% If you wish, you may supply running head information, although
 %% this information may be modified by the editorial offices.
-\shorttitle{NIRCam Lab Studies}
+\shorttitle{NIRCam Lab Stability Studies}
 \shortauthors{Schlawin et al.}
 %%
 %% You can add a light gray and diagonal water-mark to the first page 
@@ -364,18 +364,17 @@ By varying the relative amount of Hg, Cd and Te (doping), it is possible to incr
 The N-type semiconductor is a negatively-doped HgCdTe crystalline structure that has negative charge carriers (electrons).
 The P-type semiconductor is a positively-doped HgCdTe crystalline structure that has positive charge carriers (vacant holes in the lattice structure than can move like electrons).
 
-
 \begin{figure}[!hbtp]
 \centering
-\includegraphics[width=.6\columnwidth]{smith_np_junction.png}
-\caption{A cartoon schematic of a H2RG detector from \citet{smith2008imgPersistence}.
+\includegraphics[width=.9\columnwidth]{ideal_photodiode.pdf}
+\caption{A cartoon schematic of a H2RG detector inspired by \citet{smith2008imgPersistence,tulloch2018persistenceH2RG}.
 The green and tan regions depict the N-type and P-type semiconductors.
-The undepleted zones of the semiconductor (textured regions) contain mobile charge carriers whereas the depletion region (solid green and tan zones) have no mobile carriers and all electrons are in the valence state.
+The undepleted zones of the semiconductor (bright green and dark blue) contain mobile charge carriers whereas the depletion region (solid green and tan zones) have no mobile carriers and all electrons are in the valence state.
 The depletion region is widest after detector reset and shrinks as the detector is illuminated with photons that create electron-hole pairs.
-Charged traps for negative and positive carriers (depicted as round circles) will capture charge before it can flow to the undepleted regions of the detector.
-The charge traps do not immediately empty with a detector reset, but instead release at later times causing a spurious signal.
-This spurious signal (the shrinking of the depletion region as highlighted with red circles), causes a voltage change in future integrations that appears the same as a true signal from incoming photons.}\label{fig:npSchematic}
+Charged traps for negative and positive carriers (depicted as round circles) will capture charge before it can flow to the undepleted regions of the detector.}\label{fig:npSchematic}
 \end{figure}
+
+
 
 The junction of these two materials enables electrons to flow from the N-type material to the P-type material where it can complete a valence shell in the semiconductor material.
 This produces a negative charge on the P-type side.
@@ -465,7 +464,7 @@ The physical mechanism that explain persistence is that charges are trapped in t
 After the reverse-bias voltage is applied (a reset) in an ideal detector, the depletion region will be devoid of mobile charge carriers (electrons and holes).
 However, in real detectors, some charges are trapped within the depletion region.
 During a future integration, these charges will be released and shrink the size of the depletion region, filling a pixel with spurious signal (Data Numbers) not related to that integration's illumination by photons.
-Figure \ref{fig:npSchematic} shows how the size of the depletion region changes after charges have been released, highlighted with red circles.
+Figure \ref{fig:npSchematicTraps} shows how the size of the depletion region changes after charges have been released, highlighted with red circles.
 The persistence from trapped charge is visible after an illumination by a source, where a residual image of a bright star can appear in dark regions or dark frames following the illumination.
 
 the depletion region contains mobile charge carriers 
@@ -473,6 +472,19 @@ These charge traps will keep electrons and holes in the depletion region even af
 These traps then will release the charge at later times, which will create an artificial signal that affects the measured voltage the same way that incoming photons strike the depletion region.
 
 The NIRCam detector shows low levels of persistence compared to previous generation detectors.
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.6\columnwidth]{smith_np_junction.png}
+\caption{A cartoon schematic of a H2RG detector from \citet{smith2008imgPersistence}.
+The green and tan regions depict the N-type and P-type semiconductors.
+The undepleted zones of the semiconductor (textured regions) contain mobile charge carriers whereas the depletion region (solid green and tan zones) have no mobile carriers and all electrons are in the valence state.
+The depletion region is widest after detector reset and shrinks as the detector is illuminated with photons that create electron-hole pairs.
+Charged traps for negative and positive carriers (depicted as round circles) will capture charge before it can flow to the undepleted regions of the detector.
+The charge traps do not immediately empty with a detector reset, but instead release at later times causing a spurious signal.
+This spurious signal (the shrinking of the depletion region as highlighted with red circles), causes a voltage change in future integrations that appears the same as a true signal from incoming photons.}\label{fig:npSchematicTraps}
+\end{figure}
+
 
 \section{Ground-based Experiments}\label{sec:experiments}
 

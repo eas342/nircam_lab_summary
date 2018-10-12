@@ -360,7 +360,7 @@ Section \ref{sec:experiments} describes the experiments on the ground that are u
 It is helpful to review the basic operation of a NIRCam detector in order to understand the systematics affecting time series \citep[e.g.][]{rieke2007irDetectorReview}.
 Figure \ref{fig:npSchematic} shows a schematic of an NP semiconductor junction for a H2RG detector from \citet{smith2008imgPersistence}.
 The crystalline HgCdTe structure has 4 valence electrons that form covalent bonds in a tetrahedral structure.
-By varying the relative amount of Hg, Cd an Te (doping), it is possible to increase or decrease the number of electrons to create mobile charge carriers that moving along the crystaline lattice.
+By varying the relative amount of Hg, Cd and Te (doping), it is possible to increase or decrease the number of electrons to create mobile charge carriers that move along the crystaline lattice.
 The N-type semiconductor is a negatively-doped HgCdTe crystalline structure that has negative charge carriers (electrons).
 The P-type semiconductor is a positively-doped HgCdTe crystalline structure that has positive charge carriers (vacant holes in the lattice structure than can move like electrons).
 
@@ -370,11 +370,11 @@ The P-type semiconductor is a positively-doped HgCdTe crystalline structure that
 \includegraphics[width=.6\columnwidth]{smith_np_junction.png}
 \caption{A cartoon schematic of a H2RG detector from \citet{smith2008imgPersistence}.
 The green and tan regions depict the N-type and P-type semiconductors.
-The undepleted zones of the semiconductor (textured regions) contain mobile charge carriers whereas the depletion region (solid green and tan zones) have no mobile carriers and all electrons in the valence state.
+The undepleted zones of the semiconductor (textured regions) contain mobile charge carriers whereas the depletion region (solid green and tan zones) have no mobile carriers and all electrons are in the valence state.
 The depletion region is widest after detector reset and shrinks as the detector is illuminated with photons that create electron-hole pairs.
-Charged traps for negative and positive carriers (depicted as round circles) will fill as the wells fills up.
+Charged traps for negative and positive carriers (depicted as round circles) will capture charge before it can flow to the undepleted regions of the detector.
 The charge traps do not immediately empty with a detector reset, but instead release at later times causing a spurious signal.
-This spurious signal (highlighted with red circles), causes a voltage change in future integrations that appears the same as a true signal from incoming photons.}\label{fig:npSchematic}
+This spurious signal (the shrinking of the depletion region as highlighted with red circles), causes a voltage change in future integrations that appears the same as a true signal from incoming photons.}\label{fig:npSchematic}
 \end{figure}
 
 The junction of these two materials enables electrons to flow from the N-type material to the P-type material where it can complete a valence shell in the semiconductor material.
@@ -396,7 +396,7 @@ Note that Figure \ref{fig:npSchematic} shows the mobile charge carriers only, so
 The undepleted region is electrically neutral because the nuclei of the N-type material have an equal number of extra protons as the negatively charged electrons.
 Similarly, the undepleted region of the P-type semiconductor has fewer protons in its atomic nuclei producing an overall neutral charge.
 Textbook NP junction schematics often show the net charge and thus symbolize the regions with charge carriers as empty and the depletion region with ``+'' symbols on the N-type semiconductor and ``-'' symbols on the P-type˚ \citep[e.g.][]{halliday2004physicsText}.
-The schematic in Figure \ref{fig:npSchematic} instead shows the mobile charge carriers as ``+'' and ``-'' because it is easier to understand the charge trapping effect this way \citep[e.g.][]{smith2008imgPersistence}.
+The schematic in Figure \ref{fig:npSchematic} instead shows the mobile charge carriers as ``+'' and ``-'' because it is easier to visualize the charge trapping effect this way \citep[e.g.][]{smith2008imgPersistence}.
 
 When an incoming photon strikes the N-type depletion region, it will excite an electron from the valence to conduction band which creates an electron-hole pair \citep{rieke2007irDetectorReview}.
 The electron moves to the extremity of the depletion zone in the N-type material whereas the positive hole generated crosses the NP junction and adds a mobile charge to the P-type side.
@@ -442,12 +442,12 @@ The NIRCam detectors' pre-amplifiers (pre-amps) have a reference voltage that ca
 This can affect the pedestal level of all pixels over long ($\gtrsim$ 20 minute timescales).
 These pre-amplifier levels can either be reset at the beginning of an integration with samples up the ramp or with each frame up the ramp.
 The NIRCam detectors are usually set to reset once per frame to prevent large amplifier drifts over an integration \citep{robberto2014refPixPreAmp}.
-However, a set of darks was collected at Lockheed CV with a reset only once per integration.
+However, one set of darks was collected at Lockheed CV with a reset only once per integration to study the effects of the pre-amplifier resets.
 
 In the Lockheed CV test, the pedestal level of all pixels could be seen to drift over 19.3 minute dark integrations by 5 to 100 DN.
-The drift was usually linear over these 19 minute exposures, but in one case was observed to drift downward from 100 DN to -50 DN and back to 100 DN.
-The timescales for pre-amp resets are relevant to exoplanet time series, which have transit durations of $\sim0.5 to 3$ hours for typical targets \citep{robberto2014refPixPreAmp}.
-However, reference pixel subtraction can efficiently remove pre-amp drifts, so with proper data reduction and subarrays that include reference pixels, the pre-amp drifts can be used.
+The drift was usually linear over these 19 minute exposures, but in one case was observed to drift downward from 100 DN to -50 DN and back to 100 DN \citep{robberto2014refPixPreAmp}.
+The timescales for pre-amp resets are relevant to exoplanet time series, which have transit durations of $\sim$0.5 to 3 hours for typical targets.
+However, reference pixel subtraction can efficiently remove pre-amp drifts, so with proper data reduction and subarrays that include reference pixels, the pre-amp drifts can be dramatically reduced.
 It is also likely that background subtraction can mitigate the pre-amp reset offsets from time series integrations.
 The NIRCam grism subarrays and dispersed source location are placed at the edge of the NIRCam Long Wavelength detector to ensure reference pixels are saved with active pixels.
 

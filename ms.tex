@@ -456,7 +456,7 @@ The NIRCam grism subarrays and dispersed source location are placed at the edge 
 \includegraphics[width=.49\columnwidth]{allamps.pdf}
 \includegraphics[width=.49\columnwidth]{allamps_long_dark.pdf}
 \caption{Reference pixel time series for a two frame integration (Left) and a long dark integration of 108 frames (Right). Each of the plots show that the pre-amplifier resets between frames in an integration cause discontinuities in the reference signal. Amplifiers 1 and 4 track the time all through a frame with the side reference pixels, whereas amplifiers 2 and 3 in the middle only contain information on the bottom and top reference pixels at the beginning and ending of a frame.
-The long dark exposure example of 108 integrations shows the behavior over long timescales.}\label{fig:sampFig}
+The long dark exposure example of 108 integrations shows the behavior over long timescales.}\label{fig:ampResetDark}
 \end{figure}
 
 \subsection{Charge Trapping}
@@ -515,10 +515,26 @@ OTIS       & NASA Johnson  & 2017       &   21,000    	& Continuum     & WLP8 Im
 GL dewar   & Steward Obs.  & 2015-2016  &       	& LED	        & flood-illuminated imaging \\
 Asic dewar & Steward Obs.  & 2017-2019  &       	& LED           & pinhole flood-illuminated imaging \\
 \enddata
-\tablecomments{Cryogenic vacuum (CV).}
+\tablecomments{Cryogenic vacuum (CV), Optical Telescope element and Integrated Science (OTIS).}
 \end{deluxetable*}
 
+\subsection{Cryogenic Vacuum (CV) Stability Tests}
 
+Figure \ref{fig:WLP8PSF} show the PSF of the +8 wave defocused images used the Crogenic Vacuum 3 (CV3) stability tests.
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.49\columnwidth]{wlp8_psf.pdf}
+\caption{Weak Lans +8 PSF during CV3 testing.
+The central peak is used for centroiding the 70 pixel radius circular aperture.}\label{fig:WLP8PSF}
+\end{figure}
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.99\columnwidth]{plot_mmm.pdf}
+\caption{Time Series plot through the CV3 photometric stability campaign.
+The WLP8SUB (subarray) showed the smallest standard deviation of any NIRCam mode explored.}\label{fig:CV3longTser}
+\end{figure}
 
 %\begin{figure*}
 %\gridline{\fig{sample_img.pdf}{0.3\textwidth}{Red Figure}

@@ -540,14 +540,13 @@ The LED was a narrowband source at 1.55 $\mu$m, which was used in imaging mode s
 While the spectroscopic modes are expected to be the most scientifically interesting modes for studying exoplanet atmospheres, the broadband lamps needed to produce a spectrum tend to be less stable than LEDs.
 Therefore, the test was designed with an LED with the hope of measuring the precision possible with the NIRCam optics and detector.
 
-As with the spatial scanning mode on HST \citep[e.g.][]{}, spreading the light of a source over many pixels can improve the precision
-
-
-NIRCam instrument was 
- package (was lowered into 
-
-Figure \ref{fig:WLP8PSF} show the PSF of the +8 wave defocused images used the Crogenic Vacuum 3 (CV3) stability tests.
-
+As with the spatial scanning mode on HST \citep[e.g.][]{mccullough2012spatialScan,demin13}, spreading the light of a source over many pixels can improve the precision of spectroscopy.
+This is also accomplished by ground-based observatories by either de-focusing the telescope \citep{southworth2009defocusing} or by employing a beam-shaping diffuser \citep{stefansson2017diffusers}.
+By spreading the light source over many pixels, the light curve becomes less sensitive to flat fielding or intra-pixel sensitivity errors with the jitter or seeing variations during an observation.
+Similarly, NIRCam can employ a weak lens to defocus a star's light.
+Figure \ref{fig:WLP8PSF} show the PSF of the +8 wave defocused images during the CV3 stability tests.
+The hexagonal PSF is summed with circular aperture with a radius of 70 pixels.
+The central peak may used to find a centroid of the star and center the circular aperture.
 
 \begin{figure}[!hbtp]
 \centering
@@ -556,6 +555,8 @@ Figure \ref{fig:WLP8PSF} show the PSF of the +8 wave defocused images used the C
 The central peak is used for centroiding, while the entire PSF is used for aperture photometry.
 A 70 pixel radius aperture (shown here is a black circle) is used for the source aperture.}\label{fig:WLP8PSF}
 \end{figure}
+
+A series of detector stability tests was performed using this +8 wave weak lens and 1.55 $\mu$m LED in a few different modes.
 
 \begin{figure}[!hbtp]
 \centering

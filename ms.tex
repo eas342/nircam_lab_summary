@@ -532,8 +532,10 @@ Asic dewar & Steward Obs.  & 2017-2019  &       	& LED           & pinhole flood
 
 \subsection{Cryogenic Vacuum (CV) Stability Tests}
 
-During the Cyrogenic Vacuum Test 3, the Integrated Science Instrument Module (ISIM) was placed in a vacuum chamber with a simulated telescope to illuminate the detectors in a similar way as during flight with an instrument called the Optical telescope element simulator (OSIM).
-Of all ground-based tests discussed in this work, the point spread function most closely resembled the JWST flight point spread function.
+During the Cyrogenic Vacuum Test 3, the Integrated Science Instrument Module (ISIM) was placed in a vacuum chamber with the Optical telescope element simulator (OSIM).
+The ISIM has all the instruments with their internal optics and detectors but no telescope mirrors.
+The OSIM simulates the PSF expected when a star or other point source illuminates the JWST instruments.
+While other tests described in this work illuminated the science instrument detectors in different ways, the point spread function most closely resembled the JWST flight point spread function.
 
 CV3 included a series of exposures over nearly 24 hours with an LED lamp in imaging mode to test the fundamental photometric performance.
 The LED was a narrowband source at 1.55 $\mu$m, which was used in imaging mode since this would result in a narrow-lined spectrum.
@@ -542,7 +544,7 @@ Therefore, the test was designed with an LED with the hope of measuring the prec
 
 As with the spatial scanning mode on HST \citep[e.g.][]{mccullough2012spatialScan,deming13}, spreading the light of a source over many pixels can improve the precision of spectroscopy.
 This is also accomplished by ground-based observatories by either de-focusing the telescope \citep{southworth2009defocusing} or by employing a beam-shaping diffuser \citep{stefansson2017diffusers}.
-By spreading the light source over many pixels, the light curve becomes less sensitive to flat fielding or intra-pixel sensitivity errors with the jitter or seeing variations during an observation.
+By spreading the light source over many pixels, the light curve becomes less sensitive to flat fielding or intra-pixel sensitivity errors with telescope pointing jitter or seeing variations during an observation.
 Similarly, NIRCam can employ a weak lens to defocus a star's light.
 Figure \ref{fig:WLP8PSF} show the PSF of the +8 wave defocused images during the CV3 stability tests.
 The hexagonal PSF is summed with circular aperture with a radius of 70 pixels.
@@ -557,6 +559,8 @@ A 70 pixel radius aperture (shown here is a black circle) is used for the source
 \end{figure}
 
 A series of detector stability tests was performed using this +8 wave weak lens and 1.55 $\mu$m LED in a few different modes.
+A time series of all possible modes is shown in Figure \ref{fig:CV3longTser}.
+The full frame modes (FULL1 through FULLQ) used 2 samples of the ramp for integration times of 21.5 seconds whereas the subarrays were tuned to have a similar integration time (21.3 sec for 20 Groups of a 320$\times$320 subarray and 25.1 seconds for 6 groups of a 640$\times$640 subarray).
 
 \begin{figure}[!hbtp]
 \centering

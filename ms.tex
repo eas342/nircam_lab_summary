@@ -561,6 +561,20 @@ A 70 pixel radius aperture (shown here is a black circle) is used for the source
 A series of detector stability tests was performed using this +8 wave weak lens and 1.55 $\mu$m LED in a few different modes.
 A time series of all possible modes is shown in Figure \ref{fig:CV3longTser}.
 The full frame modes (FULL1 through FULLQ) used 2 samples of the ramp for integration times of 21.5 seconds whereas the subarrays were tuned to have a similar integration time (21.3 sec for 20 Groups of a 320$\times$320 subarray and 25.1 seconds for 6 groups of a 640$\times$640 subarray).
+This ensured that during these 4 different types of subarray/full frame window sizes, the well depths achieved were similar.
+
+It is apparent from Figure \ref{fig:CV3longTser} that the WLP8SUB test with a 320$\times$320 subarray and 20 groups of the ramp has smaller scatter than the FULL1 through FULLQ tests.
+After removing a linear fit to the time series (to account for long term trends in the lamp), the standard deviation of the WLP8SUB data is 500 ppm whereas the FULL tests range from 1020 to 1540 ppm.
+For the FULL 2048$\times$2048 pixel integrations with 2 groups up the ramp, the count rate of photons is calculated in each pixel by subtracting the two groups (ie two reads for this RAPID mode) from each other and dividing by the group time (time between these two reads for this RAPID mode).
+For the WLP8SUB mode, a linear least squares fit is performed to the groups as a function of time and the slope of this line is the count rate on a pixel.
+The large number of groups used to fit this line ensures that the read noise is reduced by $\sim 1/\sqrt{N_G}$, where $N_G$ is the number of groups.
+
+There are two possible explanations for why the WLP8SUB mode shows less scatter than the FULL modes, (1) that the reduction of read noise improves the stability of the signal and (2) that the lamp is variable on short time scales of a frame (10.74 seconds).
+The read noise of a pixel is $RN_1 \approx$ 15 e$^-$ for the short wavelength arrays in this test.
+If this is uncorrelated across the 70 pixel aperture source radius, the read noise on the total aperture is $RN_{tot} = \sqrt{N_{s,px}} RN_1 = \sqrt{\pi} r_{s,px} RN_1$ = 124 * 15 e$^-$ = 1861 e$^-1 \approx 930 $DN.
+This amounts to 25 ppm, which is a small fraction of the photon noise (165 ppm).
+However, if there are correlated components to the read noise in this large aperture, the read noise could be higher.
+
 
 \begin{figure}[!hbtp]
 \centering

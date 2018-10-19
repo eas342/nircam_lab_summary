@@ -226,27 +226,7 @@
 933 North Cherry Avenue \\
 Tucson, AZ 85721, USA}
 
-\author{Jarron Leisenring}
-\affiliation{Steward Observatory \\
-933 North Cherry Avenue \\
-Tucson, AZ 85721, USA}
-
-\author{Karl Misselt}
-\affiliation{Steward Observatory \\
-933 North Cherry Avenue \\
-Tucson, AZ 85721, USA}
-
 \author{Rafia Bushra}
-\affiliation{Steward Observatory \\
-933 North Cherry Avenue \\
-Tucson, AZ 85721, USA}
-
-\author{Douglas Kelly}
-\affiliation{Steward Observatory \\
-933 North Cherry Avenue \\
-Tucson, AZ 85721, USA} q
-
-\author{Thomas Beatty}
 \affiliation{Steward Observatory \\
 933 North Cherry Avenue \\
 Tucson, AZ 85721, USA}
@@ -268,6 +248,28 @@ Santa Cruz, CA 95062, USA}
 \affiliation{NASA Ames Research Center \\
 Space Science and Astrobiology Division \\
 Moffett Field, CA 94035, USA}
+
+\author{Jarron Leisenring}
+\affiliation{Steward Observatory \\
+933 North Cherry Avenue \\
+Tucson, AZ 85721, USA}
+
+\author{Karl Misselt}
+\affiliation{Steward Observatory \\
+933 North Cherry Avenue \\
+Tucson, AZ 85721, USA}
+
+\author{Douglas Kelly}
+\affiliation{Steward Observatory \\
+933 North Cherry Avenue \\
+Tucson, AZ 85721, USA} q
+
+\author{Thomas Beatty}
+\affiliation{Steward Observatory \\
+933 North Cherry Avenue \\
+Tucson, AZ 85721, USA}
+
+
 
 \author{Thomas P Greene}
 \affiliation{NASA Ames Research Center \\
@@ -570,11 +572,12 @@ For the WLP8SUB mode, a linear least squares fit is performed to the groups as a
 The large number of groups used to fit this line ensures that the read noise is reduced by $\sim 1/\sqrt{N_G}$, where $N_G$ is the number of groups.
 
 There are two possible explanations for why the WLP8SUB mode shows less scatter than the FULL modes, (1) that the reduction of read noise improves the stability of the signal and (2) that the lamp is variable on short time scales of a frame (10.74 seconds).
-The read noise of a pixel is $RN_1 \approx$ 15 e$^-$ for the short wavelength arrays in this test.
+The read noise of a pixel is $RN_1 \approx$ 15 e$^-$ for the short wavelength arrays\footnote{https://jwst-docs.stsci.edu/display/JTI/NIRCam+Detector+Performance} in this test.
 If this is uncorrelated across the 70 pixel aperture source radius, the read noise on the total aperture is $RN_{tot} = \sqrt{N_{s,px}} RN_1 = \sqrt{\pi} r_{s,px} RN_1$ = 124 * 15 e$^-$ = 1861 e$^-1 \approx 930 $DN.
-This amounts to 25 ppm, which is a small fraction of the photon noise (165 ppm).
+This amounts to 25 ppm, which is a small compared to the photon noise (113 ppm).
 However, if there are correlated components to the read noise in this large aperture, the read noise could be higher.
 
+\textcolor{red}{To Do: Look at dark frames to measure how correlated the read noise is spatially (certainly the 1/f noise should be correlated}
 
 \begin{figure}[!hbtp]
 \centering
@@ -584,6 +587,36 @@ All test shown above were using the Weak Lens +8 mode, with a PSF as shown in Fi
 13 tests (FULL1 through FULLQ) are all in full frame mode, while WLP8SUB used a 320$\times$320 subarray and WLP8SUB640 used a 640$\times$640 subarray.
 The WLP8SUB showed the smallest standard deviation of any testof any NIRCam mode explored.}\label{fig:CV3longTser}
 \end{figure}
+
+\subsection{Lessons Learned from CV3 Tests}
+Although the light curves from the CV3 stability tests were not able to achieve photon-limited performance to study the precision of transit and eclipse spectroscopy, there were some lessons learned from this data.
+We were able to determine the best practices for the pipeline and analysis by running the raw data through the pipeline and changing the steps to produce light curve.
+We experimented with the methodology for turning raw detector reads up the ramp into count rates on the detector, the intrapixel capacitance (IPC) correction, flat fielding, reference pixel correction and detector non-linearity.
+After the calibrated images are created, we experimented with different types of aperture photometry including different geometries, background calculations and aperture sizes.
+
+After experimenting with these configurations, we find the following pipeline steps are important:
+\begin{itemize}
+	\item Fitting a line up the ramp gives superior results to subtracting the last and first pairs of read (as expected by reducing the photon noise)
+	\item Centering the aperture with the central spot inside the hexagon is important to conserve the flux within the aperture
+	\item Row-by-row subtraction (along the detector's fast-read direction) gives superior background subtraction to traditional aperture photometry (using the mean or robust average value in a background annulus)
+	\item Aperture sizes for the source at ~70 pixels, outside the hexagon, gave the best precisions
+	\item An annulus aperture on the source usually gives the best precision light curves
+\end{itemize}
+
+We also found reduction steps that had very little impact on the final photometric precision including
+\begin{itemize}
+	\item IPC corrections ($\lesssim 0.01$ ppm)
+	\item Flat-fielding ($\lesssim 0.3$ ppm)
+	\item 
+\end{itemize}
+We summarize the lessons from the tests here.
+
+
+There are also some lessons learned from CV3 tests on which corrections have small effects on the final measured precision.
+These corrections are:
+\begin{itemize}
+	\item 
+\end{itemize}
 
 %\begin{figure*}
 %\gridline{\fig{sample_img.pdf}{0.3\textwidth}{Red Figure}

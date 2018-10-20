@@ -437,7 +437,7 @@ The resets cause discontinuities in the pedestal level of all pixels between fra
 	\item \textbf{Temperature Fluctuations:} The JWST detectors are sensitive to temperature changes on the detectors. For example, laboratory tests show that 100 mK temperature fluctuations can result in $\sim$ 80 ADU changes on the detector that are not corrected by reference pixels \citep{hall2005jwstArrays}. Fortunately, the detectors are actively thermally controlled to keep the temperature fluctuations to $\lesssim$ 1 mK.
 \end{itemize}
 
-\subsection{Pre-amp Reset Offsets}\label{sec:preAmp}
+\subsection{Pre-amp Reset Offsets from the Lockheed CV Test}\label{sec:preAmp}
 
 The NIRCam detectors' pre-amplifiers (pre-amps) have a reference voltage that can drift with time.
 This can affect the pedestal level of all pixels over long ($\gtrsim$ 20 minute timescales).
@@ -600,31 +600,33 @@ After experimenting with these configurations, we find the following pipeline st
 	\item Centering the aperture with the central spot inside the hexagon is important to conserve the flux within the aperture
 	\item Row-by-row subtraction (along the detector's fast-read direction) gives superior background subtraction to traditional aperture photometry (using the mean or robust average value in a background annulus)
 	\item Aperture sizes for the source at ~70 pixels, outside the hexagon, gave the best precisions
-	\item An annulus aperture on the source usually gives the best precision light curves
+	\item An annulus aperture on the source (including the inner and outer edges of the hexagonal PSF) usually gives the best precision light curves
 \end{itemize}
 
 We also found reduction steps that had very little impact on the final photometric precision including
 \begin{itemize}
 	\item IPC corrections ($\lesssim 0.01$ ppm)
 	\item Flat-fielding ($\lesssim 0.3$ ppm)
-	\item 
 \end{itemize}
 We summarize the lessons from the tests here.
 
+\subsection{OTIS Tests}
 
-There are also some lessons learned from CV3 tests on which corrections have small effects on the final measured precision.
-These corrections are:
-\begin{itemize}
-	\item 
-\end{itemize}
+A series of NIRCam stability tests were carried out while the entire JWST telescope system was placed in a tall vacuum chamber at NASA Johnson.
+During these tests, there were two configurations 1) the "half pass" tests where lamp sources within the optical system and 2) "pass and a half" tests where the a lamp source within the optical system bounces light off the secondary, primary, flat mirrors mounted on the chamber's ceiling and then through the entire telescope and instrument chain.
 
-%\begin{figure*}
-%\gridline{\fig{sample_img.pdf}{0.3\textwidth}{Red Figure}
-%          \fig{sample_red.png}{0.3\textwidth}{Green Figure}
-%          }
-%\caption{Two figures side by side.\label{fig:gridFig}}
-%\end{figure*}
+The OTIS testing included a time series mode similar to the grism time series template used in orbit for transiting planets.
+Figure \ref{fig:otisPSFs} shows the point spread functions for the OTIS tests.
 
+\begin{figure*}
+\gridline{\fig{wlp8_otis_psf.pdf}{0.49\textwidth}{WLP8 Image}
+          \fig{grism_otis_psf.pdf}{0.49\textwidth}{Grism Image}
+          }
+\caption{Example OTIS  images obtained simultaneously during the long duration time series.
+Due to the OTIS optics set up, the short wavelength WLP8 image does not nearly represent the hexagonal PSF from CV3 or flight.}\label{fig:otisPSFs}
+\end{figure*}
+
+\subsection{GL Dewar Tests}
 
 %% If you wish to include an acknowledgments section in your paper,
 %% separate it off from the body of the text using the \acknowledgments

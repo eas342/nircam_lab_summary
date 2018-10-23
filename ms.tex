@@ -369,7 +369,7 @@ The P-type semiconductor is a positively-doped HgCdTe crystalline structure that
 
 \begin{figure}[!hbtp]
 \centering
-\includegraphics[width=.9\columnwidth]{ideal_photodiode.pdf}
+\includegraphics[width=.99\columnwidth]{ideal_photodiode.pdf}
 \caption{A cartoon schematic of a H2RG detector inspired by \citet{smith2008imgPersistence,tulloch2018persistenceH2RG}.
 The green and tan regions depict the N-type and P-type semiconductors.
 The undepleted zones of the semiconductor (bright green and dark blue) contain mobile charge carriers whereas the depletion region (solid green and tan zones) have no mobile carriers and all electrons are in the valence state.
@@ -637,11 +637,16 @@ Due to the OTIS optics setup, the short wavelength WLP8 image does not nearly re
 
 As with the CV3 tests in Section \ref{sec:CV3Lessons} and Figure \ref{fig:CV3longTser}, we found the highest precision lightcurves when using subarray read configurations.
 Figure \ref{fig:OTISsubarrays} shows the many subarrays explored in a set of time series.
-As the number of reads up the ramp becomes larger and large, the standard deviation increases.
+As the number of reads up the ramp becomes larger and larger, the standard deviation increases.
+The perplexing thing is, though, that this is even true if we throw away all the intermediate reads.
+That is, with all readout modes, count rate (ie. slope image is approximated by the last subtracted by the first read.
+Here the number of reads in between these is irrelevant.
+A possible way to explain the superior standard deviation for the smallest 2048$\times$64 subarray is not that more reads increase precision but rather the small subarray has a smaller contribution from spatially correlated noise.
+When larger frames are read out, for example, the 1/f noise becomes increasingly uncorrelated from read to read.\textcolor{red}{Wrote this when very tired. Is this correct and logical?}
 
 \begin{figure}[!hbtp]
 \centering
-\includegraphics[width=.99\columnwidth]{subarray_config_tser.pdf}
+\includegraphics[width=.7\columnwidth]{subarray_config_tser.pdf}
 \caption{A variety of subarrays in the OTIS stability tests organized by increasing number of pixels (and decrease number of groups up the ramp).
 The standard deviation decreases as the number of groups up the ramp becomes more numerous.}\label{fig:OTISsubarrays}
 \end{figure}

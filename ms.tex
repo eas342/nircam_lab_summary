@@ -652,6 +652,8 @@ Here the number of reads in between these is irrelevant.
 A possible way to explain the superior standard deviation for the smallest 2048$\times$64 subarray is not that more reads increase precision but rather the small subarray has a smaller contribution from spatially correlated noise.
 When larger frames are read out, for example, the 1/f noise becomes increasingly uncorrelated from read to read.\textcolor{red}{Wrote this when very tired. Is this correct and logical?}
 
+Note that the integration times are different for these 4 tests. They are 39.9, 39.9, 32.3, 31.8 and 32.2 for the 64-STRIPE, 128-STRIPE, 256-STRIPE, 256-WIND and FULLFRAME respectively. Perhaps the lamp has oscillations on a timescale that are averaged out efficiently at 39.9 seconds but not 32.3 seconds?
+
 \begin{figure}[!hbtp]
 \centering
 \includegraphics[width=.7\columnwidth]{subarray_config_tser.pdf}

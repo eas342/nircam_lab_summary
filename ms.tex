@@ -414,12 +414,12 @@ This is where the detector approaches saturation and no longer changes voltage w
 
 \subsection{Readout Circuit}\label{sec:readout}
 
-The accumulated charge from absorbed photons in the detector is measured with a multiplexor (MUX) that form a readout integrated circuit (ROI).
+The accumulated charge from absorbed photons in the detector is measured with a multiplexor (MUX) that form a readout integrated circuit (ROIC) \citep{rieke2007irDetectorReview}.
 This readout circuitry makes allows the signal to be measured non-destructively up the ramp in so-called ``multiaccum" mode.
 
-A sensitive amplifier converts the measured voltage potential into a signal.
+A sensitive amplifier converts the measured voltage potential (as compared with the bias level after reset) into a signal.
 The electronic circuit that digitizes the voltages is tuned to ensure the 16 bits (65,536 possible Data Numbers) measure the voltage across the NP junction from the value just after reset (before photons are detected) to the saturation voltage where the maximum number of photons are collected and no more electron-hole pairs can be produced in the depletion region.
-The minimum voltage is several thousands of counts above zero to ensure that changes in the bias signal do not below 0.
+The minimum voltage is several thousands of counts above zero to ensure that fluctuations in the bias signal do not below 0.
 The 65,536 DN level is tuned to be just above the HgCdTe full well capacity to measure full saturation.
 
 
@@ -622,10 +622,18 @@ We summarize the lessons from the tests here.
 \subsection{OTIS Tests}
 
 A series of NIRCam stability tests were carried out while the entire JWST telescope system was placed in a tall vacuum chamber at NASA Johnson.
-During these tests, there were two configurations 1) the "half pass" tests where lamp sources within the optical system and 2) "pass and a half" tests where the a lamp source within the optical system bounces light off the secondary, primary, flat mirrors mounted on the chamber's ceiling and then through the entire telescope and instrument chain.
+However, there is no feasible way to place a point source lamp at infinity to simulate the imaging onto a JWST instrument, so an alternate lamp setup is used.
+During these tests, there were two configurations 1) the ``half pass" tests where lamp sources within the optical system and 2) ``pass and a half" tests where the a lamp source within the optical system bounces light off the secondary, primary, flat mirrors mounted on the chamber's ceiling and then through the entire telescope and instrument chain.
 
 The OTIS testing included a time series mode similar to the grism time series template used in orbit for transiting planets.
-Figure \ref{fig:otisPSFs} shows the point spread functions for the OTIS tests.
+Figure \ref{fig:otisPSFs} shows the point spread functions for the OTIS tests that simultaneously illuminated the short wavelength and long wavelength channels.
+The ``O9'' supercontinuum illuminated the detector over a wide wavelength range from 2.5 to 4.1$\mu$m.
+A small fraction of the light is emitted at wavelengths shorter than 2.5 $\mu$m, which barely leak through.
+\textcolor{red}{Was this Half Pass or Pass and a Half?}
+However, the weak lens and optical setup create a very unusual point spread function for the short wavelength channel, shown in Figure \ref{fig:otisPSFs}.
+We perform aperture photometry on a knot of emission at (1090 px, 230 px) for the short wavelength detector.
+For the long wavelength detector, we initially extract a box aperture to create a broadband light curve.
+
 
 \begin{figure*}
 \gridline{\fig{wlp8_otis_psf.pdf}{0.99\textwidth}{WLP8 Image} }

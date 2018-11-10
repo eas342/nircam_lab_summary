@@ -530,6 +530,7 @@ One of the stability tests during the OTIS test at NASA Johnson was a grism spec
 }
 \startdata
 Lockheed CV& Lockheed Martin& 2014??    & \nodata   & Darks         & Long Darks \\ 
+OTIS & Lockheed Martin& 2014??    & \nodata   & Darks         & Long Darks \\ 
 CV 3       & NASA Goddard  & 2016       & 500   	& LED           & WLP8 imaging \\
 OTIS       & NASA Johnson  & 2017       &   2200    	& Continuum     & Grism spectroscopy \\
 OTIS       & NASA Johnson  & 2017       &   21,000    	& Continuum     & WLP8 Imaging \\
@@ -538,6 +539,15 @@ Asic dewar & Steward Obs.  & 2017-2019  &       	& LED           & pinhole flood
 \enddata
 \tablecomments{Cryogenic vacuum (CV), Optical Telescope element and Integrated Science (OTIS).}
 \end{deluxetable*}
+
+\subsection{Long Darks}\label{sec:longDarks}
+
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.49\columnwidth]{long_dark_phot.pdf}
+\caption{Time series of a 70 pixel radius photometric aperture obtained during a long dark exposure. The long dark exposure of 108 frames is used to construct 54 pairs of reads that are subtracted, in analogy with a series of integrations. }\label{fig:longDarkPhot}
+\end{figure}
 
 \subsection{Cryogenic Vacuum (CV) Stability Tests}
 

@@ -586,7 +586,7 @@ For the WLP8SUB mode, a linear least squares fit is performed to the groups as a
 The large number of groups used to fit this line ensures that the read noise is reduced by $\sim 1/\sqrt{N_G}$, where $N_G$ is the number of groups.
 
 There are two explanations for why the WLP8SUB mode shows less scatter than the FULL modes, 
-\begin{enumerate}
+\begin{enumerate}[noitemsep]
 	\item The reduction of read noise improves the stability of the signal and\label{item:readNReasonCV3subFull}
 	\item That the lamp is variable on short time scales of a frame (10.74 seconds).\label{item:lampReasonCV3subFull}
 \end{enumerate}
@@ -690,8 +690,8 @@ The GL dewar detector stability tests are helpful in isolating noise sources tha
 
 \begin{figure*}
 \gridline{\fig{ap_labels_S02illum_GLrun104.pdf}{0.32\textwidth}{Apertures}
-		\fig{raw_tser_phot_S02illum_GLrun104.pdf}{0.32\textwidth}{Raw time series}
-		\fig{refcor_phot_S02illum_GLrun104.pdf}{0.32\textwidth}{Ratio Time Series}}
+		\fig{raw_tser_phot_S02illum1miAll_GLrun104.pdf}{0.32\textwidth}{Raw time series}
+		\fig{refcor_phot_S02illum1miAll_GLrun104.pdf}{0.32\textwidth}{Ratio Time Series}}
 \caption{The precision of this short-duration GL dewar test was the extremely high at $\sigma=$240 ppm after stabilization.
 }\label{fig:GLtSeries}
 \end{figure*}
@@ -709,7 +709,7 @@ MCMC fitting makes use of \texttt{emcee} \citep{foreman-mackey2013emcee} and the
 Funding for the E Schlawin is provided by NASA Goddard Spaceflight Center.
 This research has made
 use of the Exoplanet Orbit Database and the Exoplanet Data Explorer at \url{http://exoplanets.org}; SIMBAD database, operated at CDS, Strasbourg,
-France; NASA'��s Astrophysics Data System Bibliographic
+France; NASA's Astrophysics Data System Bibliographic
 Services; the M, L, T, and Y dwarf compendium
 housed at \url{http://DwarfArchives.org}; the SpeX Prism
 Libraries at \url{http://www.browndwarfs.org/spexprism}; and the \texttt{astropy} package \citep{astropy2013}. 

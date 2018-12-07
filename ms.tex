@@ -496,8 +496,10 @@ This spurious signal (the shrinking of the depletion region as highlighted with 
 
 Table \ref{tab:testSummary} shows a summary of the ground-based tests that were performed on NIRCam detectors.
 The flight NIRCam detectors, controllers, electronics, optics and instrument hardware were used in the Cryogenic Vacuum 3 (CV3) Test 3 as well as OTIS (Optical Telescope Element and Integrated Science).
-The GL dewar experiments used flight detectors, but a different controller (Leach).
+There were two dewars at the Steward Observatory at the University of Arizona used for time series stability tests.
+The GL dewar experiments used flight-like detectors, but a different controller (Leach).
 The Asic dewar located at Steward Observatory in Tucson, Arizona used a spare NIRCam detector, a spare asic controller and the flight software, but no flight optics.
+These two different kinds of detector electronics can be compared against each other to help isolate detector-related systematics from readout electronics-related systematics.
 
 The instrument modes tested included mostly imaging with narrowband LEDs, but there was also a test with spectroscopy on a broadband source.
 The WLP8 imaging tests are where a point source is de-focused by 8 waves with a weak lens (WLP8).
@@ -684,9 +686,18 @@ The standard deviation decreases as the number of groups up the ramp becomes mor
 \end{figure}
 
 \subsection{GL Dewar Tests}
-At the University of Arizona, there is a laboratory setup for assessing NIRCam flight and spare detectors.
-The key difference with the Asic dewar is that the detector readout electronics are completely different, using a Leach system that is operated outside of the dewar as opposed to the Asic, which is lives right next to the detectors.
+
+The GL dewar, located at the University of Arizona, is a laboratory setup for assessing NIRCam flight and spare detectors.
+The key difference with the Asic dewar discussed below is that the detector readout electronics are completely different, using a Leach system that is operated outside of the dewar as opposed to the Asic, which is lives right next to the detectors.
 The GL dewar detector stability tests are helpful in isolating noise sources that arise from the detectors versus the readout electronics.
+
+An LED illumination source is pointed at the detectors and the arrays are read out in subarray mode.
+Figure \ref{fig:GLtSeries} shows the detector subarray illumination as well as two apertures that were used for time series photometry.
+The first handful of frames show an initial "warmup" period lasting about 9 seconds.
+This quickly stabilizes to a 1200 ppm level likely dominated by lamp variations.
+If one divides the two apertures by each other, the resulting time series is very flat and stable to with 260 ppm.
+When binning the data into 2.5 minute increments, the standard deviation is only 51 ppm.
+
 
 \begin{figure*}
 \gridline{\fig{ap_labels_S02illum_GLrun104.pdf}{0.32\textwidth}{Apertures}
@@ -696,6 +707,7 @@ The GL dewar detector stability tests are helpful in isolating noise sources tha
 }\label{fig:GLtSeries}
 \end{figure*}
 
+\subsection{Asic Dewar Tests}
 
 %% If you wish to include an acknowledgments section in your paper,
 %% separate it off from the body of the text using the \acknowledgments

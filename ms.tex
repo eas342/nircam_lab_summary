@@ -637,30 +637,33 @@ We summarize the lessons from the tests here.
 \subsection{OTIS Tests}
 
 A series of NIRCam stability tests were carried out while the entire JWST telescope system was placed in a tall vacuum chamber at NASA Johnson.
-However, there is no feasible way to place a point source lamp at infinity to simulate the imaging onto a JWST instrument, so an alternate lamp setup is used.
+However, there is no feasible way to place a point source lamp at infinity to simulate the imaging of astrophysical objects onto a JWST instrument, so an alternate lamp setup is used.
 During these tests, there were two configurations 1) the ``half pass" tests where lamp sources within the optical system and 2) ``pass and a half" tests where the a lamp source within the optical system bounces light off the secondary, primary, flat mirrors mounted on the chamber's ceiling and then through the entire telescope and instrument chain.
 
 The OTIS testing included a time series mode similar to the grism time series template used in orbit for transiting planets.
 Figure \ref{fig:otisPSFs} shows the point spread functions for the OTIS tests that simultaneously illuminated the short wavelength and long wavelength channels.
 The ``O9'' supercontinuum illuminated the detector over a wide wavelength range from 2.5 to 4.1$\mu$m.
-A small fraction of the light is emitted at wavelengths shorter than 2.5 $\mu$m, which barely leak through.
-\textcolor{red}{Was this Half Pass or Pass and a Half?}
-However, the weak lens and optical setup create a very unusual point spread function for the short wavelength channel, shown in Figure \ref{fig:otisPSFs}.
+A small fraction of the light is emitted at wavelengths shorter than 2.5 $\mu$m, which is sufficient to illuminate the short wavelength detector to peak counts of $\sim 260$DN per exposure.
+Meanwhile, the peak of the grism is $\sim$ 26,000 DN.
+This lamp configuration was a pass and a half test, which suffered from the vibrations and oscillations of the suspension system, which can be perturbed by motors such as vacuum pumps.
+
+The point spread function through the weak lens and optical setup create a very unusual point spread function for the short wavelength channel, shown in Figure \ref{fig:otisPSFs} that has multiple clumps of emission.
 We perform aperture photometry on a knot of emission at (1090 px, 230 px) for the short wavelength detector.
+This knot is concentrated enough to fit with a 2D Gaussian and centroid this Gaussian to ~0.2 pixels, which can be used to track the motions of the PSF due to the oscillations
 For the long wavelength detector, we initially extract a box aperture to create a broadband light curve.
 
 
 \begin{figure*}
-\gridline{\fig{wlp8_otis_psf.pdf}{0.99\textwidth}{WLP8 Image} }
-\gridline{\fig{grism_otis_psf.pdf}{0.99\textwidth}{Grism Image}}
-\caption{Median images of the short wavelength (SW) and long wavelength (LW) that were used simultaneously in a grism stability long time series.
+\gridline{\fig{wlp8_otis_psf.pdf}{0.7\textwidth}{WLP8 Image} }
+\gridline{\fig{{grism_otis_psf.pdf}}{0.7\textwidth}{Grism Image}}
+\caption{Median images of the short wavelength (SW) weak lens mode and long wavelength (LW) grism spectroscopy that were used simultaneously in a grism time series stability test.
 Due to the OTIS optics setup, the short wavelength WLP8 image does not nearly represent the hexagonal PSF from CV3 (Figure \ref{fig:WLP8PSF}) or flight.
 }\label{fig:otisPSFs}
 \end{figure*}
 
 \begin{figure*}
 %\gridline{\fig{tser_LW_OTIS.pdf}{0.99\textwidth}{WLP8 Image} }
-\gridline{\fig{tser_LW_OTIS.pdf}{0.99\textwidth}{Grism Time Series}}
+\gridline{\fig{tser_LW_OTIS.pdf}{0.6\textwidth}{Grism Time Series}}
 \caption{Time series of the simultaneous SW/LW Time Series Stability test
 }\label{fig:otisLWSWtser}
 \end{figure*}
@@ -680,7 +683,7 @@ Note that the integration times are different for these 4 tests. They are 39.9, 
 
 \begin{figure}[!hbtp]
 \centering
-\includegraphics[width=.7\columnwidth]{subarray_config_tser.pdf}
+\includegraphics[width=.5\columnwidth]{subarray_config_tser.pdf}
 \caption{A variety of subarrays in the OTIS stability tests organized by increasing number of pixels (and decrease number of groups up the ramp).
 The standard deviation decreases as the number of groups up the ramp becomes more numerous.}\label{fig:OTISsubarrays}
 \end{figure}

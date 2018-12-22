@@ -440,6 +440,7 @@ The resets cause discontinuities in the pedestal level of all pixels between fra
 	\item \textbf{Elevated Columns} There is correlated noise along a column in many frames. These elevated columns can sometimes even move with time.
 	\item \textbf{Random Telegraph Noise (RTN)} Some of the pixels will exhibit spontaneous changes jumps in signal even with no illumination. Fortunately, RTN appears in only $\sim$1000 pixels out of 4$\times 10^6$ on the array.
 	\item \textbf{Detector Fringing} \textbf{\textcolor{red}{Add more details and citations}} The thin $\sim 5\mu$m layers of the H2RG detectors will cause interference patterns on the array due to constructive and destructive interference of light at wavelengths similar to the thickness of the layers. If the detector fringe pattern changes with time, it will change the throughput of a grism image.
+	\item \textbf{Amplifier Boundary Discontinuities} 
 \end{itemize}
 
 It should be noted that the detector effects related to the asic circuit can be specific to the ``personality'' of each asic. The asics all have different asic load files which are tuned to minimize the power consumption and dark current in a particular asic. Since the asic load files are specific to each detector, they may exhibit different noise properties.
@@ -490,6 +491,15 @@ Charged traps for negative and positive carriers (depicted as round circles) wil
 The charge traps do not immediately empty with a detector reset, but instead release at later times causing a spurious signal.
 This spurious signal (the shrinking of the depletion region as highlighted with red circles), causes a voltage change in future integrations that appears the same as a true signal from incoming photons.}\label{fig:npSchematicTraps}
 \end{figure}
+
+\subsection{Amplifier Boundary Discontinuities}
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.99\columnwidth]{amplifier_offsets_in_otis_lw_grism.pdf}
+\caption{An example slope image from the LW OTIS Stability test.
+No reference pixel correction is applied, leaving offsets at the amplifier boundaries.}\label{fig:ampOffsetsOtisGrismSlope}
+\end{figure}
+
 
 
 \section{Ground-based Experiments}\label{sec:experiments}

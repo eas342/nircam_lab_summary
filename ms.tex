@@ -551,14 +551,37 @@ Asic dewar & Steward Obs.  & 2017-2019  &       	& LED           & pinhole flood
 
 \subsection{Long Darks}\label{sec:longDarks}
 
+It is instructive to look at dark frames to isolate the contributions of the read-out electronics, including the side-car asic, and how much they contribute to the error budget.
+The dark frames do not contain the photon noise in the background nor the issues with the photometric stability of illumination lamps, which are a persistent challenge with ground-based tests.
+We study here the contributions from read noise and dark current.
+However, there could be subtle changes in behavior of the electronic read noise under illumination, such as cross-talk where non-illuminated pixels in the images correlate with illuminated ones.
+
+The long dark frames used for detector characterization are 108 groups of 1 frame each read out if full frame mode and are 10.7 sec in duration for one long integration making up one exposure.
+These long dark integrations are broken into 54 sequential pairs of images that are subtracted from each other (integration 2  minus integration 1, 4 minus 3, 6 minus 5 etc.).
+Figure \ref{fig:longDarkPhot} shows an example dark read pair from the integration (frame 55 minus frame 54).
+In the raw data, there are 4 prominent vertical stripes due to offsets in the read-out amplifiers.
+Additionally, there obvious correlations along the fast-read direction (horizontally) due to 1/f noise.
+
+As seen in Figure \ref{fig:longDarkPhot}, reference pixels can be used to reduce the large offsets between amplifiers.
+The reference pixels (making up a 4 pixel boundary on the edges of the detector) are un-illuminated and can therefore be used to measure common-mode electronic noise without being affected by photon counting noise.
+
+What is most useful for exoplanet transit measurements is the photometric stability within an aperture or spectrum.
+We therefore perform aperture photometry on the dark frame as if it were a weak lens image with a 70 pixel radius circular source aperture and a 75 to 100 pixel background annulus illustrated in FIgure \ref{fig:longDarkPhot}.
+In this example, reference pixel correction appears to introduce extra noise into a photometric aperture.
+However, as an order of magnitude estimate, the total noise in these frames is $\sim$10 DN, compared with the 3$\times 10^{6}$ DN in our CV3 detector stability test.
+Therefore, the read noise contributions are expected to be $\sim$ 3 ppm.
 
 \begin{figure*}[!hbtp]
 \centering
+\includegraphics[width=.49\columnwidth]{ap_labels_dark_NRCALONG-DARK-7235074213_1.pdf}
+\includegraphics[width=.49\columnwidth]{ap_labels_darkRed_NRCALONG-DARK-7235074213_1.pdf}
 \includegraphics[width=.49\columnwidth]{long_dark_phot.pdf}
 \includegraphics[width=.49\columnwidth]{long_dark_phot_red.pdf}
 \caption{Time series of a 70 pixel radius photometric aperture obtained during a long dark exposure. The long dark exposure of 108 frames is used to construct 54 pairs of reads that are subtracted, in analogy with a series of integrations.
-{\it: Left:} The time series constructed from raw dark frames.
-{\it Right:} The time series with gain, bias, reference, non-linearity and IPC correction applied. }\label{fig:longDarkPhot}
+{\it Top Left:} The time series constructed from raw dark frames.
+{\it Top Right:} The time series with gain, bias, reference, non-linearity and IPC correction applied. 
+{\it Bottom Left:} An example read pair subtraction with an overlay of the apertures.
+{\it Bottom Right:} AN example read pair subtraction after reduction steps with an overlay of the apertures.}\label{fig:longDarkPhot}
 \end{figure*}
 
 \subsection{Cryogenic Vacuum (CV) Stability Tests}

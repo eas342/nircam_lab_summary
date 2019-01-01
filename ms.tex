@@ -562,7 +562,7 @@ We study here the contributions from read noise and dark current.
 However, there could be subtle changes in behavior of the electronic read noise under illumination, such as cross-talk where non-illuminated pixels in the images correlate with illuminated ones.
 
 The long dark frames used for detector characterization are 108 groups of 1 frame each read out if full frame mode and are 10.7 sec in duration for one long integration making up one exposure.
-These long dark integrations are broken into 54 sequential pairs of images that are subtracted from each other (integration 2  minus integration 1, 4 minus 3, 6 minus 5 etc.).
+These long dark integrations are broken into 54 sequential pairs of images that are subtracted from each other (integration 1 minus integration 0, 3 minus 2, 5 minus 4 etc. in a zero-based counting scheme).
 Figure \ref{fig:longDarkPhot} shows an example dark read pair from the integration (frame 55 minus frame 54).
 In the raw data, there are 4 prominent vertical stripes due to offsets in the read-out amplifiers.
 Additionally, there obvious correlations along the fast-read direction (horizontally) due to 1/f noise.
@@ -571,7 +571,11 @@ As seen in Figure \ref{fig:longDarkPhot}, reference pixels can be used to reduce
 The reference pixels (making up a 4 pixel boundary on the edges of the detector) are un-illuminated and can therefore be used to measure common-mode electronic noise without being affected by photon counting noise.
 
 What is most useful for exoplanet transit measurements is the photometric stability within an aperture or spectrum.
-We therefore perform aperture photometry on the dark frame as if it were a weak lens image with a 70 pixel radius circular source aperture and a 75 to 100 pixel background annulus illustrated in FIgure \ref{fig:longDarkPhot}.
+We therefore perform aperture photometry on the dark frame as if it were a weak lens image with a 70 pixel radius circular source aperture and a 75 to 100 pixel background annulus illustrated in Figure \ref{fig:longDarkPhot}.
+Also, Figure \ref{fig:WLP8PSF} shows an example weak lens PSF with this aperture.
+For a read pair subtraction, the ``CDS'' (correlated double sample) read noise is 13.3 e$^-$ for the A5 detector studied here.
+The aperture contains 
+
 In this example, reference pixel correction appears to introduce extra noise into a photometric aperture.
 However, as an order of magnitude estimate, the total noise in these frames is $\sim$10 DN, compared with the 3$\times 10^{6}$ DN in our CV3 detector stability test.
 Therefore, the read noise contributions are expected to be $\sim$ 3 ppm.
@@ -586,7 +590,8 @@ Therefore, the read noise contributions are expected to be $\sim$ 3 ppm.
 {\it Top Left:} The time series constructed from raw dark frames.
 {\it Top Right:} The time series with gain, bias, reference, non-linearity and IPC correction applied. 
 {\it Bottom Left:} An example read pair subtraction with an overlay of the apertures.
-{\it Bottom Right:} AN example read pair subtraction after reduction steps with an overlay of the apertures.}\label{fig:longDarkPhot}
+{\it Bottom Right:} AN example read pair subtraction after reduction steps with an overlay of the apertures.
+\textcolor{red}{To Do: redo the time series without normalization since we want to show DN.}}\label{fig:longDarkPhot}
 \end{figure*}
 
 \subsection{Cryogenic Vacuum (CV) Stability Tests}

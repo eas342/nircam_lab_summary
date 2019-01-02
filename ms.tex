@@ -573,19 +573,16 @@ The reference pixels (making up a 4 pixel boundary on the edges of the detector)
 What is most useful for exoplanet transit measurements is the photometric stability within an aperture or spectrum.
 We therefore perform aperture photometry on the dark frame as if it were a weak lens image with a 70 pixel radius circular source aperture and a 75 to 100 pixel background annulus illustrated in Figure \ref{fig:longDarkPhot}.
 Also, Figure \ref{fig:WLP8PSF} shows an example weak lens PSF with this aperture.
-For a read pair subtraction, the ``CDS'' (correlated double sample) read noise is 13.3 e$^-$ for the A5 detector studied here.
-The aperture contains 
-
-In this example, reference pixel correction appears to introduce extra noise into a photometric aperture.
-However, as an order of magnitude estimate, the total noise in these frames is $\sim$10 DN, compared with the 3$\times 10^{6}$ DN in our CV3 detector stability test.
-Therefore, the read noise contributions are expected to be $\sim$ 3 ppm.
+For a read pair subtraction, the ``CDS'' (correlated double sample) read noise is 13.3 e$^-$ or 7.2 DN for the A5 detector studied here.
+The read noise for background-subtracted photometry is expected to be 1309 DN if each pixel is completely uncorrelated with the neighbors.
+As an order of magnitude estimate for photometric stability, this read noise should be compared with the 3$\times 10^{6}$ DN/s (or 3$\times 10^8$ DN for a single full frame) in our CV3 detector stability test, so the read noise is expected to contribute $\sim$ 34 ppm.
 
 \begin{figure*}[!hbtp]
 \centering
 \includegraphics[width=.49\columnwidth]{ap_labels_dark_NRCALONG-DARK-7235074213_1.pdf}
 \includegraphics[width=.49\columnwidth]{ap_labels_darkRed_NRCALONG-DARK-7235074213_1.pdf}
-\includegraphics[width=.49\columnwidth]{long_dark_phot.pdf}
-\includegraphics[width=.49\columnwidth]{long_dark_phot_red.pdf}
+\includegraphics[width=.49\columnwidth]{long_dark_Raw.pdf}
+\includegraphics[width=.49\columnwidth]{long_dark_Reduced.pdf}
 \caption{Time series of a 70 pixel radius photometric aperture obtained during a long dark exposure. The long dark exposure of 108 frames is used to construct 54 pairs of reads that are subtracted, in analogy with a series of integrations.
 {\it Top Left:} The time series constructed from raw dark frames.
 {\it Top Right:} The time series with gain, bias, reference, non-linearity and IPC correction applied. 
@@ -593,6 +590,15 @@ Therefore, the read noise contributions are expected to be $\sim$ 3 ppm.
 {\it Bottom Right:} AN example read pair subtraction after reduction steps with an overlay of the apertures.
 \textcolor{red}{To Do: redo the time series without normalization since we want to show DN.}}\label{fig:longDarkPhot}
 \end{figure*}
+
+\textcolor{red}{To do}
+\begin{itemize}
+	\item Make the two apertures have the same Y value
+	\item Make the two apertures have the same 
+	\item Put in a third aperture above the source
+	\item Re-label the aperture from "src" to 0
+	\item Use more pixels to reduce the 1/f noise (say median of another amplifier along the X direction)
+\end{itemize}
 
 \subsection{Cryogenic Vacuum (CV) Stability Tests}
 
@@ -639,7 +645,7 @@ There are two explanations for why the WLP8SUB mode shows less scatter than the 
 	\item That the lamp is variable on short time scales of a frame (10.74 seconds).\label{item:lampReasonCV3subFull}
 \end{enumerate}
 The read noise of a pixel is $RN_1 \approx$ 15 e$^-$ for the short wavelength arrays\footnote{https://jwst-docs.stsci.edu/display/JTI/NIRCam+Detector+Performance} in this test.
-If this is uncorrelated across the 70 pixel aperture source radius, the read noise from two groups  (correlated double sampling) on the total aperture is $RN_{tot} = \sqrt{N_{s,px}} RN_{CDS} = \sqrt{\pi} r_{s,px} RN_{CDS}$ = 124 * 15 e$^-$ = 1861 e$^-1 \approx 930 $DN.
+If this is uncorrelated across the 70 pixel aperture source radius, the read noise from two groups  (correlated double sampling) on the total aperture is $RN_{tot} = \sqrt{N_{s,px}} RN_{CDS} = \sqrt{\pi} r_{s,px} RN_{CDS}$ = 124 * 15 e$^-$ = 1861 e$^- \approx 930 $DN.
 This amounts to 25 ppm, which is a small compared to the photon noise (113 ppm).
 Furthermore, the read noise for 20 groups is $RN_{20} \approx 6e^-$ would ammount to a 10 ppm, so a difference from the CDS readout of only 15 ppm. {\textbf{\textcolor{red}{(Note, here I have used the effectice read noise for 90 groups on JDox, but should correct to 20 groups)}}
 This is dramatically smaller than the observed difference in standard deviation (500 ppm in subarray with 20 groups and 1020-1540 ppm in full frame in 2 groups).

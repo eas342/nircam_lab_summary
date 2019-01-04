@@ -561,7 +561,8 @@ The dark frames do not contain the photon noise in the background nor the issues
 We study here the contributions from read noise and dark current.
 However, there could be subtle changes in behavior of the electronic read noise under illumination, such as cross-talk where non-illuminated pixels in the images correlate with illuminated ones.
 
-The long dark frames used for detector characterization are 108 groups of 1 frame each read out if full frame mode and are 10.7 sec in duration for one long integration making up one exposure.
+The standard long dark exposures used for detector characterization are a single integration that is 108 groups of 1 frame each (so-called RAPID mode).
+The detectors are read in full frame mode so that each frame is 10.7 sec in duration with 4 output amplifiers in use.
 These long dark integrations are broken into 54 sequential pairs of images that are subtracted from each other (integration 1 minus integration 0, 3 minus 2, 5 minus 4 etc. in a zero-based counting scheme).
 Figure \ref{fig:longDarkPhot} shows an example dark read pair from the integration (frame 55 minus frame 54).
 In the raw data, there are 4 prominent vertical stripes due to offsets in the read-out amplifiers.
@@ -577,27 +578,29 @@ For a read pair subtraction, the ``CDS'' (correlated double sample) read noise i
 The read noise for background-subtracted photometry is expected to be 1309 DN if each pixel is completely uncorrelated with the neighbors.
 As an order of magnitude estimate for photometric stability, this read noise should be compared with the 3$\times 10^{6}$ DN/s (or 3$\times 10^8$ DN for a single full frame) in our CV3 detector stability test, so the read noise is expected to contribute $\sim$ 34 ppm.
 
+In our experimental time series, however, the standard deviation in the time series is 22,000 DN.
+If uncorrected, this extra read noise will contribution 7000 ppm to the time series!
+As can be seen in Figure \ref{fig:longDarkPhot}, there a significant correlations along the fast read (X) direction of the detector due to 1/f noise.
+These can be reduced with the side reference pixels as well as a median of the entire image along the X direction.
+In the latter case, the standard deviation of the time series drops to 6000 DN, but is still larger than the expectation of 1310 DN.
+
 \begin{figure*}[!hbtp]
 \centering
 \includegraphics[width=.49\columnwidth]{ap_labels_dark_NRCALONG-DARK-7235074213_1.pdf}
 \includegraphics[width=.49\columnwidth]{ap_labels_darkRed_NRCALONG-DARK-7235074213_1.pdf}
 \includegraphics[width=.49\columnwidth]{long_dark_Raw.pdf}
 \includegraphics[width=.49\columnwidth]{long_dark_Reduced.pdf}
-\caption{Time series of a 70 pixel radius photometric aperture obtained during a long dark exposure. The long dark exposure of 108 frames is used to construct 54 pairs of reads that are subtracted, in analogy with a series of integrations.
+\caption{Time series of a 70 pixel radius photometric aperture obtained during a long dark exposure for detector ALONG=A5. The long dark exposure of 108 frames is used to construct 54 pairs of reads that are subtracted, in analogy with a series of integrations.
+{\it Top Left:} An example read pair subtraction with an overlay of the apertures.
+{\it Top Right:} An example read pair subtraction after reduction steps with an overlay of the apertures.
 {\it Top Left:} The time series constructed from raw dark frames.
 {\it Top Right:} The time series with gain, bias, reference, non-linearity and IPC correction applied. 
-{\it Bottom Left:} An example read pair subtraction with an overlay of the apertures.
-{\it Bottom Right:} AN example read pair subtraction after reduction steps with an overlay of the apertures.
-\textcolor{red}{To Do: redo the time series without normalization since we want to show DN.}}\label{fig:longDarkPhot}
+}\label{fig:longDarkPhot}
 \end{figure*}
 
 \textcolor{red}{To do}
 \begin{itemize}
-	\item Make the two apertures have the same Y value
-	\item Make the two apertures have the same 
-	\item Put in a third aperture above the source
-	\item Re-label the aperture from "src" to 0
-	\item Use more pixels to reduce the 1/f noise (say median of another amplifier along the X direction)
+	\item Confirm that the side reference pixels are most critical in reducing the noise
 \end{itemize}
 
 \subsection{Cryogenic Vacuum (CV) Stability Tests}

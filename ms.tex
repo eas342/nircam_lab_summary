@@ -575,13 +575,16 @@ What is most useful for exoplanet transit measurements is the photometric stabil
 We therefore perform aperture photometry on the dark frame as if it were a weak lens image with a 70 pixel radius circular source aperture and a 75 to 100 pixel background annulus illustrated in Figure \ref{fig:longDarkPhot}.
 Also, Figure \ref{fig:WLP8PSF} shows an example weak lens PSF with this aperture.
 For a read pair subtraction, the ``CDS'' (correlated double sample) read noise is 13.3 e$^-$ or 7.2 DN for the A5 detector studied here.
-The read noise for background-subtracted photometry is expected to be 1309 DN if each pixel is completely uncorrelated with the neighbors.
+If we assume each pixel's read noise is uncorrelated with its neighbors, the total noise within the source aperture is then $\sqrt{N_{px}}$ where $N_{px} RN$ is the number of pixels and $RN$ is the read noise of a single pixel.
+If we also assume that the background pixels are uncorrelated with each other and the source pixels, then the total noise in background-subtracted photometry is 1309 DN.
 As an order of magnitude estimate for photometric stability, this read noise should be compared with the 3$\times 10^{6}$ DN/s (or 3$\times 10^8$ DN for a single full frame) in our CV3 detector stability test, so the read noise is expected to contribute $\sim$ 34 ppm.
 
 In our experimental time series, however, the standard deviation in the time series is 22,000 DN.
 If uncorrected, this extra read noise will contribution 7000 ppm to the time series!
-As can be seen in Figure \ref{fig:longDarkPhot}, there a significant correlations along the fast read (X) direction of the detector due to 1/f noise.
-These can be reduced with the side reference pixels as well as a median of the entire image along the X direction.
+As can be seen in Figure \ref{fig:longDarkPhot}, there are significant correlations along the fast read (X) direction of the detector due to 1/f noise.
+These can be reduced with the side reference pixels, which are designed to track electronic noise without the presence of background photon noise.
+As can be seen in Figure \ref{fig:longDarkPhot} there are still additional correlations along the fast read direction, so we perform another correction step:
+We find the median of the entire image long the fast read (X) direction and subtract this from every row.
 In the latter case, the standard deviation of the time series drops to 6000 DN, but is still larger than the expectation of 1310 DN.
 
 \begin{figure*}[!hbtp]
@@ -597,11 +600,6 @@ In the latter case, the standard deviation of the time series drops to 6000 DN, 
 {\it Top Right:} The time series with gain, bias, reference, non-linearity and IPC correction applied. 
 }\label{fig:longDarkPhot}
 \end{figure*}
-
-\textcolor{red}{To do}
-\begin{itemize}
-	\item Confirm that the side reference pixels are most critical in reducing the noise
-\end{itemize}
 
 \subsection{Cryogenic Vacuum (CV) Stability Tests}
 

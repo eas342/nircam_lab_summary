@@ -563,17 +563,38 @@ However, there could be subtle changes in behavior of the electronic read noise 
 
 The standard long dark exposures used for detector characterization are a single integration that is 108 groups of 1 frame each (so-called RAPID mode).
 The detectors are read in full frame mode so that each frame is 10.7 sec in duration with 4 output amplifiers in use.
-These long dark integrations are broken into 54 sequential pairs of images that are subtracted from each other (integration 1 minus integration 0, 3 minus 2, 5 minus 4 etc. in a zero-based counting scheme).
+These long dark integrations are used to create simulated time series because there is less available time series data with dark frames.
+The long darks are broken into 54 sequential pairs of images that are subtracted from each other (integration 1 minus integration 0, 3 minus 2, 5 minus 4 etc. in a zero-based counting scheme).
 Figure \ref{fig:longDarkPhot} shows an example dark read pair from the integration (frame 55 minus frame 54).
-In the raw data, there are 4 prominent vertical stripes due to offsets in the read-out amplifiers.
+In the raw data, there are 4 prominent vertical stripes that are 512 pixels wide and 2048 pixels tall due to offsets in the read-out amplifiers.
 Additionally, there obvious correlations along the fast-read direction (horizontally) due to 1/f noise.
 
 As seen in Figure \ref{fig:longDarkPhot}, reference pixels can be used to reduce the large offsets between amplifiers.
 The reference pixels (making up a 4 pixel boundary on the edges of the detector) are un-illuminated and can therefore be used to measure common-mode electronic noise without being affected by photon counting noise.
 
+
+\begin{figure*}[!hbtp]
+\centering
+\includegraphics[width=.49\columnwidth]{ap_labels_dark_NRCALONG-DARK-7235074213_1.pdf}
+\includegraphics[width=.49\columnwidth]{ap_labels_darkRed_NRCALONG-DARK-7235074213_1.pdf}
+\includegraphics[width=.49\columnwidth]{long_dark_Raw.pdf}
+\includegraphics[width=.49\columnwidth]{long_dark_Reduced.pdf}
+\caption{Time series of a 70 pixel radius photometric aperture obtained during a long dark exposure for detector ALONG=A5. The long dark exposure of 108 frames is used to construct 54 pairs of reads that are subtracted, in analogy with a series of integrations.
+{\it Top Left:} An example read pair subtraction with an overlay of the apertures.
+{\it Top Right:} An example read pair subtraction after reduction steps with an overlay of the apertures.
+{\it Top Left:} The time series constructed from raw dark frames.
+{\it Top Right:} The time series with gain, bias, reference, non-linearity and IPC correction applied.
+The most important step in reducing the noise is the 1/f removed by side reference pixels. 
+}\label{fig:longDarkPhot}
+\end{figure*}
+
 What is most useful for exoplanet transit measurements is the photometric stability within an aperture or spectrum.
 We therefore perform aperture photometry on the dark frame as if it were a weak lens image with a 70 pixel radius circular source aperture and a 75 to 100 pixel background annulus illustrated in Figure \ref{fig:longDarkPhot}.
 Also, Figure \ref{fig:WLP8PSF} shows an example weak lens PSF with this aperture.
+The background subtraction will largely remove the offsets affecting the whole 512$\times$2048 amplifier.
+However, the correlated 1/f noise along the X direction will not be subtracted efficiently by an annulus.
+Instead, a row-by-row line fit to the background would be more effective.
+
 For a read pair subtraction, the ``CDS'' (correlated double sample) read noise is 13.3 e$^-$ or 7.2 DN for the A5 detector studied here.
 If we assume each pixel's read noise is uncorrelated with its neighbors, the total noise within the source aperture is then $\sqrt{N_{px}}$ where $N_{px}$ is the number of pixels and $RN$ is the read noise of a single pixel.
 If we also assume that the background pixels are uncorrelated with each other and the source pixels, then the total noise in background-subtracted photometry is 1309 DN.
@@ -586,20 +607,6 @@ These can be reduced with the side reference pixels, which are designed to track
 As can be seen in Figure \ref{fig:longDarkPhot} there are still additional correlations along the fast read direction, so we perform another correction step:
 We find the median of the entire image long the fast read (X) direction and subtract this from every row.
 In the latter case, the standard deviation of the time series drops to 6000 DN, but is still larger than the expectation of 1310 DN.
-
-\begin{figure*}[!hbtp]
-\centering
-\includegraphics[width=.49\columnwidth]{ap_labels_dark_NRCALONG-DARK-7235074213_1.pdf}
-\includegraphics[width=.49\columnwidth]{ap_labels_darkRed_NRCALONG-DARK-7235074213_1.pdf}
-\includegraphics[width=.49\columnwidth]{long_dark_Raw.pdf}
-\includegraphics[width=.49\columnwidth]{long_dark_Reduced.pdf}
-\caption{Time series of a 70 pixel radius photometric aperture obtained during a long dark exposure for detector ALONG=A5. The long dark exposure of 108 frames is used to construct 54 pairs of reads that are subtracted, in analogy with a series of integrations.
-{\it Top Left:} An example read pair subtraction with an overlay of the apertures.
-{\it Top Right:} An example read pair subtraction after reduction steps with an overlay of the apertures.
-{\it Top Left:} The time series constructed from raw dark frames.
-{\it Top Right:} The time series with gain, bias, reference, non-linearity and IPC correction applied. 
-}\label{fig:longDarkPhot}
-\end{figure*}
 
 \subsection{Cryogenic Vacuum (CV) Stability Tests}
 

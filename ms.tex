@@ -563,15 +563,18 @@ However, there could be subtle changes in behavior of the electronic read noise 
 
 The standard long dark exposures used for detector characterization are a single integration that is 108 groups of 1 frame each (so-called RAPID mode).
 The detectors are read in full frame mode so that each frame is 10.7 sec in duration with 4 output amplifiers in use.
-These long dark integrations are used to create simulated time series because there is less available time series data with dark frames.
+These long dark integrations are used to create simulated time series as if it were in full frame mode.
 The long darks are broken into 54 sequential pairs of images that are subtracted from each other (integration 1 minus integration 0, 3 minus 2, 5 minus 4 etc. in a zero-based counting scheme).
-Figure \ref{fig:longDarkPhot} shows an example dark read pair from the integration (frame 55 minus frame 54).
+Figure \ref{fig:longDarkPhot} shows an example dark read pair from frame 55 minus frame 54.
 In the raw data, there are 4 prominent vertical stripes that are 512 pixels wide and 2048 pixels tall due to offsets in the read-out amplifiers.
-Additionally, there obvious correlations along the fast-read direction (horizontally) due to 1/f noise.
+Additionally, there obvious correlations along the fast-read (X) direction due to 1/f noise.
 
 As seen in Figure \ref{fig:longDarkPhot}, reference pixels can be used to reduce the large offsets between amplifiers.
 The reference pixels (making up a 4 pixel boundary on the edges of the detector) are un-illuminated and can therefore be used to measure common-mode electronic noise without being affected by photon counting noise.
-
+The reference pixels are most useful for subtracting the offsets between amplifiers because there are 8 rows of 512 pixels or a total of 2048 reference pixels to average for each amplifier.
+However, the 1/f noise that correlates along the fast-read (X) direction is more difficult to remove with reference pixels.
+Only 4 pixels on the left and 4 pixels on the right side may be used to subtract the 1/f noise.
+Therefore, significantly residuals remain along the fast-read (X) direction in the reference-corrected read pair shown in Figure \ref{fig:longDarkPhot}.
 
 \begin{figure*}[!hbtp]
 \centering
@@ -584,7 +587,7 @@ The reference pixels (making up a 4 pixel boundary on the edges of the detector)
 {\it Top Right:} An example read pair subtraction after reduction steps with an overlay of the apertures.
 {\it Top Left:} The time series constructed from raw dark frames.
 {\it Top Right:} The time series with gain, bias, reference, non-linearity and IPC correction applied.
-The most important step in reducing the noise is the 1/f removed by side reference pixels. 
+The most important step in reducing the noise is the 1/f, which is reduced by side reference pixels. 
 }\label{fig:longDarkPhot}
 \end{figure*}
 

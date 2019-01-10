@@ -498,7 +498,10 @@ This spurious signal (the shrinking of the depletion region as highlighted with 
 \centering
 \includegraphics[width=.99\columnwidth]{amplifier_offsets_in_otis_lw_grism.pdf}
 \caption{An example slope image from the LW OTIS Stability test.
-No reference pixel correction is applied, leaving offsets at the amplifier boundaries.}\label{fig:ampOffsetsOtisGrismSlope}
+{\it Top Panel:} No reference pixel correction is applied, leaving offsets at the amplifier boundaries.
+{\it Middle Panel:} Reference pixel correction significantly reduces offsets between ampifiers.
+{\it Bottom Panel:} The integrated flux (without background subtraction) shows substantially offsets in flux that are eliminated by reference pixel correction.
+}\label{fig:ampOffsetsOtisGrismSlope}
 \end{figure}
 
 
@@ -601,10 +604,11 @@ Instead, a row-by-row line fit to the background would be more effective.
 For a read pair subtraction, the ``CDS'' (correlated double sample) read noise is 13.3 e$^-$ or 7.2 DN for the A5 detector studied here.
 If we assume each pixel's read noise is uncorrelated with its neighbors, the total noise within the source aperture is then $\sqrt{N_{px}}$ where $N_{px}$ is the number of pixels and $RN$ is the read noise of a single pixel.
 If we also assume that the background pixels are uncorrelated with each other and the source pixels, then the total noise in background-subtracted photometry is 1309 DN.
-As an order of magnitude estimate for photometric stability, this read noise should be compared with the 3$\times 10^{6}$ DN/s (or 3$\times 10^8$ DN for a single full frame) in our CV3 detector stability test, so the read noise is expected to contribute $\sim$ 34 ppm.
+As an order of magnitude estimate for photometric stability, this read noise should be compared with the 3$\times 10^{6}$ DN/s (or 3$\times 10^7$ DN for a single full frame) in our CV3 detector stability test, so the read noise is expected to contribute $\sim$ 34 ppm per frame.
+When averaging together $\sim$ 100 full frames over $\sim$ 60 minutes, this would only contribute 3 ppm to the transit depth uncertainty.
 
 In our experimental time series, however, the standard deviation in the time series is 22,000 DN.
-If uncorrected, this extra read noise will contribution 7000 ppm to the time series (per frame)!
+If uncorrected, this extra read noise will contribution 700 ppm to the time series (per frame)!
 As can be seen in Figure \ref{fig:longDarkPhot}, there are significant correlations along the fast read (X) direction of the detector due to 1/f noise.
 These can be reduced with the side reference pixels, which are designed to track electronic noise without the presence of background photon noise.
 As can be seen in Figure \ref{fig:longDarkPhot} there are still additional correlations along the fast read direction, so we perform another correction step:

@@ -415,7 +415,7 @@ This is where the detector approaches saturation and no longer changes voltage w
 \subsection{Readout Circuit}\label{sec:readout}
 
 The accumulated charge from absorbed photons in the detector is measured with a multiplexor (MUX) that form a readout integrated circuit (ROIC) \citep{rieke2007irDetectorReview}.
-This readout circuitry makes allows the signal to be measured non-destructively up the ramp in so-called ``multiaccum" mode.
+This readout circuitry allows the signal to be measured non-destructively up the ramp in so-called ``multiaccum" mode.
 
 A sensitive amplifier converts the measured voltage potential (as compared with the bias level after reset) into a signal.
 The electronic circuit that digitizes the voltages is tuned to ensure the 16 bits (65,536 possible Data Numbers) measure the voltage across the NP junction from the value just after reset (before photons are detected) to the saturation voltage where the maximum number of photons are collected and no more electron-hole pairs can be produced in the depletion region.
@@ -461,6 +461,11 @@ However, reference pixel subtraction can efficiently remove pre-amp drifts, so w
 It is also likely that background subtraction can mitigate the pre-amp reset offsets from time series integrations.
 The NIRCam grism subarrays and dispersed source location are placed at the edge of the NIRCam Long Wavelength detector to ensure reference pixels are saved with active pixels.
 
+Figure \ref{fig:ampResetDark} shows an example time series of the reference pixels for a dark exposure.
+The pedestal/bias level of the reference pixels undergoes a sharp jump between each frame (10.7 seconds in duration).
+These pre-amp resets per frame causes discontinuities over every frame within an integration, but there is an upside:
+Over long timescales (10$^3$ seconds), these resets pre-amp resets will keep the bias drifts hovering around zero without any long slopes or drifts.
+
 \begin{figure}[!hbtp]
 \centering
 \includegraphics[width=.49\columnwidth]{allamps.pdf}
@@ -475,12 +480,14 @@ The physical mechanism that explain persistence is that charges are trapped in t
 After the reverse-bias voltage is applied (a reset) in an ideal detector, the depletion region will be devoid of mobile charge carriers (electrons and holes).
 However, in real detectors, some charges are trapped within the depletion region.
 During a future integration, these charges will be released and shrink the size of the depletion region, filling a pixel with spurious signal (Data Numbers) not related to that integration's illumination by photons.
-Figure \ref{fig:npSchematicTraps} shows how the size of the depletion region changes after charges have been released, highlighted with red circles.
-The persistence from trapped charge is visible after an illumination by a source, where a residual image of a bright star can appear in dark regions or dark frames following the illumination.
 
-the depletion region contains mobile charge carriers 
-These charge traps will keep electrons and holes in the depletion region even after detector reset.
-These traps then will release the charge at later times, which will create an artificial signal that affects the measured voltage the same way that incoming photons strike the depletion region.
+Figure \ref{fig:npSchematicTraps} shows a schematic of a detector that has charge traps in the substrate.
+After illumination by a source, these traps will fill with charge that does not migrate across the depletion layer.
+When the reset voltage is applied to the detector, the trapped charge remains within the depletion layer.
+In the second integration in the schematic, charge is released, which reduces the size of the depletion layer faster than the incoming photons would otherwise.
+The consequence of charge traps is that there is a deficiency in measured charge on the first integration and an excess of measured charge on the second integration.
+Therefore, a constant astrophysical signal can be measured as a time-varying one due to the charge trapping effect.
+Over timescales longer than the charge release time, the detector will reach a steady state.
 
 The NIRCam detector shows low levels of persistence compared to previous generation detectors.
 
@@ -561,7 +568,7 @@ Asic dewar & Steward Obs.  & 2017-2019  &       	& LED           & pinhole flood
 
 It is instructive to look at dark frames to isolate the contributions of the read-out electronics, including the side-car asic, and how much they contribute to the error budget.
 The dark frames do not contain the photon noise in the background nor the issues with the photometric stability of illumination lamps, which are a persistent challenge with ground-based tests.
-We study here the contributions from read noise and dark current.
+We study here the contributions from read noise, 1/f noise and dark current.
 However, there could be subtle changes in behavior of the electronic read noise under illumination, such as cross-talk where non-illuminated pixels in the images correlate with illuminated ones.
 
 The standard long dark exposures used for detector characterization are a single integration that is 108 groups of 1 frame each (so-called RAPID mode).
@@ -570,7 +577,8 @@ These long dark integrations are used to create simulated time series as if it w
 The long darks are broken into 54 sequential pairs of images that are subtracted from each other (integration 1 minus integration 0, 3 minus 2, 5 minus 4 etc. in a zero-based counting scheme).
 Figure \ref{fig:longDarkPhot} shows an example dark read pair from frame 55 minus frame 54.
 In the raw data, there are 4 prominent vertical stripes that are 512 pixels wide and 2048 pixels tall due to offsets in the read-out amplifiers.
-Additionally, there obvious correlations along the fast-read (X) direction due to 1/f noise.
+These amplifier offsets are caused by drifts in the reference voltage that are reset once per frame and vary from amplifier to amplifier.
+Additionally, there are obvious correlations along the fast-read (X) direction due to 1/f noise that appear as horizontal stripes in the image.
 
 As seen in Figure \ref{fig:longDarkPhot}, reference pixels can be used to reduce the large offsets between amplifiers.
 The reference pixels (making up a 4 pixel boundary on the edges of the detector) are un-illuminated and can therefore be used to measure common-mode electronic noise without being affected by photon counting noise.

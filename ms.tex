@@ -489,7 +489,7 @@ The consequence of charge traps is that there is a deficiency in measured charge
 Therefore, a constant astrophysical signal can be measured as a time-varying one due to the charge trapping effect.
 Over timescales longer than the charge release time, the detector will reach a steady state.
 
-The NIRCam detector shows low levels of persistence compared to previous generation detectors.
+The flight NIRCam detector shows low levels of persistence compared to previous generation detectors.
 
 \begin{figure}[!hbtp]
 \centering
@@ -554,7 +554,7 @@ One of the stability tests during the OTIS test at NASA Johnson was a grism spec
 }
 \startdata
 Lockheed CV& Lockheed Martin& 2014??    & \nodata   & Darks         & Long Darks & \nodata \\ 
-OTIS & Lockheed Martin& 2014??    & \nodata   & Darks         & Long Darks & Y \\ 
+Reset per int test & Lockheed Martin& 2014??    & \nodata   & Darks         & Long Darks & Y \\ 
 CV 3       & NASA Goddard  & 2016       & 500   	& LED           & WLP8 imaging & Y\\
 OTIS       & NASA Johnson  & 2017       &   2200    	& Continuum     & Grism spectroscopy & Y\\
 OTIS       & NASA Johnson  & 2017       &   21,000    	& Continuum     & WLP8 Imaging & Y \\
@@ -573,7 +573,7 @@ However, there could be subtle changes in behavior of the electronic read noise 
 
 The standard long dark exposures used for detector characterization are a single integration that is 108 groups of 1 frame each (so-called RAPID mode).
 The detectors are read in full frame mode so that each frame is 10.7 sec in duration with 4 output amplifiers in use.
-These long dark integrations are used to create simulated time series as if it were in full frame mode.
+These long dark integrations are used to create simulated time series as if it were observing many consecutive integrations in full frame mode.
 The long darks are broken into 54 sequential pairs of images that are subtracted from each other (integration 1 minus integration 0, 3 minus 2, 5 minus 4 etc. in a zero-based counting scheme).
 Figure \ref{fig:longDarkPhot} shows an example dark read pair from frame 55 minus frame 54.
 In the raw data, there are 4 prominent vertical stripes that are 512 pixels wide and 2048 pixels tall due to offsets in the read-out amplifiers.

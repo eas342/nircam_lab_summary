@@ -501,6 +501,19 @@ This spurious signal (the shrinking of the depletion region as highlighted with 
 \end{figure}
 
 \subsection{Amplifier Boundary Discontinuities}
+
+NIRCam's STRIPE mode and full frame mode both employ 4 amplifiers to simultaneously read out or reset 4 pixels at once.
+This simultaneous use of 4 amplifiers reduces the frame time by a factor of 4 and thus increases the brightness of objects that can be detected before saturation as well as increase the number of reads up a detector pixel to average down readout noise.
+On the flip side, the four amplifiers will have different behaviors such as offsets in the bias level.
+The differential biases between the amplifiers will show up as step function changes in the slope of the image at the amplifier boundaries (512, 1024 and 1536), as visible in Figure \ref{fig:ampOffsetsOtisGrismSlope} (top panel).
+If a spectrum of a source is extracted without any vertical background extraction, the amplifier offsets cause sharp discontinuities in the summed spectrum of a continuum source shown in Figure \ref{fig:ampOffsetsOtisGrismSlope} (bottom panel).
+
+Fortunately, the amplifier offsets are efficiently removed by reference pixels.
+For example, we subtract the median of the 4 reference pixels from each column and this efficiently removes the bias signal from each amplifier shown in Figure \ref{fig:ampOffsetsOtisGrismSlope} (middle panel and bottom panel).
+It should be noted, however, that there are gradients in the bias signal within each amplifier. If we simply subtract the median value of all reference pixels within an amplifier, there are still discontinuities in the spectrum.
+In addition to reference pixels, background subtracted along each column with likely remove the ampilfier boundary effect.
+If the boundaries somehow proved to be an issue for time series spectra, the WINDOW subarray mode, which uses a single amplifier (at the cost of 4 times the frame time) is an option.
+
 \begin{figure}[!hbtp]
 \centering
 \includegraphics[width=.99\columnwidth]{amplifier_offsets_in_otis_lw_grism.pdf}

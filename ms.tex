@@ -814,8 +814,16 @@ When binning the data into 2.5 minute increments, the standard deviation is only
 \gridline{\fig{ap_labels_S02illum_GLrun104.pdf}{0.32\textwidth}{Apertures}
 		\fig{raw_tser_phot_S02illum1miAll_GLrun104.pdf}{0.32\textwidth}{Raw time series}
 		\fig{refcor_phot_S02illum1miAll_GLrun104.pdf}{0.32\textwidth}{Ratio Time Series}}
-\caption{The precision of this short-duration GL dewar test was the extremely high at $\sigma=$240 ppm after stabilization.
+\caption{The precision of this short-duration GL dewar test was the extremely high at $\sigma=$240 ppm after stabilization, if we remove absolute changes likely due to the lamp.
 }\label{fig:GLtSeries}
+\end{figure*}
+
+\begin{figure*}
+\gridline{\fig{ap_labels_S02illum1miAllBacksub_GLrun104.pdf}{0.32\textwidth}{Apertures}
+		\fig{raw_tser_phot_S02illum1miAllBacksub_GLrun104.pdf}{0.32\textwidth}{Raw time series}
+		\fig{refcor_phot_S02illum1miAllBacksub_GLrun104.pdf}{0.32\textwidth}{Ratio Time Series}}
+\caption{The same time series as Figure \ref{fig:GLtSeries} but with a rectangular aperture subtraction box.
+}\label{fig:GLtSeriesBacksub}
 \end{figure*}
 
 \subsection{Asic Dewar Tests}

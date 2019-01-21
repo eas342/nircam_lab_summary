@@ -524,6 +524,7 @@ If the boundaries somehow proved to be an issue for time series spectra, the WIN
 {\it Top Panel:} No reference pixel correction is applied, leaving offsets at the amplifier boundaries.
 {\it Middle Panel:} Reference pixel correction significantly reduces offsets between ampifiers.
 {\it Bottom Panel:} The flux along the top row (without background subtraction) shows significant offsets due to pre-amp drifts and resets. These offsets are eliminated by reference pixel correction.
+\textcolor{red}{Things to try: 1) put in a panel w/ background subtraction and maybe one with median of all ref pixels within an amplifier 2) check if there's any fringing 3) compare scatter in spectrum to photon + read noise}
 }\label{fig:ampOffsetsOtisGrismSlope}
 \end{figure}
 
@@ -615,6 +616,7 @@ Therefore, significantly residuals remain along the fast-read (X) direction in t
 {\it Top Left:} The time series constructed from raw dark frames.
 {\it Top Right:} The time series with gain, bias, reference, non-linearity and IPC correction applied.
 The most important step in reducing the noise is the 1/f, which is reduced by side reference pixels. 
+\textcolor{red}{Thing to try: show 3 panels w/ last one using row by row and column by column}
 }\label{fig:longDarkPhot}
 \end{figure*}
 
@@ -641,7 +643,7 @@ In the latter case, the standard deviation of the time series drops to 6000 DN, 
 
 The A3 detector used for weak lens photometry has reduced 1/f noise.
 The standard deviation of the raw time series is 15,000 compared with the 22,000 from the A5 (ALONG) detector.
-
+\textcolor{red}{\bf Include more calculations on how the individual frame read noise would impact many frames in a time series of a bright target vs a faint target.}
 
 \subsection{Cryogenic Vacuum (CV) Stability Tests}
 
@@ -690,7 +692,7 @@ There are two explanations for why the WLP8SUB mode shows less scatter than the 
 The read noise of a pixel is $RN_1 \approx$ 15 e$^-$ for the short wavelength arrays\footnote{https://jwst-docs.stsci.edu/display/JTI/NIRCam+Detector+Performance} in this test.
 If this is uncorrelated across the 70 pixel aperture source radius, the read noise from two groups  (correlated double sampling) on the total aperture is $RN_{tot} = \sqrt{N_{s,px}} RN_{CDS} = \sqrt{\pi} r_{s,px} RN_{CDS}$ = 124 * 15 e$^-$ = 1861 e$^- \approx 930 $DN.
 This amounts to 25 ppm, which is a small compared to the photon noise (113 ppm).
-Furthermore, the read noise for 20 groups is $RN_{20} \approx 6e^-$ would ammount to a 10 ppm, so a difference from the CDS readout of only 15 ppm. {\textbf{\textcolor{red}{(Note, here I have used the effectice read noise for 90 groups on JDox, but should correct to 20 groups)}}
+Furthermore, the read noise for 20 groups is $RN_{20} \approx 6e^-$ would ammount to a 10 ppm, so a difference from the CDS readout of only 15 ppm. {\textbf{\textcolor{red}{(Note, here I have used the effectice read noise for 90 groups on JDox, but should corrected to 20 groups)}}
 This is dramatically smaller than the observed difference in standard deviation (500 ppm in subarray with 20 groups and 1020-1540 ppm in full frame in 2 groups).
 However, if there are correlated components to the read noise in this large aperture, the read noise could be higher.
 
@@ -758,6 +760,7 @@ Due to the OTIS optics setup, the short wavelength WLP8 image does not nearly re
 %\gridline{\fig{tser_LW_OTIS.pdf}{0.99\textwidth}{WLP8 Image} }
 \gridline{\fig{tser_LW_OTIS.pdf}{0.6\textwidth}{Grism Time Series}}
 \caption{Time series of the simultaneous SW/LW Time Series Stability test
+\textcolor{red}{Thing to try: did I try a circular aperture centered on the knot? try to use centroid from SW to adjust the position of the source extraction box}
 }\label{fig:otisLWSWtser}
 \end{figure*}
 
@@ -793,7 +796,8 @@ Additionally, a median subtraction of all background pixels per row improves the
 \begin{figure}[!hbtp]
 \centering
 \includegraphics[width=.5\columnwidth]{subarray_config_tser_backsub_rect.pdf}
-\caption{With rect backub.}\label{fig:OTISRectBacksub}
+\caption{With rect backub.
+\textcolor{red}{To do: understand better why the vertically offset box is better? Also, show the aperture as a separate figure.}}\label{fig:OTISRectBacksub}
 \end{figure}
 
 \subsection{GL Dewar Tests}
@@ -822,7 +826,8 @@ When binning the data into 2.5 minute increments, the standard deviation is only
 \gridline{\fig{ap_labels_S02illum1miAllBacksub_GLrun104.pdf}{0.32\textwidth}{Apertures}
 		\fig{raw_tser_phot_S02illum1miAllBacksub_GLrun104.pdf}{0.32\textwidth}{Raw time series}
 		\fig{refcor_phot_S02illum1miAllBacksub_GLrun104.pdf}{0.32\textwidth}{Ratio Time Series}}
-\caption{The same time series as Figure \ref{fig:GLtSeries} but with a rectangular aperture subtraction box.
+\caption{The same time series as Figure \ref{fig:GLtSeries} but with a rectangular background subtraction box.
+\textcolor{red}{To do: understand why the ratio of the two box time series has a larger standard deviation than in Figure \ref{fig:GLtSeries}. Is it just the poor SN from a small background box? Also, separately, compare two different detectors.}
 }\label{fig:GLtSeriesBacksub}
 \end{figure*}
 

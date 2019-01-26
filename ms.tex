@@ -521,10 +521,11 @@ If the boundaries somehow proved to be an issue for time series spectra, the WIN
 \centering
 \includegraphics[width=.99\columnwidth]{amplifier_offsets_in_otis_lw_grism.pdf}
 \caption{An example slope image from the LW OTIS Stability test.
-{\it Top Panel:} No reference pixel correction is applied, leaving offsets at the amplifier boundaries.
-{\it Middle Panel:} Reference pixel correction significantly reduces offsets between ampifiers.
-{\it Bottom Panel:} The flux along the top row (without background subtraction) shows significant offsets due to pre-amp drifts and resets. These offsets are eliminated by reference pixel correction.
-\textcolor{red}{Things to try: 1) put in a panel w/ background subtraction and maybe one with median of all ref pixels within an amplifier 2) check if there's any fringing 3) compare scatter in spectrum to photon + read noise}
+{\it First Panel:} No reference pixel correction is applied, leaving offsets at the amplifier boundaries.
+{\it Second Panel:} Averaging all the reference pixels within an amplifier and subtracting the result reduces the offsets between amplifiers but there are still noticeable boundaries at X= 512, 1024 and 1536.
+{\it Third Panel:} Reference pixel correction using the 4 non-illuminated pixels in each column significantly reduces offsets between amplifiers, but introduces read noise to each column.
+{\it Fourth Panel:} Background subtraction with a linear fit along each column eliminates offsets between amplifiers without introducing any substantial new noise source.
+\textcolor{red}{Things to try: 1) check if there's any fringing in the spectrum 2) compare scatter in spectrum to photon + read noise}
 }\label{fig:ampOffsetsOtisGrismSlope}
 \end{figure}
 

@@ -509,12 +509,12 @@ NIRCam's STRIPE mode and full frame mode both employ 4 amplifiers to simultaneou
 This simultaneous use of 4 amplifiers reduces the frame time by a factor of 4 and thus increases the brightness of objects that can be detected before saturation as well as increase the number of reads up a detector pixel to average down readout noise.
 On the flip side, the four amplifiers will have different behaviors such as offsets in the bias level.
 The differential biases between the amplifiers will show up as step function changes in the slope of the image at the amplifier boundaries (512, 1024 and 1536), as visible in Figure \ref{fig:ampOffsetsOtisGrismSlope} (top panel).
-If a spectrum of a source is extracted without any vertical background extraction, the amplifier offsets cause sharp discontinuities in the summed spectrum of a continuum source shown in Figure \ref{fig:ampOffsetsOtisGrismSlope} (bottom panel).
+If a spectrum of a source is extracted without any vertical background extraction, the amplifier offsets cause sharp discontinuities in the summed spectrum.
 
 Fortunately, the amplifier offsets are efficiently removed by reference pixels.
 For example, we subtract the median of the 4 reference pixels from each column and this efficiently removes the bias signal from each amplifier shown in Figure \ref{fig:ampOffsetsOtisGrismSlope} (middle panel and bottom panel).
 It should be noted, however, that there are gradients in the bias signal within each amplifier. If we simply subtract the median value of all reference pixels within an amplifier without applying them on a per-column basis, there are still discontinuities in the spectrum.
-In addition to reference pixels, background subtracted along each column with likely remove the amplifier boundary effect.
+In addition to reference pixels, background subtraction along each column with removes the amplifier boundary effect.
 If the boundaries somehow proved to be an issue for time series spectra, the WINDOW subarray mode, which uses a single amplifier (at the cost of 4 times the frame time) is an option.
 
 \begin{figure}[!hbtp]
@@ -524,8 +524,8 @@ If the boundaries somehow proved to be an issue for time series spectra, the WIN
 {\it First Panel:} No reference pixel correction is applied, leaving offsets at the amplifier boundaries.
 {\it Second Panel:} Averaging all the reference pixels within an amplifier and subtracting the result reduces the offsets between amplifiers but there are still noticeable boundaries at X= 512, 1024 and 1536.
 {\it Third Panel:} Reference pixel correction using the 4 non-illuminated pixels in each column significantly reduces offsets between amplifiers, but introduces read noise to each column.
-{\it Fourth Panel:} Background subtraction with a linear fit along each column eliminates offsets between amplifiers without introducing any substantial new noise source.
-\textcolor{red}{Things to try: 1) check if there's any fringing in the spectrum 2) compare scatter in spectrum to photon + read noise}
+{\it Fourth Panel:} Background subtraction with the mean value of the pixels below Y=15 and above Y=190 eliminates offsets between amplifiers without introducing any substantial new noise source.
+\textcolor{red}{Things to try: 1) keep looking for a fringing in the spectrum}
 }\label{fig:ampOffsetsOtisGrismSlope}
 \end{figure}
 
@@ -534,8 +534,11 @@ If the boundaries somehow proved to be an issue for time series spectra, the WIN
 \centering
 \includegraphics[width=.49\columnwidth]{otis_spec_and_norm.pdf}
 \includegraphics[width=.49\columnwidth]{otis_spec_periodogram.pdf}
-\caption{The integrated spectrum from Figure \ref{fig:ampOffsetsOtisGrismSlope} shows high frequency noise much far in excess of the spectrum's noise.
-A periodogram shows a peak near 19 days.
+\caption{The integrated spectrum from Figure \ref{fig:ampOffsetsOtisGrismSlope} shows high frequency noise much far in excess of the spectrum's photon and read noise.
+The spectrum is normalized by dividing by a spline fit (bottom left plot) to search for fringing effects
+The sca
+A periodogram shows a peak near 19 pixels period, however, it is not an overwhelming periodic signature.
+\textcolor{red}{double check the scatter in spectrum to photon + read noise}
 }\label{fig:integratedOtisGrismSpec}
 \end{figure}
 
@@ -615,17 +618,16 @@ Therefore, significantly residuals remain along the fast-read (X) direction in t
 
 \begin{figure*}[!hbtp]
 \centering
-\includegraphics[width=.49\columnwidth]{ap_labels_dark_NRCALONG-DARK-7235074213_1.pdf}
-\includegraphics[width=.49\columnwidth]{ap_labels_darkRed_NRCALONG-DARK-7235074213_1.pdf}
-\includegraphics[width=.49\columnwidth]{long_dark_Raw.pdf}
-\includegraphics[width=.49\columnwidth]{long_dark_Reduced.pdf}
+\includegraphics[width=.32\columnwidth]{ap_labels_dark_NRCALONG-DARK-7235074213_1.pdf}
+\includegraphics[width=.32\columnwidth]{ap_labels_darkRed_NRCALONG-DARK-7235074213_1.pdf}
+\includegraphics[width=.32\columnwidth]{ap_labels_darkRedRowColSub_NRCALONG-DARK-7235074213_1.pdf}
+\includegraphics[width=.32\columnwidth]{long_dark_Raw.pdf}
+\includegraphics[width=.32\columnwidth]{long_dark_Reduced.pdf}
+\includegraphics[width=.32\columnwidth]{long_dark_ReducedRowColSub.pdf}
 \caption{Time series of a 70 pixel radius photometric aperture obtained during a long dark exposure for detector ALONG=A5. The long dark exposure of 108 frames is used to construct 54 pairs of reads that are subtracted, in analogy with a series of integrations.
-{\it Top Left:} An example read pair subtraction with an overlay of the apertures.
-{\it Top Right:} An example read pair subtraction after reduction steps with an overlay of the apertures.
-{\it Top Left:} The time series constructed from raw dark frames.
-{\it Top Right:} The time series with gain, bias, reference, non-linearity and IPC correction applied.
-The most important step in reducing the noise is the 1/f, which is reduced by side reference pixels. 
-\textcolor{red}{Thing to try: show 3 panels w/ last one using row by row and column by column}
+{\it Top:}  Example read pair subtraction with an overlay of the apertures for 3 different reduction steps from "Raw" data using no reference pixel correction, "Reduced Data" using reference pixels and "ReducedRowColSub" using reference pixels and background subtraction for each row and each column.
+{\it Bottom} The time series for each circular aperture with background subtraction using a circular annulus.
+The most important step for reducing the noise in the time series is row-by-row subtraction to remove the 1/f noise.
 }\label{fig:longDarkPhot}
 \end{figure*}
 

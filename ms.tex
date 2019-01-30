@@ -650,10 +650,28 @@ As can be seen in Figure \ref{fig:longDarkPhot}, there are significant correlati
 These can be reduced with the side reference pixels, which are designed to track electronic noise without the presence of background photon noise.
 As can be seen in Figure \ref{fig:longDarkPhot} there are still additional correlations along the fast read direction, so we perform another correction step:
 We find the median of the entire image long the fast read (X) direction and subtract this from every row.
-In the latter case, the standard deviation of the time series drops to 6000 DN, but is still larger than the expectation of 1310 DN.
-
+In the latter case, the standard deviation of the time series drops to 6000 DN, but is still larger than the expectation of 1310 DN of all noise were uncorrelated.
 The A3 detector used for weak lens photometry has reduced 1/f noise.
 The standard deviation of the raw time series is 15,000 compared with the 22,000 from the A5 (ALONG) detector.
+
+\subsubsection{The impact of correlated read noise on time series}
+We consider here some example science impacts of correlated read noise in these photometric apertures.
+We will evaluate the performance of a WEAK LENS +8 mode photometric time series, as will be common with NIRCam grism time series observations.
+For a pessimistic scenario, we assume a 15,000 DN read noise contributes to every pair of reads for the 70 pixel radius aperture (and 75 to 100 pixel background subtraction annulus).
+If the read noise is tolerable under this scenario, then it should have a minimal impact to photometric time series.
+If it is a problem, we will discuss methods of mitigation such as the row-by-row subtraction above.
+
+We also assume that each read/frame is statistically independent from the other.
+We assume therefore the read noise per integration is:
+\begin{equation}
+RN_{ap,70,75,100} = \frac{21,200 DN}{ \sqrt{N_{frames}}} \approx \frac{46,000 e^-}{ \sqrt{N_{frames}}}
+\end{equation},
+where $N_{frames}$ is the number of frames in an integration and a gain of 2.17 $e^-$/DN is assumed for the detector.
+If there are 2 frames in an integration, we recover 15,000 DN for the case of a read pair subtraction on the A3 detector.
+\textcolor{red}{\bf Make sure I scaled this correctly both for the read pair subtraction and a slope fit. Also verify with a slope fit to multiple images.}
+For an integration that fills to a peak of $\sim$ 60\% or 35,000 DN, the integrated DN counts would be 10$^8$ DN, having a photon uncertainty of 9,100 DN or 110 ppm.
+Therefore, the correlated read noise, if left uncorrected, will have a highly significant ($>50\%$) impact on an integration of 5 or fewer frames.
+
 \textcolor{red}{\bf Include more calculations on how the individual frame read noise would impact many frames in a time series of a bright target vs a faint target.}
 
 \subsection{Cryogenic Vacuum (CV) Stability Tests}

@@ -360,7 +360,7 @@ Section \ref{sec:experiments} describes the experiments on the ground that are u
 \subsection{Photosensitive Operation}
 \textcolor{red}{\textbf{NOTE: This section needs checking for factual accuracy by a detector expert}}
 
-It is helpful to review the basic operation of a NIRCam detector in order to understand the systematics affecting time series \citep[e.g.][]{rieke2007irDetectorReview}.
+It is helpful to review the basic operation of a NIR detector \citep[e.g.][]{rieke2007irDetectorReview} in order to understand the systematics affecting time series.
 Figure \ref{fig:npSchematic} shows a schematic of an NP semiconductor junction for a H2RG detector from \citet{smith2008imgPersistence}.
 The crystalline HgCdTe structure has 4 valence electrons that form covalent bonds in a tetrahedral structure.
 By varying the relative amount of Hg, Cd and Te (doping), it is possible to increase or decrease the number of electrons to create mobile charge carriers that move along the crystaline lattice.
@@ -371,9 +371,10 @@ The P-type semiconductor is a positively-doped HgCdTe crystalline structure that
 \centering
 \includegraphics[width=.99\columnwidth]{ideal_photodiode.pdf}
 \caption{A cartoon schematic of a H2RG detector inspired by \citet{smith2008imgPersistence} and \citet{tulloch2018persistenceH2RG}.
-The green and blue regions depict the N-type and P-type semiconductors.
-The undepleted zones of the semiconductor (fire brick and dim gray colors) contain mobile charge carriers whereas the depletion region (dark salmon) has no mobile carriers and all electrons are in the valence state.
+The orange and blue purple colors depict the N-type and P-type semiconductors, respectively.
+The undepleted zones of the semiconductor (darker colors with - and + signs) contain mobile charge carriers whereas the depletion region (lighter color without - and +) has no mobile carriers and all electrons are in the valence state.
 The depletion region is widest after detector reset and shrinks as the detector is illuminated with photons that create electron-hole pairs.
+The electron-hole pairs migrate across the depletion region towards the undepleted zones due to an electric field.
 The voltage can be measured non-destructively as the well fills and then reset before saturating.}\label{fig:npSchematic}
 \end{figure}
 
@@ -381,26 +382,29 @@ The voltage can be measured non-destructively as the well fills and then reset b
 
 The junction of these two materials enables electrons to flow from the N-type material to the P-type material where it can complete a valence shell in the semiconductor material.
 This produces a negative charge on the P-type side.
-Conversely, the positively charged holes from the P-type material flow to the N-type material to complete the valence shell and this produces a positive charge.
-This difference is called the contact potential.
+Conversely, the positively charged holes from the P-type material flow to the N-type material to complete the valence shell and this produces a net positive charge.
+The resulting voltage difference is called the contact potential.
 In the region where electrons have completed the valence shells in the P-type material and holes in the N-type material, the valence shells are complete.
-This region spanning across the two semiconductor materials is called the depletion region, because it contains no mobile charge carriers.
+This region spanning across the two semiconductor materials is called the depletion region (pictured in Figure \ref{fig:npSchematic}), because it contains no mobile charge carriers.
 The positive net charge on the N-type material and negative charge in the P-type material causes a voltage (potential) difference across the detector.
+It should be noted that the ``depletion region'' is depleted in {\it mobile charge carriers}, but is {\it not} depleted in net charge because has a net positive charge in the N-type depletion region and negative charge in the P-type depletion region.
 
 The NP junction in Figure \ref{fig:npSchematic} is ``reverse-biased'' with a positive potential on the N-type material and negative potential on the P-type.
 The positive potential on the N-type material attracts the negative charge carriers (electrons) whereas the negative potential on the P-type material attracts the  positve charge carriers (holes).
 The reverse bias thus reduces the number of mobile charge carriers and increases the size of the depletion region.
 The increased depletion region size also increases the well depth or capacity of electrons that the detector may collect before saturation.
 The reverse bias is applied at each reset at the beginning of a detector's integration.
-Figure \ref{fig:npSchematic} shows the case where the density of charge carriers is equal in the N-type and P-type semiconductors, but in reality, the density of the P-type semiconductor is much higher than the N-type, so the depletion region has a larger physical size on the N-type side.
+Figure \ref{fig:npSchematic} shows the initial reverse voltage that is applied during a pixel reset. 
+The physical size of the N-type HgCdTe semiconductor is much larger than the P-type HgCdTe because the density of carriers is much lower in the N-type.
 
 Note that Figure \ref{fig:npSchematic} shows the mobile charge carriers only, so the depletion region, with no mobile charges is positively charged on the N-type side and negatively charged on the P-type side.
 The undepleted region is electrically neutral because the nuclei of the N-type material have an equal number of extra protons as the negatively charged electrons.
 Similarly, the undepleted region of the P-type semiconductor has fewer protons in its atomic nuclei producing an overall neutral charge.
 Textbook NP junction schematics often show the net charge and thus symbolize the regions with charge carriers as empty and the depletion region with ``+'' symbols on the N-type semiconductor and ``-'' symbols on the P-type˚ \citep[e.g.][]{halliday2004physicsText}.
-The schematic in Figure \ref{fig:npSchematic} instead shows the mobile charge carriers as ``+'' and ``-'' because it is easier to visualize the charge trapping effect this way \citep[e.g.][]{smith2008imgPersistence}.
+The schematic in Figure \ref{fig:npSchematic} instead shows the mobile charge carriers as ``+'' and ``-'' because it is easier to visualize the charge trapping effect and motion of mobile charges this way \citep[e.g.][]{smith2008imgPersistence}.
 
 When an incoming photon strikes the N-type depletion region, it will excite an electron from the valence to conduction band which creates an electron-hole pair \citep{rieke2007irDetectorReview}.
+The depletion region has a net electric field pointed toward the P-type side, which sets the direction electrons and holes will migrate.
 The electron moves to the extremity of the depletion zone in the N-type material whereas the positive hole generated crosses the NP junction and adds a mobile charge to the P-type side.
 The incoming photon has the effect of decreasing the size of the depletion region.
 A second photon will excite another electron-hole pair so that a hole moves to the P-type side.

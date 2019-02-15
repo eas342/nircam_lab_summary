@@ -390,21 +390,19 @@ The positive net charge on the N-type material and negative charge in the P-type
 It should be noted that the ``depletion region'' is depleted in {\it mobile charge carriers}, but is {\it not} depleted in net charge because has a net positive charge in the N-type depletion region and negative charge in the P-type depletion region.
 
 The NP junction in Figure \ref{fig:npSchematic} is ``reverse-biased'' with a positive potential on the N-type material and negative potential on the P-type.
-The positive potential on the N-type material attracts the negative charge carriers (electrons) whereas the negative potential on the P-type material attracts the  positve charge carriers (holes).
+The positive potential on the N-type material attracts the negative charge carriers (electrons) whereas the negative potential on the P-type material attracts the  positive charge carriers (holes).
 The reverse bias thus reduces the number of mobile charge carriers and increases the size of the depletion region.
 The increased depletion region size also increases the well depth or capacity of electrons that the detector may collect before saturation.
 The reverse bias is applied at each reset at the beginning of a detector's integration.
 Figure \ref{fig:npSchematic} shows the initial reverse voltage that is applied during a pixel reset. 
-The physical size of the N-type HgCdTe semiconductor is much larger than the P-type HgCdTe because the density of carriers is much lower in the N-type.
+The physical size of the N-type HgCdTe semiconductor is much larger than the P-type HgCdTe because the density of carriers is lower in the N-type.
 
-Note that Figure \ref{fig:npSchematic} shows the mobile charge carriers only, so the depletion region, with no mobile charges is positively charged on the N-type side and negatively charged on the P-type side.
-The undepleted region is electrically neutral because the nuclei of the N-type material have an equal number of extra protons as the negatively charged electrons.
-Similarly, the undepleted region of the P-type semiconductor has fewer protons in its atomic nuclei producing an overall neutral charge.
+Note that Figure \ref{fig:npSchematic} shows the mobile charge carriers only.
 Textbook NP junction schematics often show the net charge and thus symbolize the regions with charge carriers as empty and the depletion region with ``+'' symbols on the N-type semiconductor and ``-'' symbols on the P-type˚ \citep[e.g.][]{halliday2004physicsText}.
 The schematic in Figure \ref{fig:npSchematic} instead shows the mobile charge carriers as ``+'' and ``-'' because it is easier to visualize the charge trapping effect and motion of mobile charges this way \citep[e.g.][]{smith2008imgPersistence}.
 
 When an incoming photon strikes the N-type depletion region, it will excite an electron from the valence to conduction band which creates an electron-hole pair \citep{rieke2007irDetectorReview}.
-The depletion region has a net electric field pointed toward the P-type side, which sets the direction electrons and holes will migrate.
+The depletion region has a net electric field pointed toward the P-type side, which controls the direction electrons and holes will migrate.
 The electron moves to the extremity of the depletion zone in the N-type material whereas the positive hole generated crosses the NP junction and adds a mobile charge to the P-type side.
 The incoming photon has the effect of decreasing the size of the depletion region.
 A second photon will excite another electron-hole pair so that a hole moves to the P-type side.
@@ -423,15 +421,17 @@ This readout circuitry allows the signal to be measured non-destructively up the
 
 A sensitive amplifier converts the measured voltage potential (as compared with the bias level after reset) into a signal.
 The electronic circuit that digitizes the voltages is tuned to ensure the 16 bits (65,536 possible Data Numbers) measure the voltage across the NP junction from the value just after reset (before photons are detected) to the saturation voltage where the maximum number of photons are collected and no more electron-hole pairs can be produced in the depletion region.
-The minimum voltage is several thousands of counts above zero to ensure that fluctuations in the bias signal do not below 0.
-The 65,536 DN level is tuned to be just above the HgCdTe full well capacity to measure full saturation.
+The minimum voltage is several thousands of counts above zero to ensure that fluctuations in the bias signal do not go below 0.
+The 65,536 DN level is tuned to be just above the HgCdTe full well capacity to measure full saturation of a pixel.
 
 
 
 
 \section{Known Detector Effects}\label{sec:knownEffects}
+Section \ref{sec:detectorPrimer} describes the operation of a HgCdTe array.
+However, there are many non-ideal effects that can affect the stability of a light curve of a transiting exoplanet.
+Here, we review many of the known noise sources that could impact the stability of a time series beyond photon counting statistics. These known detector effects that can impact stability are:
 
-Known detector effects that could affect stability include:
 \begin{itemize}[noitemsep]
 	\item \textbf{Intrapixel sensitivity:} - including sub-pixel flat fielding issues and sub-pixel crosshatching on the detectors \citep{shapiro2018crosshatch}
 	\item \textbf{Pre-amp reset offsets:} (an Asic-related effect) 
@@ -442,7 +442,7 @@ The resets cause discontinuities in the pedestal level of all pixels between fra
 	\item \textbf{Detector Temperature Fluctuations:} The JWST detectors are sensitive to temperature changes on the detectors. For example, laboratory tests show that 100 mK temperature fluctuations can result in $\sim$ 80 ADU changes on the detector that are not corrected by reference pixels \citep{hall2005jwstArrays}. Fortunately, the detectors are actively thermally controlled to keep the temperature fluctuations to mostly $\lesssim$ 1 mK.
 The one exception is that the Long Wavelength A-side detector (A5) exhibited $\sim$ 20 min oscillations with an amplitude of 15-20 mK when using the Temperature Monitor Control (TMC) 1 active thermal control.
 Fortunately, the TMC 2 control does not undergo these oscillations and will be employed in orbit.
-If necessary, the effect of temperature fluctuations can be calibrated to $\pm 1 e^-$ for excursions less than $\pm$ 50 mK.
+If necessary, the effect of temperature fluctuations can be calibrated to $\pm 1 e^-$ for excursions less than $\pm$ 50 mK \citep{hall2005jwstArrays}.
 	\item \textbf{ASIC Temperature Fluctuations:} The asic temperature will change as the operating mode. For example, in the CV3 stability test, the temperature of the A asic changed by $\sim$80 mK when the readout mode was switched from full frame to subarray. This temperature change is expected to be smaller in flight due to adjustments in ?? (Marcia said in 2018-11-02 meeting)
 	\item \textbf{Elevated Columns} There is correlated noise along a column in many frames. These elevated columns can sometimes even move with time.
 	\item \textbf{Random Telegraph Noise (RTN)} Some of the pixels will exhibit spontaneous changes jumps in signal even with no illumination. Fortunately, RTN appears in only $\sim$1000 pixels out of 4$\times 10^6$ on the array.
@@ -550,7 +550,7 @@ A periodogram shows a peak near 19 pixels period, however, it is not an overwhel
 
 Table \ref{tab:testSummary} shows a summary of the ground-based tests that were performed on NIRCam detectors.
 The flight NIRCam detectors, controllers, electronics, optics and instrument hardware were used in the Cryogenic Vacuum 3 (CV3) Test 3 as well as OTIS (Optical Telescope Element and Integrated Science).
-There were two dewars at the Steward Observatory at the University of Arizona used for time series stability tests.
+There were are dewars at the Steward Observatory at the University of Arizona used for time series stability tests.
 The GL dewar experiments used flight-like detectors, but a different controller (Leach).
 The Asic dewar located at Steward Observatory in Tucson, Arizona used a spare NIRCam detector, a spare asic controller and the flight software, but no flight optics.
 These two different kinds of detector electronics can be compared against each other to help isolate detector-related systematics from readout electronics-related systematics.

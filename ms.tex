@@ -673,6 +673,7 @@ The photometric aperture is made to represent a similar one to the F322W2 grism 
 \end{figure*}
 
 
+%% See the notebooks wlp8_psf_image.ipynb and noise_sources_wlp8.ipynb for calculations
 \subsubsection{The impact of correlated read noise on time series}
 We consider here some example science impacts of correlated read noise in these photometric apertures.
 We will evaluate the performance of a WEAK LENS +8 mode photometric time series, as will be common with NIRCam grism time series observations.
@@ -681,15 +682,17 @@ If the read noise is tolerable under this scenario, then it should have a minima
 If it is a problem, we will discuss methods of mitigation such as the row-by-row subtraction above.
 
 We also assume that each read/frame is statistically independent from the other.
-We assume therefore the read noise per integration is:
+Therefore, the uncorrected read noise per integration is:
 \begin{equation}
-RN_{ap,70,75,100} = \frac{21,200 DN}{ \sqrt{N_{frames}}} \approx \frac{46,000 e^-}{ \sqrt{N_{frames}}}
-\end{equation},
-where $N_{frames}$ is the number of frames in an integration and a gain of 2.17 $e^-$/DN is assumed for the detector.
+RN_{ap,70,75,100} = \frac{21,200 DN}{ \sqrt{N_{frames}}} \approx \frac{46,000 e^-}{ \sqrt{N_{frames}}},
+\end{equation}
+where $N_{frames}$ is the number of frames in an integration and a gain of 2.17 $e^-$/DN is assumed for the A3 detector.
 If there are 2 frames in an integration, we recover 15,000 DN for the case of a read pair subtraction on the A3 detector.
-\textcolor{red}{\bf Make sure I scaled this correctly both for the read pair subtraction and a slope fit. Also verify with a slope fit to multiple images.}
+\textcolor{red}{\bf Make sure I scaled this correctly both for the read pair subtraction and a slope fit. Also empirically verify this with a slope fit to multiple images.}
 For an integration that fills to a peak of $\sim$ 60\% well depth or 35,000 DN, the integrated DN counts for a WEAK LENS +8 PSF would be 10$^8$ DN, having a photon uncertainty of 9,100 DN or 110 ppm.
-Therefore, the correlated read noise, if left uncorrected, will have a highly significant ($>50\%$) impact on an integration of 5 or fewer frames.
+Therefore, the correlated read noise, if left uncorrected, will have a highly significant ($>50\%$) impact on an integration of 5 or fewer frames that fill to 60\% well depth.
+As an example, a $K$=8.5 magnitude star observed in full frame imaging WEAK LENS +8 imaging mode with 6 RAPID groups up the ramp sampling and the F210M filter would have a photon noise equal to the (uncorrected) read noise and fill the detector to 54\% well depth.
+
 
 \textcolor{red}{\bf Include more calculations on how the individual frame read noise would impact many frames in a time series of a bright target vs a faint target.}
 

@@ -517,11 +517,37 @@ The angles of the crosshatch patterns are likely set by the crystal pattern of H
 HgCdTe has a zincblende structure with tetrahedral bond angles where each Hg or Cd atom is surrounded by 4 Te atoms \citep{gemain2012mercVacanciesHgCdTe}.
 One possible projection of a zincblende structure is shown in Figure \ref{fig:crossHatchA5}.
 In this perspective, the projected bond angles form angles fo 67.8 $\degree$, 44.4$\degree$ and 67.8$\degree$, close to the observed crosshatch angles.
-We therefore conclude that the crosshatch pattern is mostly likely related to the crystal lattice of the HgCdTe substrate and not the pixels or circuitry.
+We therefore deduce that the crosshatch pattern is mostly likely related to the crystal lattice of the HgCdTe substrate and not the pixels or circuitry.
 
-The crosshatch structure of the detectors extends down to the subpixel level, so it may not be fully corrected with a flat field division.
-This sub-pixel structure has been imaged with microscopy \citep{shapiro2018crosshatch}.
+The crosshatch structure of the detectors extends down to the subpixel level, so it will not be fully corrected with a flat field division.
+This sub-pixel structure has been imaged with microscopy on a Euclid HgCdTe detector \citep{shapiro2018crosshatch}.
 The width of the structures can be estimated from the behavior for crosshatch lines as they cross pixel boundaries \citep{ninan2019crosshatchHPF}.
+We estimate that the crosshatch pattern oriented at 90.9$\degree$ crosses 1 horizontal pixel for every 64 vertical pixels.
+While crossing the boundary, there are $\approx 38$ rows where the crosshatch pattern spans more than 2 pixels.
+If the crosshatch pattern has a tophat response function, then these 38 rows where the pattern spans two pixels imply a tophat full width of 0.6 pixels or a physical width of 10.8~$\mu$m for an 18~$\mu$m pixel pitch.
+This is more than twice the estimate from \citet{ninan2019crosshatchHPF} for an HgCdTe used on the Habitable Planet Finder.
+It is possible that the crosshatch pattern's width varies among detectors or that a tophat function is a poor approximation of the actual subpixel response.
+Within NIRCam detectors, there are large variations in the strength and orientation of crosshatch features.
+
+We attempt to model the crosshatch pattern in the Fourier space because it has a smoother pattern as a function of spatial frequency.
+We model the two dimensional Fourier amplitude $f(x',y')$ for one angle as
+\begin{equation}
+f(x',y') = \exp{\left(-y'^2/\tau_\perp\right)} \left( \frac{a}{b + x'^2} + \frac{c}{1 + \exp{\left( (|x'| - d)/\tau_\parallel \right)} } \right),
+\end{equation}
+where $x'$ and $y'$ are rotated coordinates, $\tau_\perp$ is the perpendicular exponential constant, $a$ and $b$ are polynomial constants for the central peak of the Fourier plane, $c$ is an exponential amplitude constant and $d$ is the cutoff frequency with an exponential constant $\tau_\parallel$.
+For each of the three angles, there is a set of rotated coordinates centered at $(x_0,y_0)$= (1024,1024) following:
+\begin{equation}
+x' = (x - x_0) \cos{\theta} + (y - y_0) \sin{\theta}
+\end{equation}
+and
+\begin{equation}
+y' = -(x - x_0) \sin{\theta} + (y - y_0) \cos{\theta}.
+\end{equation}
+We include three angles so that the total Fourier amplitude is
+\begin{equation}
+f(x,y) = \sum_{i=1}^{i=3} f_i(x'_i,y'_i)
+\end{equation}
+for $\theta_i = 0.9^\circ$, 68.7$^\circ$ and 113.2$^\circ$.
 
 \begin{figure}[!hbtp]
 \centering

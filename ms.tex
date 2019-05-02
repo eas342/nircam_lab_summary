@@ -536,13 +536,17 @@ Within NIRCam detectors, there are large variations in the strength and orientat
 \centering
 \includegraphics[width=.49\columnwidth]{crosshatch_zoom.pdf}
 \includegraphics[width=.49\columnwidth]{crosshatch_2d_power.pdf}
+\includegraphics[width=.3\columnwidth]{tetrahedral_lattice_projection.png}
 \caption{
 The A5 detector's flat field has a pronounced crosshatch pattern at 23.1$\degree$ , 90.9$\degree$, and 158.6 $\degree$ CCW from the positive X direction.
-The crosshatch pattern is visible in a zoom-in of the pixel flat field (left).
-The 2D power spectrum of the flat field (right) shows that the angles of the crosshatch pattern are similar to one possible projection of a tetrahedral (zincblende) lattice structure (blue, right).
+The crosshatch pattern is visible in a zoom-in of the pixel flat field (top left).
+The 2D power spectrum of the flat field (top right) shows a continuum of frequencies aligned with the three crosshatch angles.
+Note the lines in frequency plane are perpendicular to the crosshatch directions in the image plane.
+These three angles are similar to one possible projection of a tetrahedral (zincblende) lattice structure of HgCdTe (bottom).
 }\label{fig:crossHatchA5}
 \end{figure}
 
+The crosshatch pattern is wavelength dependent.
 
 \subsubsection{Subpixel Crosshatching Simulation}
 
@@ -553,7 +557,7 @@ We simulate the effect of this jitter on NIRCam grism time series observations w
 \begin{itemize}
 	\item Fit the existing flat field to an crosshatch model that describes the subpixel behavior
 	\item Simulate a PSF using \texttt{webbpsf} \citep{perrin2014webbpsf}
-	\item Jitter the simulated PSF over with a 6 mas Gaussian
+	\item Low frequency ($<$ 1/10second) jitter the simulated PSF over with a 6 mas Gaussian
 	\item Bin the simulated images into the native pixel size
 	\item Divide by the flat field
 	\item Measure the light curve with photometry or spectroscopic aperture

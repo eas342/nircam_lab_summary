@@ -512,13 +512,13 @@ This spurious signal (the shrinking of the depletion region as highlighted with 
 \subsubsection{Subpixel Crosshatching Characterization}
 The flat field of the ALONG detector, which is used for NIRCam grism series, has a pronounced crosshatch pattern visible in Figure \ref{fig:crossHatchA5}.
 The patterns are located at 23.1$\degree$ , 90.9$\degree$, and 158.6 $\degree$ counter-clockwise from the $+$X direction of the detector.
-The angle between these lines are 67.60$\degree$, 44.5$\degree$ and 67.8$\degree$.
+The angle between these lines are 67.8$\degree$, 67.7$\degree$ and 44.5$\degree$.
 These are best visualized with a 2D power spectrum as shown in Figure \ref{fig:crossHatchA5}.
 
 The angles of the crosshatch patterns are likely set by the crystal pattern of HgCdTe.
 HgCdTe has a zincblende structure with tetrahedral bond angles where each Hg or Cd atom is surrounded by 4 Te atoms \citep{gemain2012mercVacanciesHgCdTe}.
 One possible projection of a zincblende structure is shown in Figure \ref{fig:crossHatchA5}.
-In this perspective, the projected bond angles form angles fo 67.8 $\degree$, 44.4$\degree$ and 67.8$\degree$, close to the observed crosshatch angles.
+In this perspective, the projected bond angles form angles fo 67.8 $\degree$, 67.8 $\degree$ and 44.4$\degree$, close to the observed crosshatch angles.
 We therefore deduce that the crosshatch pattern is mostly likely related to the crystal lattice of the HgCdTe substrate and not the pixels or circuitry.
 
 The crosshatch structure of the detectors extends down to the subpixel level, so it will not be fully corrected with a flat field division.
@@ -532,6 +532,8 @@ It is possible that the crosshatch pattern's width varies among detectors or tha
 Within NIRCam detectors, there are large variations in the strength and orientation of crosshatch features.
 
 
+
+
 \begin{figure}[!hbtp]
 \centering
 \includegraphics[width=.49\columnwidth]{crosshatch_zoom.pdf}
@@ -542,11 +544,22 @@ The A5 detector's flat field has a pronounced crosshatch pattern at 23.1$\degree
 The crosshatch pattern is visible in a zoom-in of the pixel flat field (top left).
 The 2D power spectrum of the flat field (top right) shows a continuum of frequencies aligned with the three crosshatch angles.
 Note the lines in frequency plane are perpendicular to the crosshatch directions in the image plane.
-These three angles are similar to one possible projection of a tetrahedral (zincblende) lattice structure of HgCdTe (bottom).
+These three angles are similar (with 0.1$\degree$) to one projection of a tetrahedral (zincblende) lattice structure of HgCdTe (bottom).
 }\label{fig:crossHatchA5}
 \end{figure}
 
 The crosshatch pattern is wavelength dependent.
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.49\columnwidth]{cross_sec_of_crosshatch.pdf}
+\includegraphics[width=.49\columnwidth]{fourier_power_from_fit.pdf}
+\caption{
+The crosshatch pattern changes as a function of wavelength, possibly because the shorter wavelengths resolve the structure better, and thus have Fourier amplitudes.
+}\label{fig:crossHatchWavelengthDep}
+\end{figure}
+
+
 
 \subsubsection{Subpixel Crosshatching Simulation}
 
@@ -555,7 +568,8 @@ NIRCam observations are expected to have a root-mean-square deviation of 6.0 mas
 
 We simulate the effect of this jitter on NIRCam grism time series observations with the following steps:
 \begin{itemize}
-	\item Fit the existing flat field to an crosshatch model that describes the subpixel behavior
+	\item Fit the existing flat field to an crosshatch model in the Fourier domain
+	\item Extrapolate the crosshatch model to high frequencies to estimate the sub-pixel structure
 	\item Simulate a PSF using \texttt{webbpsf} \citep{perrin2014webbpsf}
 	\item Low frequency ($<$ 1/10second) jitter the simulated PSF over with a 6 mas Gaussian
 	\item Bin the simulated images into the native pixel size
@@ -565,24 +579,29 @@ We simulate the effect of this jitter on NIRCam grism time series observations w
 
 
 We model the crosshatch pattern in the Fourier space because it has a smoother pattern as a function of spatial frequency as seen in Figure \ref{fig:crossHatchA5}.
-We model the two dimensional Fourier amplitude $f(x',y')$ for one angle as
+We model the two dimensional Fourier amplitude $f(x_i',y_i')$ for one angle $\theta_i$ as
 \begin{equation}
-f(x',y') = \exp{\left(-y'^2/\tau_\perp\right)} \left( \frac{a}{b + x'^2} + \frac{c}{1 + \exp{\left( (|x'| - d)/\tau_\parallel \right)} } \right),
+f(x'_i,y'_i, a_i, b,c) = a \exp{\left(- |x_i'| / b \right)} \left( \frac{1}{(0.5 c)^2 + y'^2} \right),
 \end{equation}
-where $x'$ and $y'$ are rotated coordinates, $\tau_\perp$ is the perpendicular exponential constant, $a$ and $b$ are polynomial constants for the central peak of the Fourier plane, $c$ is an exponential amplitude constant and $d$ is the cutoff frequency with an exponential constant $\tau_\parallel$.
+where $x'$ and $y'$ are rotated coordinates, $a$ is the amplitude, $b$ is the parallel exponential constant and $c$ is the Lorenzian width.
 For each of the three angles, there is a set of rotated coordinates centered at $(x_0,y_0)$= (1024,1024) following:
 \begin{equation}
-x' = (x - x_0) \cos{\theta} + (y - y_0) \sin{\theta}
+x'(\theta_i) = (x - x_0) \cos{\theta_i} + (y - y_0) \sin{\theta_i}
 \end{equation}
 and
 \begin{equation}
-y' = -(x - x_0) \sin{\theta} + (y - y_0) \cos{\theta}.
+y'(\theta_i) = -(x - x_0) \sin{\theta_i} + (y - y_0) \cos{\theta_i}.
 \end{equation}
-We include three angles so that the total Fourier amplitude is
+We include three angles so that the total power spectral density is
 \begin{equation}
-f(x,y) = \sum_{i=1}^{i=3} f_i(x'_i,y'_i)
+f(x,y) = \sum_{i=1}^{i=3} f_i(x'_i(\theta_i),y'_i(\theta_i),a_i,b,c).
 \end{equation}
-for $\theta_i = 0.9^\circ$, 68.7$^\circ$ and 113.2$^\circ$.
+
+This model has 8 free parameters: three angles ($\theta_i$, three amplitudes ($a_i$), a joint parallel exponential constant ($b$) and joint Lorentzian width ($c$).
+
+We only fit the region of the power spectral density above r=100 to focus on the high frequency component of the flat field where the crosshatch is most prevalnt.
+We find 
+for $\theta_i = 0.9\degree$, 68.6$\degree$ and 113.1$\degree$.
 
 \subsection{Amplifier Boundary Discontinuities}
 

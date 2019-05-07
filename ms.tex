@@ -548,14 +548,15 @@ These three angles are similar (with 0.1$\degree$) to one projection of a tetrah
 }\label{fig:crossHatchA5}
 \end{figure}
 
-The crosshatch pattern is wavelength dependent.
+The crosshatch pattern is wavelength dependent, as seen in Figure \ref{fig:crossHatchWavelengthDep}, where the 
 
 \begin{figure}[!hbtp]
 \centering
 \includegraphics[width=.49\columnwidth]{cross_sec_of_crosshatch.pdf}
 \includegraphics[width=.49\columnwidth]{fourier_power_from_fit.pdf}
 \caption{
-The crosshatch pattern changes as a function of wavelength, possibly because the shorter wavelengths resolve the structure better, and thus have Fourier amplitudes.
+The crosshatch pattern changes as a function of wavelength, possibly because the shorter wavelengths resolve the structure better.
+The shorter wavelengths have deeper crosshatch troughs (left) and higher Fourier amplitudes (right).
 }\label{fig:crossHatchWavelengthDep}
 \end{figure}
 
@@ -563,18 +564,19 @@ The crosshatch pattern changes as a function of wavelength, possibly because the
 
 \subsubsection{Subpixel Crosshatching Simulation}
 
-The subpixel crosshatch pattern can potentially introduce time-variable noise as the point spread function drifts with telescope jitter.
+The subpixel crosshatch pattern can potentially introduce time-variable noise as the point spread function drifts with telescope pointing drifts, long timescale jitter.
 NIRCam observations are expected to have a root-mean-square deviation of 6.0 mas in each axis when measured in 15 second intervals over a 10,000 second observation.\footnote{See \url{https://jwst-docs.stsci.edu/display/JTI/JWST+Pointing+Performance\#JWSTPointingPerformance-Pointing\_stabilityPointingstability}}
 
-We simulate the effect of this jitter on NIRCam grism time series observations with the following steps:
+We simulate the effect of this jitter on NIRCam time series observations with the following steps:
 \begin{itemize}
 	\item Fit the existing flat field to an crosshatch model in the Fourier domain
 	\item Extrapolate the crosshatch model to high frequencies to estimate the sub-pixel structure
 	\item Simulate a PSF using \texttt{webbpsf} \citep{perrin2014webbpsf}
-	\item Low frequency ($<$ 1/10second) jitter the simulated PSF over with a 6 mas Gaussian
+	\item Multiply the PSF by the simulated flat field
+	\item Scan the PSF along the X and Y directions up to a magnitude of 6 mas
 	\item Bin the simulated images into the native pixel size
 	\item Divide by the flat field
-	\item Measure the light curve with photometry or spectroscopic aperture
+	\item Measure the relative flux with a photometric aperture
 \end{itemize}
 
 
@@ -583,7 +585,7 @@ We model the two dimensional Fourier amplitude $f(x_i',y_i')$ for one angle $\th
 \begin{equation}
 f(x'_i,y'_i, a_i, b,c) = a \exp{\left(- |x_i'| / b \right)} \left( \frac{1}{(0.5 c)^2 + y'^2} \right),
 \end{equation}
-where $x'$ and $y'$ are rotated coordinates, $a$ is the amplitude, $b$ is the parallel exponential constant and $c$ is the Lorenzian width.
+where $x'$ and $y'$ are rotated coordinates, $a$ is the amplitude, $b$ is the parallel exponential constant and $c$ is the Lorenzian full width at half maximum.
 For each of the three angles, there is a set of rotated coordinates centered at $(x_0,y_0)$= (1024,1024) following:
 \begin{equation}
 x'(\theta_i) = (x - x_0) \cos{\theta_i} + (y - y_0) \sin{\theta_i}
@@ -598,10 +600,71 @@ f(x,y) = \sum_{i=1}^{i=3} f_i(x'_i(\theta_i),y'_i(\theta_i),a_i,b,c).
 \end{equation}
 
 This model has 8 free parameters: three angles ($\theta_i$, three amplitudes ($a_i$), a joint parallel exponential constant ($b$) and joint Lorentzian width ($c$).
+We only fit the region of the power spectral density above r=100 to focus on the high frequency component of the flat field where the crosshatch is most prevalent.
+For the F300M filter and ALONG detector, we find 
+for $\theta_1 = 0.9013 \pm 0.0004 \degree, \theta_2 = 68.6041 \pm 0.0007 \degree, \theta_3 = 113.0741 \pm 0.0007, a_1 = 6.9 \pm 0.2 \times 10^6, a_2 = 4.0 \pm 0.1 \times 10^6, a_3 = 4.4 \pm 0.1 \times 10^6, b=666 \pm 1 $ px and $c=4.9933 \pm 0.0004$ px.
+The uncertainties were simply derived from the diagonals of the covariance matrix and likely are underestimated.
 
-We only fit the region of the power spectral density above r=100 to focus on the high frequency component of the flat field where the crosshatch is most prevalnt.
-We find 
-for $\theta_i = 0.9\degree$, 68.6$\degree$ and 113.1$\degree$.
+
+We take this model with best-fit parameters for the F300M filter and extend the exponential function out to an oversampling factor of 60 times the LW pixels.
+We then assign random phases uniformly from 0 to 2$\pi$ for the complex Fourier plane because the original image's complex phase distribution is similar to uniform.
+Finally, we take the real part of the inverse Fourier transform to create an oversampled image, as shown in \ref{fig:crossHatchSimPSF}.
+For comparison to the original flat in Figure \ref{fig:crossHatchA5}, we binned to the oversampled flat field to the native LW pixel resolution of $\sim$0.063 \arcsec.
+This simulated pixel flat field with dimensions of 26 by 26 LW pixels has a peak of 1.15 to trough of 0.90 with a robust standard deviation of 0.05.
+For comparison, the middle of the original F300M flat for the ALONG detector has a robust standard deviation 0.06.
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.32\columnwidth]{sim_flat_Oversampled_plot.pdf}
+\includegraphics[width=.32\columnwidth]{sim_flat_Pixel_plot.pdf}
+\includegraphics[width=.32\columnwidth]{psf_with_phot_ap_with_crosshatch.pdf}
+\caption{
+The crosshatch pattern changes as a function of wavelength, possibly because the shorter wavelengths resolve the structure better, and thus have Fourier amplitudes.
+}\label{fig:crossHatchSimPSF}
+\end{figure}
+
+We next calculate a point spread function using \texttt{webbpsf} \citep{perrin2014webbpsf}, oversampled by a factor of 60.
+\texttt{webbpsf} includes an optional blurring due to high frequency pointing jitter.
+We set this Gaussian blurring parameter to 1 mas to simulate a worst-case scenario where the pointing drift is dominated by long-timescale behavior with minimal high frequency jitter.
+We multiply the oversampled \texttt{webbpsf} source by the simulated oversampled flat and bin this to native pixel resolution to create a simulated observation as shown in Figure \ref{fig:crossHatchSimPSF}.
+This simulated observation is divided by the binned simulated flat as would be done by a standard pipeline's flat field correction.
+
+We repeat the last steps of the observation simulation by shifting the over-sampled PSF by sub-pixel amounts.
+The subpixel shifts of the over-sampled PSF are performed with \texttt{scipy.ndimage.shift}.
+For each shifted PSF, we multiply this by the subpixel crosshatch pattern and bin the result.
+These simulated operations represent pointing drift on the subpixel scale.
+
+We calculate aperture photometry with a circular aperture with a radius of 7 pixels and a background annulus from 7 to 10 pixels on each of the observations.
+The aperture is re-centered by the same position as the shift direction.
+For each sub-pixel pointing drift, the aperture sum is subtracted by the background flux average per pixel multiplied by the pixel area of the source aperture.
+While the simulations here include no background flux, we use the background subtraction to simulate the operations applied by a photometry pipeline.
+The differential flux between the centered PSF and the shifted one is shown in Figure \ref{fig:subpixScanSimulation}.
+
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.49\columnwidth]{scan_F300M_x_short_scan.pdf}
+\includegraphics[width=.49\columnwidth]{scan_F300M_y_short_scan.pdf}
+\caption{
+The simulated subpixel crosshatch pattern from Figure \ref{fig:crossHatchSimPSF} for the F300M filter will cause spurious flux changes with small pointing drifts.
+Here we show scans in the X direction and Y direction from the center of the image and a subpixel scale.
+The amplitude of these scans is 6.3 mas for the $\sim$63 mas/px plate scale of the LW detector.
+These are correctable with smooth functions such as polynomials.
+}\label{fig:subpixScanSimulation}
+\end{figure}
+
+The subpixel crosshatch structure does indeed create flux variations with image motion as shown in Figure \ref{fig:subpixScanSimulation}.
+The amplitude of the flux changes is potentially up to 300 ppm.
+This is significant when compared to atmospheric features of giant planets ($\lesssim$ 100 ppm) or the transit depth of an Earth-like planet transiting a sun-like star ($\lesssim$ 80 ppm).
+
+Fortunately, the subpixel crosshatch systematic is a smooth function of pointing drift, shown in Figure \ref{fig:subpixScanSimulation}
+Smooth functions, such as polynomials, with centroid position will likely 
+Centroiding is possible in imaging and spectroscopic modes using PSF fitting or cross-correlation.
+When the LW grism time series mode is enabled, SW imaging data will automatically be collected simultaneously enabling the SW centroids to be used to track the motion of the dispersed grism image.
+Furthermore, the pixels for time series modes can be characterized in detail because the will be re-used for all time series observations in a given mode.
+Target acquisition is expected to achieve centroiding accuracy $\lesssim$ 10 mas ($\lesssim 6$ mas) for unsaturated target acquisition.\footnote{https://jwst-docs.stsci.edu/display/JTI/NIRCam+Time-Series+Imaging+Target+Acquisition}
+This ensures that time series observations will reliably return to the same location within the same set of pixels with every visit.
+
 
 \subsection{Amplifier Boundary Discontinuities}
 

@@ -813,6 +813,8 @@ As can be seen in Figure \ref{fig:longDarkPhot}, there are significant correlati
 These can be reduced with the side reference pixels, which are designed to track electronic noise without the presence of background photon noise.
 As can be seen in Figure \ref{fig:longDarkPhot} there are still additional correlations along the fast read direction, so we perform another correction step:
 We find the median of the entire image long the fast read (X) direction and subtract this from every row.
+\textcolor{blue}{New Change to do it properly: We return to the reduced slope file that has reference pixels subtracted and the bias subtracted.
+Here we subtract the median value from each row in each group}
 In the latter case, the standard deviation of the time series drops to 6000 DN, but is still larger than the expectation of 1310 DN of all noise were uncorrelated.
 The A3 detector used for weak lens photometry has reduced 1/f noise.
 The standard deviation of the raw time series is 15,000 compared with the 22,000 from the A5 (ALONG) detector.

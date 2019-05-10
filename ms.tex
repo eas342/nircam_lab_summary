@@ -814,12 +814,13 @@ These can be reduced with the side reference pixels, which are designed to track
 As can be seen in Figure \ref{fig:longDarkPhot} there are still additional correlations along the fast read direction, so we perform another correction step:
 We find the median of the entire image long the fast read (X) direction and subtract this from every row.
 \textcolor{blue}{New Change to do it properly: We return to the reduced slope file that has reference pixels subtracted and the bias subtracted.
-Here we subtract the median value from each row in each group}
+Here we subtract the median value from each row in each group.
+Doing the subtractions for each group gave an RMS that was 50 ppm smaller for aperture 0, 80 ppm larger for aperture 1 and 31 ppm smaller for aperture 3.}
 In the latter case, the standard deviation of the time series drops to 6000 DN, but is still larger than the expectation of 1310 DN of all noise were uncorrelated.
 The A3 detector used for weak lens photometry has reduced 1/f noise.
 The standard deviation of the raw time series is 15,000 compared with the 22,000 from the A5 (ALONG) detector.
 
-\subsection{Grism Aperture}
+\subsubsection{Grism Aperture}
 \begin{figure*}[!hbtp]
 \centering
 \includegraphics[width=.32\columnwidth]{aps_3_NRCNRCALONG-DARK-72350742131_1_485_SE_2017-08-23T16h49m51_int_015_014.pdf}
@@ -856,6 +857,31 @@ As an example, a $K$=8.5 magnitude star observed in full frame imaging WEAK LENS
 
 
 \textcolor{red}{\bf Include more calculations on how the individual frame read noise would impact many frames in a time series of a bright target vs a faint target.}
+
+\subsubsection{Smoothed Kernel Subtraction}
+
+We also consider more effective ways to reduce read noise than the median row subtraction discussed in Section \ref{sec:longDarks}.
+We start by applying a smoothing kernel to each group (1 read for RAPID mode) up the ramp of the raw data.
+The kernel is a uniform normalized kernel 1 pixel in height and 40 pixels along a row.
+This enables subtraction of 1/f noise that has length scales shorter than the row length (ie timescales shorter than $\lesssim 5$ milliseconds, which the median subtraction cannot remove.
+
+This smoothing kernel makes a dramatic improvement to the final weak lens aperture time series, as shown in Figure \ref{fig:longDarkWithRowKernel}.
+The standard deviation in the time series drops from the best previous method (row and column median subtraction) by a factor of nearly 10!
+For the row and column median subtraction applied to the red files, the standard deviation was 6150, 5600 and 6,600 DN for apertures 0, 1 and 2.
+For the same apertures, the standard deviation in the time series drops to 650, 890 and 570 DN.
+
+\begin{figure*}[!hbtp]
+\centering
+\includegraphics[width=.37\columnwidth]{ap_labels_darkRedRowColSub_NRCALONG-DARK-7235074213_1.pdf}
+\includegraphics[width=.37\columnwidth]{ap_labels_darkRedsmoothedRowKernel_NRCALONG-DARK-7235074213_1.pdf}
+\includegraphics[width=.37\columnwidth]{zoom_long_dark_darkRedRowColSub}
+\includegraphics[width=.37\columnwidth]{zoom_long_dark_darkRedsmoothedRowKernel.pdf}
+\caption{The same apertures as Figure \ref{fig:longDarkPhot}, but with subtraction by a smoothed image along the rows.
+Subtraction by the smoothed image has a dramatic effect on reducing correlated 1/f read noise.
+}\label{fig:longDarkWithRowKernel}
+\end{figure*}
+
+
 
 \subsection{Cryogenic Vacuum (CV) Stability Tests}
 

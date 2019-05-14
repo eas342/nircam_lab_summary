@@ -764,21 +764,23 @@ They also do not contain photon noise in the background, which can mask the elec
 We study here the contributions from read noise, 1/f noise and dark current.
 This experiment with dark frames does not test subtle changes in behavior of the electronic read noise under illumination, such as cross-talk where pixels that have no direct flux from a source in an image correlate with other regions of the detector with high flux rates.
 
-The standard long dark exposures used for detector characterization are a single integration that is 108 groups of 1 frame each (so-called RAPID mode).
-The detectors are read in full frame mode so that each frame is 10.7 sec in duration with 4 output amplifiers in use, thus the total time for the exposure was 19.3 min.
-These long dark integrations are used to create simulated time series as if it were observing many consecutive integrations in full frame mode.
+A standard long dark exposure used for detector characterization is a single integration that is 108 groups of 1 frame each (so-called RAPID mode).
+The detectors are read in full frame mode so that each frame is 10.7 sec in duration with 4 output amplifiers in use, thus the total time for the exposure is 19.3 min.
+We use one of these long dark integrations to create simulated time series as if it were observing many consecutive integrations in full frame mode.
 The long darks are broken into 54 sequential pairs of images that are subtracted from each other (integration 1 minus integration 0, 3 minus 2, 5 minus 4 etc. in a zero-based counting scheme).
 Figure \ref{fig:longDarkPhot} shows an example dark read pair from frame 55 minus frame 54.
 In the raw data, there are 4 prominent vertical stripes that are 512 pixels wide and 2048 pixels tall due to offsets in the read-out amplifiers.
 These amplifier offsets are caused by drifts in the reference voltage that are reset once per frame and vary from amplifier to amplifier.
 Additionally, there are obvious correlations along the fast-read (X) direction due to 1/f noise that appear as horizontal stripes in the image.
 
+The ramps-to-slope pipeline \texttt{ncdhas} or the STScI JWST pipeline will apply reference pixel correction, bad pixels masks and non-linearity correction before fitting the groups up the ramp to a line.
+In this work, we use \texttt{ncdhas}.
 As seen in Figure \ref{fig:longDarkPhot}, reference pixels can be used to reduce the large offsets between amplifiers.
 The reference pixels (making up a 4 pixel boundary on the edges of the detector) are un-illuminated and can therefore be used to measure common-mode electronic noise without being affected by photon counting noise.
 The reference pixels are most useful for subtracting the offsets between amplifiers because there are 8 rows of 512 pixels or a total of 4096 reference pixels to average for each amplifier at the bottom and top of the arrays.
 There are an additional 4 columns on the left and right side boundaries (8176 pixels) that can be used to further correct the left and right amplifier offests.
 However, the 1/f noise that correlates along the fast-read (X) direction is more difficult to remove with reference pixels.
-Only 4 pixels on the left and 4 pixels on the right side may be used to subtract the 1/f noise.
+Only 4 pixels on the left and 4 pixels on the right side may be used to subtract the 1/f noise in a given row.
 Therefore, significantly residuals remain along the fast-read (X) direction in the reference-corrected read pair shown in Figure \ref{fig:longDarkPhot}.
 These side reference pixels also cannot give any information about the read noise correlations that happen on shorter length scales than 512 pixels (5 ms).
 
@@ -786,7 +788,7 @@ These side reference pixels also cannot give any information about the read nois
 \centering
 \includegraphics[width=.32\columnwidth]{ap_labels_dark_NRCALONG-DARK-7235074213_1.pdf}
 \includegraphics[width=.32\columnwidth]{ap_labels_darkRed_NRCALONG-DARK-7235074213_1.pdf}
-\includegraphics[width=.32\columnwidth]{ap_labels_darkRedRowColSub_NRCALONG-DARK-7235074213_1.pdf}
+\includegraphics[width=.32\columnwidth]{ap_labels_row_by_row_group_sub_aps_1_NRCALONG-DARK-7235074213_1.pdf}
 \includegraphics[width=.32\columnwidth]{long_dark_dark.pdf}
 \includegraphics[width=.32\columnwidth]{long_dark_darkRed.pdf}
 \includegraphics[width=.32\columnwidth]{long_dark_darkRedRowSub.pdf}
@@ -806,22 +808,29 @@ Instead, a row-by-row line fit to the background would be more effective.
 
 For a read pair subtraction, the ``CDS'' (correlated double sample) read noise is 13.3 e$^-$ or 7.2 DN for the A5 detector studied here.
 If we assume each pixel's read noise is uncorrelated with its neighbors, the total noise within the source aperture is then $\sqrt{N_{px}} \times RN $ where $N_{px}$ is the number of pixels and $RN$ is the read noise of a single pixel.
-If we also assume that the background pixels are uncorrelated with each other and the source pixels, then the total noise in background-subtracted photometry is 1309 DN.
+If we also assume that the background pixels are uncorrelated with each other and the source pixels, then the total noise in background-subtracted photometry is 1310 DN.
 
 This theoretical read noise should be compared to the photon noise expected inside an aperture during photometric stability time series applications.
-The number of DN collected within a 70 pixel radius aperture for WLP8 data in our CV3 detector stability test with 2 groups in RAPID (ie a correlated double sample) was $DN_{tot}=3.9\times 10^7$ DN during the integration.
+The number of DN collected within a 70 pixel radius aperture for WLP8 data in our CV3 detector stability test with 2 groups in RAPID (ie a correlated double sample) was $S_{tot}=3.9\times 10^7$ DN during the integration.
 The peak pixel counts in this integration were 30,000 DN or about 60\% well depth for the A1 detector.
-The Poisson shot noise for photons is $N_{phot} = \sqrt{DN_{tot}} / \sqrt{G} = 4,400$DN, where $G$ is the gain ($G \approx 2.0$ for the SW detectors).
+The Poisson shot noise for photons is $N_{phot} = \sqrt{S_{tot}} / \sqrt{G} = 4,400$ DN, where $G$ is the gain ($G \approx 2.0$ for the SW detectors).
 In terms of fractional noise, the photon shot noise should be 113 ppm and the read noise should be 33 ppm.
 Therefore, the read noise is expected to be 1/4 the shot noise for 2 group RAPID read mode (ie CDS).
-When averaging together $\sim$ 100 full frames over $\sim$ 60 minutes, this would only contribute 3 ppm to the transit depth uncertainty.
+When averaging together 111 full frames over 60 minutes (an order-of-magnitude transit duration for most planets), the photon noise would contribute 11 ppm and the read noise would contribute 3 ppm.
 
-In our experimental time series, however, the standard deviation in the time series is 22,000 DN.
-If uncorrected, this extra read noise will contribution 700 ppm to the time series (per frame)!
+In our experimental time series, however, the standard deviation in the time series in these 3 apertures is 22,000 to 25,000 DN (without any attempt to correct for 1/f noise using reference pixels or otherwise).
+If uncorrected, this extra read noise will contribute 560 to 630 ppm to the time series per read pair!
+This would be a very inefficient observations if the read noise dominated the $\sim$113 ppm photon noise.
 As can be seen in Figure \ref{fig:longDarkPhot}, there are significant correlations along the fast read (X) direction of the detector due to 1/f noise.
-These can be reduced with the side reference pixels, which are designed to track electronic noise without the presence of background photon noise.
-As can be seen in Figure \ref{fig:longDarkPhot} there are still additional correlations along the fast read direction, so we perform another correction step:
-We find the median of the entire image long the fast read (X) direction and subtract this from every row.
+
+These large correlations in read noise can be reduced with the side reference pixels, which are designed to track electronic noise without the presence of background photon noise.
+We use the \texttt{ncdhas} pipeline to apply reference pixel correction, which dramatically reduces the amplifier offsets and also reduces 1/f noise correlations along the fast read (X) direction.
+The time series for the 3 apertures considered drops down to 10,000 DN to 11,500 DN, but still falls short of the expectation of 1,310 DN if the read noise is uncorrelated.
+
+Since these 8 reference pixels in each row are not sufficient to remove all 1/f noise in each row, so we perform another correction step:
+We find the median of each group up the ramp along the fast read (X) direction and subtract this from every row.
+This amounts to a row-by-row background subtraction.
+
 \textcolor{blue}{New Change to do it properly: We return to the reduced slope file that has reference pixels subtracted and the bias subtracted.
 Here we subtract the median value from each row in each group.
 Doing the subtractions for each group gave an RMS that was 50 ppm smaller for aperture 0, 80 ppm larger for aperture 1 and 31 ppm smaller for aperture 3.}
@@ -916,7 +925,7 @@ The central peak may used to find a centroid of the star and center the circular
 \begin{figure}[!hbtp]
 \centering
 \includegraphics[width=.49\columnwidth]{wlp8_psf.pdf}
-\caption{Weak Lans +8 PSF during CV3 testing.
+\caption{Weak Lens +8 PSF during CV3 testing.
 The central peak is used for centroiding, while the entire PSF is used for aperture photometry.
 A 70 pixel radius aperture (shown here is a black circle) is used for the source aperture.}\label{fig:WLP8PSF}
 \end{figure}

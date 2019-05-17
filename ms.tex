@@ -858,6 +858,20 @@ For the same apertures, the standard deviation in the time series drops to 650, 
 Subtraction by the smoothed image has a dramatic effect on reducing correlated 1/f read noise from $\sim$6,000 DN to $\sim$700 DN in the aperture.
 }\label{fig:longDarkWithRowKernel}
 \end{figure*}
+
+
+\subsubsection{Other Reference Channel Subtraction}
+We note that the 4 channels have very similar 1/f correlation behavior, as shown in Figure \ref{fig:darkPixelTimeSeries}.
+Another option to remove 1/f noise is to subtract the illuminated amplifier with a target in it by unilluminated channels.
+
+\begin{figure*}[!hbtp]
+\centering
+\includegraphics[width=.4\columnwidth]{pixeltime_series.pdf}
+\caption{The time series for all 4 amplifiers is very similar due to shared 1/f noise behavior.
+This is visible in a short segment of the time series of all pixels for an example group up the ramp (53) in a dark ramp where the bias has already been subtracted.}\label{fig:darkPixelTimeSeries}
+\end{figure*}
+
+
 \clearpage
 
 \subsubsection{Grism Aperture}

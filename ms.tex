@@ -863,7 +863,14 @@ Subtraction by the smoothed image has a dramatic effect on reducing correlated 1
 \subsubsection{Other Reference Channel Subtraction}
 We note that the 4 channels have very similar 1/f correlation behavior, as shown in Figure \ref{fig:darkPixelTimeSeries}.
 Another option to remove 1/f noise is to subtract the illuminated amplifier with a target in it by unilluminated channels.
+We attempt to subtract an amplifier 0's time series from all amplifiers.
+Of course, this means that this amplifier is perfectly subtracted and no noise or signal remains in this 1/4 of the image.
+The subtraction step should increase the read noise on an individual pixel by $\sim \sqrt{2}$ because the errors from the subtracted pixel should add in quadrature to the original pixels.
+However, this increase in read noise on a per-pixel level might be acceptable if it decreases the correlated errors along the rows.
 
+This method increases the noise over a row-by-row median subraction.
+The standard deviations in the time series range from 8,500 DN to 10,800 DN for this reference amplifier method as opposed to the 5,500 DN to 6,600 DN for a row-by-row median.
+This means the the correlations within an amplifier are not efficiently subracted (\textbf{\textcolor{red}{or there was an error in the code. I'm surprised that it didn't make a bigger difference.}}).
 \begin{figure*}[!hbtp]
 \centering
 \includegraphics[width=.4\columnwidth]{pixeltime_series.pdf}

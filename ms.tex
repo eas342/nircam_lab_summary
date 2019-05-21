@@ -841,7 +841,7 @@ The standard deviation of the raw time series is 15,000 compared with the 22,000
 We also consider more effective ways to reduce read noise than the median row subtraction discussed in Section \ref{sec:longDarks}.
 We start by applying a smoothing kernel to each group (1 read for RAPID mode) up the ramp of the raw data.
 The kernel is a uniform normalized kernel 1 pixel in height and 40 pixels along a row.
-This enables subtraction of 1/f noise that has length scales shorter than the row length (ie timescales shorter than $\lesssim 5$ milliseconds, which the median subtraction cannot remove.
+This enables subtraction of 1/f noise that has length scales shorter than the row length (ie timescales shorter than 5 milliseconds, which the median subtraction cannot remove.
 
 This smoothing kernel makes a dramatic improvement to the final weak lens aperture time series, as shown in Figure \ref{fig:longDarkWithRowKernel}.
 The standard deviation in the time series drops from the best previous method (row and column median subtraction) by a factor of nearly 10!
@@ -860,7 +860,7 @@ Subtraction by the smoothed image has a dramatic effect on reducing correlated 1
 \end{figure*}
 
 
-\subsubsection{Other Reference Channel Subtraction}
+\subsubsection{Reference Channel Subtraction}
 We note that the 4 channels can sometimes exhibit the same 1/f correlation behavior, as shown in Figure \ref{fig:darkPixelTimeSeries}.
 Another option to remove 1/f noise is to subtract the illuminated amplifier with a target in it by unilluminated channels.
 We attempt to subtract an amplifier 0's time series from all amplifiers.
@@ -875,15 +875,32 @@ This means the the correlations within an amplifier are not efficiently subtract
 
 \begin{figure*}[!hbtp]
 \centering
-\includegraphics[width=.4\columnwidth]{pixeltime_series_0.pdf}
-\includegraphics[width=.4\columnwidth]{pixeltime_series_1.pdf}
-\caption{The time series for all 4 amplifiers share common-mode behaviors in some cases (left) but not always (right).
-This is visible in a short segment of the time series of all pixels for an example group up the ramp (53) in a dark ramp where the bias has already been subtracted.
+\includegraphics[width=.32\columnwidth]{pixeltime_series_0.pdf}
+\includegraphics[width=.32\columnwidth]{pixeltime_series_1.pdf}
+\includegraphics[width=.32\columnwidth]{all_amp_periodograms.pdf}
+\caption{The time series for all 4 amplifiers share common-mode behaviors in some cases (left) but not always (middle).
+This is visible in a short segment of the time series of all pixels for an example group up the ramp 53 in a dark ramp where the bias has already been subtracted.
 The left panel shows the beginning of the time series, which happens to be dominated by common-mode read noise.
-The right panel shows another part of the time series where Amplifier 3 has its own individual correlated-noise pattern.
+The middle panel shows another part of the time series where Amplifier 3 has its own individual correlated-noise pattern.
+The right panel shows the periodogram of each amplifier's time series over the first 10$^5$ clock cycles (0.1) seconds, which exhibits no consistent peaks.
 }\label{fig:darkPixelTimeSeries}
 \end{figure*}
 
+\subsubsection{PCA Correction}
+Another approach to treating the 1/f noise is dimensionality reduction with Principal Component Analysis.
+Here, we assume that each column is a random variable that is correlated with the rest of the columns.
+Each row represents a different noise iteration.
+We first mask all bad pixels by setting all pixels with $| f | > 200$ DN.
+The first 10 principal components are plotted in Figure \ref{fig:pcaEigenvectors} for two example groups (54 and 55).
+These first 10 principal components explain 10\% of the total variance in each group.
+
+\begin{figure*}[!hbtp]
+\centering
+\includegraphics[width=.4\columnwidth]{pca_dark_amp_all_grp54.pdf}
+\includegraphics[width=.4\columnwidth]{pca_dark_amp_all_grp55.pdf}
+\caption{Principal component eigenvectors identified from group 54 (left) and group 55 (right).
+}\label{fig:pcaEigenvectors}
+\end{figure*}
 
 \clearpage
 

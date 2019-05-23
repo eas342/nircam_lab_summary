@@ -619,7 +619,12 @@ For comparison, the middle of the original F300M flat for the ALONG detector has
 \includegraphics[width=.32\columnwidth]{sim_flat_Pixel_plot.pdf}
 \includegraphics[width=.32\columnwidth]{psf_with_phot_ap_with_crosshatch.pdf}
 \caption{
-The crosshatch pattern changes as a function of wavelength, possibly because the shorter wavelengths resolve the structure better, and thus have Fourier amplitudes.
+The steps of the sub-pixel crosshatch photometry simulation are shown here.
+We simulate an over-sampled flat (left) by extrapolating the power spectrum to frequencies above the pixel sampling level.
+This simulated flat is binned to the native pixel resolution to produce a pixel flat field (middle) that would be used by a standard pipeline that has no sub-pixel corrections.
+A \texttt{WebbPSF} point spread function is created at the oversampled resolution, multiplied by the oversampled flat field and then binned to native resolution (right).
+Finally, the simulated image is divided by the pixel flat field as would be performed in a standard pipeline reduction.
+The simulated PSF shows the source and background apertures used in the simulation, which are centered on the PSF.
 }\label{fig:crossHatchSimPSF}
 \end{figure}
 

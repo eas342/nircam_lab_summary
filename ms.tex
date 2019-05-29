@@ -301,7 +301,7 @@ JWST transmission and emission spectra of transiting exoplanets will provide inv
 These spectra will reveal the composition and temperature structure at a level never achieved before.
 This promising science from JWST, however, will require exquisite precision and understanding of systematic errors that can impact the time series of planets crossing in front of and behind their host stars.
 This is especially true if JWST is used to search for biosignatures in temperature atmospheres on Earth-sized planets that may contain liquid water.
-Here, we provide the lessons learned from ground-based characterization of the NIRCam H2RG detector, which will be used for exoplanet spectra.
+Here, we provide the lessons learned from ground-based characterization of the NIRCam H2RG detectors, which will be used for exoplanet spectra.
 %and are the same type of detectors used in JWST's NIRISS and NIRSpec instruments.
 We summarize the lessons learned from tests at NASA Goddard, NASA Johnson and the University of Arizona detector labs.
 
@@ -436,7 +436,7 @@ Here, we review many of the known noise sources that could impact the stability 
 	\item \textbf{Intrapixel sensitivity:} - including sub-pixel flat fielding issues and sub-pixel crosshatching on the detectors \citep{shapiro2018crosshatch}
 	\item \textbf{Pre-amp reset offsets:} (an Asic-related effect) 
 The resets cause discontinuities in the pedestal level of all pixels between frames. This is an effect where averaging over more pixels does not decrease the noise, but reference pixel or background subtraction can. These are discussed in Section \ref{sec:preAmp}.
-	\item \textbf{1/f noise:} This is a noise source where most of the noise power is concentrated as low frequencies. 1/f noise causes spatial correlations in the fast-read direction (along detector rows). It is highly correlated between amplifiers, suggesting that it is caused by a common reference voltage. 1/f noise is efficiently removed by reference pixels
+	\item \textbf{1/f noise:} This is a noise source where most of the noise power is concentrated as low frequencies. 1/f noise causes spatial correlations in the fast-read direction (along detector rows). It is highly correlated between amplifiers, suggesting that it is caused by a common reference voltage. 1/f noise can be reduced using reference pixels
 	\item \textbf{Even/odd offsets:} Alternating columns have different bias levels. Additionally, there are offsets between columns that can change from frame to frame, especially on NIRCam's LW detector
 	\item \textbf{kTC noise:} A random process due to the unknown amount of charge stored at the reset voltage level
 	\item \textbf{Detector Temperature Fluctuations:} The JWST detectors are sensitive to temperature changes on the detectors. For example, laboratory tests show that 100 mK temperature fluctuations can result in $\sim$ 80 ADU changes on the detector that are not corrected by reference pixels \citep{hall2005jwstArrays}. Fortunately, the detectors are actively thermally controlled to keep the temperature fluctuations to mostly $\lesssim$ 1 mK.
@@ -670,6 +670,22 @@ Furthermore, the pixels for time series modes can be characterized in detail bec
 Target acquisition is expected to achieve centroiding accuracy $\lesssim$ 10 mas ($\lesssim 6$ mas) for unsaturated target acquisition.\footnote{https://jwst-docs.stsci.edu/display/JTI/NIRCam+Time-Series+Imaging+Target+Acquisition}
 This ensures that time series observations will reliably return to the same location within the same set of pixels with every visit.
 
+\subsubsection{Position of SubGrism Array}
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=0.99\columnwidth]{subg_pos_topGrism64.pdf}\\
+\includegraphics[width=0.99\columnwidth]{subg_pos_fullfGrismRegion.pdf}\\
+\includegraphics[width=0.99\columnwidth]{subg_pos_grism64flat.pdf}\\
+\vspace{0.2in}
+\includegraphics[width=0.99\columnwidth]{subg_pos_topGrism64_psd.pdf}\\
+\includegraphics[width=0.99\columnwidth]{subg_pos_fullfGrismRegion_psd.pdf}\\
+\includegraphics[width=0.99\columnwidth]{subg_pos_grism64_psd.pdf}\\
+\caption{
+The top of the array has the smallest level of crosshatching and the middle has the largest.
+This is visible in the flat field images (top three panels) and their power spectral density functions (bottom three panels) for three different sections of the A5 detector: a theoretical ``aperture'' position at the top of the array, the full frame position near Y=512 and the nominal SUBGRISM64 at the bottom of the array.
+ }\label{fig:subpixScanSimulation}
+\end{figure}
+
 
 \subsection{Amplifier Boundary Discontinuities}
 
@@ -824,10 +840,42 @@ In terms of fractional noise, the photon shot noise should be 113 ppm and the re
 Therefore, the read noise is expected to be 1/4 the shot noise for 2 group RAPID read mode (ie CDS).
 When averaging together 111 full frames over 60 minutes (an order-of-magnitude transit duration for most planets), the photon noise would contribute 11 ppm and the read noise would contribute 3 ppm.
 
+
+
 In our experimental time series, however, the standard deviation in the time series in these 3 apertures is 22,000 to 25,000 DN (without any attempt to correct for 1/f noise using reference pixels or otherwise).
 If uncorrected, this extra read noise will contribute 560 to 630 ppm to the time series per read pair!
 This would be a very inefficient observations if the read noise dominated the $\sim$113 ppm photon noise.
 As can be seen in Figure \ref{fig:longDarkPhot}, there are significant correlations along the fast read (X) direction of the detector due to 1/f noise.
+
+\begin{deluxetable*}{ccc}[b!]
+\tablecaption{Summary of Noise Sources in Weak Lens +8 Aperture Dark Test}\label{tab:noiseSummaryWLP8}
+\tabletypesize{\footnotesize}
+%\tablecolumns{7}
+%\tablenum{2}
+\tablewidth{0pt}
+\tablehead{
+\colhead{Noise Description} &
+\colhead{$\sigma$} &
+\colhead{$\sigma$} \\
+\colhead{} &
+\colhead{DN} &
+\colhead{ppm}\\
+}
+\startdata
+Ideal Photon Noise & 4,400 & 113 \\
+Ideal Uncorrelated Read Noise & 1,300 & 33 \\
+\hline
+Measured Read Noise (no correction) & 23,500 & 600 \\
+Measured Read Noise (reference pixel correction) & 10,800 & 280 \\
+Measured Read Noise (reference channel subtraction) & 9,700 & 250 \\
+Measured Read Noise (row-by-row median subtraction) & 6,000 & 150 \\
+Measured Read Noise (20 Component PCA subtraction) & 5,400 & 140 \\
+Measured Read Noise (smoothed 40 px kernel) & 900 & 23 \\
+\enddata
+\tablecomments{The theoretical and measured noise sources in one integration for a Weak Lens +8 Time Series.
+The noise is the sum within a 70 pixel radius source aperture and 75 to 100 pixel background aperture (in DN) or relative to the photon signal (in ppm).
+The integration is assumed to be a bright source with 2 groups of 1 integration each up the ramp (Correlated Double Sampling or CDS mode).}
+\end{deluxetable*}
 
 These large correlations in read noise can be reduced with the side reference pixels, which are designed to track electronic noise without the presence of background photon noise.
 We use the \texttt{ncdhas} pipeline to apply reference pixel correction, which dramatically reduces the amplifier offsets and also reduces 1/f noise correlations along the fast read (X) direction.
@@ -897,7 +945,7 @@ Here, we assume that each column is a random variable that is correlated with th
 Each row represents a different noise iteration.
 We first mask all bad pixels by setting all pixels with $| f | > 200$ DN.
 The first 10 principal components are plotted in Figure \ref{fig:pcaEigenvectors} for two example groups (54 and 55).
-These first 10 principal components explain 10\% of the total variance in each group.
+These first 10 principal components explain 10\% of the total variance in each group up the ramp.
 
 \begin{figure*}[!hbtp]
 \centering
@@ -906,6 +954,14 @@ These first 10 principal components explain 10\% of the total variance in each g
 \caption{Principal component eigenvectors identified from group 54 (left) and group 55 (right).
 }\label{fig:pcaEigenvectors}
 \end{figure*}
+
+We begin by calculating new principal components and eigenvectors for each group up the ramp and then subtracting the first 10 principal component eigenvectors multiplied by their respective principal components by each image.
+It is important to mask the bad pixels before calculating the principal components so they are not driven by errant bad pixels.
+We also calculate the PCA eigenvectors after the bias has been subtracted and the reference pixel correction was applied.
+The PCA subtraction is applied to each group up the ramp and then these groups are subtracted in pairs to create a time series.
+The final time series has and measured standard deviation of 5,000 to 5,700 DN within the background-subtracted aperture.
+This is comparable to the row and column subtraction standard deviation of 5,500 to 6,500 DN.
+Adding 10 more principal components for a total of 20 eigenvectors only reduces the time series noise to 5,100 to 5,400 for the 3 apertures.
 
 \clearpage
 

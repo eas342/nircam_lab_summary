@@ -671,6 +671,17 @@ Target acquisition is expected to achieve centroiding accuracy $\lesssim$ 10 mas
 This ensures that time series observations will reliably return to the same location within the same set of pixels with every visit.
 
 \subsubsection{Position of SubGrism Array}
+
+The crosshatch pattern varies in amplitude and angular dependence from one physical location on the detector to another.
+The ALONG detector has more pronounced crosshatching toward the middle of the detector that falls off toward the perimeter.
+On the other hand, the BLONG detector has more pronounced crosshatching towards the boundary.
+We fit the crosshatch pattern to three regions of the detector:
+\begin{itemize}
+	\item The 2048$\times$64 SUBGRISM64 nominal position at the bottom of the array. Bottom Left corner is (0,0)
+	\item A 2048$\times$64 theoretical subarray at the top of the ALONG detector. Bottom Left corner is (0,1983)
+	\item A 2048$\times$64 cutout of the full frame detector that is centered on the grism time series field point.
+\end{itemize}
+
 \begin{figure}[!hbtp]
 \centering
 \includegraphics[width=0.99\columnwidth]{subg_pos_topGrism64.pdf}\\

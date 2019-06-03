@@ -579,24 +579,24 @@ We simulate the effect of this jitter on NIRCam time series observations with th
 	\item Measure the relative flux with a photometric aperture
 \end{itemize}
 
-
-We model the crosshatch pattern in the Fourier space because it has a smoother pattern as a function of spatial frequency as seen in Figure \ref{fig:crossHatchA5}.
-We model the two dimensional Fourier amplitude $f(x_i',y_i')$ for one angle $\theta_i$ as
+We 
+We model the crosshatch pattern in the Fourier space because it has a smoother pattern as a function of spatial frequency than in spatial coordinates as seen in Figure \ref{fig:crossHatchA5}.
+We model the two dimensional Fourier power spectral density $f(k_{x,i}',k_{y,i}')$ for one angle $\theta_i$ as
 \begin{equation}
-f(x'_i,y'_i, a_i, b,c) = a \exp{\left(- |x_i'| / b \right)} \left( \frac{1}{(0.5 c)^2 + y'^2} \right),
+f(k_{x,i}',k_{y,i}', a_i, b,c) = a \exp{\left(- |k_{x,i}'| / b \right)} \left( \frac{1}{(0.5 c)^2 + k_y'^2} \right),
 \end{equation}
-where $x'$ and $y'$ are rotated coordinates, $a$ is the amplitude, $b$ is the parallel exponential constant and $c$ is the Lorenzian full width at half maximum.
+where $k_x'$ and $k_y'$ are rotated frequency coordinates coordinates, $a$ is the amplitude, $b$ is the parallel exponential constant and $c$ is the Lorenzian full width at half maximum.
 For each of the three angles, there is a set of rotated coordinates centered at $(x_0,y_0)$= (1024,1024) following:
 \begin{equation}
-x'(\theta_i) = (x - x_0) \cos{\theta_i} + (y - y_0) \sin{\theta_i}
+k_x'(\theta_i) = k_x \cos{\theta_i} + k_y \sin{\theta_i}
 \end{equation}
 and
 \begin{equation}
-y'(\theta_i) = -(x - x_0) \sin{\theta_i} + (y - y_0) \cos{\theta_i}.
+k_y'(\theta_i) = -k_x  \sin{\theta_i} + k_y \cos{\theta_i}.
 \end{equation}
 We include three angles so that the total power spectral density is
 \begin{equation}
-f(x,y) = \sum_{i=1}^{i=3} f_i(x'_i(\theta_i),y'_i(\theta_i),a_i,b,c).
+f(k_x,k_y) = \sum_{i=1}^{i=3} f_i(k_{x,i}'(\theta_i),k_{y,i}'(\theta_i),a_i,b,c).
 \end{equation}
 
 This model has 8 free parameters: three angles ($\theta_i$, three amplitudes ($a_i$), a joint parallel exponential constant ($b$) and joint Lorentzian width ($c$).

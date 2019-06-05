@@ -544,11 +544,12 @@ The A5 detector's flat field has a pronounced crosshatch pattern at 23.1$\degree
 The crosshatch pattern is visible in a zoom-in of the pixel flat field (top left).
 The 2D power spectrum of the flat field (top right) shows a continuum of frequencies aligned with the three crosshatch angles.
 Note the lines in frequency plane are perpendicular to the crosshatch directions in the image plane.
-These three angles are similar (with 0.1$\degree$) to one projection of a tetrahedral (zincblende) lattice structure of HgCdTe (bottom).
+These three relative angles (67.8$\degree$, 67.7$\degree$ and 44.5$\degree$) are similar to one projection of a tetrahedral (zincblende) lattice structure of HgCdTe (bottom, 67.8$\degree$, 67.8$\degree$, 44.4$\degree$).
 }\label{fig:crossHatchA5}
 \end{figure}
 
-The crosshatch pattern is wavelength dependent, as seen in Figure \ref{fig:crossHatchWavelengthDep}, where the 
+The crosshatch pattern is wavelength dependent, as seen in Figure \ref{fig:crossHatchWavelengthDep}, where the throughput variations are the largest for short wavelengths (resolving crystal structures) and smallest for the long wavelengths.
+We also fit the crosshatch pattern.
 
 \begin{figure}[!hbtp]
 \centering
@@ -569,7 +570,7 @@ NIRCam observations are expected to have a root-mean-square deviation of 6.0 mas
 
 We simulate the effect of this jitter on NIRCam time series observations with the following steps:
 \begin{itemize}
-	\item Fit the existing flat field to an crosshatch model in the Fourier domain
+	\item Fit the existing flat field to a crosshatch model in the Fourier domain
 	\item Extrapolate the crosshatch model to high frequencies to estimate the sub-pixel structure
 	\item Simulate a PSF using \texttt{webbpsf} \citep{perrin2014webbpsf}
 	\item Multiply the PSF by the simulated flat field
@@ -579,14 +580,13 @@ We simulate the effect of this jitter on NIRCam time series observations with th
 	\item Measure the relative flux with a photometric aperture
 \end{itemize}
 
-We 
 We model the crosshatch pattern in the Fourier space because it has a smoother pattern as a function of spatial frequency than in spatial coordinates as seen in Figure \ref{fig:crossHatchA5}.
 We model the two dimensional Fourier power spectral density $f(k_{x,i}',k_{y,i}')$ for one angle $\theta_i$ as
 \begin{equation}
 f(k_{x,i}',k_{y,i}', a_i, b,c) = a \exp{\left(- |k_{x,i}'| / b \right)} \left( \frac{1}{(0.5 c)^2 + k_y'^2} \right),
 \end{equation}
-where $k_x'$ and $k_y'$ are rotated frequency coordinates coordinates, $a$ is the amplitude, $b$ is the parallel exponential constant and $c$ is the Lorenzian full width at half maximum.
-For each of the three angles, there is a set of rotated coordinates centered at $(x_0,y_0)$= (1024,1024) following:
+where $k_x'$ and $k_y'$ are rotated frequency coordinates in the parallel and perpendicular directions, $a$ is the amplitude, $b$ is the parallel exponential constant and $c$ is the Lorentzian full width at half maximum of the perpendicular dependence.
+For each of the three angles, there is a set of rotated coordinates centered at $(k_{x,0},k_{y,0})$= (0,0) following:
 \begin{equation}
 k_x'(\theta_i) = k_x \cos{\theta_i} + k_y \sin{\theta_i}
 \end{equation}
@@ -600,7 +600,7 @@ f(k_x,k_y) = \sum_{i=1}^{i=3} f_i(k_{x,i}'(\theta_i),k_{y,i}'(\theta_i),a_i,b,c)
 \end{equation}
 
 This model has 8 free parameters: three angles ($\theta_i$, three amplitudes ($a_i$), a joint parallel exponential constant ($b$) and joint Lorentzian width ($c$).
-We only fit the region of the power spectral density above r=100 to focus on the high frequency component of the flat field where the crosshatch is most prevalent.
+We only fit the region of the power spectral density above frequencies of 0.05 px$^{-1}$ to focus on the high frequency component of the flat field where the crosshatch is most prevalent.
 For the F300M filter and ALONG detector, we find 
 for $\theta_1 = 0.9013 \pm 0.0004 \degree, \theta_2 = 68.6041 \pm 0.0007 \degree, \theta_3 = 113.0741 \pm 0.0007, a_1 = 6.9 \pm 0.2 \times 10^6, a_2 = 4.0 \pm 0.1 \times 10^6, a_3 = 4.4 \pm 0.1 \times 10^6, b=666 \pm 1 $ px and $c=4.9933 \pm 0.0004$ px.
 The uncertainties were simply derived from the diagonals of the covariance matrix and likely are underestimated.

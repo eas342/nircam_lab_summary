@@ -562,28 +562,14 @@ The shorter wavelengths have deeper crosshatch troughs (left) and higher Fourier
 \end{figure}
 
 
-
-\subsubsection{Subpixel Crosshatching Simulation}
-
-The subpixel crosshatch pattern can potentially introduce time-variable noise as the point spread function drifts with telescope pointing drifts, long timescale jitter.
-NIRCam observations are expected to have a root-mean-square deviation of 6.0 mas in each axis when measured in 15 second intervals over a 10,000 second observation.\footnote{See \url{https://jwst-docs.stsci.edu/display/JTI/JWST+Pointing+Performance\#JWSTPointingPerformance-Pointing\_stabilityPointingstability}}
-
-We simulate the effect of this jitter on NIRCam time series observations with the following steps:
-\begin{itemize}
-	\item Fit the existing flat field to a crosshatch model in the Fourier domain
-	\item Extrapolate the crosshatch model to high frequencies to estimate the sub-pixel structure
-	\item Simulate a PSF using \texttt{webbpsf} \citep{perrin2014webbpsf}
-	\item Multiply the PSF by the simulated flat field
-	\item Scan the PSF along the X and Y directions up to a magnitude of 6 mas
-	\item Bin the simulated images into the native pixel size
-	\item Divide by the flat field
-	\item Measure the relative flux with a photometric aperture
-\end{itemize}
-
+\subsubsection{Crosshatch Modeling}
 We model the crosshatch pattern in the Fourier space because it has a smoother pattern as a function of spatial frequency than in spatial coordinates as seen in Figure \ref{fig:crossHatchA5}.
+We divide the 2D Fourier power spectral density by the number of pixels in an input image.
+This was experimentally determined to give a power spectral density that does not change with the dimensions of the input image.
+
 We model the two dimensional Fourier power spectral density $f(k_{x,i}',k_{y,i}')$ for one angle $\theta_i$ as
 \begin{equation}
-f(k_{x,i}',k_{y,i}', a_i, b,c) = a \exp{\left(- |k_{x,i}'| / b \right)} \left( \frac{1}{(0.5 c)^2 + k_y'^2} \right),
+f(k_{x,i}',k_{y,i}', a_i, b,c) = a_i \exp{\left(- |k_{x,i}'| / b \right)} \left( \frac{1}{(0.5 c)^2 + k_y'^2} \right),
 \end{equation}
 where $k_x'$ and $k_y'$ are rotated frequency coordinates in the parallel and perpendicular directions, $a$ is the amplitude, $b$ is the parallel exponential constant and $c$ is the Lorentzian full width at half maximum of the perpendicular dependence.
 For each of the three angles, there is a set of rotated coordinates centered at $(k_{x,0},k_{y,0})$= (0,0) following:
@@ -602,11 +588,29 @@ f(k_x,k_y) = \sum_{i=1}^{i=3} f_i(k_{x,i}'(\theta_i),k_{y,i}'(\theta_i),a_i,b,c)
 This model has 8 free parameters: three angles ($\theta_i$, three amplitudes ($a_i$), a joint parallel exponential constant ($b$) and joint Lorentzian width ($c$).
 We only fit the region of the power spectral density above frequencies of 0.05 px$^{-1}$ to focus on the high frequency component of the flat field where the crosshatch is most prevalent.
 For the F300M filter and ALONG detector, we find 
-for $\theta_1 = 0.9013 \pm 0.0004 \degree, \theta_2 = 68.6041 \pm 0.0007 \degree, \theta_3 = 113.0741 \pm 0.0007, a_1 = 6.9 \pm 0.2 \times 10^6, a_2 = 4.0 \pm 0.1 \times 10^6, a_3 = 4.4 \pm 0.1 \times 10^6, b=666 \pm 1 $ px and $c=4.9933 \pm 0.0004$ px.
+for $\theta_1 = 0.9013 \pm 0.0004 \degree, \theta_2 = 68.6041 \pm 0.0007 \degree, \theta_3 = 113.0741 \pm 0.0007, a_1 = 3.93 \pm 0.01 \times 10^{-7}, a_2 = 2.305 \pm 0.007 \times 10^{-7}, a_3 = 2.540 \pm 0.007 \times 10^{-7}, b=0.3243 \pm 0.0007 $ px$^{-1}$ and $c=2.44 \pm 0.03 \times 10^{-2}$ px$^{-1}$.
 The uncertainties were simply derived from the diagonals of the covariance matrix and likely are underestimated.
 
+\subsubsection{Subpixel Crosshatching Simulation}
 
-We take this model with best-fit parameters for the F300M filter and extend the exponential function out to an oversampling factor of 60 times the LW pixels.
+The subpixel crosshatch pattern can potentially introduce time-variable noise as the point spread function drifts with telescope pointing drifts, long timescale jitter.
+NIRCam observations are expected to have a root-mean-square deviation of 6.0 mas in each axis when measured in 15 second intervals over a 10,000 second observation.\footnote{See \url{https://jwst-docs.stsci.edu/display/JTI/JWST+Pointing+Performance\#JWSTPointingPerformance-Pointing\_stabilityPointingstability}}
+
+We simulate the effect of this jitter on NIRCam time series observations with the following steps:
+\begin{itemize}
+	\item Fit the existing flat field to a crosshatch model in the Fourier domain
+	\item Extrapolate the crosshatch model to high frequencies to estimate the sub-pixel structure
+	\item Simulate a PSF using \texttt{webbpsf} \citep{perrin2014webbpsf}
+	\item Multiply the PSF by the simulated flat field
+	\item Scan the PSF along the X and Y directions up to a magnitude of 6 mas
+	\item Bin the simulated images into the native pixel size
+	\item Divide by the flat field
+	\item Measure the relative flux with a photometric aperture
+\end{itemize}
+
+
+
+We take the exponential model with best-fit parameters for the F300M filter and extend the exponential function out to an oversampling factor of 60 times the LW pixels.
 We then assign random phases uniformly from 0 to 2$\pi$ for the complex Fourier plane because the original image's complex phase distribution is similar to uniform.
 Finally, we take the real part of the inverse Fourier transform to create an oversampled image, as shown in \ref{fig:crossHatchSimPSF}.
 For comparison to the original flat in Figure \ref{fig:crossHatchA5}, we binned to the oversampled flat field to the native LW pixel resolution of $\sim$0.063 \arcsec.

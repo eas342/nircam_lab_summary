@@ -566,6 +566,7 @@ The shorter wavelengths have deeper crosshatch troughs (left) and higher Fourier
 We model the crosshatch pattern in the Fourier space because it has a smoother pattern as a function of spatial frequency than in spatial coordinates as seen in Figure \ref{fig:crossHatchA5}.
 We divide the 2D Fourier power spectral density by the number of pixels in an input image.
 This was experimentally determined to give a power spectral density that does not change with the dimensions of the input image.
+\textcolor{red}{Can we justify this more?}
 
 We model the two dimensional Fourier power spectral density $f(k_{x,i}',k_{y,i}')$ for one angle $\theta_i$ as
 \begin{equation}
@@ -685,6 +686,9 @@ We fit the crosshatch pattern to three regions of the detector:
 	\item A 2048$\times$64 theoretical subarray at the top of the ALONG detector. Bottom Left corner is (0,1983)
 	\item A 2048$\times$64 cutout of the full frame detector that is centered on the grism time series field point.
 \end{itemize}
+
+The three subarrays considered are shown in Figure \ref{fig:subpixScanSimulation}.
+The position at the top of the ALONG detector has the smallest amplitude of crosshatch pattern in all three directions.
 
 \begin{figure}[!hbtp]
 \centering

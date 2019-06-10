@@ -569,7 +569,7 @@ This was experimentally determined to give a power spectral density that does no
 \textcolor{red}{Can we justify this more?}
 
 We model the two dimensional Fourier power spectral density $f(k_{x,i}',k_{y,i}')$ for one angle $\theta_i$ as
-\begin{equation}
+\begin{equation}\label{eq:analyticPSDradial}
 f(k_{x,i}',k_{y,i}', a_i, b,c) = a_i \exp{\left(- |k_{x,i}'| / b \right)} \left( \frac{1}{(0.5 c)^2 + k_y'^2} \right),
 \end{equation}
 where $k_x'$ and $k_y'$ are rotated frequency coordinates in the parallel and perpendicular directions, $a$ is the amplitude, $b$ is the parallel exponential constant and $c$ is the Lorentzian full width at half maximum of the perpendicular dependence.
@@ -612,6 +612,7 @@ We simulate the effect of this jitter on NIRCam time series observations with th
 
 
 We take the exponential model with best-fit parameters for the F300M filter and extend the exponential function out to an oversampling factor of 60 times the LW pixels.
+We evaluate equation \ref{eq:analyticPSDradial} for frequencies in the oversampled image from 0 px$^{-1}$ to 30 px$^{-1}$ and multiply this by the number of pixels and the square of the oversampling factor (ie. $60^2$) to convert from the scale-invariant Power Spectral Density to the simulated PSD.
 We then assign random phases uniformly from 0 to 2$\pi$ for the complex Fourier plane because the original image's complex phase distribution is similar to uniform.
 Finally, we take the real part of the inverse Fourier transform to create an oversampled image, as shown in \ref{fig:crossHatchSimPSF}.
 For comparison to the original flat in Figure \ref{fig:crossHatchA5}, we binned to the oversampled flat field to the native LW pixel resolution of $\sim$0.063 \arcsec.
@@ -682,26 +683,28 @@ The ALONG detector has more pronounced crosshatching toward the middle of the de
 On the other hand, the BLONG detector has more pronounced crosshatching towards the boundary.
 We fit the crosshatch pattern to three regions of the detector:
 \begin{itemize}
-	\item The 2048$\times$64 SUBGRISM64 nominal position at the bottom of the array. Bottom Left corner is (0,0)
+	\item The 2048$\times$64 SUBGRISM64 nominal position at the bottom of the array. Bottom Left corner is (4,5)
 	\item A 2048$\times$64 theoretical subarray at the top of the ALONG detector. Bottom Left corner is (0,1983)
 	\item A 2048$\times$64 cutout of the full frame detector that is centered on the grism time series field point.
 \end{itemize}
 
 The three subarrays considered are shown in Figure \ref{fig:subpixScanSimulation}.
 The position at the top of the ALONG detector has the smallest amplitude of crosshatch pattern in all three directions.
+We exclude reference pixels (which form a 4 pixel wide boundary around the detector) and an additional row on the bottom and top fo the array because these illuminated rows are anomalous.
 
 \begin{figure}[!hbtp]
 \centering
 \includegraphics[width=0.99\columnwidth]{subg_pos_topGrism64.pdf}\\
 \includegraphics[width=0.99\columnwidth]{subg_pos_fullfGrismRegion.pdf}\\
-\includegraphics[width=0.99\columnwidth]{subg_pos_grism64flat.pdf}\\
+\includegraphics[width=0.99\columnwidth]{subg_pos_subgrism64.pdf}\\
 \vspace{0.2in}
 \includegraphics[width=0.99\columnwidth]{subg_pos_topGrism64_psd.pdf}\\
 \includegraphics[width=0.99\columnwidth]{subg_pos_fullfGrismRegion_psd.pdf}\\
-\includegraphics[width=0.99\columnwidth]{subg_pos_grism64_psd.pdf}\\
+\includegraphics[width=0.99\columnwidth]{subg_pos_subgrism64_psd.pdf}\\
 \caption{
 The top of the array has the smallest level of crosshatching and the middle has the largest.
-This is visible in the flat field images (top three panels) and their power spectral density functions (bottom three panels) for three different sections of the A5 detector: a theoretical ``aperture'' position at the top of the array, the full frame position near Y=512 and the nominal SUBGRISM64 at the bottom of the array.
+This is visible in the flat field images (top three panels) and their power spectral density functions (bottom three panels) for three different sections of the A5 detector: a theoretical ``aperture'' position at the top of the array (first plot from top), the full frame position near Y=512 (second plot from top) and the nominal SUBGRISM64 at the bottom of the array (third plot from top).
+The bottom left corner for each subarray is listed in parentheses in the title of the flat field plot and the best-fit amplitudes are listed in the title of the power spectral density plot.
  }\label{fig:subpixScanSimulation}
 \end{figure}
 

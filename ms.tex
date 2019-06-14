@@ -592,7 +592,7 @@ For the F300M filter and ALONG detector, we find
 for $\theta_1 = 0.9013 \pm 0.0004 \degree, \theta_2 = 68.6041 \pm 0.0007 \degree, \theta_3 = 113.0741 \pm 0.0007, a_1 = 3.93 \pm 0.01 \times 10^{-7}, a_2 = 2.305 \pm 0.007 \times 10^{-7}, a_3 = 2.540 \pm 0.007 \times 10^{-7}, b=0.3243 \pm 0.0007 $ px$^{-1}$ and $c=2.44 \pm 0.03 \times 10^{-2}$ px$^{-1}$.
 The uncertainties were simply derived from the diagonals of the covariance matrix and likely are underestimated.
 
-\subsubsection{Subpixel Crosshatching Simulation}
+\subsubsection{Subpixel Crosshatching Simulation}\label{sec:CrosshatchSim}
 
 The subpixel crosshatch pattern can potentially introduce time-variable noise as the point spread function drifts with telescope pointing drifts, long timescale jitter.
 NIRCam observations are expected to have a root-mean-square deviation of 6.0 mas in each axis when measured in 15 second intervals over a 10,000 second observation.\footnote{See \url{https://jwst-docs.stsci.edu/display/JTI/JWST+Pointing+Performance\#JWSTPointingPerformance-Pointing\_stabilityPointingstability}}
@@ -690,7 +690,9 @@ We fit the crosshatch pattern to three regions of the detector:
 
 The three subarrays considered are shown in Figure \ref{fig:subpixScanSimulation}.
 The position at the top of the ALONG detector has the smallest amplitude of crosshatch pattern in all three directions.
-We exclude reference pixels (which form a 4 pixel wide boundary around the detector) and an additional row on the bottom and top fo the array because these illuminated rows are anomalous.
+We exclude reference pixels (which form a 4 pixel wide boundary around the detector) and an additional row on the bottom and top of the array because these illuminated rows are anomalous.
+The best-fit amplitudes are used as input to the jitter simulations in Section \ref{sec:CrosshatchSim}.
+We find that the maximum flux change for a 0.1 pixel shift is 118 ppm for the nominal grism position, 108 ppm for the top of the array and 153 ppm at the full frame grism position.
 
 \begin{figure}[!hbtp]
 \centering

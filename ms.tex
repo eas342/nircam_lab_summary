@@ -839,7 +839,7 @@ These side reference pixels also cannot give any information about the read nois
 \includegraphics[width=.32\columnwidth]{long_dark_darkRed.pdf}
 \includegraphics[width=.32\columnwidth]{long_dark_darkRedRowSub.pdf}
 \caption{Time series of a 70 pixel radius photometric aperture obtained during a long dark exposure for detector ALONG=A5. The long dark exposure of 108 frames is used to construct 54 pairs of reads that are subtracted, in analogy with a series of integrations.
-{\it Top:}  Example read pair subtraction with an overlay of the apertures for 3 different reduction steps from "Raw" data using no reference pixel correction, "Reduced Data" using reference pixels and "ReducedRowColSub" using reference pixels and background subtraction for each row and each column.
+{\it Top:}  Example read pair subtraction with an overlay of the apertures for 3 different reduction steps from ``Raw" data using no reference pixel correction, ``Reduced Data" using reference pixels and ``ReducedRowColSub" using reference pixels and background subtraction for each row and each column.
 {\it Bottom} The time series for each circular aperture with background subtraction using a circular annulus.
 The most important step for reducing the noise in the time series is row-by-row subtraction to remove the 1/f noise.
 }\label{fig:longDarkPhot}
@@ -894,7 +894,8 @@ Measured Read Noise (reference pixel correction) & 10,800 & 280 \\
 Measured Read Noise (reference channel subtraction) & 9,700 & 250 \\
 Measured Read Noise (row-by-row median subtraction) & 6,000 & 150 \\
 Measured Read Noise (20 Component PCA subtraction) & 5,400 & 140 \\
-Measured Read Noise (smoothed 40 px kernel) & 900 & 23 \\
+Measured Read Noise (smoothed 161 px kernel interpolating over aperture) & 3,300 & 85 \\
+Measured Read Noise (smoothed 40 px kernel on top of aperture) & 900 & 23 \\
 \enddata
 \tablecomments{The theoretical and measured noise sources in one integration for a Weak Lens +8 Time Series.
 The ppm units are assuming a 60\% well depth or 3.9$\times 10^7$ DN during an integration.
@@ -940,7 +941,16 @@ Subtraction by the smoothed image has a dramatic effect on reducing correlated 1
 The dramatic difference from the smoothing kernel is beyond what is possible for a real source.
 This is because the 40 pixel wide kernel was applied all the way through the source aperture, which would subtract and distort any signal from a star/planet source.
 In reality, the kernel should be wider than the source aperture diameter and interpolate through the source points.
+Note that this experiment with result in perfect subtraction (0 ppm noise) if the kernel was only 1 pixel wide!
 We repeated the experiment with a 161 pixel wide kernel and masked bad pixels and the source pixels.
+We use the \texttt{astropy.convolution.convolve()} routine, which calculates a convolution of the kernel by the image.
+\texttt{astropy.convolution.convolve()} ignores al NaN values in the mask and renormalizes the kernel by the sum of the remaining kernel points.
+This efficiently interpolates over bad pixels and can also interpolate over the source aperture.
+Our smoothing kernel is a flat boxcar normalized to 1.0.
+This more realistic kernel results in higher noise because of its larger window size and because it interpolates over the aperture points.
+The resulting time series has a standard deviation of 2800 DN to 3700 ppm.
+This is still larger than the 1,300 DN expectation for uncorrelated read noise, but is below the ideal photon noise limit.
+
 \textcolor{red}{\bf Continue Here!}
 
 \subsubsection{Reference Channel Subtraction}
@@ -986,7 +996,9 @@ These first 10 principal components explain 10\% of the total variance in each g
 \end{figure*}
 
 We begin by calculating new principal components and eigenvectors for each group up the ramp and then subtracting the first 10 principal component eigenvectors multiplied by their respective principal components by each image.
+Principal component analysis detects variations from the mean and so the data is first subtracted by the mean and then the mean is added after PCA is complete.
 It is important to mask the bad pixels before calculating the principal components so they are not driven by errant bad pixels.
+We set the value of all bad pixels to 0 so they do not add any variance.
 We also calculate the PCA eigenvectors after the bias has been subtracted and the reference pixel correction was applied.
 The PCA subtraction is applied to each group up the ramp and then these groups are subtracted in pairs to create a time series.
 The final time series has and measured standard deviation of 5,000 to 5,700 DN within the background-subtracted aperture.

@@ -937,6 +937,11 @@ Subtraction by the smoothed image has a dramatic effect on reducing correlated 1
 }\label{fig:longDarkWithRowKernel}
 \end{figure*}
 
+The dramatic difference from the smoothing kernel is beyond what is possible for a real source.
+This is because the 40 pixel wide kernel was applied all the way through the source aperture, which would subtract and distort any signal from a star/planet source.
+In reality, the kernel should be wider than the source aperture diameter and interpolate through the source points.
+We repeated the experiment with a 161 pixel wide kernel and masked bad pixels and the source pixels.
+\textcolor{red}{\bf Continue Here!}
 
 \subsubsection{Reference Channel Subtraction}
 We note that the 4 channels can sometimes exhibit the same 1/f correlation behavior, as shown in Figure \ref{fig:darkPixelTimeSeries}.
@@ -1028,9 +1033,7 @@ As an example, a $K$=8.5 magnitude star observed in full frame imaging WEAK LENS
 
 \textcolor{red}{\bf Include more calculations on how the individual frame read noise would impact many frames in a time series of a bright target vs a faint target.}
 
-
-
-\subsection{Cryogenic Vacuum (CV) Stability Tests}
+\subsection{Goddard Cryogenic Vacuum (CV) Stability Tests}
 
 During the Cyrogenic Vacuum Test 3, the Integrated Science Instrument Module (ISIM) was placed in a vacuum chamber with the Optical telescope element simulator (OSIM).
 The ISIM has all the instruments with their internal optics and detectors but no telescope mirrors.

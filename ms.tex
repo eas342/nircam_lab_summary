@@ -894,6 +894,7 @@ Measured Read Noise (reference pixel correction) & 10,800 & 280 \\
 Measured Read Noise (reference channel subtraction) & 9,700 & 250 \\
 Measured Read Noise (row-by-row median subtraction) & 6,000 & 150 \\
 Measured Read Noise (20 Component PCA subtraction) & 5,400 & 140 \\
+Measured Read Noise (5 Component PCA on each amplifier) & 3,300 & 140 \\
 Measured Read Noise (smoothed 161 px kernel interpolating over aperture) & 3,300 & 85 \\
 Measured Read Noise (smoothed 40 px kernel on top of aperture) & 900 & 23 \\
 \enddata
@@ -955,7 +956,7 @@ This is still larger than the 1,300 DN expectation for uncorrelated read noise, 
 
 \subsubsection{Reference Channel Subtraction}
 We note that the 4 channels can sometimes exhibit the same 1/f correlation behavior, as shown in Figure \ref{fig:darkPixelTimeSeries}.
-Another option to remove 1/f noise is to subtract the illuminated amplifier with a target in it by unilluminated channels.
+Another option to remove 1/f noise is to subtract the illuminated amplifier with a target in it by un-illuminated channels.
 We attempt to subtract an amplifier 0's time series from all amplifiers.
 Of course, this means that this amplifier is perfectly subtracted and no noise or signal remains in this 1/4 of the image.
 The subtraction step should increase the read noise on an individual pixel by $\sim \sqrt{2}$ because the errors from the subtracted pixel should add in quadrature to the original pixels.
@@ -1004,6 +1005,10 @@ The PCA subtraction is applied to each group up the ramp and then these groups a
 The final time series has and measured standard deviation of 5,000 to 5,700 DN within the background-subtracted aperture.
 This is comparable to the row and column subtraction standard deviation of 5,500 to 6,500 DN.
 Adding 10 more principal components for a total of 20 eigenvectors only reduces the time series noise to 5,100 to 5,400 for the 3 apertures.
+
+If we treat each amplifier separately, the PCA model is more effective in reducing 1/f noise.
+We begin by keeping 5 principal components within each amplifier and subtracting these from each amplifier separately.
+The resulting standard deviation of the time series is 2900 to 3870 DN.
 
 \clearpage
 

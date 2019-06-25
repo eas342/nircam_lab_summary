@@ -916,7 +916,7 @@ In the latter case, the standard deviation of the time series drops to 6000 DN, 
 The A3 detector used for weak lens photometry has reduced 1/f noise.
 The standard deviation of the raw time series is 15,000 compared with the 22,000 from the A5 (ALONG) detector.
 
-\subsubsection{Smoothed Kernel Subtraction}
+\subsubsection{Smoothed Kernel Subtraction}\label{sec:smoothKernelSub}
 
 We also consider more effective ways to reduce read noise than the median row subtraction discussed in Section \ref{sec:longDarks}.
 We start by applying a smoothing kernel to each group (1 read for RAPID mode) up the ramp of the raw data.
@@ -987,6 +987,8 @@ Each row represents a different noise iteration.
 We first mask all bad pixels by setting all pixels with $| f | > 200$ DN.
 The first 10 principal components are plotted in Figure \ref{fig:pcaEigenvectors} for two example groups (54 and 55).
 These first 10 principal components explain 10\% of the total variance in each group up the ramp.
+The principal components from one group to another are very similar.
+\textcolor{red}{\bf Is this just because they contain information from residuals after bias subtraction? Maybe we need a better bias subtraction?}
 
 \begin{figure*}[!hbtp]
 \centering
@@ -995,6 +997,16 @@ These first 10 principal components explain 10\% of the total variance in each g
 \caption{The first 10 principal component eigenvectors identified from group 54 (left) and group 55 (right).
 }\label{fig:pcaEigenvectors}
 \end{figure*}
+
+\begin{figure*}[!hbtp]
+\centering
+\includegraphics[width=.4\columnwidth]{pca_dark_ind_amp_grp_54.pdf}
+\includegraphics[width=.4\columnwidth]{pca_dark_ind_amp_grp_55.pdf}
+\caption{The first 5 principal component eigenvectors identified from group 54 (left) and group 55 (right) where each amplifier has been analyzed independently.
+Again, the eigenvectors are very similar other than vertical flips.
+}\label{fig:pcaEigenvectors}
+\end{figure*}
+
 
 We begin by calculating new principal components and eigenvectors for each group up the ramp and then subtracting the first 10 principal component eigenvectors multiplied by their respective principal components by each image.
 Principal component analysis detects variations from the mean and so the data is first subtracted by the mean and then the mean is added after PCA is complete.
@@ -1009,6 +1021,8 @@ Adding 10 more principal components for a total of 20 eigenvectors only reduces 
 If we treat each amplifier separately, the PCA model is more effective in reducing 1/f noise.
 We begin by keeping 5 principal components within each amplifier and subtracting these from each amplifier separately.
 The resulting standard deviation of the time series is 2900 to 3870 DN.
+This is improvement is beyond what is possible on a real source because the principal components include pixels over the source aperture.
+To simulate a real photometry scenario, it is necessary to interpolate over the source aperture points as done in Section \ref{sec:smoothKernelSub} for the smoothing kernel.
 
 \clearpage
 

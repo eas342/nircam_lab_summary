@@ -896,10 +896,11 @@ Measured Read Noise (row-by-row median subtraction) & 6,000 & 150 \\
 Measured Read Noise (20 Component PCA subtraction) & 5,400 & 140 \\
 Measured Read Noise (5 Component PCA on each amplifier) & 3,300 & 140 \\
 Measured Read Noise (smoothed 161 px kernel interpolating over aperture) & 3,300 & 85 \\
+Measured Read Noise (row-by-row amp-by-amp mean subtraction) & 2,900 & 75 \\
 Measured Read Noise (smoothed 40 px kernel on top of aperture) & 900 & 23 \\
 \enddata
 \tablecomments{The theoretical and measured noise sources in one integration for a Weak Lens +8 Time Series.
-The ppm units are assuming a 60\% well depth or 3.9$\times 10^7$ DN during an integration.
+The ppm units are assuming a peak 60\% well depth or 3.9$\times 10^7$ DN during an integration for the weak lens PSF.
 The noise is the sum within a 70 pixel radius source aperture and 75 to 100 pixel background aperture (in DN) or relative to the photon signal (in ppm).
 The integration is assumed to be a bright source with 2 groups of 1 integration each up the ramp (Correlated Double Sampling or CDS mode).}
 \end{deluxetable*}
@@ -915,6 +916,14 @@ This amounts to a row-by-row background subtraction.
 In the latter case, the standard deviation of the time series drops to 6000 DN, but is still larger than the expectation of 1310 DN of all noise were uncorrelated.
 The A3 detector used for weak lens photometry has reduced 1/f noise.
 The standard deviation of the raw time series is 15,000 compared with the 22,000 from the A5 (ALONG) detector.
+
+\subsubsection{Mean Row by Amplifier}\label{sec:indAmpAvg}
+A slight modification to the above strategy is to average each amplifier individually.
+This takes care of any differences between amplifiers.
+This individual amplifier dramatically decreases the errors.
+The standard deviations of the background-subtracted photometry range from 2,540 to 3,300 DN or 65 to 85 ppm.
+Therefore, this simple approach can dramatically decrease the 1/f noise to below the photon limit.
+This is possible for Weak Lens photometry but not grism spectroscopy when dispersed parallel to detector rows (the fast-read direction).
 
 \subsubsection{Smoothed Kernel Subtraction}\label{sec:smoothKernelSub}
 
@@ -989,6 +998,7 @@ The first 10 principal components are plotted in Figure \ref{fig:pcaEigenvectors
 These first 10 principal components explain 10\% of the total variance in each group up the ramp.
 The principal components from one group to another are very similar.
 \textcolor{red}{\bf Is this just because they contain information from residuals after bias subtraction? Maybe we need a better bias subtraction?}
+Indeed, an extra bias subtraction somewhat changes the character and repeatability of the first few principal components shown in Figure \ref{fig:pcaEigenvectorsExtraBias}.
 
 \begin{figure*}[!hbtp]
 \centering
@@ -1007,6 +1017,14 @@ Again, the eigenvectors are very similar other than vertical flips.
 }\label{fig:pcaEigenvectors}
 \end{figure*}
 
+\begin{figure*}[!hbtp]
+\centering
+\includegraphics[width=.4\columnwidth]{pca_dark_ind_amp_grp_54_extra_bias_sub.pdf}
+\includegraphics[width=.4\columnwidth]{pca_dark_ind_amp_grp_55_extra_bias_sub.pdf}
+\caption{The first 5 principal component eigenvectors identified from group 54 (left) and group 55 (right) where each amplifier has been analyzed independently.
+With a better bias subtraction, the eigenvectors are very similar other than vertical flips.
+}\label{fig:pcaEigenvectorsExtraBias}
+\end{figure*}
 
 We begin by calculating new principal components and eigenvectors for each group up the ramp and then subtracting the first 10 principal component eigenvectors multiplied by their respective principal components by each image.
 Principal component analysis detects variations from the mean and so the data is first subtracted by the mean and then the mean is added after PCA is complete.

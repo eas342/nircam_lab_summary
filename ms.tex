@@ -1283,8 +1283,26 @@ When binning the data into 2.5 minute increments, the standard deviation is only
 }\label{fig:GLtSeriesBacksub}
 \end{figure*}
 
+\clearpage
 \subsection{Asic Dewar Tests}
 
+\subsubsection{Persistence}
+HST shows noticeable ramps with each HST orbit due to detector charge trapping \citep{zhou2017chargeTrap}.
+Lamp sources in our laboratory tests typically have a warm up period lasting several tens of minutes, which makes it difficult to observe this same effect the detector ramps.
+However, the charge trap release time is expected to the same when illuminated as compared to when turning the lamp off.
+We therefore show a time series of an LED after it is turned off in Figure \ref{fig:persistence}.
+In this experiment, the detectors are illuminated for 3 hours with fluence levels of about 300 DN/s for 53 seconds.
+Thus, they are safely under saturation.
+The charge trapping release becomes undetectable after 10 minutes and is well below 0.1 DN/s.
+
+\begin{figure*}
+{\gridline{\fig{ap_labels_B4persistence_AZLabStab01refcor.pdf}{0.5\textwidth}{Box Apertures}}}
+{\gridline{\fig{phot_B4persistence_AZLabStab01refcor_tser.pdf}{0.5\textwidth}{Persistence Time Series}}}
+\caption{Persistence decays rapidly, indicating .}\label{fig:persistence}
+\end{figure*}
+
+
+\subsubsection{Pre-Ampflier Reset Test}
 We also explored the difference between resets per frame versus resets per integrations as discussed in Section \ref{sec:preAmp}.
 We used a stripe mode 2048x256 with reference pixels on the bottom and sides.
 \begin{figure*}

@@ -981,10 +981,11 @@ This means the the correlations within an amplifier are not efficiently subtract
 \includegraphics[width=.32\columnwidth]{pixeltime_series_0.pdf}
 \includegraphics[width=.32\columnwidth]{pixeltime_series_1.pdf}
 \includegraphics[width=.32\columnwidth]{all_amp_periodograms.pdf}
-\caption{The time series for all 4 amplifiers share common-mode behaviors in some cases (left) but not always (middle).
+\caption{The time series for all 4 amplifiers share common-mode behaviors for some intervals but not always (left and middle plots).
 This is visible in a short segment of the time series of all pixels for an example group up the ramp 53 in a dark ramp where the bias has already been subtracted.
-The left panel shows the beginning of the time series, which happens to be dominated by common-mode read noise.
-The middle panel shows another part of the time series where Amplifier 3 has its own individual correlated-noise pattern.
+The pixels tim series smoothed with a 51 pixel-wide median filter to better se the low frequency noise.
+The left panel shows the a time near the beginning of a frame, where amplifiers 1 ad 2 share some common-mode read noise.
+The middle panel shows another part of the time series where Amplifiers 1 and 2 have more disparate noise signatures.
 The right panel shows the periodogram of each amplifier's time series over the first 10$^5$ clock cycles (0.1) seconds, which exhibits no consistent peaks.
 }\label{fig:darkPixelTimeSeries}
 \end{figure*}

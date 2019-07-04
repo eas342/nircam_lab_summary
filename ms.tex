@@ -1249,8 +1249,12 @@ Additionally, a median subtraction of all background pixels per row improves the
 \includegraphics[width=0.48\columnwidth]{apertures_for_NRCN83-128-STRIPE-72.pdf}
 \includegraphics[width=0.48\columnwidth]{apertures_for_NRCN83-256-STRIPE-72.pdf}
 \includegraphics[width=.48\columnwidth]{subarray_config_tser_backsub_rect.pdf}
-\caption{With rect backub.
-\textcolor{red}{To do: understand better why the vertically offset box is better? Also, show the aperture as a separate figure.}}\label{fig:OTISRectBacksub}
+\caption{Subarray configuration test during OTIS. The position of the background subtraction box has a dramatic effect on the precision of the time series.
+This is due to correlated 1/f noise along the horizontal fast-read direction.
+If the background subtraction box is on an adjacent amplifier, it captures a very different 1/f noise behavior than if it is on a shared amplifier.
+The amplifier boundary is shown as a vertical blue dashed line.
+\textcolor{red}{To do: understand better why the vertically offset box is better? Also, show the aperture as a separate figure.}
+\textcolor{blue}{Now I understand it as coming from which amplifier the background box is on.}}\label{fig:OTISRectBacksub}
 \end{figure}
 
 \subsection{GL Dewar Tests}

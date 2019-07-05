@@ -1296,14 +1296,21 @@ HST shows noticeable ramps with each HST orbit due to detector charge trapping \
 Lamp sources in our laboratory tests typically have a warm up period lasting several tens of minutes, which makes it difficult to observe this same effect the detector ramps.
 However, the charge trap release time is expected to the same when illuminated as compared to when turning the lamp off.
 We therefore show a time series of an LED after it is turned off in Figure \ref{fig:persistence}.
-In this experiment, the detectors are illuminated for 3 hours with fluence levels of about 300 DN/s for 53 seconds.
-Thus, they are safely under saturation.
-The charge trapping release becomes undetectable after 10 minutes and is well below 0.1 DN/s.
+In this experiment, the long wavelength detector is illuminated for 3 hours with fluence levels of about 300 DN/s.
+At this fluence level and integration times of 9.4 seconds, each pixel reaches about 3000 DN in an integration.
+Thus, the pixels are safely under saturation but have had plenty of time for the traps to reach equilibrium.
+
+The characteristic timescale for persistence is 12 seconds, as shown in Figure \ref{fig:persistence}.
+Thus, charge trapping release becomes undetectable after 5 minutes and is well below 0.1 DN/s per pixel.
+This release time is considerably faster than for Hubble Space Telescope, where the fast-trap release timescale is $e^{5.4}=220$ and the slow-release timescale is $e^{10.1}=24,000$ \citep{zhou2017chargeTrap}.
+
 
 \begin{figure*}
 {\gridline{\fig{ap_labels_B4persistence_AZLabStab01refcor.pdf}{0.5\textwidth}{Box Apertures}}}
 {\gridline{\fig{phot_B4persistence_AZLabStab01refcor_tser.pdf}{0.5\textwidth}{Persistence Time Series}}}
-\caption{Persistence decays rapidly, indicating .}\label{fig:persistence}
+\caption{The detector persistence timescale decays rapidly after the LED is turned off (vertical red line in bottom figure).
+The source and background apertures are shown in the top image while the time series of counts per pixel are shown in the bottom figure.
+The characteristic timescale for charge trapping is 12 seconds.}\label{fig:persistence}
 \end{figure*}
 
 

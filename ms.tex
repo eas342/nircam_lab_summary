@@ -992,29 +992,25 @@ The right panel shows the periodogram of each amplifier's time series over the f
 
 \subsubsection{PCA Correction}
 Another approach to treating the 1/f noise is dimensionality reduction with Principal Component Analysis.
-Here, we assume that each column is a random variable that is correlated with the rest of the columns.
+Here, we assume that the counts for each pixel along a column is a random variable that can be correlated with pixels in other columns.
 Each row represents a different noise iteration.
-We first mask all bad pixels by setting all pixels with $| f | > 200$ DN.
+First, we calculate the mean value of each pixel in the 108 group stack and subtract all groups by this mean image.
+This removes all bias levels and focuses on the time variability of the pixels.
+Here, we assume the dark current is negligible.
+Next, we mask all bad pixels by setting all pixels with $| f | > 200$ DN to 0 DN to remove bad pixels that can drive the principal components.
 The first 10 principal components are plotted in Figure \ref{fig:pcaEigenvectors} for two example groups (54 and 55).
-These first 10 principal components explain 10\% of the total variance in each group up the ramp.
-The principal components from one group to another are very similar.
+
+The first 10 principal components explain 14\% of the total variance in each group up the ramp.
+The principal components from one group to another are different, but the ordering of these components generally follows a pattern of increasing frequency with higher order principal components.
+This is expected for 1/f noise where the lowest frequencies have most of the power.
 \textcolor{red}{\bf Is this just because they contain information from residuals after bias subtraction? Maybe we need a better bias subtraction?}
 Indeed, an extra bias subtraction somewhat changes the character and repeatability of the first few principal components shown in Figure \ref{fig:pcaEigenvectorsExtraBias}.
 
 \begin{figure*}[!hbtp]
 \centering
-\includegraphics[width=.4\columnwidth]{pca_dark_amp_all_grp54.pdf}
-\includegraphics[width=.4\columnwidth]{pca_dark_amp_all_grp55.pdf}
+\includegraphics[width=.4\columnwidth]{pca_dark_amp_all_extra_bias_sub_grp_54.pdf}
+\includegraphics[width=.4\columnwidth]{pca_dark_amp_all_extra_bias_sub_grp_55.pdf}
 \caption{The first 10 principal component eigenvectors identified from group 54 (left) and group 55 (right).
-}\label{fig:pcaEigenvectors}
-\end{figure*}
-
-\begin{figure*}[!hbtp]
-\centering
-\includegraphics[width=.4\columnwidth]{pca_dark_ind_amp_grp_54.pdf}
-\includegraphics[width=.4\columnwidth]{pca_dark_ind_amp_grp_55.pdf}
-\caption{The first 5 principal component eigenvectors identified from group 54 (left) and group 55 (right) where each amplifier has been analyzed independently.
-Again, the eigenvectors are very similar other than vertical flips.
 }\label{fig:pcaEigenvectors}
 \end{figure*}
 
@@ -1302,7 +1298,7 @@ Thus, the pixels are safely under saturation but have had plenty of time for the
 
 The characteristic timescale for persistence is 12 seconds, as shown in Figure \ref{fig:persistence}.
 Thus, charge trapping release becomes undetectable after 5 minutes and is well below 0.1 DN/s per pixel.
-This release time is considerably faster than for Hubble Space Telescope, where the fast-trap release timescale is $e^{5.4}=220$ and the slow-release timescale is $e^{10.1}=24,000$ \citep{zhou2017chargeTrap}.
+This release time is considerably faster than for Hubble Space Telescope, where the fast-trap release timescale is 280 seconds and the slow-release timescale is 16,300 \citep{zhou2017chargeTrap}.
 
 
 \begin{figure*}

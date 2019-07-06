@@ -1003,41 +1003,44 @@ The first 10 principal components are plotted in Figure \ref{fig:pcaEigenvectors
 The first 10 principal components explain 14\% of the total variance in each group up the ramp.
 The principal components from one group to another are different, but the ordering of these components generally follows a pattern of increasing frequency with higher order principal components.
 This is expected for 1/f noise where the lowest frequencies have most of the power.
-\textcolor{red}{\bf Is this just because they contain information from residuals after bias subtraction? Maybe we need a better bias subtraction?}
-Indeed, an extra bias subtraction somewhat changes the character and repeatability of the first few principal components shown in Figure \ref{fig:pcaEigenvectorsExtraBias}.
+Since the first principal components are different from one group to another, we calculated the principal components for each group independently.
+We then create a noise model image which is the matrix multiplication of the eigenvectors by the principal components for 10 components.
+This model is subtracted from each group to create a 1/f-corrected image.
+
+The PCA subtraction is applied to each group up the ramp and then these groups are subtracted in pairs to create a time series.
+The final time series has and measured standard deviation of 5,000 to 5,700 DN within the background-subtracted aperture.
+This is comparable to the row and column subtraction standard deviation of 5,500 to 6,500 DN.
+Adding 10 more principal components for a total of 20 eigenvectors only reduces the time series noise to 5,100 to 5,400 for the 3 apertures.
 
 \begin{figure*}[!hbtp]
 \centering
 \includegraphics[width=.4\columnwidth]{pca_dark_amp_all_extra_bias_sub_grp_54.pdf}
 \includegraphics[width=.4\columnwidth]{pca_dark_amp_all_extra_bias_sub_grp_55.pdf}
 \caption{The first 10 principal component eigenvectors identified from group 54 (left) and group 55 (right).
+The pre-amplifier reset values are seen in the first principal component, and change from one group (one read in RAPID) to another.
+The principal components generally increase 
 }\label{fig:pcaEigenvectors}
 \end{figure*}
 
-\begin{figure*}[!hbtp]
-\centering
-\includegraphics[width=.4\columnwidth]{pca_dark_ind_amp_grp_54_extra_bias_sub.pdf}
-\includegraphics[width=.4\columnwidth]{pca_dark_ind_amp_grp_55_extra_bias_sub.pdf}
-\caption{The first 5 principal component eigenvectors identified from group 54 (left) and group 55 (right) where each amplifier has been analyzed independently.
-With a better bias subtraction, the eigenvectors are very similar other than vertical flips.
-}\label{fig:pcaEigenvectorsExtraBias}
-\end{figure*}
-
-We begin by calculating new principal components and eigenvectors for each group up the ramp and then subtracting the first 10 principal component eigenvectors multiplied by their respective principal components by each image.
-Principal component analysis detects variations from the mean and so the data is first subtracted by the mean and then the mean is added after PCA is complete.
-It is important to mask the bad pixels before calculating the principal components so they are not driven by errant bad pixels.
-We set the value of all bad pixels to 0 so they do not add any variance.
-We also calculate the PCA eigenvectors after the bias has been subtracted and the reference pixel correction was applied.
-The PCA subtraction is applied to each group up the ramp and then these groups are subtracted in pairs to create a time series.
-The final time series has and measured standard deviation of 5,000 to 5,700 DN within the background-subtracted aperture.
-This is comparable to the row and column subtraction standard deviation of 5,500 to 6,500 DN.
-Adding 10 more principal components for a total of 20 eigenvectors only reduces the time series noise to 5,100 to 5,400 for the 3 apertures.
+In another approach, we treat each amplifier separately so that the principal components are calculated independently.
+This approach means that a noise signature in 3 amplifiers but not the fourth does not propagate to fourth amplifier when subtracting the PCA-based model.
+This individual-amplifier essentially has four times the number of degrees of freedom, so we fit with only the first 5 principal components in each amplifier.
+The resulting eigenvectors are shown in Figure \ref{fig:pcaEigenvectorsIndAmp}.
 
 If we treat each amplifier separately, the PCA model is more effective in reducing 1/f noise.
 We begin by keeping 5 principal components within each amplifier and subtracting these from each amplifier separately.
 The resulting standard deviation of the time series is 2900 to 3870 DN.
 This is improvement is beyond what is possible on a real source because the principal components include pixels over the source aperture.
 To simulate a real photometry scenario, it is necessary to interpolate over the source aperture points as done in Section \ref{sec:smoothKernelSub} for the smoothing kernel.
+
+\begin{figure*}[!hbtp]
+\centering
+\includegraphics[width=.4\columnwidth]{pca_dark_ind_amp_grp_54_extra_bias_sub.pdf}
+\includegraphics[width=.4\columnwidth]{pca_dark_ind_amp_grp_55_extra_bias_sub.pdf}
+\caption{The first 5 principal component eigenvectors identified from group 54 (left) and group 55 (right) where each amplifier has been analyzed independently.
+The amplifier boundaries are demarcated by solid vertical lines.
+}\label{fig:pcaEigenvectorsIndAmp}
+\end{figure*}
 
 \clearpage
 

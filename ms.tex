@@ -894,8 +894,8 @@ Measured Read Noise (reference pixel correction) & 10,800 & 280 \\
 Measured Read Noise (reference channel subtraction) & 9,700 & 250 \\
 Measured Read Noise (row-by-row median subtraction) & 6,000 & 150 \\
 Measured Read Noise (20 Component PCA subtraction) & 5,400 & 140 \\
-Measured Read Noise (5 Component PCA on each amplifier) & 3,300 & 140 \\
 Measured Read Noise (smoothed 161 px kernel interpolating over aperture) & 3,300 & 85 \\
+Measured Read Noise (5 Component PCA on each amplifier) & 3,200 & 81 \\
 Measured Read Noise (row-by-row amp-by-amp mean subtraction) & 2,900 & 75 \\
 Measured Read Noise (smoothed 40 px kernel on top of aperture) & 900 & 23 \\
 \enddata
@@ -1008,7 +1008,8 @@ We then create a noise model image which is the matrix multiplication of the eig
 This model is subtracted from each group to create a 1/f-corrected image.
 
 The PCA subtraction is applied to each group up the ramp and then these groups are subtracted in pairs to create a time series.
-The final time series has and measured standard deviation of 5,000 to 5,700 DN within the background-subtracted aperture.
+We use 20 principal components as a starting point for this method.
+The final time series has and measured standard deviation of 5,300 to 5,500 DN within the background-subtracted aperture.
 This is comparable to the row and column subtraction standard deviation of 5,500 to 6,500 DN.
 Adding 10 more principal components for a total of 20 eigenvectors only reduces the time series noise to 5,100 to 5,400 for the 3 apertures.
 
@@ -1029,7 +1030,7 @@ The resulting eigenvectors are shown in Figure \ref{fig:pcaEigenvectorsIndAmp}.
 
 If we treat each amplifier separately, the PCA model is more effective in reducing 1/f noise.
 We begin by keeping 5 principal components within each amplifier and subtracting these from each amplifier separately.
-The resulting standard deviation of the time series is 2900 to 3870 DN.
+The resulting standard deviation of the time series is 2500 to 3820 DN.
 This is improvement is beyond what is possible on a real source because the principal components include pixels over the source aperture.
 To simulate a real photometry scenario, it is necessary to interpolate over the source aperture points as done in Section \ref{sec:smoothKernelSub} for the smoothing kernel.
 

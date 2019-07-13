@@ -588,8 +588,15 @@ f(k_x,k_y) = \sum_{i=1}^{i=3} f_i(k_{x,i}'(\theta_i),k_{y,i}'(\theta_i),a_i,b,c)
 
 This model has 8 free parameters: three angles ($\theta_i$, three amplitudes ($a_i$), a joint parallel exponential constant ($b$) and joint Lorentzian width ($c$).
 We only fit the region of the power spectral density above frequencies of 0.05 px$^{-1}$ to focus on the high frequency component of the flat field where the crosshatch is most prevalent.
+
+We also consider a model with a ``background'' so that 
+\begin{equation}
+f(k_x,k_y) = \sum_{i=1}^{i=3} f_i(k_{x,i}'(\theta_i),k_{y,i}'(\theta_i),a_i,b,c) + d \exp{\left(-k_r/e\right)},
+\end{equation}
+where $d$ is the amplitude of the radial ``background'', $k_r= \sqrt{k_x^2+k_y^2}$ is the radial frequency and $e$ is the radial background exponential constant.
+
 For the F300M filter and ALONG detector, we find 
-for $\theta_1 = 0.9013 \pm 0.0004 \degree, \theta_2 = 68.6041 \pm 0.0007 \degree, \theta_3 = 113.0741 \pm 0.0007, a_1 = 3.93 \pm 0.01 \times 10^{-7}, a_2 = 2.305 \pm 0.007 \times 10^{-7}, a_3 = 2.540 \pm 0.007 \times 10^{-7}, b=0.3243 \pm 0.0007 $ px$^{-1}$ and $c=2.44 \pm 0.03 \times 10^{-2}$ px$^{-1}$.
+for $\theta_1 = 0.906 \pm 0.001 \degree, \theta_2 = 68.605 \pm 0.001 \degree, \theta_3 = 113.075 \pm 0.001, a_1 = 2.774 \pm 0.002 \times 10^{-7}, a_2 = 1.569 \pm 0.002 \times 10^{-7}, a_3 = 1.744 \pm 0.002 \times 10^{-7}, b=0.345 \pm 0.0005 $ px$^{-1}$, $c=2.05 \pm 0.07 \times 10^{-2}$ px$^{-1}$, $d=6.78 \pm 0.01 10^{-3}$ and $e=0.26 \pm 0.01$ px$^{-1}$.
 The uncertainties were simply derived from the diagonals of the covariance matrix and likely are underestimated.
 
 NIRCam's 10 SCA's have very similar crosshatch angles with separations of 44.5 $\degree$ and 67.7 to 67.8 $\degree$.

@@ -249,12 +249,18 @@ Santa Cruz, CA 95062, USA}
 Space Science and Astrobiology Division \\
 Moffett Field, CA 94035, USA}
 
+
+\author{Karl Misselt}
+\affiliation{Steward Observatory \\
+933 North Cherry Avenue \\
+Tucson, AZ 85721, USA}
+
 \author{Jarron Leisenring}
 \affiliation{Steward Observatory \\
 933 North Cherry Avenue \\
 Tucson, AZ 85721, USA}
 
-\author{Karl Misselt}
+\author{Kenneth Don}
 \affiliation{Steward Observatory \\
 933 North Cherry Avenue \\
 Tucson, AZ 85721, USA}
@@ -1313,6 +1319,19 @@ When binning the data into 2.5 minute increments, the standard deviation is only
 
 \clearpage
 \subsection{Asic Dewar Tests}
+We performed a variety of stability tests using a dewar with the same type of detectors, readout electronics and temperature control as the in-flight parts.
+The detectors and asic controllers are devices that did not fully meet the flight requirements for NIRCam, but in many cases are close or above requirements.
+The detectors are illuminated by short wavelength LEDs (1.6 to 1.8~$\mu$m) or long wavelength (\textbf{Which type and wavelength?}) LEDs.
+The LEDS are type Lms17 and ???? from Electro Optical Components, Inc.
+
+The dewar has limited space for optical illumination so the LEDS light is bounced off a convex mirror and painted aluminum surface before reaching the detectors.
+The convex mirror, its support structure and a black mask at the edges of the detectors all produce a shadows on some pixels of the detector.
+The illuminated portions of the detector are used for aperture extractions while the shadows are used for background subtraction apertures.
+
+No LEDs used in ground-based tests were as stable as the desired precisions relevant to exoplanet targets (sub 30 ppm), so multiple arrays are used to correct for lamp variations during illuminated stability tests.
+The best absolute stability of an LED measured on a detector was 0.05\% ppm over 2 hours.
+More typically, the variations were 1\%, although the current measured with a multimeter was stable to 0.1\%.
+A ratio time series is constructed by dividing the time series derived from one detector to another time series from a different detector.
 
 \subsubsection{Persistence}
 HST shows noticeable ramps with each HST orbit due to detector charge trapping \citep{zhou2017chargeTrap}.
@@ -1340,13 +1359,31 @@ The characteristic timescale for charge trapping is 12 seconds.}\label{fig:persi
 \subsubsection{Pre-Ampflier Reset Test}
 We also explored the difference between resets per frame versus resets per integrations as discussed in Section \ref{sec:preAmp}.
 We used a stripe mode 2048x256 with reference pixels on the bottom and sides.
+
+Each pre-amplifier is reset once per frame by the current flight parameters.
+This causes amplifier offsets because each amplifier is reset to a different value with some noise, as visible in Figure \ref{fig:RPFrefpix}.
+The pre-amplifier resets, however, can be largely corrected for by reference pixels or background subtraction.
+Figure \ref{fig:RPFrefpix} also shows a corrected image where the top reference pixels (a 512 pixel wide 4 pixel tall region per amplifier) is used to subtract the amplifier offsets.
+
 \begin{figure*}
 {\gridline{\fig{rpf_vs_rpi_old_cds_no_refpix.pdf}{0.99\textwidth}{No Reference Pixels RPF}}}
 {\gridline{\fig{rpf_vs_rpi_new_cds_with_refpix.pdf}{0.99\textwidth}{Reference Pixel RPF}}}
 \caption{Reset per frame with reference pixel correction.}\label{fig:RPFrefpix}
 \end{figure*}
 
+
 \subsubsection{Stripe versus Window Mode}
+JWST users may select between two types of subarrays within NIRCam grism time series.
+This is specified with the Astronomy Proposal Tools (APT) software in the ``NIRCam Grism Time Series'' template with "No. of Output Channels".
+When the output channels are set to 4 (stripe mode), the frame time is approximately four times faster than 1 output channel (window mode).
+The exact timing is slightly different than a factor of 4 due to overheads.
+The advantage of stripe mode is that it allows more samples up the ramp in an integration and also shorter minimum integration times to enable observations of brighter sources.
+The stripe mode uses four different amplifiers, which could potentially lead to differences between the 4 regions each 512 pixels wide.
+The stripe mode is the same as standard full frame imaging when the height of the stripe is 2048 pixels tall.
+
+Figure \ref{fig:stripeVsWindowAZlab04} shows the time series for a stripe versus window mode test.
+In each case, these are the ratios of time series between two Long wavelength detectors derived from aperture photometry with background subtraction.
+
 \begin{figure*}
 {\gridline{\fig{azlab_ratio_tser_baseline.pdf}{0.49\textwidth}{Stripe Mode TIme Series}
 \fig{azlab_ratio_tser_window.pdf}{0.49\textwidth}{Window Mode Time series}}}

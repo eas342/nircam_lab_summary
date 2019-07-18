@@ -712,7 +712,7 @@ The ALONG detector has more pronounced crosshatching toward the middle of the de
 On the other hand, the BLONG detector has more pronounced crosshatching towards the boundary.
 We fit the crosshatch pattern to three regions of the detector:
 \begin{itemize}
-	\item The 2048$\times$64 SUBGRISM64 nominal position at the bottom of the array. Bottom Left corner is (4,5)
+	\item The 2048$\times$64 SUBGRISM64 nominal position at the bottom of the array. Bottom Left corner is (0,0)
 	\item A 2048$\times$64 theoretical subarray at the top of the ALONG detector. Bottom Left corner is (0,1983)
 	\item A 2048$\times$64 cutout of the full frame detector that is centered on the grism time series field point.
 \end{itemize}
@@ -1382,6 +1382,8 @@ The stripe mode uses four different amplifiers, which could potentially lead to 
 The stripe mode is the same as standard full frame imaging when the height of the stripe is 2048 pixels tall.
 
 Figure \ref{fig:stripeVsWindowAZlab04} shows the time series for a stripe versus window mode test.
+In both cases the subarray is SUBGRISM256, which is 2048 pixels wide and 256 pixels tall.
+The subarray is placed at the top of the detector where 4 rows of reference pixels are accessible.
 In each case, these are the ratios of time series between two Long wavelength detectors derived from aperture photometry with background subtraction.
 
 \begin{figure*}
@@ -1390,7 +1392,32 @@ In each case, these are the ratios of time series between two Long wavelength de
 \caption{Stripe mode (4 output amplifiers) gives better precision than window mode (one amplifier).}\label{fig:stripeVsWindowAZlab04}
 \end{figure*}
 
+\subsubsection{Subarray Size Comparisons}
+NIRCam grism time series users can choose between full frame, SUBGRISM256, SUBGRISM128 and SUBGRISM64 subarray sizes, which are 2048, 256, 128 and 64 pixels tall and 2048 pixels wide.
+The taller subarrays have the advantage of more background pixels (or a reference star) to use in analysis.
+The taller subarrays also are needed to fit the short wavelength WEAK LENS +8 PSF observed simultaneously with the long wavelength grism.
+Otherwise, the WEAK LENS +4 PSF must be observed or a fraction of the WEAK LENS +8 PSF used.
+The shorter subarrays have the advantage of faster frame times, permitting observations of brighter stars or more samples up the ramp than taller subarrays.
+We used the same lamp LED current for the SUBGRISM256, SUBGRISM128 and SUBGRISM64 subarrays and tuned the integration times to be similar by setting the number of RAPID groups as 8, 16 and 32 for the three subarrays respectively.
+The resulting integration times are 10.8995, 10.8155 and 10.7735 seconds respectively.
+No clear trend is seen in the time series shown in Figure \ref{fig:subarraySizes}.
+In this example, the background aperture was always parallel to the source aperture to best remove 1/f noise.
+\textbf{\textcolor{red}{Show what happens if the background aperture and source apertures are on different amplifiers and/or if they are vertical with respect to the source aperture}}
+
+\begin{figure*}
+{\gridline{\fig{azlab_ratio_tser_baseline.pdf}{0.33\textwidth}{SUBGRISM256}
+\fig{azlab_ratio_tser_stripe128.pdf}{0.33\textwidth}{SUBGRISM128}
+\fig{azlab_ratio_tser_stripe64.pdf}{0.33\textwidth}{SUBGRISM64}}}
+\caption{The subarray size tests show very similar precision levels with a horizontal aperture.}\label{fig:subarraySizes}
+\end{figure*}
+
 \subsubsection{Persistence with Long and Short Illumination}
+We estimate the persistence level by illuminating the detectors to $\sim$80\% well depth for either 30 seconds or 30 minutes and observe the slopes after the LED is turned off.
+We find a that the slopes rapidly the noise levels ($<$ 10 e$^-$/s) in less than 10 seconds, as shown in Figure \ref{fig:persistenceAZlab04}.
+This is similar to the measurements in \citet{leisenring2016persistence}, who find that the persistence rate after saturating the detectors and turning off the lamp is 0.5 DN/sec to 15 DN/sec or 0.28$e^-$ to 6.8$e^-$ at the 30 second mark, depending on the detector.
+The flight NIRCam long wavelength detectors in \citet{leisenring2016persistence} have smaller persistence signals than the short wavelength detectors.
+The asic dewar persistence test in Figure \ref{fig:persistenceAZlab04} is for a long wavelength detector.
+
 \begin{figure*}
 {\gridline{\fig{persistence_short_log.pdf}{0.49\textwidth}{Short Timescale Persistence}
 \fig{persistence_long_lin.pdf}{0.49\textwidth}{Long Timescale Persistence}}}

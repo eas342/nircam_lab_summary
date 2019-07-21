@@ -1412,7 +1412,7 @@ In this example, the background aperture was always parallel to the source apert
 \fig{azlab_ratio_tser_subarraySize_128.pdf}{0.33\textwidth}{SUBGRISM128}
 \fig{azlab_ratio_tser_subarraySize_064.pdf}{0.33\textwidth}{SUBGRISM64}}}
 \caption{The subarray size tests show very similar precision levels with a background aperture horizontally displayed from the source aperture (top row).
-If no background subtraction is done, paradoxically, the tallest subgrism (fewest groups) is the most stable. \textbf{\textcolor{red}{How does this make sense? Did I possibly change how the side reference pix correction was done between the 3 tests?}}}\label{fig:subarraySizes}
+If no background subtraction is done, paradoxically, the tallest subgrism (fewest groups) is the most stable. \textbf{\textcolor{red}{How does this make sense? Did I possibly change how the side reference pix correction was done between the 3 tests? Changed from the FFT-based method to savgol on Fri Jul 12 22:04:54 2019. Processed the files on Jul 10 18:06. Could this be important? I will try and experiment on darks as well as re-processing the original baseline data to see.} }}\label{fig:subarraySizes}
 \end{figure*}
 
 \subsubsection{Persistence with Long and Short Illumination}

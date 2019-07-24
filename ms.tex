@@ -1387,7 +1387,7 @@ The subarray is placed at the top of the detector where 4 rows of reference pixe
 In each case, these are the ratios of time series between two Long wavelength detectors derived from aperture photometry with background subtraction.
 
 \begin{figure*}
-{\gridline{\fig{azlab_ratio_tser_baseline.pdf}{0.49\textwidth}{Stripe Mode TIme Series}
+{\gridline{\fig{azlab_ratio_tser_baseline.pdf}{0.49\textwidth}{Stripe Mode Time Series}
 \fig{azlab_ratio_tser_window.pdf}{0.49\textwidth}{Window Mode Time series}}}
 \caption{Stripe mode (4 output amplifiers) gives better precision than window mode (one amplifier).}\label{fig:stripeVsWindowAZlab04}
 \end{figure*}
@@ -1417,6 +1417,13 @@ Processed the files on Jul 10 18:06. Indeed, they were processed slightly differ
 Karl very astutely points out that the 2048x256 has reference pixels on the top but the 2048x128 and 2048x64 do NOT have reference pixels at the top, so pre-amp reset issues are very likely.} }}\label{fig:subarraySizes}
 \end{figure*}
 
+\begin{figure*}
+{\gridline{\fig{azlab_ratio_tser_baseline.pdf}{0.33\textwidth}{Reset-per-frame, 2048x256}
+\fig{azlab_ratio_tser_RPI.pdf}{0.33\textwidth}{Reset-per-integration, 2048x256}}}
+{\gridline{\fig{azlab_ratio_tser_stripe64_1p5_mA_rpt2.pdf}{0.33\textwidth}{Reset-per-frame, 2048x64}
+\fig{azlab_ratio_tser_stripe64_1p5_mA_rpt3rpi.pdf}{0.33\textwidth}{Reset-per-integration, 2048x64}}}
+\caption{Reset per integration versus reset per frame.}\label{fig:subarraySizes}
+\end{figure*}
 
 \subsubsection{Persistence with Long and Short Illumination}
 We estimate the persistence level by illuminating the detectors to $\sim$80\% well depth for either 30 seconds or 30 minutes and observe the slopes after the LED is turned off.

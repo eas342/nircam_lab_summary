@@ -1366,11 +1366,25 @@ The pre-amplifier resets, however, can be largely corrected for by reference pix
 Figure \ref{fig:RPFrefpix} also shows a corrected image where the top reference pixels (a 512 pixel wide 4 pixel tall region per amplifier) is used to subtract the amplifier offsets.
 
 \begin{figure*}
-{\gridline{\fig{rpf_vs_rpi_old_cds_no_refpix.pdf}{0.99\textwidth}{No Reference Pixels RPF}}}
-{\gridline{\fig{rpf_vs_rpi_new_cds_with_refpix.pdf}{0.99\textwidth}{Reference Pixel RPF}}}
+{\gridline{\fig{rpf_vs_rpi_old_cds_no_refpix.pdf}{0.8\textwidth}{No Reference Pixels RPF}}}
+{\gridline{\fig{rpf_vs_rpi_new_cds_with_refpix.pdf}{0.8\textwidth}{Reference Pixel RPF}}}
 \caption{Reset per frame with reference pixel correction.}\label{fig:RPFrefpix}
 \end{figure*}
 
+As a further demonstration that reference pixels can subtract amplifier offsets or background subtraction, we show time series for tests with a reset per frame and a reset per integration in Figure \ref{fig:RPFvsRPItseries}.
+The resets-per-frame have similar noise to the resets-per-integration on short timescales.
+For the 2048x256 subarray, the standard deviation were 197 ppm and 183 ppm for RPF and RPI respectively.
+For the 2048x64 subarray, the standard deviations were 327 ppm and 180 ppm for RPF and RPI respectively.
+The difference between these is dominated by the slope through the test.
+We suspect the flatter slow during RPI is a coincidence because the the resets within an integration (less than one minute) are unlikely to propagate a gradual slope over several hours.
+
+\begin{figure*}
+{\gridline{\fig{azlab_ratio_tser_baseline.pdf}{0.33\textwidth}{Reset-per-frame, 2048x256}
+\fig{azlab_ratio_tser_RPI.pdf}{0.33\textwidth}{Reset-per-integration, 2048x256}}}
+{\gridline{\fig{azlab_ratio_tser_stripe64_1p5_mA_rpt2.pdf}{0.33\textwidth}{Reset-per-frame, 2048x64}
+\fig{azlab_ratio_tser_stripe64_1p5_mA_rpt3rpi.pdf}{0.33\textwidth}{Reset-per-integration, 2048x64}}}
+\caption{Reset per integration versus reset per frame.}\label{fig:RPFvsRPItseries}
+\end{figure*}
 
 \subsubsection{Stripe versus Window Mode}
 JWST users may select between two types of subarrays within NIRCam grism time series.
@@ -1417,13 +1431,7 @@ Processed the files on Jul 10 18:06. Indeed, they were processed slightly differ
 Karl very astutely points out that the 2048x256 has reference pixels on the top but the 2048x128 and 2048x64 do NOT have reference pixels at the top, so pre-amp reset issues are very likely.} }}\label{fig:subarraySizes}
 \end{figure*}
 
-\begin{figure*}
-{\gridline{\fig{azlab_ratio_tser_baseline.pdf}{0.33\textwidth}{Reset-per-frame, 2048x256}
-\fig{azlab_ratio_tser_RPI.pdf}{0.33\textwidth}{Reset-per-integration, 2048x256}}}
-{\gridline{\fig{azlab_ratio_tser_stripe64_1p5_mA_rpt2.pdf}{0.33\textwidth}{Reset-per-frame, 2048x64}
-\fig{azlab_ratio_tser_stripe64_1p5_mA_rpt3rpi.pdf}{0.33\textwidth}{Reset-per-integration, 2048x64}}}
-\caption{Reset per integration versus reset per frame.}\label{fig:subarraySizes}
-\end{figure*}
+
 
 \subsubsection{Persistence with Long and Short Illumination}
 We estimate the persistence level by illuminating the detectors to $\sim$80\% well depth for either 30 seconds or 30 minutes and observe the slopes after the LED is turned off.

@@ -1378,12 +1378,21 @@ For the 2048x64 subarray, the standard deviations were 327 ppm and 180 ppm for R
 The difference between these is dominated by the slope through the test.
 We suspect the flatter slow during RPI is a coincidence because the the resets within an integration (less than one minute) are unlikely to propagate a gradual slope over several hours.
 
+
+\begin{figure*}
+{\gridline{\fig{azlab_ratio_tser_rpi_vs_rpf_no_bsub_no_refpix_rpf256_no_bsub_no_refpx_both_NRCBSELINE0P9MA.pdf}{0.33\textwidth}{Reset-per-frame, 2048x256}
+\fig{azlab_ratio_tser_rpi_vs_rpf_no_bsub_no_refpix_rpi256_no_bsub_no_refpx_both_NRCRPIBSELINE0P9MA.pdf}{0.33\textwidth}{Reset-per-integration, 2048x256}}}
+{\gridline{\fig{azlab_ratio_tser_rpi_vs_rpf_no_bsub_no_refpix_rpf064_no_bsub_no_refpx_both_NRC64STRIPE1P5MA.pdf}{0.33\textwidth}{Reset-per-frame, 2048x64}
+\fig{azlab_ratio_tser_rpi_vs_rpf_no_bsub_no_refpix_rpi064_no_bsub_no_refpx_both_NRCRPI64STRIPE1P5MA.pdf}{0.33\textwidth}{Reset-per-integration, 2048x64}}}
+\caption{Reset per integration versus reset per frame where no reference pixel correction and no background subtraction have been applied.}\label{fig:RPFvsRPItseries}
+\end{figure*}
+
 \begin{figure*}
 {\gridline{\fig{azlab_ratio_tser_baseline.pdf}{0.33\textwidth}{Reset-per-frame, 2048x256}
 \fig{azlab_ratio_tser_RPI.pdf}{0.33\textwidth}{Reset-per-integration, 2048x256}}}
 {\gridline{\fig{azlab_ratio_tser_stripe64_1p5_mA_rpt2.pdf}{0.33\textwidth}{Reset-per-frame, 2048x64}
 \fig{azlab_ratio_tser_stripe64_1p5_mA_rpt3rpi.pdf}{0.33\textwidth}{Reset-per-integration, 2048x64}}}
-\caption{Reset per integration versus reset per frame.}\label{fig:RPFvsRPItseries}
+\caption{Reset per integration versus reset per frame where both reference pixel correction and background subtraction have been applied.}\label{fig:RPFvsRPItseries}
 \end{figure*}
 
 \subsubsection{Stripe versus Window Mode}

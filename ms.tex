@@ -445,7 +445,7 @@ The resets cause discontinuities in the pedestal level of all pixels between fra
 	\item \textbf{1/f noise:} This is a noise source where most of the noise power is concentrated as low frequencies. 1/f noise causes spatial correlations in the fast-read direction (along detector rows). It is highly correlated between amplifiers, suggesting that it is caused by a common reference voltage. 1/f noise can be reduced using reference pixels
 	\item \textbf{Even/odd offsets:} Alternating columns have different bias levels. Additionally, there are offsets between columns that can change from frame to frame, especially on NIRCam's LW detector
 	\item \textbf{kTC noise:} A random process due to the unknown amount of charge stored at the reset voltage level
-	\item \textbf{Detector Temperature Fluctuations:} The JWST detectors are sensitive to temperature changes on the detectors. For example, laboratory tests show that 100 mK temperature fluctuations can result in $\sim$ 80 ADU changes on the detector that are not corrected by reference pixels \citep{hall2005jwstArrays}. Fortunately, the detectors are actively thermally controlled to keep the temperature fluctuations to mostly $\lesssim$ 1 mK.
+	\item \textbf{Detector Temperature Fluctuations:} The JWST detectors are sensitive to temperature changes on the focal plane arrays. For example, laboratory tests show that 100 mK temperature fluctuations can result in $\sim$ 80 ADU changes on the detector that are not corrected by reference pixels \citep{hall2005jwstArrays}. Fortunately, the detectors are actively thermally controlled to keep the temperature fluctuations to mostly $\lesssim$ 1 mK.
 The one exception is that the Long Wavelength A-side detector (A5) exhibited $\sim$ 20 min oscillations with an amplitude of 15-20 mK when using the Temperature Monitor Control (TMC) 1 active thermal control.
 Fortunately, the TMC 2 control does not undergo these oscillations and will be employed in orbit.
 If necessary, the effect of temperature fluctuations can be calibrated to $\pm 1 e^-$ for excursions less than $\pm$ 50 mK \citep{hall2005jwstArrays}.
@@ -522,10 +522,13 @@ The angle between these lines are 67.8$\degree$, 67.7$\degree$ and 44.5$\degree$
 These are best visualized with a 2D power spectrum as shown in Figure \ref{fig:crossHatchA5}.
 
 The angles of the crosshatch patterns are likely set by the crystal pattern of HgCdTe.
+The surface morphology of HgCdTe shows that the crosshatch patterns are are oriented along the intersection of the (211) growth plane of the crystal and the 8 HgCdTe slip planes \citep{chang2008surfaceMorphologyHgCdTe}.
 HgCdTe has a zincblende structure with tetrahedral bond angles where each Hg or Cd atom is surrounded by 4 Te atoms \citep{gemain2012mercVacanciesHgCdTe}.
 One possible projection of a zincblende structure is shown in Figure \ref{fig:crossHatchA5}.
-In this perspective, the projected bond angles form angles fo 67.8 $\degree$, 67.8 $\degree$ and 44.4$\degree$, close to the observed crosshatch angles.
+In this perspective, the projected bond angles form angles of 67.8 $\degree$, 67.8 $\degree$ and 44.4$\degree$, close to the observed crosshatch angles.
 We therefore deduce that the crosshatch pattern is mostly likely related to the crystal lattice of the HgCdTe substrate and not the pixels or circuitry.
+
+
 
 The crosshatch structure of the detectors extends down to the subpixel level, so it will not be fully corrected with a flat field division.
 This sub-pixel structure has been imaged with microscopy on a Euclid HgCdTe detector \citep{shapiro2018crosshatch}.
@@ -1524,7 +1527,8 @@ The authors wish to recognize and acknowledge the very significant cultural role
           \texttt{batman} \citep{kreidberg2015batman},
           \texttt{spiderman} \citep{louden2017spiderman},
           \texttt{pynrc} \url{https://github.com/JarronL/pynrc},
-          \texttt{emcee} \citep{foreman-mackey2013emcee}
+          \texttt{emcee} \citep{foreman-mackey2013emcee},
+          Google Sketchup
            }
 
 %% Appendix material should be preceded with a single \appendix command.

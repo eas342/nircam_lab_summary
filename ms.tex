@@ -1489,6 +1489,18 @@ The asic dewar persistence test in Figure \ref{fig:persistenceAZlab04} is for a 
 \caption{Time series for the ratio of two apertures within a detector.}\label{fig:allanVarianceWithinDetector}
 \end{figure*}
 
+\subsection{Reference Pixels versus No Reference Pixels}
+One question to answer is, can background subtraction subtract off noise just as well as reference pixels?
+We compare time series on source boxes subtracted by a background box on data that has been reference pixel subtracted and data that has not been reference pixel subtracted.
+As before, the background boxes are offset horizontally from the source boxes to best capture 1/f noise.
+For the baseline test, with a 2048x256 subarray, the standard deviation was 197.11 ppm with reference pixel correction.
+Repeating the experiment with no reference pixel correction, the standard deviation was 198.19 ppm.
+This test indicates that horizontally displaced background box is sufficient in removing pre-amp offsets and 1/f noise from the source aperture.
+However, for some cases (like NIRCam grism time series), the background subtraction will be done vertically and so side reference pixels will be desired.
+
+If not top reference pixels are available (such as in the 2048x64 subarray test), and only side reference pixels are available, the benefits are similar.
+For the 2048x64 1.5 mA test with reset-per-frame, the standard deviation was 326.9 ppm with reference pixel correction and 327.2 ppm without reference pixel correction.
+
 
 %% If you wish to include an acknowledgments section in your paper,
 %% separate it off from the body of the text using the \acknowledgments

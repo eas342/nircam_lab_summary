@@ -1364,7 +1364,8 @@ The characteristic timescale for charge trapping is 12 seconds.}\label{fig:persi
 \end{figure*}
 
 
-\subsubsection{Pre-Ampflier Reset Test}
+
+\subsubsection{Pre-Amplifier Reset Test}
 We also explored the difference between resets per frame versus resets per integrations as discussed in Section \ref{sec:preAmp}.
 We used a stripe mode 2048x256 with reference pixels on the bottom and sides.
 
@@ -1402,6 +1403,12 @@ We suspect the flatter slow during RPI is a coincidence because the the resets w
 \fig{azlab_ratio_tser_stripe64_1p5_mA_rpt3rpi.pdf}{0.33\textwidth}{Reset-per-integration, 2048x64}}}
 \caption{Reset per integration versus reset per frame where both reference pixel correction and background subtraction have been applied.}\label{fig:RPFvsRPItseries}
 \end{figure*}
+
+We also repeat the long baseline test with a 2048x256 subarray and 8 groups up the ramp but this time with no illumination.
+This allows us to compare the noise in e-/px when illuminated versus the noise in e-/px.
+If these two values are the same, this indicates that electronic noise enters both detectors and limits photometry precision in ppm.
+We find instead that the illuminated data has a much higher standard deviation (9 e$^-$/px, compared to the theoretical 1.8 e$^-$/px averaged over the aperture).
+The dark time series had a standard deviation of 1.9 e$^-$/px compared to the theoretical (uncorrelated) 0.2 e$^-$/px averaged over the aperture.
 
 \subsubsection{Stripe versus Window Mode}
 JWST users may select between two types of subarrays within NIRCam grism time series.
@@ -1516,7 +1523,9 @@ Figure \ref{fig:RefpixWithVertOffsetBackground} shows the time series with and w
 \caption{If a background aperture is vertically displaced from the source aperture, the reference pixels are important in reducing 1/f noise.}\label{fig:RefpixWithVertOffsetBackground}
 \end{figure*}
 
-
+
+
+
 %% If you wish to include an acknowledgments section in your paper,
 %% separate it off from the body of the text using the \acknowledgments
 %% command.

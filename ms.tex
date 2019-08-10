@@ -1410,6 +1410,8 @@ If these two values are the same, this indicates that electronic noise enters bo
 We find instead that the illuminated data has a much higher standard deviation (9 e$^-$/px, compared to the theoretical 1.8 e$^-$/px averaged over the aperture).
 The dark time series had a standard deviation of 1.9 e$^-$/px compared to the theoretical (uncorrelated) 0.2 e$^-$/px averaged over the aperture.
 
+\clearpage
+
 \subsubsection{Stripe versus Window Mode}
 JWST users may select between two types of subarrays within NIRCam grism time series.
 This is specified with the Astronomy Proposal Tools (APT) software in the ``NIRCam Grism Time Series'' template with "No. of Output Channels".
@@ -1438,7 +1440,15 @@ We assess the relative value of the 1/f correction versus different reads by pla
 For stripe mode, this means that the apertures are on different amplifiers.
 For window mode, this means the apertures are on the same amplifier.
 
+\begin{figure*}
+{\gridline{\fig{azlab_ratio_tser_larger_backsep_stripe.pdf}{0.49\textwidth}{Stripe Mode Time Series, 379 ppm}
+\fig{azlab_ratio_tser_larger_backsep_window.pdf}{0.49\textwidth}{Window Mode Time series, 339 ppm}}}
+\caption{When the background aperture is displaced by more than 512 pixels from the source aperture, window mode becomes slightly preferable.
+}\label{fig:stripeVsWindowAZlab04LargerBacksep}
+\end{figure*}
 
+
+\clearpage
 \subsubsection{Subarray Size Comparisons}
 NIRCam grism time series users can choose between full frame, SUBGRISM256, SUBGRISM128 and SUBGRISM64 subarray sizes, which are 2048, 256, 128 and 64 pixels tall and 2048 pixels wide.
 The taller subarrays have the advantage of more background pixels (or a reference star) to use in analysis.

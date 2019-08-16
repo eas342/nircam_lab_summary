@@ -1251,6 +1251,27 @@ The aperture shifting appears to increase the flux errors with centroid shifts.
 }\label{fig:otisLWSWtserShift}
 \end{figure*}
 
+
+
+The locations of the subarrays have ROWCORNER=431.
+This means there are not top or bottom reference pixels.
+If we use a horizontally-displaced background region, the pre-amp offsets will not be properly subtracted.
+We therefore subtract the median from each column and then each row (not including the grism aperture).
+We subtract the median of each column first to remove the amplifier offsets and then the median of each row second to reduce the 1/f noise.
+Figure \ref{fig:otisLWSWtserShift} shows the dramatic effect of subtracting the columns and rows from each aperture.
+
+
+\begin{figure*}
+%\gridline{\fig{tser_LW_OTIS.pdf}{0.99\textwidth}{WLP8 Image} }
+\gridline{\fig{raw_tser_LWgrisMPPVertBackbox_otisSWLWsimult.pdf}{0.49\textwidth}{Slope Images}
+\fig{raw_tser_LWgrisMMMRowColSubVertBackbox_otisSWLWsimult.pdf}{0.49\textwidth}{Column-by-column and row-by-row subtraction}}
+\caption{The grism time series contains subtraction correlated read noise due to pre-amplifier offsets in the vertical direction and 1/f noise in the horizontal direction.
+Row-by-row-subtraction dramatically decreases the noise due to 1/f noise.
+}\label{fig:otisLWSWtserShift}
+\end{figure*}
+
+
+
 \subsubsection{Half Pass Subarray Size Tests}
 
 As with the CV3 tests in Section \ref{sec:CV3Lessons} and Figure \ref{fig:CV3longTser}, we found the highest precision lightcurves when using subarray read configurations.
@@ -1260,7 +1281,7 @@ This would be expected if the read noise contributed significantly to the standa
 The perplexing thing is, though, that this is even true if we throw away all the intermediate reads.
 That is, with all readout modes, count rate (ie. slope image is approximated by the last subtracted by the first read.
 Here the number of reads in between these is irrelevant.
-A possible way to explain the superior standard deviation for the smallest 2048$\times$64 subarray is not that more reads increase precision but rather the small subarray has a smaller contribution from spatially correlated noise.
+A possible way to explain the superior standard deviation for the smallest 2048$\times$64 subarray is not that more reads increase precision on the slopes but rather the small subarray has a smaller contribution from spatially correlated noise.
 When larger frames are read out, for example, the 1/f noise becomes increasingly uncorrelated from read to read.\textcolor{red}{Wrote this when very tired. Is this correct and logical?}
 
 Note that the integration times are different for these 4 tests. They are 39.9, 39.9, 32.3, 31.8 and 32.2 for the 64-STRIPE, 128-STRIPE, 256-STRIPE, 256-WIND and FULLFRAME respectively. Perhaps the lamp has oscillations on a timescale that are averaged out efficiently at 39.9 seconds but not 32.3 seconds?
@@ -1414,7 +1435,7 @@ The dark time series had a standard deviation of 1.9 e$^-$/px compared to the th
 
 \subsubsection{Stripe versus Window Mode}
 JWST users may select between two types of subarrays within NIRCam grism time series.
-This is specified with the Astronomy Proposal Tools (APT) software in the ``NIRCam Grism Time Series'' template with "No. of Output Channels".
+This is specified with the Astronomy Proposal Tools (APT) software in the ``NIRCam Grism Time Series'' template with ``No. of Output Channels".
 When the output channels are set to 4 (stripe mode), the frame time is approximately four times faster than 1 output channel (window mode).
 The exact timing is slightly different than a factor of 4 due to overheads.
 The advantage of stripe mode is that it allows more samples up the ramp in an integration and also shorter minimum integration times to enable observations of brighter sources.
@@ -1439,6 +1460,16 @@ The trade-off is that there are 4 times fewer frames per second.
 We assess the relative value of the 1/f correction versus different reads by placing the source aperture horizontally more than 512 pixels from the background aperture.
 For stripe mode, this means that the apertures are on different amplifiers.
 For window mode, this means the apertures are on the same amplifier.
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=0.7\columnwidth]{darkwindow_img.pdf}
+\includegraphics[width=.7\columnwidth]{darkstripe_img.pdf}
+\caption{The noise characteristics and tradeoffs of stripe (4 amplifier outputs) versus window (1 amplifier output) are visible in this dark integration.
+The stripe mode has 8 groups while the window has 2 groups for the same integration time.
+The increased number of groups allows for averaging dark frames but the individual amplifiers can have their own 1/f noise characteristics that will not be subtracted by reference pixels on the leftmost and rightmost amplifiers.}\label{fig:darkWindowVsDarkStripe}
+\end{figure}
+
 
 \begin{figure*}
 {\gridline{\fig{azlab_ratio_tser_larger_backsep_stripe.pdf}{0.49\textwidth}{Stripe Mode Time Series, 379 ppm}

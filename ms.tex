@@ -787,17 +787,18 @@ A periodogram shows a peak near 19 pixels period, however, it is not an overwhel
 }\label{fig:integratedOtisGrismSpec}
 \end{figure}
 
+\clearpage
 \section{Ground-based Experiments}\label{sec:experiments}
 
 Table \ref{tab:testSummary} shows a summary of the ground-based tests that were performed on NIRCam detectors.
 The flight NIRCam detectors, controllers, electronics, optics and instrument hardware were used in the Cryogenic Vacuum 3 (CV3) Test 3 as well as OTIS (Optical Telescope Element and Integrated Science).
 There were are dewars at the Steward Observatory at the University of Arizona used for time series stability tests.
 The GL dewar experiments used flight-like detectors, but a different controller (Leach).
-The Asic dewar located at Steward Observatory in Tucson, Arizona used a spare NIRCam detector, a spare asic controller and the flight software, but no flight optics.
+The Asic dewar located at Steward Observatory in Tucson, Arizona used the same kind of detectors as NIRCam, the same kind of asic controllers and the same flight software, but no flight-like optics.
 These two different kinds of detector electronics can be compared against each other to help isolate detector-related systematics from readout electronics-related systematics.
 
 The instrument modes tested included mostly imaging with narrowband LEDs, but there was also a test with spectroscopy on a broadband source.
-The one test with a broadband source was an OTIS stability test at NASA Johnson was a grism spectroscopy mode, whih illuminate the long wavelength detector with a slitless spectrum covering 2.4 to 4.0~$\mu$m for the F322W2 filter, as seen in Figure \ref{fig:ampOffsetsOtisGrismSlope}.
+The one test with a broadband source was an OTIS stability test at NASA Johnson was a grism spectroscopy mode, which illuminated the long wavelength detector with a slitless spectrum covering 2.4 to 4.0~$\mu$m for the F322W2 filter, as seen in Figure \ref{fig:ampOffsetsOtisGrismSlope}.
 The WLP8 imaging tests are where a point source is de-focused by 8 waves with a weak lens (WLP8), as shown in Figure \ref{fig:WLP8PSF}.
 This mode was designed for wavefront sensing, but is also useful for high-precision time series because it spreads the light over many pixels.
 The weak lens produces a point spread function (PSF) that is hexagonal like JWST's mirrors and has a flat-to-flat width of $\sim$108 pixels and a vertex-to-vertex width of $\sim$136 pixels.
@@ -1385,7 +1386,24 @@ The characteristic timescale for charge trapping is 12 seconds.}\label{fig:persi
 \end{figure*}
 
 
+\clearpage
+\subsubsection{Reference pixels versus background subtraction}
+One important question that can affect the placement of subarrays is whether background subtraction effectively achieves the same result as with reference pixel correction.
+This is tested in Figure \ref{fig:BackgVsRefpix}.
+In this case, the background aperture is displaced horizontally from the source aperture and within the same amplifier to best reduce 1/f noise and pre-amplifier offsets.
 
+
+\begin{figure*}
+{\gridline{\fig{azlab_ratio_tser_rpi_vs_rpf_no_bsub_no_refpix_rpf256_no_bsub_no_refpx_both_NRCBSELINE0P9MA.pdf}{0.33\textwidth}{Refpix=False, Bsub=False, 4968 ppm}
+\fig{azlab_ratio_tser_rpi_vs_rpf_nobacksub_rpf256_no_backsub_both_NRCBSELINE0P9MA.pdf}{0.33\textwidth}{Refpix=True, Bsub=False, 221 ppm}}}
+{\gridline{\fig{azlab_ratio_tser_rpi_vs_rpf_with_bsub_no_refpix_rpf256_with_bsub_no_refpx_both_NRCBSELINE0P9MA.pdf}{0.33\textwidth}{Refpix=False, Bsub=True, 198 ppm}
+\fig{azlab_ratio_tser_baseline.pdf}{0.33\textwidth}{Refpix =True, Bsub=True, 197 ppm}}}
+\caption{The time series of the flux ratio between two detectors shows that background subtraction achieves most of the value (within 1 ppm) of reference pixel correction to remove pre-amplifier offsets and 1/f noise.
+Furthermore, the background subtraction can be performed on the slope images rather than on a frame-by-frame basis.
+}\label{fig:BackgVsRefpix}
+\end{figure*}
+
+\clearpage
 \subsubsection{Pre-Amplifier Reset Test}
 We also explored the difference between resets per frame versus resets per integrations as discussed in Section \ref{sec:preAmp}.
 We used a stripe mode 2048x256 with reference pixels on the bottom and sides.

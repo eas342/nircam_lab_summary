@@ -1084,6 +1084,17 @@ The amplifier boundaries are demarcated by solid vertical lines.
 \clearpage
 
 \subsubsection{Grism Aperture}
+The NIRCam grism time series are particularly susceptible to 1/f noise because the dispersion direction is parallel to the detector's fast-read direction.
+This is visible in Figure \ref{fig:longDarkGrism} where the grism apertures (in red) are parallel to the 1/f noise correlations.
+The background subtraction along the spatial direction (vertically) will efficiently remove pre-amplifier offsets from frame to frame and amplifier to amplifier.
+However, there are no side reference pixels or background regions available on the middle two amplifiers.
+Therefore, the 1/f noise will adversely impact broadband behaviors of the lightcurves.
+Without reference pixel subtraction, the grism apertures have standard deviations of 153,000 DN.
+Reference pixel subtraction drops this value to 45,000 DN and row-by-row subtraction drops it to 9,000 DN.
+For a well depth of 60\%, there are $1.0 \times 10^8$ DN of source counts in an exposure, which amounts to a photon error of 7,400 DN assuming a gain of 1.84.
+Therefore, 1/f noise can potentially dominate the error budget for broadband grism time series!
+
+
 \begin{figure*}[!hbtp]
 \centering
 \includegraphics[width=.32\columnwidth]{aps_3_NRCNRCALONG-DARK-72350742131_1_485_SE_2017-08-23T16h49m51_int_015_014.pdf}

@@ -1093,6 +1093,14 @@ Without reference pixel subtraction, the grism apertures have standard deviation
 Reference pixel subtraction drops this value to 45,000 DN and row-by-row subtraction drops it to 9,000 DN.
 For a well depth of 60\%, there are $1.0 \times 10^8$ DN of source counts in an exposure, which amounts to a photon error of 7,400 DN assuming a gain of 1.84.
 Therefore, 1/f noise can potentially dominate the error budget for broadband grism time series!
+Expressed in ppm, the read noise after processing with row-by-row subtraction is 90 ppm as compared to a photon noise of 74 ppm for a CDS subtraction (2 groups in ramp).
+
+The timescale of most interest to studying atmospheres is the transit duration when trying to assess the stability.
+The transit durations for most exoplanets considered is several hours long.
+We therefore quantify error source over 1 hour duration.
+If the smallest stripe subarray is used, frame time is 0.34 seconds.
+For simplicity, assuming a duty cycle of 80\% due to detector resets, there are 8460 frames over which to average read noise.
+Therefore, the final read noise is only expected to be 1.4 ppm over a 1 hour timescale if each frame is statistically independent.
 
 
 \begin{figure*}[!hbtp]

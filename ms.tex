@@ -1101,7 +1101,7 @@ We therefore quantify error source over 1 hour duration.
 If the smallest stripe subarray is used, frame time is 0.34 seconds.
 For simplicity, assuming a duty cycle of 80\% due to detector resets, there are 8460 frames over which to average read noise.
 Therefore, the final read noise is only expected to be 1.4 ppm over a 1 hour timescale if each frame is statistically independent.
-
+  
 
 \begin{figure*}[!hbtp]
 \centering
@@ -1567,6 +1567,8 @@ The asic dewar persistence test in Figure \ref{fig:persistenceAZlab04} is for a 
 \caption{Stripe mode (4 output amplifiers) gives better precision than window mode (one amplifier).}\label{fig:persistenceAZlab04}
 \end{figure*}
 
+\clearpage
+\subsubsection{Multiple apertures within a detector}
 \begin{figure*}
 {\gridline{\fig{ap_labels_azlab04LED1p5mAStripe64n487Rpt2TwoAp_NRC64STRIPE1P5MA.pdf}{0.99\textwidth}{}}}
 {\gridline{\fig{ap_labels_azlab04LED1p5mAStripe64n489Rpt2TwoAp_NRC64STRIPE1P5MA.pdf}{0.99\textwidth}{Apertures}}}
@@ -1578,17 +1580,28 @@ The asic dewar persistence test in Figure \ref{fig:persistenceAZlab04} is for a 
 {\gridline{\fig{ap_labels_azlab04LED1p5mAStripe64ManyApn487Rpt2_NRC64STRIPE1P5MA.pdf}{0.7\textwidth}{}}}
 {\gridline{\fig{ap_labels_azlab04LED1p5mAStripe64ManyApn489Rpt2_NRC64STRIPE1P5MA.pdf}{0.7\textwidth}{Apertures}}}
 {\gridline{\fig{phot_azlab04LED1p5mAStripe64ManyApn_bothDetectors_Rpt2_NRC64STRIPE1P5MA_bin.pdf}{0.7\textwidth}{Time Series of Apertures}}}
-\caption{Time series for many apertures on each detector, binned into 70 equal bins.}\label{fig:manyApPerDetector}
+\caption{Time series for many apertures on each detector, binned into 70 equal time bins.}\label{fig:manyApPerDetector}
 \end{figure*}
 
+\begin{figure*}
+{\gridline{\fig{ap_labels_AZlab05baseline_multiAps_6p0mA_NRCBSELINE6P0MA.pdf}{0.7\textwidth}{Apertures on Detector 489}}}
+{\gridline{\fig{raw_tser_AZlab05baseline_multiAps_6p0mA_NRCBSELINE6P0MA.pdf}{0.7\textwidth}{Time series for each aperture}}}
+\caption{Time series for many apertures on the 489 detector after row-by-row and column-by-column background subtraction.
+Each amplifier has its own 1/f noise character, but the lamp variations measured on this detector move in concert across all detectors.}\label{fig:manyApOn489}
+\end{figure*}
+
+
+
+\clearpage
+\subsubsection{Reference pixel time series}
 \begin{figure*}
 {\gridline{\fig{azstab_1p5mA_repeat_2_refpix}{0.99\textwidth}{}}}
 \caption{Reference pixels cannot easily explain the trends between detectors.}\label{fig:refpixTSeries}
 \end{figure*}
 
 \begin{figure*}
-{\gridline{\fig{all_variance_removelinear_False_487.pdf}{0.45\textwidth}{Allan Variance}
-\fig{all_variance_removelinear_True_487.pdf}{0.45\textwidth}{Allan Variance}}}
+{\gridline{\fig{all_variance_removelinear_False_487.pdf}{0.45\textwidth}{Allan Variance from Raw Series}
+\fig{all_variance_removelinear_True_487.pdf}{0.45\textwidth}{Allan Variance with Linear Detrending}}}
 {\gridline{\fig{apratio_phot_azlab04LED1p5mAStripe64n489Rpt2TwoAp_NRC64STRIPE1P5MA}{0.7\textwidth}{Time Series of Apertures}}}
 \caption{Time series for the ratio of two apertures within a detector.}\label{fig:allanVarianceWithinDetector}
 \end{figure*}

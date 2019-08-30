@@ -1101,6 +1101,7 @@ We therefore quantify error source over 1 hour duration.
 If the smallest stripe subarray is used, frame time is 0.34 seconds.
 For simplicity, assuming a duty cycle of 80\% due to detector resets, there are 8460 frames over which to average read noise.
 Therefore, the final read noise is only expected to be 1.4 ppm over a 1 hour timescale if each frame is statistically independent.
+In section \ref{sec:darkBaseline}, we show from dark frames, that the read noise is statistically independent from integration to integration.
 
 For a concrete example, we consider a primary transit of WASP-80 b observed with the F444W grism time series mode.
 The exposure parameters that give a peak pixel count of 35,000 DN or 40\% well depth are a 2048$\times$256 stripe mode with BRIGHT1 read mode for 12 groups.
@@ -1596,6 +1597,20 @@ Each amplifier has its own 1/f noise character, but the lamp variations measured
 \end{figure*}
 
 
+
+\clearpage
+\subsubsection{Dark Baseline Test}\label{sec:darkBaseline}
+In Figure \ref{fig:darkBaselineAllan}, we show that the noise in a series of dark integrations averages with the square root of the number of integrations.
+While 1/f is highly correlated within an aperture and results in a large value.
+
+\begin{figure*}[!hbtp]
+\centering
+\includegraphics[width=.4\columnwidth]{allan_var_removelinear_False_darkBaseline.pdf}
+\caption{The noise in a dark exposure scales with 1/$\sqrt{N}$ for $N$ exposures, as would be expected for white noise.
+Here, we have assumed an illumination of 3.7$\times10^8$ DN to convert the noise in DN to a relevant ppm for illuminated data.
+While 1/f noise substantially increases the noise over the assumption that each pixel's read noise is statistically independent, each integration is statistically independent.
+}\label{fig:darkBaselineAllan}
+\end{figure*}
 
 \clearpage
 \subsubsection{Reference pixel time series}

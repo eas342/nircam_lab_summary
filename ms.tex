@@ -1101,7 +1101,12 @@ We therefore quantify error source over 1 hour duration.
 If the smallest stripe subarray is used, frame time is 0.34 seconds.
 For simplicity, assuming a duty cycle of 80\% due to detector resets, there are 8460 frames over which to average read noise.
 Therefore, the final read noise is only expected to be 1.4 ppm over a 1 hour timescale if each frame is statistically independent.
-  
+
+For a concrete example, we consider a primary transit of WASP-80 b observed with the F444W grism time series mode.
+The exposure parameters that give a peak pixel count of 35,000 DN or 40\% well depth are a 2048$\times$256 stripe mode with BRIGHT1 read mode for 12 groups.
+These integrations are 31 seconds in duration.
+Each integration will have a 7.8$\times 10^7$ DN in a broadband aperture, so the photon noise per integration is 6,500 DN or 83 ppm.
+Over 1 hour (111 integrations), the photon noise will be 8 ppm if all integrations are independent.
 
 \begin{figure*}[!hbtp]
 \centering

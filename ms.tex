@@ -1273,7 +1273,7 @@ For the grism time series, we use a rectangular aperture and a vertically offset
 
 \begin{figure*}
 %\gridline{\fig{tser_LW_OTIS.pdf}{0.99\textwidth}{WLP8 Image} }
-\gridline{\fig{tser_LW_OTIS.pdf}{0.6\textwidth}{Grism Time Series}}
+\gridline{\fig{tser_LWSW_OTIS.pdf}{0.6\textwidth}{Grism Time Series}}
 \caption{Time series of the simultaneous SW/LW Time Series Stability test
 \textcolor{red}{Thing to try: did I try a circular aperture centered on the knot? try to use centroid from SW to adjust the position of the source extraction box}
 }\label{fig:otisLWSWtser}
@@ -1301,8 +1301,8 @@ Figure \ref{fig:otisLWSWtserShift} shows the dramatic effect of subtracting the 
 %\gridline{\fig{tser_LW_OTIS.pdf}{0.99\textwidth}{WLP8 Image} }
 \gridline{\fig{raw_tser_LWgrisMPPVertBackbox_otisSWLWsimult.pdf}{0.49\textwidth}{Slope Images}
 \fig{raw_tser_LWgrisMMMRowColSubVertBackbox_otisSWLWsimult.pdf}{0.49\textwidth}{Column-by-column and row-by-row subtraction}}
-\caption{The grism time series contains subtraction correlated read noise due to pre-amplifier offsets in the vertical direction and 1/f noise in the horizontal direction.
-Row-by-row-subtraction dramatically decreases the noise due to 1/f noise.
+\caption{The grism time series contains correlated read noise due to pre-amplifier offsets over each amplifier and 1/f noise in the horizontal (fast read) direction.
+Row-by-row-subtraction dramatically decreases the noise due to 1/f noise while column-by-column subtraction dramatically decreases the pre-amplifier offset noise.
 }\label{fig:otisLWSWtserShift}
 \end{figure*}
 

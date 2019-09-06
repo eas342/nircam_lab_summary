@@ -1431,10 +1431,11 @@ In this case, the background aperture is displaced horizontally from the source 
 \begin{figure*}
 {\gridline{\fig{azlab_ratio_tser_rpi_vs_rpf_no_bsub_no_refpix_rpf256_no_bsub_no_refpx_both_NRCBSELINE0P9MA.pdf}{0.33\textwidth}{Refpix=False, Bsub=False, 4968 ppm}
 \fig{azlab_ratio_tser_rpi_vs_rpf_nobacksub_rpf256_no_backsub_both_NRCBSELINE0P9MA.pdf}{0.33\textwidth}{Refpix=True, Bsub=False, 221 ppm}}}
-{\gridline{\fig{azlab_ratio_tser_rpi_vs_rpf_with_bsub_no_refpix_rpf256_with_bsub_no_refpx_both_NRCBSELINE0P9MA.pdf}{0.33\textwidth}{Refpix=False, Bsub=True, 198 ppm}
-\fig{azlab_ratio_tser_baseline.pdf}{0.33\textwidth}{Refpix =True, Bsub=True, 197 ppm}}}
+{\gridline{\fig{azlab_ratio_tser_rpi_vs_rpf_with_bsub_no_refpix_rpf256_with_bsub_no_refpx_both_NRCBSELINE0P9MA.pdf}{0.33\textwidth}{Refpix=False, Bsub=True, 198.2 ppm}
+\fig{azlab_ratio_tser_baseline.pdf}{0.33\textwidth}{Refpix =True, Bsub=True, 197.1 ppm}}}
+{\gridline{\fig{azlab_ratio_tser_baseline_bsub_by_frame}{0.33\textwidth}{Refpix=False, Bsub=Frame By Frame, 197.5 ppm}}}
 \caption{The time series of the flux ratio between two detectors shows that background subtraction achieves most of the value (within 1 ppm) of reference pixel correction to remove pre-amplifier offsets and 1/f noise.
-Furthermore, the background subtraction can be performed on the slope images rather than on a frame-by-frame basis.
+Furthermore, the background subtraction can be performed on the slope images rather than on a frame-by-frame basis, to get within 0.4 ppm of the value using reference pixels.
 }\label{fig:BackgVsRefpix}
 \end{figure*}
 

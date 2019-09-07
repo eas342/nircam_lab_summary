@@ -1203,7 +1203,7 @@ There are two explanations for why the WLP8SUB mode shows less scatter than the 
 The read noise of a pixel is $RN_1 \approx$ 15 e$^-$ for the short wavelength arrays\footnote{https://jwst-docs.stsci.edu/display/JTI/NIRCam+Detector+Performance} in this test.
 If this is uncorrelated across the 70 pixel aperture source radius, the read noise from two groups  (correlated double sampling) on the total aperture is $RN_{tot} = \sqrt{N_{s,px}} RN_{CDS} = \sqrt{\pi} r_{s,px} RN_{CDS}$ = 124 * 15 e$^-$ = 1861 e$^- \approx 930 $DN.
 This amounts to 25 ppm, which is a small compared to the photon noise (113 ppm).
-Furthermore, the read noise for 20 groups is $RN_{20} \approx 6e^-$ would ammount to a 10 ppm, so a difference from the CDS readout of only 15 ppm. {\textbf{\textcolor{red}{(Note, here I have used the effectice read noise for 90 groups on JDox, but should corrected to 20 groups)}}
+Furthermore, the read noise for 20 groups is $RN_{20} \approx 6e^-$ would ammount to a 10 ppm, so a difference from the CDS readout of only 15 ppm. {\textbf{\textcolor{red}{(Note, here I have used the effective read noise for 90 groups on JDox, but should corrected to 20 groups)}}}
 This is dramatically smaller than the observed difference in standard deviation (500 ppm in subarray with 20 groups and 1020-1540 ppm in full frame in 2 groups).
 However, if there are correlated components to the read noise in this large aperture, the read noise could be higher.
 
@@ -1351,6 +1351,7 @@ The amplifier boundary is shown as a vertical blue dashed line.
 \textcolor{blue}{Now I understand it as coming from which amplifier the background box is on.}}\label{fig:OTISRectBacksub}
 \end{figure}
 
+\clearpage
 \subsection{GL Dewar Tests}
 
 The GL dewar, located at the University of Arizona, is a laboratory setup for assessing NIRCam flight and spare detectors.
@@ -1381,6 +1382,17 @@ When binning the data into 2.5 minute increments, the standard deviation is only
 \textcolor{red}{To do: understand why the ratio of the two box time series has a larger standard deviation than in Figure \ref{fig:GLtSeries}. Is it just the poor SN from a small background box? Also, separately, compare two different detectors.}
 }\label{fig:GLtSeriesBacksub}
 \end{figure*}
+
+\subsubsection{Across Detectors}
+We also examine the time series across detectors from ``Run104''.
+
+\begin{figure*}
+\gridline{\fig{raw_tser_crossDetectorS02Backsub_GLrun104.pdf}{0.48\textwidth}{Time series for S02 detector}
+		\fig{raw_tser_crossDetectorS03Backsub_GLrun104.pdf}{0.48\textwidth}{Time series for S03 detector}}
+\caption{Time series for background-subtracted rectangular photometry on the S02 and S03 detectors.}\label{fig:GLtSeriesAcrossDetectors}
+\end{figure*}
+
+
 
 \clearpage
 \subsection{Asic Dewar Tests}

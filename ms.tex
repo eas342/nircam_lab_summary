@@ -1644,7 +1644,6 @@ Unlike with HST, there is no clear ramp-up behavior.
 \end{figure*}
 
 
-
 \clearpage
 \subsection{Reference Pixels versus No Reference Pixels}
 One question to answer is, can background subtraction subtract off noise just as well as reference pixels?
@@ -1672,7 +1671,16 @@ Figure \ref{fig:RefpixWithVertOffsetBackground} shows the time series with and w
 \caption{If a background aperture is vertically displaced from the source aperture, the reference pixels are important in reducing 1/f noise.}\label{fig:RefpixWithVertOffsetBackground}
 \end{figure*}
 
+\clearpage
+\subsection{Noise floor}
 
+Allan variance plots indicate that there is a noise floor across detectors of about 50-60 ppm as shown in Figure \ref{fig:allanVarianceAZ04AZ05}.
+
+\begin{figure*}
+{\gridline{\fig{allan_var_removelinear_True_azlab05baseline.pdf}{0.48\textwidth}{AZLab05 Allan variance}
+\fig{allan_var_removelinear_True_azlab06lamp_warm.pdf}{0.48\textwidth}{AZLab06 Allan variance}}}
+\caption{Allan variance across two detectors in the AZ Lab stability tests.}\label{fig:allanVarianceAZ04AZ05}
+\end{figure*}
 
 
 %% If you wish to include an acknowledgments section in your paper,

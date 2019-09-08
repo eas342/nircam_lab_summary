@@ -1389,7 +1389,9 @@ We also examine the time series across detectors from ``Run104''.
 \begin{figure*}
 \gridline{\fig{raw_tser_crossDetectorS02Backsub_GLrun104.pdf}{0.48\textwidth}{Time series for S02 detector}
 		\fig{raw_tser_crossDetectorS03Backsub_GLrun104.pdf}{0.48\textwidth}{Time series for S03 detector}}
-\caption{Time series for background-subtracted rectangular photometry on the S02 and S03 detectors.}\label{fig:GLtSeriesAcrossDetectors}
+		\fig{allan_var_removelinear_True_gl_across_detectors.pdf}{0.48\textwidth}{Allan variance diagram for the ratio of the S02 to S03 background-subtracted detector fluxes}
+\caption{Time series for background-subtracted rectangular photometry on the S02 and S03 detectors.
+The ratio of the two detectors' fluxes, after background subtraction, scales like $\sqrt{N}$ statistics down to the 200 ppm level, but how it works on longer timescales is not yet known.}\label{fig:GLtSeriesAcrossDetectors}
 \end{figure*}
 
 

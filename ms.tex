@@ -1623,7 +1623,7 @@ While 1/f is highly correlated within an aperture and results in a large value.
 \includegraphics[width=.4\columnwidth]{allan_var_removelinear_False_darkBaseline.pdf}
 \caption{The noise in a dark exposure scales with 1/$\sqrt{N}$ for $N$ exposures, as would be expected for white noise.
 Here, we have assumed an illumination of 3.7$\times10^8$ DN to convert the noise in DN to a relevant ppm for illuminated data.
-While 1/f noise substantially increases the noise over the assumption that each pixel's read noise is statistically independent, each integration is statistically independent.
+While 1/f noise substantially increases the noise over the assumption that each \textit{pixel's} read noise is statistically independent, each \textit{integration} is statistically independent.
 }\label{fig:darkBaselineAllan}
 \end{figure*}
 
@@ -1652,6 +1652,20 @@ Unlike with HST, there is no clear ramp-up behavior.
 
 \clearpage
 \subsection{FPA temperature change}
+We purposely adjusted the focal plane array temperature set point mid-way through a long exposure to test how the detectors' temperatures will affect their response to light.
+As can be seen in Figure \ref{fig:indTSeriesAfterLamp} (bottom panel) the Lakeshore temperature controlling a baseplate where the largest thermal mass sits is constant to within 3 mK.
+The FPA temperature is adjusted upward by 300 mK about 75 minutes into the test and held at this higher value.
+The change in temperature results in a 0.1\% increase in flux (ie. 1000 ppm).
+In terms of slopes, this resulted in a change of 2.3 DN/s/px for detector 487 and 3.6 DN/s/px for detector 489.
+For the integration times of 10.77 seconds, this amounts to 25 to 39 DN accumulated within an integration.
+This is lower than the value of 80 DN for a 100 mK change in \citet{hall2005jwstArrays}, likely because it is calculated over the slope of an image rather than the absolute counts.
+
+The reaction to FPA changes in temperature is likely a fractional effect rather than an absolute number of DN.
+This is because both detectors change by about 0.10\% even though their relative peak counts were 25,000 DN/px and 39,000 DN/px for detectors 487 and 489.
+
+In flight, the FPA is expected to be stable to about 1 mK.
+If we take the observed flux change (1000 ppm per 300 mK), the fractional change will be about 3 ppm. We therefore expect detector temperature fluctuations to be a relatively small part of the time series error budget.
+
 \begin{figure*}
 {\gridline{\fig{individual_azlab05_baseline_tchange.pdf}{0.99\textwidth}{}}}
 \caption{Time series during an adjustment to the FPA set point.}\label{fig:indTSeriesAfterLamp}
@@ -1704,6 +1718,14 @@ Allan variance plots indicate that there is a noise floor across detectors of ab
 
 \clearpage
 \section{Expected In-Flight Performance with JWST}
+
+\section{Conclusions}
+
+\begin{itemize}
+	\item \textbf{1/f Noise:} This is a major contributor to the noise. It is important to subtract along the fast-read (horizontal) direction to reduce the correlated noise. Fortunately, 1/f noise appears to average like $1/\sqrt{N} $
+	\item \textbf{Subpixel Sensitivity:}
+	\item \textbf{Charge Trapping/Persistence/HST Ram-up:} Expected to be much smaller than HST and timescales are much faster. Long timescale traps contribute less then 1e-/DN/px so they are less problematic.
+\end{itemize}
 
 \section*{acknowledgements}
 MCMC fitting makes use of \texttt{emcee} \citep{foreman-mackey2013emcee} and the covariance plot was made with \texttt{corner.py} \citep{foremanCorner}.

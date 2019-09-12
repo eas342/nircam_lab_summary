@@ -1720,11 +1720,31 @@ Allan variance plots indicate that there is a noise floor across detectors of ab
 \section{Expected In-Flight Performance with JWST}
 
 \section{Conclusions}
+The NIRCam instrument will be a valuable tool to characterize the atmospheres of exoplanets with its grism time series mode.
+This mode can be used on some of the brightest valuable exoplanet host stars without saturation and also offers a fine pixel sampling at near-Nyquist to Nyquist sampling depending on the wavelength.
+In order to reap the benefits of NIRCam's grism time series mode, however, it is critical to understand the various systematic error sources and noise floors that will impact the science of transiting planets.
+
+We evaluate results of ground-based tests of the NIRCam instrument for exoplanet time series.
+These tests include a variety of optical setups from the full telescope structure and flight components to small lab dewar tests with flight-like components and flight-like electronics.
+We evaluate the largest sources of noise that add to JWST's error budget and list them below.
 
 \begin{itemize}
-	\item \textbf{1/f Noise:} This is a major contributor to the noise. It is important to subtract along the fast-read (horizontal) direction to reduce the correlated noise. Fortunately, 1/f noise appears to average like $1/\sqrt{N} $
-	\item \textbf{Subpixel Sensitivity:}
-	\item \textbf{Charge Trapping/Persistence/HST Ram-up:} Expected to be much smaller than HST and timescales are much faster. Long timescale traps contribute less then 1e-/DN/px so they are less problematic.
+	\item \textbf{1/f Noise:} This is a major contributor to the noise.
+	It is important to subtract along the fast-read (horizontal) direction to reduce the correlated noise.
+	Fortunately, 1/f noise appears to average like $1/\sqrt{N_{int}} $ from integration to integration.
+	We found efficient reductions in 1/f noise by subtracting the median value from each row in each amplifier.
+	This will be possible for imaging time series but not grism spectroscopy, where one must use the outer background regions in the spectral dispersion direction to reduce 1/f noise.
+	For detector read modes and the long wavelength grism with a small number of groups up the ramp ($<6$ for the short wave weak lens mode), the 1/f noise will be larger than the photon noise.
+	\item \textbf{Subpixel Sensitivity:} The NIRCam detectors all exhibit some degree of crosshatching patterns along crystallographic planes of HgCdTe.
+	Crosshatching structures extend down to the subpixel level where they will not be corrected for in standard flat fielding procedures, especially at the wavelengths that are below Nyquist sampling ($< 3.7\mu$m for the long wavelength and ($1.8\mu$m for the short wavelength).
+	The ALONG detector (used for grism time series) experiences the most pronounced crosshatching amplitudes.
+	We estimate that up to 150 ppm variations in flux can occur for small pointing drifts of 7 mas (or 0.1 NIRCam long wavelength pixels).
+	The variations in flux at the subpixel level appear smooth enough that they could likely be calibrated as a function of position.
+	Accurate target acquisition will ensure that the same sets of pixels will be used for all grism time series, which permits detailed characterization of the subpixel behavior for re-use on multiple different visits.
+	\item \textbf{Charge Trapping/Persistence/HST Ram-up:} HST observations of exoplanets experience a well-known ``hook effect'' at the beginning of each orbit that rises like an exponential function of time.
+	This is now understood as charge trapping in the detectors \citep{zhou2017chargeTrap}.
+	JWST shows a much smaller ``hook effect'' and also much faster charge trap timescales, such that we expect it to be a negligible contributor so the NIRCam error budget.
+	Long timescale traps contribute less then 1e-/DN/px so they are less problematic.
 \end{itemize}
 
 \section*{acknowledgements}

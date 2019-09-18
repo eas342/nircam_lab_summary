@@ -478,6 +478,8 @@ Figure \ref{fig:ampResetDark} shows an example time series of the reference pixe
 The pedestal/bias level of the reference pixels undergoes a sharp jump between each frame (10.7 seconds in duration).
 These pre-amp resets per frame causes discontinuities over every frame within an integration, but there is an upside:
 Over long timescales (10$^3$ seconds), these resets pre-amp resets will keep the bias drifts hovering around zero without any long slopes or drifts.
+This is helpful in keeping the detector counts below the 65,536 DN saturation limit and thus pre-amp resets permit a larger usable well depth over the counts from 0 to 65,536 DN.
+Without pre-amp resets, the counts in a detector could potentially drift towards 65,536 DN and shrinks the usable well depth.
 
 \begin{figure}[!hbtp]
 \centering
@@ -489,7 +491,8 @@ The long dark exposure example of 108 integrations shows the behavior over long 
 
 \subsection{Charge Trapping}
 All HgCdTe detectors show a signal after bright illumination even if the illumination is removed; this is called persistence.
-The physical mechanism that explain persistence is that charges are trapped in the depletion region after illumination by photons as the detector well fills \citep{smith2008imgPersistence,leisenring2016persistence}.
+The physical mechanism that explain persistence is that charges are trapped in the depletion region after illumination by photons as the detector well fills \citep{smith2008imgPersistence}
+This was specifically measured for the NIRCam detectors in \citet{leisenring2016persistence}.
 After the reverse-bias voltage is applied (a reset) in an ideal detector, the depletion region will be devoid of mobile charge carriers (electrons and holes).
 However, in real detectors, some charges are trapped within the depletion region.
 During a future integration, these charges will be released and shrink the size of the depletion region, filling a pixel with spurious signal (Data Numbers) not related to that integration's illumination by photons.
@@ -501,8 +504,7 @@ In the second integration in the schematic, charge is released, which reduces th
 The consequence of charge traps is that there is a deficiency in measured charge on the first integration and an excess of measured charge on the second integration.
 Therefore, a constant astrophysical signal can be measured as a time-varying one due to the charge trapping effect.
 Over timescales longer than the charge release time, the detector will reach a steady state.
-
-The flight NIRCam detector shows low levels of persistence compared to previous generation detectors.
+As will be discussed in Section \ref{sec:persistence}, the flight NIRCam detector shows low levels of persistence compared to previous generation detectors used in HST.
 
 \begin{figure}[!hbtp]
 \centering
@@ -1412,7 +1414,7 @@ The best absolute stability of an LED measured on a detector was 0.05\% ppm over
 More typically, the variations were 1\%, although the current measured with a multimeter was stable to 0.1\%.
 A ratio time series is constructed by dividing the time series derived from one detector to another time series from a different detector.
 
-\subsubsection{Persistence}
+\subsubsection{Persistence}\label{sec:persistence}
 HST shows noticeable ramps with each HST orbit due to detector charge trapping \citep{zhou2017chargeTrap}.
 Lamp sources in our laboratory tests typically have a warm up period lasting several tens of minutes, which makes it difficult to observe this same effect the detector ramps.
 However, the charge trap release time is expected to the same when illuminated as compared to when turning the lamp off.

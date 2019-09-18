@@ -521,20 +521,18 @@ This spurious signal (the shrinking of the depletion region as highlighted with 
 The flat field of the ALONG detector, which is used for NIRCam grism series, has a pronounced crosshatch pattern visible in Figure \ref{fig:crossHatchA5}.
 The patterns are located at 23.1$\degree$ , 90.9$\degree$, and 158.6 $\degree$ counter-clockwise from the $+$X direction of the detector.
 The angle between these lines are 67.8$\degree$, 67.7$\degree$ and 44.5$\degree$.
-These are best visualized with a 2D power spectrum as shown in Figure \ref{fig:crossHatchA5}.
+These angles and patterns can be analyzed with a 2D power spectrum as shown in Figure \ref{fig:crossHatchA5}.
 
 The angles of the crosshatch patterns are likely determined by the crystal pattern of HgCdTe.
 HgCdTe has a zincblende structure with tetrahedral bond angles where each Hg or Cd atom is surrounded by 4 Te atoms \citep{gemain2012mercVacanciesHgCdTe}.
-One possible projection of a zincblende structure is shown in Figure \ref{fig:crossHatchA5}.
-In this perspective, the projected bond angles form angles of 67.8 $\degree$, 67.8 $\degree$ and 44.4$\degree$, close to the observed crosshatch angles.
-
-HgCdTe detectors are manufactured using molecular beam epitaxy upon a substrate, a process which results in topological defects with peak to valley amplitudes of 5-20 nm in height variations.
+HgCdTe detectors are manufactured using molecular beam epitaxy upon a substrate, a process which can result in topological defects with peak to valley amplitudes of 5-20 nm in height variations \citep{chang2008surfaceMorphologyHgCdTe}.
 The surface morphology of the HgCdTe crystal shows that the crosshatch patterns are are oriented along the intersection of the (211) growth plane of the crystal and the 8 HgCdTe slip planes.
+
 The relative angles of the HgCdTe slip planes and (211) growth plane are 44.42$\degree$, 67.79$\degree$ and 67.79$\degree$ \citep{chang2008surfaceMorphologyHgCdTe}, very close to the observed crosshatch angles.
-These surface topological variations with crosshatch patterns are likely related to the observed patterns in the flat fields, which are quantum efficiency variations.
-We deduce that the crosshatch pattern is mostly likely related to the crystal lattice of the HgCdTe substrate and not the pixels or circuitry.
-
-
+One possible projection of a zincblende structure is shown in Figure \ref{fig:crossHatchA5}.
+In this perspective, the projected bond angles are 44.4$\degree$, 67.8$\degree$ and 67.8$\degree$.
+These surface topological variations with crosshatch patterns are likely related to the observed patterns in the flat fields, which appear as quantum efficiency variations.
+We deduce that the crosshatch pattern is mostly likely related to the crystal lattice structure of the HgCdTe substrate and not the pixel circuitry.
 
 The crosshatch structure of the detectors extends down to the subpixel level, so it will not be fully corrected with a flat field division.
 This sub-pixel structure has been imaged with microscopy on a Euclid HgCdTe detector \citep{shapiro2018crosshatch}.
@@ -560,12 +558,14 @@ The A5 detector's flat field has a pronounced crosshatch pattern at 23.1$\degree
 The crosshatch pattern is visible in a zoom-in of the pixel flat field (top left).
 The 2D power spectrum of the flat field (top right) shows a continuum of frequencies aligned with the three crosshatch angles.
 Note the lines in frequency plane are perpendicular to the crosshatch directions in the image plane.
-These three relative angles (67.8$\degree$, 67.7$\degree$ and 44.5$\degree$) are similar to a projection of a tetrahedral (zincblende) lattice structure of HgCdTe (bottom, 67.8$\degree$, 67.8$\degree$, 44.4$\degree$) onto the [211] miller plane.
+These three relative crosshatch angles (67.8$\degree$, 67.7$\degree$ and 44.5$\degree$) are similar to a projection of a tetrahedral (zincblende) lattice structure of HgCdTe (bottom, 67.8$\degree$, 67.8$\degree$, 44.4$\degree$) onto the [211] miller plane.
 }\label{fig:crossHatchA5}
 \end{figure}
 
 The crosshatch pattern is wavelength dependent, as seen in Figure \ref{fig:crossHatchWavelengthDep}, where the throughput variations are the largest for short wavelengths (resolving crystal structures) and smallest for the long wavelengths.
-We also fit the crosshatch pattern.
+This is visible both in the throughput cross section of the flat field and the Fourier amplitude of the crosshatch as a function of wavelength.
+We find a steeper wavelength dependence to the crosshatch pattern near 0.9$\degree$ from horizontal in the frequency domain or 0.9$\degree$ from vertical in the length domain.
+%We also fit the crosshatch pattern.
 
 \begin{figure}[!hbtp]
 \centering
@@ -599,17 +599,13 @@ k_y'(\theta_i) = -k_x  \sin{\theta_i} + k_y \cos{\theta_i}.
 \end{equation}
 We include three angles so that the total power spectral density is
 \begin{equation}
-f(k_x,k_y) = \sum_{i=1}^{i=3} f_i(k_{x,i}'(\theta_i),k_{y,i}'(\theta_i),a_i,b,c).
+f(k_x,k_y) = \sum_{i=1}^{i=3} f_i(k_{x,i}'(\theta_i),k_{y,i}'(\theta_i),a_i,b,c) + d \exp{\left(-k_r/e\right)},
 \end{equation}
 
 This model has 8 free parameters: three angles ($\theta_i$, three amplitudes ($a_i$), a joint parallel exponential constant ($b$) and joint Lorentzian width ($c$).
-We only fit the region of the power spectral density above frequencies of 0.05 px$^{-1}$ to focus on the high frequency component of the flat field where the crosshatch is most prevalent.
-
-We also consider a model with a ``background'' so that 
-\begin{equation}
-f(k_x,k_y) = \sum_{i=1}^{i=3} f_i(k_{x,i}'(\theta_i),k_{y,i}'(\theta_i),a_i,b,c) + d \exp{\left(-k_r/e\right)},
-\end{equation}
+Finally, we include an exponential term that fits the broad azimuthally symmetric background to all the power spectra,
 where $d$ is the amplitude of the radial ``background'', $k_r= \sqrt{k_x^2+k_y^2}$ is the radial frequency and $e$ is the radial background exponential constant.
+We only fit the region of the power spectral density above frequencies of 0.05 px$^{-1}$ to focus on the high frequency component of the flat field where the crosshatch is most prevalent.
 
 For the F300M filter and ALONG detector, we find 
 for $\theta_1 = 0.906 \pm 0.001 \degree, \theta_2 = 68.605 \pm 0.001 \degree, \theta_3 = 113.075 \pm 0.001, a_1 = 2.774 \pm 0.002 \times 10^{-7}, a_2 = 1.569 \pm 0.002 \times 10^{-7}, a_3 = 1.744 \pm 0.002 \times 10^{-7}, b=0.345 \pm 0.0005 $ px$^{-1}$, $c=2.05 \pm 0.07 \times 10^{-2}$ px$^{-1}$, $d=6.78 \pm 0.01 10^{-3}$ and $e=0.26 \pm 0.01$ px$^{-1}$.
@@ -644,7 +640,7 @@ We simulate the effect of this jitter on NIRCam time series observations with th
 	\item Multiply the PSF by the simulated flat field
 	\item Scan the PSF along the X and Y directions up to a magnitude of 6 mas
 	\item Bin the simulated images into the native pixel size
-	\item Divide by the flat field
+	\item Divide by the pixel-to-pixel flat field
 	\item Measure the relative flux with a photometric aperture
 \end{itemize}
 
@@ -654,7 +650,7 @@ We take the exponential model with best-fit parameters for the F300M filter and 
 We evaluate equation \ref{eq:analyticPSDradial} for frequencies in the oversampled image from 0 px$^{-1}$ to 30 px$^{-1}$ and multiply this by the number of pixels and the square of the oversampling factor (ie. $60^2$) to convert from the scale-invariant Power Spectral Density to the simulated PSD.
 We then assign random phases uniformly from 0 to 2$\pi$ for the complex Fourier plane because the original image's complex phase distribution is similar to uniform.
 Finally, we take the real part of the inverse Fourier transform to create an oversampled image, as shown in \ref{fig:crossHatchSimPSF}.
-For comparison to the original flat in Figure \ref{fig:crossHatchA5}, we binned to the oversampled flat field to the native LW pixel resolution of $\sim$0.063 \arcsec.
+For comparison to the original flat in Figure \ref{fig:crossHatchA5}, we binned to the oversampled flat field to the native LW pixel (1.0 native pixels=60.0 oversampled pixels $\approx$0.063 \arcsec).
 This simulated pixel flat field with dimensions of 26 by 26 LW pixels has a peak of 1.15 to trough of 0.90 with a robust standard deviation of 0.05.
 For comparison, the middle of the original F300M flat for the ALONG detector has a robust standard deviation 0.06.
 

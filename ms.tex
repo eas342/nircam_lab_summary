@@ -1626,6 +1626,27 @@ While 1/f noise substantially increases the noise over the assumption that each 
 \end{figure*}
 
 \clearpage
+\subsubsection{Co-added Versus Un-coadded data}\label{sec:coadds}
+In Figure \ref{fig:coaddedData}, we compare data that was taken in READ mode.
+In this case, there were 1000 integrations with a 2048x256 stripe illuminated with the lamp on all four detectors.
+In the case of NFRAME=4, the data are co-added with bit-shift operations whereas for NFRAME=1, all data is used.
+There are 2 groups with NFRAME=4 and 8 groups with NFRAME=1.
+The primary difference between the two are
+\begin{itemize}
+\item the reference pixel correction is performed on frame-by-frame basis for NFRAME=1 and on a co-added group of 4 for NFRAME=4
+\item the slope is calculated with all 8 groups
+\end{itemize}.
+This differences did not have a large overall impact on stability of the lightcurves.
+
+\begin{figure*}
+{\gridline{\fig{azlab_ratio_tser_azlab06_baseline3}{0.47\textwidth}{RAPID mode with NFRAME=1}
+\fig{azlab_ratio_tser_azlab06_nint4.pdf}{0.47\textwidth}{Co-added with NFRAME=4}}}
+\caption{Co-added with NFRAME=4 versus 8 groups RAPID data.
+Using reference pixel subtraction on the individual reads in RAPID mode does not substantially improve the ratio time series of the two detectors as compared with co-added data where reference pixel correction was applied to the group (which is an average of the 4 frames).}\label{fig:coaddedData}
+\end{figure*}
+
+
+\clearpage
 \subsubsection{Reference pixel time series}
 \begin{figure*}
 {\gridline{\fig{azstab_1p5mA_repeat_2_refpix}{0.99\textwidth}{}}}

@@ -1389,28 +1389,43 @@ We also examine the time series across detectors from ``Run104''.
 		\fig{raw_tser_crossDetectorS03Backsub_GLrun104.pdf}{0.48\textwidth}{Time series for S03 detector}}
 		\fig{allan_var_removelinear_True_gl_across_detectors.pdf}{0.48\textwidth}{Allan variance diagram for the ratio of the S02 to S03 background-subtracted detector fluxes}
 \caption{Time series for background-subtracted rectangular photometry on the S02 and S03 detectors.
-The ratio of the two detectors' fluxes, after background subtraction, scales like $\sqrt{N}$ statistics down to the 200 ppm level, but how it works on longer timescales is not yet known.}\label{fig:GLtSeriesAcrossDetectors}
+The ratio of the two detectors' fluxes, after background subtraction, scales like $\sqrt{N}$ statistics down to the 200 ppm level, but how it works below the 100 ppm is not measurable with this test.}\label{fig:GLtSeriesAcrossDetectors}
 \end{figure*}
 
+\clearpage
 
-\subsection{Run 112}
+\subsection{Run 112 - Subarray 4}
 We also investigate a slightly longer time series for GL dewar.
 
 \begin{figure*}
 \gridline{\fig{azlab_ratio_tser_gldewar_run112_sub4_hi4_no_backsub.pdf}{0.48\textwidth}{Time series for S01 / S02 Ratio No Background Sub}
 \fig{azlab_ratio_tser_gldewar_run112_sub4_hi4.pdf}{0.48\textwidth}{Time series for S01 / S02 Ratio With Background Sub}}
-\caption{Time series for rectangular photometry on the S01 and S02 detectors as well as background-subtracted Rectangular photometry}}\label{fig:GLtSeriesRun112}
+\caption{Time series for rectangular photometry on the S01 and S02 detectors as well as background-subtracted Rectangular photometry}\label{fig:GLtSeriesRun112}
 \end{figure*}
-
-
 
 \begin{figure*}
 \gridline{\fig{all_var_gl_dewar_run112_sub4_hi4_no_backsub_removelinear_False_2.pdf}{0.48\textwidth}{Allan variance diagram no background subtraction}
 \fig{all_var_gl_dewar_run112_sub4_hi4_with_backsub_removelinear_False_2.pdf}{0.48\textwidth}{Allan variance diagram with background subtraction}}
-\caption{Time series for background-subtracted rectangular photometry on the S02 and S03 detectors.
-The ratio of the two detectors' fluxes, after background subtraction, scales like $\sqrt{N}$ statistics down to the 200 ppm level, but how it works on longer timescales is not yet known.}\label{fig:GLtSeriesAcrossDetectors}
+\caption{Allans for background-subtracted rectangular photometry on the S02 and S03 detectors.
+The ratio of the two detectors' fluxes, after background subtraction, scales like $\sqrt{N}$ statistics down to the 200 ppm level, but how it works on longer timescales is not yet known.}\label{fig:GLAllanVarianceAcrossDetectors}
 \end{figure*}
 
+\subsection{Run 112 - Subarray 6}
+Subarray 6 had higher lamp current and thus higher counts and lower photon noise.
+It was also important to take the ratio of S01 to S03, because this pair of detectors track each other much better than the S01 /S02.
+
+\begin{figure*}
+\gridline{\fig{azlab_ratio_tser_gldewar_run112_sub6_hi4_no_backsub_biggerAp.pdf}{0.48\textwidth}{Time series for S01 / S03 Ratio No Background Sub}
+\fig{azlab_ratio_tser_gldewar_run112_sub6_hi4_side_backsub_biggerAp.pdf}{0.48\textwidth}{Time series for S01 / S03 Ratio With {\it Side} Background Sub}}
+\caption{Time series for rectangular photometry on the S01 and S03 detectors as well as side background-subtracted Rectangular photometry.
+The background aperture was placed on the side reference pixels to reduce 1/f noise.}\label{fig:GLtSeriesRun112sub6}
+\end{figure*}
+
+\begin{figure*}
+\gridline{\fig{all_var_gl_dewar_run112_sub6_hi4_side_backsub_removelinear_True_3_det_1_3.pdf}{0.48\textwidth}{Allan variance diagram with background subtraction}}
+\caption{Allan variance for background-subtracted rectangular photometry on the S01 and S03 detectors.
+The ratio of the two detectors' fluxes, after background subtraction, scales like $\sqrt{N}$ statistics down to the 60 ppm level where it begins to peel away from the $\sqrt{N}$ curve (green line).}\label{fig:GLAllanVarianceAcrossDetectorsSub6}
+\end{figure*}
 
 \clearpage
 \subsection{Asic Dewar Tests}

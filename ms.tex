@@ -1353,22 +1353,24 @@ The amplifier boundary is shown as a vertical blue dashed line.
 \subsection{GL Dewar Tests}
 
 The GL dewar, located at the University of Arizona, is a laboratory setup for assessing NIRCam flight and spare detectors.
-The key difference with the Asic dewar discussed below is that the detector readout electronics are completely different, using a Leach system that is operated outside of the dewar as opposed to the Asic, which is lives right next to the detectors.
+The key difference with the Asic dewar discussed below is that the detector readout electronics are completely different, using a Leach system that is operated outside of the dewar as opposed to the Asic, which is lives right next to the detectors at cryogenic temperatures.
 The GL dewar detector stability tests are helpful in isolating noise sources that arise from the detectors versus the readout electronics.
 
-An LED illumination source is pointed at the detectors and the arrays are read out in subarray mode.
+An LED illumination source flood-illuminates the detectors and the arrays are read out in subarray mode to create time series.
 Figure \ref{fig:GLtSeries} shows the detector subarray illumination as well as two apertures that were used for time series photometry.
-The first handful of frames show an initial "warmup" period lasting about 9 seconds.
+The first handful of frames show an initial ``warmup" period lasting about 9 seconds.
 This quickly stabilizes to a 1200 ppm level likely dominated by lamp variations.
 If one divides the two apertures by each other, the resulting time series is very flat and stable to with 260 ppm.
 When binning the data into 2.5 minute increments, the standard deviation is only 51 ppm.
-
+As with the Asic dewar, we find very good performance when comparing two apertures within the same detector.
+This can be the result of common-mode systematic errors that divide out, so it is also important to check the time series against an independent detetor.
 
 \begin{figure*}
 \gridline{\fig{ap_labels_S02illum_GLrun104.pdf}{0.32\textwidth}{Apertures}
 		\fig{raw_tser_phot_S02illum1miAll_GLrun104.pdf}{0.32\textwidth}{Raw time series}
 		\fig{refcor_phot_S02illum1miAll_GLrun104.pdf}{0.32\textwidth}{Ratio Time Series}}
-\caption{The precision of this short-duration GL dewar test was the extremely high at $\sigma=$240 ppm after stabilization, if we remove absolute changes likely due to the lamp.
+\caption{Two photometric apertures are placed on the subarray, where they both see common-mode variations in the lamp.
+The ratio of the time series of each aperture shows a handful of integrations at the beginning that stand out, which quickly stabilize to the 240 ppm level.
 }\label{fig:GLtSeries}
 \end{figure*}
 
@@ -1376,13 +1378,18 @@ When binning the data into 2.5 minute increments, the standard deviation is only
 \gridline{\fig{ap_labels_S02illum1miAllBacksub_GLrun104.pdf}{0.32\textwidth}{Apertures}
 		\fig{raw_tser_phot_S02illum1miAllBacksub_GLrun104.pdf}{0.32\textwidth}{Raw time series}
 		\fig{refcor_phot_S02illum1miAllBacksub_GLrun104.pdf}{0.32\textwidth}{Ratio Time Series}}
-\caption{The same time series as Figure \ref{fig:GLtSeries} but with a rectangular background subtraction box.
-\textcolor{red}{To do: understand why the ratio of the two box time series has a larger standard deviation than in Figure \ref{fig:GLtSeries}. Is it just the poor SN from a small background box? Also, separately, compare two different detectors.}
+\caption{We repeat the time series as Figure \ref{fig:GLtSeries} but add a vertically displaced background subtraction box to each aperture.
+The background boxes reduce the ``ramp-up'' effect and longer timescale variations of the detector.
+The ratio of the time series of each aperture has a larger scatter larger than Figure \ref{fig:GLtSeries} because subtracting the background adds to the 1/f noise (correlated along the horizontal direction) rather than reducing the 1/f noise.
 }\label{fig:GLtSeriesBacksub}
 \end{figure*}
 
 \subsubsection{Across Detectors}
 We also examine the time series across detectors from ``Run104''.
+This approach will test whether there are systematics unique to each detector/readout electronics.
+We compare aperture photometry on the S02 versus S03 detector with background subtraction.
+The resulting time series are shown in Figure \ref{fig:GLtSeriesAcrossDetectors}.
+We do not approach the noise levels interesting to the exoplanet noise regime.
 
 \begin{figure*}
 \gridline{\fig{raw_tser_crossDetectorS02Backsub_GLrun104.pdf}{0.48\textwidth}{Time series for S02 detector}

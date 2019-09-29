@@ -995,7 +995,7 @@ This efficiently interpolates over bad pixels and can also interpolate over the 
 Our smoothing kernel is a flat boxcar normalized to 1.0.
 This more realistic kernel results in higher noise because of its larger window size and because it interpolates over the aperture points.
 The resulting time series has a standard deviation of 2800 DN to 3700 ppm.
-This is still larger than the 1,300 DN expectation for uncorrelated read noise, but is below the ideal photon noise limit.
+This is still larger than the 1,300 DN expectation for uncorrelated read noise, but is below the ideal photon noise limit when integrations reach 60\% well depth.
 
 \textcolor{red}{\bf Continue Here!}
 
@@ -1305,6 +1305,7 @@ Row-by-row-subtraction dramatically decreases the noise due to 1/f noise while c
 \end{figure*}
 
 
+\clearpage
 
 \subsubsection{Half Pass Subarray Size Tests}
 
@@ -1359,9 +1360,8 @@ The GL dewar detector stability tests are helpful in isolating noise sources tha
 An LED illumination source flood-illuminates the detectors and the arrays are read out in subarray mode to create time series.
 Figure \ref{fig:GLtSeries} shows the detector subarray illumination as well as two apertures that were used for time series photometry.
 The first handful of frames show an initial ``warmup" period lasting about 9 seconds.
-This quickly stabilizes to a 1200 ppm level likely dominated by lamp variations.
-If one divides the two apertures by each other, the resulting time series is very flat and stable to with 260 ppm.
-When binning the data into 2.5 minute increments, the standard deviation is only 51 ppm.
+This quickly stabilizes to a 1200 ppm standard deviation likely dominated by lamp variations.
+If one divides the two apertures by each other, the resulting time series is very flat and stable to within 260 ppm.
 As with the Asic dewar, we find very good performance when comparing two apertures within the same detector.
 This can be the result of common-mode systematic errors that divide out, so it is also important to check the time series against an independent detetor.
 

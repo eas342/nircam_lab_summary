@@ -757,7 +757,7 @@ If a spectrum of a source is extracted without any vertical background extractio
 Fortunately, the amplifier offsets are efficiently removed by reference pixels.
 For example, we subtract the median of the 4 reference pixels from each column and this efficiently removes the bias signal from each amplifier shown in Figure \ref{fig:ampOffsetsOtisGrismSlope} (middle panel and bottom panel).
 It should be noted, however, that there are gradients in the bias signal within each amplifier. If we simply subtract the median value of all reference pixels within an amplifier without applying them on a per-column basis, there are still discontinuities in the spectrum.
-In addition to reference pixels, background subtraction along each column with removes the amplifier boundary effect.
+In addition to reference pixels, background subtraction along each column removes the amplifier boundary effect.
 If the boundaries somehow proved to be an issue for time series spectra, the WINDOW subarray mode, which uses a single amplifier (at the cost of 4 times the frame time) is an option.
 
 \begin{figure}[!hbtp]
@@ -1019,7 +1019,7 @@ This means the the correlations within an amplifier are not efficiently subtract
 \includegraphics[width=.32\columnwidth]{all_amp_periodograms.pdf}
 \caption{The time series for all 4 amplifiers share common-mode behaviors for some intervals but not always (left and middle plots).
 This is visible in a short segment of the time series of all pixels for an example group up the ramp 53 in a dark ramp where the bias has already been subtracted.
-The pixels tim series smoothed with a 51 pixel-wide median filter to better se the low frequency noise.
+The pixels time series smoothed with a 51 pixel-wide median filter to better see the low frequency noise.
 The left panel shows the a time near the beginning of a frame, where amplifiers 1 ad 2 share some common-mode read noise.
 The middle panel shows another part of the time series where Amplifiers 1 and 2 have more disparate noise signatures.
 The right panel shows the periodogram of each amplifier's time series over the first 10$^5$ clock cycles (0.1) seconds, which exhibits no consistent peaks.

@@ -1420,6 +1420,9 @@ The ratio of the two detectors' fluxes, after background subtraction, scales lik
 \subsection{Run 112 - Subarray 6}
 Subarray 6 had higher lamp current and thus higher counts and lower photon noise.
 It was also important to take the ratio of S01 to S03, because this pair of detectors track each other much better than the S01 /S02.
+This is surprising given that S01 is a short wavelength cutoff detector, S02 is a short wavelength cutoff detector and SO3 is a long wavelength cutoff detector.
+Furthermore, the S01 and S02 detectors are powered by a different pair of cards than the S03 detector.
+
 
 \begin{figure*}
 \gridline{\fig{azlab_ratio_tser_gldewar_run112_sub6_hi4_no_backsub_biggerAp.pdf}{0.48\textwidth}{Time series for S01 / S03 Ratio No Background Sub}
@@ -1429,7 +1432,8 @@ The background aperture was placed on the side reference pixels to reduce 1/f no
 \end{figure*}
 
 \begin{figure*}
-\gridline{\fig{all_var_gl_dewar_run112_sub6_hi4_side_backsub_removelinear_True_3_det_1_3.pdf}{0.48\textwidth}{Allan variance diagram with background subtraction}}
+\gridline{\fig{all_var_azlab_mult_exp_487_489_removelinear_True_489.pdf}{0.48\textwidth}{Allan variance for AZLab06 Long Baseline}
+\fig{all_var_gl_dewar_run112_sub6_hi4_side_backsub_removelinear_True_3_det_1_3.pdf}{0.48\textwidth}{Allan variance diagram for GL Dewar Run 112 Sub 6}}
 \caption{Allan variance for background-subtracted rectangular photometry on the S01 and S03 detectors.
 The ratio of the two detectors' fluxes, after background subtraction, scales like $\sqrt{N}$ statistics down to the 60 ppm level where it begins to peel away from the $\sqrt{N}$ curve (green line).}\label{fig:GLAllanVarianceAcrossDetectorsSub6}
 \end{figure*}

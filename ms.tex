@@ -1763,6 +1763,39 @@ Figure \ref{fig:RefpixWithVertOffsetBackground} shows the time series with and w
 \end{figure*}
 
 \clearpage
+\subsection{320 Subarray test}
+We also explored the stability of a $320 \times 320$ subarray.
+The subarray was placed at a strategic location on each detector to allow horizontally-displaced background aperture as shown in Figure \ref{fig:sub320AperturesAZlab06}.
+
+Surprisingly, the subarray mode had considerably higher scatter from integration to integration than stripe mode.
+They both had 1000 integrations, a 6.0 mA LED current and similar aperture widths.
+The subarray mode had 10 groups versus 8 groups with the stripe mode.
+The subarray was $320 \times 320$ with one amplifier output whereas the stripe mode was $2048 \times 256$ with 4 amplifier outputs.
+
+
+\begin{figure*}
+\gridline{
+\fig{ap_labels_azlab06sub320Baseline487_NRCSUB320LED6P0MA.pdf}{0.3\textwidth}{Detector 487}\\
+\fig{ap_labels_azlab06sub320Baseline488_NRCSUB320LED6P0MA.pdf}{0.3\textwidth}{Detector 488}
+}
+\gridline{
+\fig{ap_labels_azlab06sub320Baseline489_NRCSUB320LED6P0MA.pdf}{0.3\textwidth}{Detector 489}\\
+\fig{ap_labels_azlab06sub320Baseline490_NRCSUB320LED6P0MA.pdf}{0.3\textwidth}{Detector 490}
+}
+\caption{Source apertures (labeled ``0'') and horizontally-displaced background apertures for the AZLab 06 $320 \times 320$ subarray test.}\label{fig:sub320AperturesAZlab06}
+\end{figure*}
+
+
+\begin{figure*}
+\gridline{
+\fig{individual_azlab06_baseline3.pdf}{0.49\textwidth}{Stripe Baseline $2048 \times 256$}\\
+\fig{individual_azlab06_sub320_6p0mA}{0.49\textwidth}{Subarray Baseline $320 \times 320$}
+}
+\caption{The time series of the AZLab 06 $320 \times 320$ subarray shows considerably higher scatter than the stripe mode.}\label{fig:sub320vsStripeBaseline2}
+\end{figure*}
+
+
+\clearpage
 \subsection{Noise floor}
 
 Allan variance plots indicate that there is a noise floor across detectors of about 50-60 ppm as shown in Figure \ref{fig:allanVarianceAZ04AZ05}.

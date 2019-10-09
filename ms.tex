@@ -1772,6 +1772,11 @@ They both had 1000 integrations, a 6.0 mA LED current and similar aperture width
 The subarray mode had 10 groups versus 8 groups with the stripe mode.
 The subarray was $320 \times 320$ with one amplifier output whereas the stripe mode was $2048 \times 256$ with 4 amplifier outputs.
 
+The subarray time series is very sensitive to the fast-frame resets where the entire array is quickly reset at the beginning of an integration.
+These resets are needed to ensure that pixels outside a subarray don't overfill their well capacity and leak into the subarray.
+When NFF=512, the fast-frame resets are cycled through 4 different sections of the detector.
+This results in a cycling pattern with a period of 4 integrations shown in Figure \ref{fig:sub320vsStripeBaseline2}.
+When NFF=2048, there is no cycling pattern shown in Figure \ref{fig:sub320NFF512vs2048}.
 
 \begin{figure*}
 \gridline{
@@ -1795,11 +1800,30 @@ The subarray was $320 \times 320$ with one amplifier output whereas the stripe m
 \fig{individual_azlab06_sub320_6p0mA_t100_110.pdf}{0.49\textwidth}{5-15 min Zoom $320 \times 320$}\\
 \fig{individual_azlab06_sub320_6p0mA_t005_t015.pdf}{0.49\textwidth}{100-110 min Zoom $320 \times 320$}
 }
-\caption{The time series of the AZLab 06 $320 \times 320$ subarray shows considerably higher scatter than the stripe mode.
+\caption{The time series of the AZLab 06 $320 \times 320$ subarray shows considerably higher oscillations than the stripe mode.
 A zoom-in on the $320 \times 320$ subarray time series shows that it exhibits oscillations every 4 integrations.
+NGROUP=10, NINT=1000.
 }\label{fig:sub320vsStripeBaseline2}
 \end{figure*}
 
+\begin{figure*}
+\gridline{
+\fig{individual_azlab06_sub320_9p0mA}{0.49\textwidth}{5-8 min Zoom $320 \times 320$ NGROUP=2}
+}
+\caption{The time series of the AZLab 06 $320 \times 320$ subarray still has oscillations every 4 integrations with NGROUP=2, NINT=3600.
+}\label{fig:sub320vsStripeBaseline2}
+\end{figure*}
+
+\begin{figure*}
+\gridline{
+\fig{individual_azlab06_sub320_6p0mA_t005_t015.pdf}{0.49\textwidth}{5-15 min Zoom $320 \times 320$ with NFF=512}\\
+\fig{individual_azlab06_sub320_nff2048_t005_t015.pdf}{0.49\textwidth}{5-15 min Zoom $320 \times 320$ with NFF=2048}
+}
+\caption{The time series of the AZLab 06 $320 \times 320$ subarray is very sensitive tot he fast frame resets.
+When NFF=512, the fast frame resets cycle through the $320 \times 320$ subarray every 4 integrations, resulting in a 4-integration cycle.
+When NFF=2048, there is no long a pattern and each integration is consistent.
+}\label{fig:sub320NFF512vs2048}
+\end{figure*}
 
 \clearpage
 \subsection{Noise floor}

@@ -1826,6 +1826,21 @@ When NFF=2048, there is no long a pattern and each integration is consistent.
 \end{figure*}
 
 \clearpage
+
+\subsection{Idle versus exposing residuals}
+The current loads on the asics are different when they are in idle mode (resetting and not collecting data) versus exposing (collecting reads up the ramps).
+We induced a higher load on detector 487 on purpose by running a $\sim$ 3 hour exposure while the remaining detectors ran in idle mode.
+We then started an exposure with all 4 detectors to see if detector 487 exhibited a different time series than the remaining 3 detectors.
+The result shown in Figure \ref{fig:idleVersusExposing320}.
+\begin{figure*}
+\gridline{
+\fig{individual_azlab06_sub320_idle_vs_exp.pdf}{0.49\textwidth}{Data collection versus idle reset}
+}
+\caption{The time series of the AZLab 06 $320 \times 320$ subarrays on all four detectors look the same for the first hour even though detector 487 had a higher current draw 3 hours preceding the exposure because it had a higher current draw.}\label{fig:idleVersusExposing320}
+\end{figure*}
+
+\clearpage
+
 \subsection{Noise floor}
 
 Allan variance plots indicate that there is a noise floor across detectors of about 50-60 ppm as shown in Figure \ref{fig:allanVarianceAZ04AZ05}.

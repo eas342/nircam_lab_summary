@@ -1841,6 +1841,21 @@ The result shown in Figure \ref{fig:idleVersusExposing320}.
 
 \clearpage
 
+\subsection{Long multi-exposure Test}
+\textbf{\textcolor{red}{Show exposure boundaries}}
+
+\begin{figure*}
+{\gridline{\fig{individual_azlab06_sub320_multi_exp.pdf}{0.48\textwidth}{AZLab06 Long Multi-Exposure Time series}
+\fig{all_var_azlab06_sub320_multi_exp_487_489_removelinear_True_489.pdf}{0.48\textwidth}{AZLab06 Allan variance for Multi-exp Series}}}
+\caption{We strung together 4 long exposures to create an extended time series.
+There are no obvious transients or exponentials at the exposure boundaries.
+As with previous tests, the standard deviation is well above the photon and read noise value and furthermore doesn't scale with the $\sqrt{N}$ for $N$ points in a bin.}\label{fig:AZlab06LongMultiExp}
+\end{figure*}
+
+
+
+
+\clearpage
 \subsection{Noise floor}
 
 Allan variance plots indicate that there is a noise floor across detectors of about 50-60 ppm as shown in Figure \ref{fig:allanVarianceAZ04AZ05}.

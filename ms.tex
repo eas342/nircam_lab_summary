@@ -1845,13 +1845,15 @@ The result shown in Figure \ref{fig:idleVersusExposing320}.
 A long multi-exposure time series shows the noise properties on timescales up to a few hours.
 This long series also enables a clearer trending with temperature and flux.
 
+The measured fluxes are highly correlated with the TMC current.
+
 \begin{figure*}
 {\gridline{\fig{individual_azlab06_sub320_multi_exp.pdf}{0.48\textwidth}{AZLab06 Long Multi-Exposure Time series}
 \fig{all_var_azlab06_sub320_multi_exp_487_489_removelinear_True_489.pdf}{0.48\textwidth}{AZLab06 Allan variance for Multi-exp Series}}}
-\fig{individual_azlab06_sub320_multi_exp_w_time}{0.48\textwidth}{Multi-Exposure Time series with temperature data}
+\fig{individual_azlab06_sub320_multi_exp_w_temp}{0.48\textwidth}{Multi-Exposure Time series with temperature data}
 \caption{We strung together 4 long exposures to create an extended time series.
 There are no obvious transients or exponentials at the exposure boundaries, which are marked as vertical blue lines.
-As with previous tests, the standard deviation is well above the photon and read noise value and furthermore doesn't scale with the $\sqrt{N}$ for $N$ points in a bin.
+As with previous tests, the standard deviation of the flux ratio between two detectors (487 and 489) is well above the photon and read noise value and furthermore doesn't scale with the $\sqrt{N}$ for $N$ points in a bin.
 }\label{fig:AZlab06LongMultiExp}
 \end{figure*}
 

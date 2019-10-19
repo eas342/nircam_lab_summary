@@ -1842,7 +1842,7 @@ NGROUP=10, NINT=1000.
 }
 \caption{The time series of the AZLab 06 $320 \times 320$ subarray is very sensitive tot he fast frame resets.
 When NFF=512, the fast frame resets cycle through the $320 \times 320$ subarray every 4 integrations, resulting in a 4-integration cycle.
-When NFF=2048, there is no long a pattern and each integration is consistent.
+When NFF=2048, there is no long a 4-integration long pattern.
 }\label{fig:sub320NFF512vs2048}
 \end{figure*}
 
@@ -1858,6 +1858,27 @@ The result shown in Figure \ref{fig:idleVersusExposing320}.
 \fig{individual_azlab06_sub320_idle_vs_exp.pdf}{0.49\textwidth}{Data collection versus idle reset}
 }
 \caption{The time series of the AZLab 06 $320 \times 320$ subarrays on all four detectors look the same for the first hour even though detector 487 had a higher current draw 3 hours preceding the exposure because it had a higher current draw.}\label{fig:idleVersusExposing320}
+\end{figure*}
+
+\clearpage
+
+\subsection{Illumination Variations}
+
+The illumination pattern varies slightly over the course of the AZLab 06 baseline stability test.
+The illumination changes are small enough that large amounts of averaging are needed to view it.
+We first create a ``flat-field'' image by averaging all illuminated data (images 24 through 1000) during the AZLab 06 baseline test.
+We then create an ``average1'' image toward the early parts of the lightcurve (images 24-165) where the flux is lower.
+We create an ``average2'' image at late parts of the lightcurve (images 700-1000) where the flux is higher.
+Both of the ``average'' and ``average2'' images are divided by the ``flat field'' to reveal subtle changes in illumination.
+Finally, a crosscut along the X direction is plotted while averaging 126 pixels in the vertical direction.
+The results is that the illumination pattern is not constant in time, with a subtle band centered at X$\approx$ 730 pixels that varies in amplitude.
+
+\begin{figure*}
+\gridline{\fig{azlab06_illum_baseline_plot_region.pdf}{0.49\textwidth}{Region over which the pixels are averaged and plotted}}
+\gridline{\fig{azlab06_illum_baseline_slope_flat_fielded_profile_plot}{0.49\textwidth}{Flat-fielded count rates during the early and late parts of the baseline test}}
+\gridline{\fig{azlab06_illum_baselin_differential_profile_plot.pdf}{0.49\textwidth}{Differential fluxes during the early and late parts of the baseline test}}
+\caption{There are subtle illumination pattern changes visible when average large chunks of data during the baseline test.
+There is a vertical band of illumination that changes from the early versus late parts of the time series.}\label{fig:baselineIllumChange}
 \end{figure*}
 
 \clearpage

@@ -1352,19 +1352,6 @@ The amplifier boundary is shown as a vertical blue dashed line.
 
 \clearpage
 \subsection{GL Dewar Tests}
-
-The GL dewar, located at the University of Arizona, is a laboratory setup for assessing NIRCam flight and spare detectors.
-The key difference with the Asic dewar discussed below is that the detector readout electronics are completely different, using a Leach system that is operated outside of the dewar as opposed to the Asic, which is lives right next to the detectors at cryogenic temperatures.
-The GL dewar detector stability tests are helpful in isolating noise sources that arise from the detectors versus the readout electronics.
-
-An LED illumination source flood-illuminates the detectors and the arrays are read out in subarray mode to create time series.
-Figure \ref{fig:GLtSeries} shows the detector subarray illumination as well as two apertures that were used for time series photometry.
-The first handful of frames show an initial ``warmup" period lasting about 9 seconds.
-This quickly stabilizes to a 1200 ppm standard deviation likely dominated by lamp variations.
-If one divides the two apertures by each other, the resulting time series is very flat and stable to within 260 ppm.
-As with the Asic dewar, we find very good performance when comparing two apertures within the same detector.
-This can be the result of common-mode systematic errors that divide out, so it is also important to check the time series against an independent detetor.
-
 \begin{figure*}
 \gridline{\fig{ap_labels_S02illum_GLrun104.pdf}{0.32\textwidth}{Apertures}
 		\fig{raw_tser_phot_S02illum1miAll_GLrun104.pdf}{0.32\textwidth}{Raw time series}
@@ -1373,6 +1360,20 @@ This can be the result of common-mode systematic errors that divide out, so it i
 The ratio of the time series of each aperture shows a handful of integrations at the beginning that stand out, which quickly stabilize to the 240 ppm level.
 }\label{fig:GLtSeries}
 \end{figure*}
+
+The GL dewar, located at the University of Arizona, is a laboratory setup for assessing NIRCam flight and spare detectors.
+The key difference with the Asic dewar discussed below is that the detector readout electronics are completely different, using a Leach system that is operated outside of the dewar as opposed to the Asic, which is lives right next to the detectors at cryogenic temperatures.
+Comparing the GL dewar results to the asic dewar can be helpful in isolating the source of noise sources in the NIRCam system.
+If the GL dewar and asic dewar share the same types of correlated noise sources, these can be attributed to the detectors.
+If the asic dewar introduces or eliminates some correlated noise sources, these can be attributed to the readout electronics.
+
+For the GL dewar, an LED illumination source flood-illuminates the detectors and the arrays are read out in subarray mode to create time series.
+Figure \ref{fig:GLtSeries} shows the detector subarray illumination as well as two apertures that were used for time series photometry.
+The first handful of frames show an initial ``warmup" period lasting about 9 seconds.
+This quickly stabilizes to a 1200 ppm standard deviation likely dominated by lamp variations.
+If one divides the two apertures by each other, the resulting time series is very flat and stable to within 260 ppm.
+As with the Asic dewar, we find very good performance when comparing two apertures within the same detector.
+This can be the result of common-mode systematic errors that divide out, so it is also important to check the time series against an independent detector.
 
 \begin{figure*}
 \gridline{\fig{ap_labels_S02illum1miAllBacksub_GLrun104.pdf}{0.32\textwidth}{Apertures}
@@ -1384,12 +1385,23 @@ The ratio of the time series of each aperture has a larger scatter larger than F
 }\label{fig:GLtSeriesBacksub}
 \end{figure*}
 
+We also introduce a background aperture, shown in Figure \ref{fig:GLtSeriesBacksub} to remove background variations and any amplifier offsets that could affect the flux.
+The resulting time series has a smaller amplitude ``warmup'' and smaller oscillations than Figure \ref{fig:GLtSeries}.
+When we divide the background-subtracted flux for each aperture by the other to make a ratio time series, the resulting noise is higher than in Figure \ref{fig:GLtSeries}.
+This indicates that the background subtraction step introduces more noise than it removes when comparing the differential flux between the two apertures.
+We suspect that 1/f noise in the background aperture causes this increase.
+To conclude, background subtraction improves the absolute flux stability but worsens the differential flux across the apertures.
+When observing an exoplanet time series, for example, scientists may wish to use one reduction technique for the absolute time series to derive the planet orbital parameters, say.
+Then, when analyzing the spectrum, they may wish to use an alternate technique to assess the differential flux from one wavelength to another.
+
 \subsubsection{Across Detectors}
-We also examine the time series across detectors from ``Run104''.
-This approach will test whether there are systematics unique to each detector/readout electronics.
+We also examine the time series across detectors from ``Run104'' to test whether there are systematics unique to each detector/readout electronics.
 We compare aperture photometry on the S02 versus S03 detector with background subtraction.
 The resulting time series are shown in Figure \ref{fig:GLtSeriesAcrossDetectors}.
-We do not approach the noise levels interesting to the exoplanet noise regime.
+We an Allan variance diagram to show how well the flux scales like $\sqrt{N}$ statistics for $N$ integrations.
+The curves track the expected $\sqrt{N}$ behavior but lie well above the theoretical read and photon noise limit.
+This is likely because the 1/f noise is highly correlated within the aperture whereas the theoretical and photon noise limit assumes that the noise in each pixel is independent.
+We do not quire reach the noise levels interesting to the exoplanet noise regime (30-100 ppm).
 
 \begin{figure*}
 \gridline{\fig{raw_tser_crossDetectorS02Backsub_GLrun104.pdf}{0.48\textwidth}{Time series for S02 detector}
@@ -1402,7 +1414,9 @@ The ratio of the two detectors' fluxes, after background subtraction, scales lik
 \clearpage
 
 \subsection{Run 112 - Subarray 4}
-We also investigate a slightly longer time series for GL dewar.
+We also investigate a slightly longer time series for GL dewar which approaches the timescales of interest to exoplanet transit lightcurves.
+Figure \ref{fig:GLtSeriesRun112} shows the flux ratio between detectors S01 and S02 for the Run 112 Subarray 4 ``Hi4'' test.
+The Allan variance plot again scales like the $\sqrt{N}$ statistics but above the theoretical noise limit.
 
 \begin{figure*}
 \gridline{\fig{azlab_ratio_tser_gldewar_run112_sub4_hi4_no_backsub.pdf}{0.48\textwidth}{Time series for S01 / S02 Ratio No Background Sub}
@@ -1413,12 +1427,16 @@ We also investigate a slightly longer time series for GL dewar.
 \begin{figure*}
 \gridline{\fig{all_var_gl_dewar_run112_sub4_hi4_no_backsub_removelinear_False_2.pdf}{0.48\textwidth}{Allan variance diagram no background subtraction}
 \fig{all_var_gl_dewar_run112_sub4_hi4_with_backsub_removelinear_False_2.pdf}{0.48\textwidth}{Allan variance diagram with background subtraction}}
-\caption{Allans for background-subtracted rectangular photometry on the S02 and S03 detectors.
+\caption{Allans variance for background-subtracted rectangular photometry on the S02 and S03 detectors.
 The ratio of the two detectors' fluxes, after background subtraction, scales like $\sqrt{N}$ statistics down to the 200 ppm level, but how it works on longer timescales is not yet known.}\label{fig:GLAllanVarianceAcrossDetectors}
 \end{figure*}
 
 \subsection{Run 112 - Subarray 6}
-Subarray 6 had higher lamp current and thus higher counts and lower photon noise.
+Subarray 6 had higher lamp current and thus higher counts and lower photon noise, which approaches the exoplanet atmospheric feature regime (30-100 ppm).
+In this test, we take the ratio of flux on one detector to the other.
+This removes the lamp variations but allows the 
+
+
 It was also important to take the ratio of S01 to S03, because this pair of detectors track each other much better than the S01 /S02.
 This is surprising given that S01 is a short wavelength cutoff detector, S02 is a short wavelength cutoff detector and SO3 is a long wavelength cutoff detector.
 Furthermore, the S01 and S02 detectors are powered by a different pair of cards than the S03 detector.
@@ -1432,11 +1450,11 @@ The background aperture was placed on the side reference pixels to reduce 1/f no
 \end{figure*}
 
 \begin{figure*}
-\gridline{\fig{all_var_azlab06_sub320_multi_exp_baseline_487_489_removelinear_True_489.pdf}{0.48\textwidth}{Allan variance for AZLab06 Long Multi-Exposure Baseline}
+\gridline{\fig{all_var_azlab06_sub320_multi_exp_baseline_487_489_removelinear_True_489.pdf}{0.48\textwidth}{Allan variance for AZLab06 Long 320 Multi-Exposure Baseline}
 \fig{all_var_gl_dewar_run112_sub6_hi4_side_backsub_removelinear_True_3_det_1_3.pdf}{0.48\textwidth}{Allan variance diagram for GL Dewar Run 112 Sub 6}}
 \caption{Allan variance for background-subtracted rectangular photometry on the Asic Dewar versus the GL dewar.
 Both tests use $320 \times 320$ subarrays, horizontally-displaced background apertures to remove 1/f noise and divide the two best-matched detectors.
-The ratio of the two detectors' fluxes, after background subtraction, scales like $\sqrt{N}$ statistics down to the 60 ppm level where it begins to peel away from the $\sqrt{N}$ curve (green line).}\label{fig:GLAllanVarianceAcrossDetectorsSub6}
+For the GL dewar, the ratio of the two detectors' fluxes (after background subtraction) scales like $\sqrt{N}$ statistics down to the $\sim$60 ppm level where it begins to peel away from the $\sqrt{N}$ curve (green line).}\label{fig:GLAllanVarianceAcrossDetectorsSub6}
 \end{figure*}
 
 \clearpage

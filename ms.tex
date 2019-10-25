@@ -1644,9 +1644,11 @@ The flight NIRCam long wavelength detectors in \citet{leisenring2016persistence}
 The asic dewar persistence test in Figure \ref{fig:persistenceAZlab04} is for a long wavelength detector.
 
 \begin{figure*}
-{\gridline{\fig{persistence_short_log.pdf}{0.49\textwidth}{Short Timescale Persistence}
+{\gridline{\fig{persistence_short_log.pdf}{0.49\textwidth}{Short Timescale Persistence. }
 \fig{persistence_long_lin.pdf}{0.49\textwidth}{Long Timescale Persistence}}}
-\caption{Stripe mode (4 output amplifiers) gives better precision than window mode (one amplifier).}\label{fig:persistenceAZlab04}
+\caption{The NIRCam long wavelength detectors show very rapid charge trap release timescales, such that the count rates fall below the read noise level in 20 seconds.
+The data are binned to show that there is no detectable persistence on 3000 second timescales.
+An arbitrary offset of 4$e^-$ is added on the short timescale plot to keep the values positive and possible to plot on a log scale.}\label{fig:persistenceAZlab04}
 \end{figure*}
 
 \clearpage
@@ -1684,7 +1686,7 @@ While 1/f is highly correlated within an aperture and results in a large value.
 \includegraphics[width=.4\columnwidth]{allan_var_removelinear_False_darkBaseline.pdf}
 \caption{The noise in a dark exposure scales with 1/$\sqrt{N}$ for $N$ exposures, as would be expected for white noise.
 Here, we have assumed an illumination of 3.7$\times10^8$ DN to convert the noise in DN to a relevant ppm for illuminated data.
-While 1/f noise substantially increases the noise over the assumption that each \textit{pixel's} read noise is statistically independent, each \textit{integration} is statistically independent.
+While 1/f noise substantially increases the noise over the assumption that each \textit{pixel's} read noise is statistically independent, each \textit{integration} is statistically independent when examining this dark (un-illuminated) data.
 }\label{fig:darkBaselineAllan}
 \end{figure*}
 

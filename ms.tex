@@ -846,7 +846,7 @@ They also do not contain photon noise in the background, which can mask the elec
 We study here the contributions from read noise, 1/f noise and dark current.
 This experiment with dark frames does not test subtle changes in behavior of the electronic read noise under illumination, such as cross-talk where pixels that have no direct flux from a source in an image correlate with other regions of the detector with high flux rates.
 
-A standard long dark exposure used for detector characterization is a single integration that is 108 groups of 1 frame each (so-called RAPID mode).
+A standard long dark exposure used for detector characterization is a single integration that is 108 groups of 1 frame each (RAPID mode).
 The detectors are read in full frame mode so that each frame is 10.7 sec in duration with 4 output amplifiers in use, thus the total time for the exposure is 19.3 min.
 We use one of these long dark integrations to create simulated time series as if it were observing many consecutive integrations in full frame mode.
 The long darks are broken into 54 sequential pairs of images that are subtracted from each other (integration 1 minus integration 0, 3 minus 2, 5 minus 4 etc. in a zero-based counting scheme).
@@ -1126,7 +1126,7 @@ The photometric aperture is made to represent a similar one to the F322W2 grism 
 We consider here some example science impacts of correlated read noise in these photometric apertures.
 We will evaluate the performance of a WEAK LENS +8 mode photometric time series, as will be common with NIRCam grism time series observations.
 For a pessimistic scenario, we assume a 15,000 DN read noise contributes to every pair of reads for the 70 pixel radius aperture (and 75 to 100 pixel background subtraction annulus).
-If the read noise is tolerable under this scenario, then it should have a minimal impact to photometric time series.
+If the read noise is tolerable under this scenario, then it should have a minimal impact on photometric time series.
 If it is a problem, we will discuss methods of mitigation such as the row-by-row subtraction above.
 
 We also assume that each read/frame is statistically independent from the other.
@@ -1143,7 +1143,7 @@ As an example, a $K$=8.5 magnitude star observed in full frame WEAK LENS +8 imag
 
 We have demonstrated that row-by-row and amplifier-by-amplifier median subtraction can substantially reduce the read noise for a correlated double sample subtraction from 23,500 DN to 2,900 DN.
 Therefore, the corrected read noise per integration should be:
-\begin{equation}
+\begin{equation}\label{bestRNCorrection}
 RN_{ap,70,75,100} = \frac{4,100 DN}{ \sqrt{N_{frames}}}
 \end{equation}
 \textcolor{red}{\bf This is for the ALONG detector.

@@ -1921,6 +1921,17 @@ There is a vertical band of illumination that changes from the early versus late
 \end{figure*}
 
 We also examine the slope and intercept of the illumination as a function of time.
+We applying the following processing steps:
+\begin{enumerate}
+	\item Apply side and top reference pixels to all frames
+	\item	Calculate slope images from ramp images using \texttt{ncdas}
+	\item Subtract 1/f noise with a row-by-row subtraction by the average of un-illuminated pixels
+	\item Calculate an average flat field over the entire time series of illuminated ata
+	\item Divide each image by the flat field
+	\item Collapse the illuminated region along the Y direction to make an illumination profile
+	\item Fit the illumination profile to a line and save the slope and intercept
+\end{enumerate}
+Figure \ref{fig:illumGradientChangeOverTime} shows the slope and intercept calculated for the illumination profile over time.
 It is clear that there is a gradient in the image that also correlates with the flux.
 This may explain detector 490's different behavior over time.
 

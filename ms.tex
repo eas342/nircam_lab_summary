@@ -356,81 +356,8 @@ The NIRCam grism mode will collect moderate resolution R$\sim$1100-1700 spectra 
 This grism mode can be used simultaneously with short wavelength weak lens imaging or the Dispersed Hartmann Sensor mode \citep{schlawin2017dhs}. If it becomes an approved and implemented mode, the DHS will permit spectroscopy simultaneous from 1.0 to 2.0~$\mu$m because of a dichroic beamsplitter that divides the light from NIRCam into two different channels.
 The DHS mode will permit time series spectroscopy on very bright targets ($K_S \sim 1$) inaccessible by other modes.
 
-Section \ref{sec:detectorPrimer} gives a review of NIRCam's detector operation.
 Section \ref{sec:knownEffects} lists the known systematic effects that can impeded high precision time series and increase the noise above the photon and read noise.
 Section \ref{sec:experiments} describes the experiments on the ground that are used to prepare for JWST observations in flight.
-
-
-\section{A Primer on Detector Operation}\label{sec:detectorPrimer}
-
-\subsection{Photosensitive Operation}
-\textcolor{red}{\textbf{NOTE: This section needs checking for factual accuracy by a detector expert}}
-
-It is helpful to review the basic operation of a NIR detector \citep[e.g.][]{rieke2007irDetectorReview} in order to understand the systematics affecting time series.
-Figure \ref{fig:npSchematic} shows a schematic of an NP semiconductor junction for a H2RG detector from \citet{smith2008imgPersistence}.
-The crystalline HgCdTe structure has 4 valence electrons that form covalent bonds in a tetrahedral structure.
-By varying the relative amount of Hg, Cd and Te (doping), it is possible to increase or decrease the number of electrons to create mobile charge carriers that move along the crystaline lattice.
-The N-type semiconductor is a negatively-doped HgCdTe crystalline structure that has negative charge carriers (electrons).
-The P-type semiconductor is a positively-doped HgCdTe crystalline structure that has positive charge carriers (vacant holes in the lattice structure than can move like electrons).
-
-\begin{figure}[!hbtp]
-\centering
-\includegraphics[width=.99\columnwidth]{ideal_photodiode.pdf}
-\caption{A cartoon schematic of a H2RG detector inspired by \citet{smith2008imgPersistence} and \citet{tulloch2018persistenceH2RG}.
-The orange and blue purple colors depict the N-type and P-type semiconductors, respectively.
-The undepleted zones of the semiconductor (darker colors with - and + signs) contain mobile charge carriers whereas the depletion region (lighter color without - and +) has no mobile carriers and all electrons are in the valence state.
-The depletion region is widest after detector reset and shrinks as the detector is illuminated with photons that create electron-hole pairs.
-The electron-hole pairs migrate across the depletion region towards the undepleted zones due to an electric field in the depletion zone.
-The voltage can be measured non-destructively (for many reads) as the well fills and then reset before saturating.}\label{fig:npSchematic}
-\end{figure}
-
-
-
-The junction of these two materials enables electrons to flow from the N-type material to the P-type material where it can complete a valence shell in the semiconductor material.
-This produces a negative charge on the P-type side.
-Conversely, the positively charged holes from the P-type material flow to the N-type material to complete the valence shell and this produces a net positive charge.
-The resulting voltage difference is called the contact potential.
-In the region where electrons have completed the valence shells in the P-type material and holes in the N-type material, the valence shells are complete.
-This region spanning across the two semiconductor materials is called the depletion region (pictured in Figure \ref{fig:npSchematic}), because it contains no mobile charge carriers.
-The positive net charge on the N-type material and negative charge in the P-type material causes a voltage (potential) difference across the detector.
-It should be noted that the ``depletion region'' is depleted in {\it mobile charge carriers}, but is {\it not} depleted in net charge because has a net positive charge in the N-type depletion region and negative charge in the P-type depletion region.
-
-The NP junction in Figure \ref{fig:npSchematic} is ``reverse-biased'' with a positive potential on the N-type material and negative potential on the P-type.
-The positive potential on the N-type material attracts the negative charge carriers (electrons) whereas the negative potential on the P-type material attracts the  positive charge carriers (holes).
-The reverse bias thus reduces the number of mobile charge carriers and increases the size of the depletion region.
-The increased depletion region size also increases the well depth or capacity of electrons that the detector may collect before saturation.
-The reverse bias is applied at each reset at the beginning of a detector's integration.
-Figure \ref{fig:npSchematic} shows the initial reverse voltage that is applied during a pixel reset. 
-The physical size of the N-type HgCdTe semiconductor is much larger than the P-type HgCdTe because the density of carriers is lower in the N-type.
-
-Note that Figure \ref{fig:npSchematic} shows the mobile charge carriers only.
-Textbook NP junction schematics often show the net charge and thus symbolize the regions with charge carriers as empty and the depletion region with ``+'' symbols on the N-type semiconductor and ``-'' symbols on the P-type˚ \citep[e.g.][]{halliday2004physicsText}.
-The schematic in Figure \ref{fig:npSchematic} instead shows the mobile charge carriers as ``+'' and ``-'' because it is easier to visualize the charge trapping effect and motion of mobile charges this way \citep[e.g.][]{smith2008imgPersistence}.
-
-When an incoming photon strikes the N-type depletion region, it will excite an electron from the valence to conduction band which creates an electron-hole pair \citep{rieke2007irDetectorReview}.
-The depletion region has a net electric field pointed toward the P-type side, which controls the direction electrons and holes will migrate.
-The electron moves to the extremity of the depletion zone in the N-type material whereas the positive hole generated crosses the NP junction and adds a mobile charge to the P-type side.
-The incoming photon has the effect of decreasing the size of the depletion region.
-A second photon will excite another electron-hole pair so that a hole moves to the P-type side.
-This continues and decreases the size of the depletion region.
-The diffusion of charge carriers across the junction changes the voltage across the NP junction, which can be measured with a sensitive amplifier circuit.
-
-As the size of the depletion region decreases, the detector becomes decreasingly sensitive to new photons.
-Thus, the NIRCam HgCdTe detectors are never strictly linear.
-Eventually, with enough photons, the depletion region is too small to create electron-hole pairs with incoming photons.
-This is where the detector approaches saturation and no longer changes voltage with more light.
-
-\subsection{Readout Circuit}\label{sec:readout}
-
-The accumulated charge from absorbed photons in the detector is measured with a multiplexor (MUX) that form a readout integrated circuit (ROIC) \citep{rieke2007irDetectorReview}.
-This readout circuitry allows the signal to be measured non-destructively up the ramp in so-called ``multiaccum" mode.
-
-A sensitive amplifier converts the measured voltage potential (as compared with the bias level after reset) into a signal.
-The electronic circuit that digitizes the voltages is tuned to ensure the 16 bits (65,536 possible Data Numbers) measure the voltage across the NP junction from the value just after reset (before photons are detected) to the saturation voltage where the maximum number of photons are collected and no more electron-hole pairs can be produced in the depletion region.
-The minimum voltage is several thousands of counts above zero to ensure that fluctuations in the bias signal do not go below 0.
-The 65,536 DN level is tuned to be just above the HgCdTe full well capacity to measure full saturation of a pixel.
-
-
 
 
 \section{Known Detector Effects}\label{sec:knownEffects}
@@ -442,7 +369,10 @@ Here, we review many of the known noise sources that could impact the stability 
 	\item \textbf{Intrapixel sensitivity:} - including sub-pixel flat fielding issues and sub-pixel crosshatching on the detectors \citep{shapiro2018crosshatch}
 	\item \textbf{Pre-amp reset offsets:} (an Asic-related effect) 
 The resets cause discontinuities in the pedestal level of all pixels between frames. This is an effect where averaging over more pixels does not decrease the noise, but reference pixel or background subtraction can. These are discussed in Section \ref{sec:preAmp}.
-	\item \textbf{1/f noise:} This is a noise source where most of the noise power is concentrated as low frequencies. 1/f noise causes spatial correlations in the fast-read direction (along detector rows). It is highly correlated between amplifiers, suggesting that it is caused by a common reference voltage. 1/f noise can be reduced using reference pixels
+		\subitem \textbf{Amplifier Boundary Discontinuities} The NIRCam detectors can be read out in full frame, stripe and window modes. The full frame and stripe modes make use of 4 amplifiers that can record or reset the accumulated electrons in 4 pixels simultaneously in parallel. The parallel operation of the amplifiers reduces the frame time and reset time by a factor of 4 but can introduce subtle voltage biases between regions of the detector. If these voltage biases are not corrected, they can potentially introduce discontinuities in a spectrum, which crosses amplifier boundaries.
+	\item \textbf{1/f noise:} The JWST HgCdTe readout electronics have a p-type metal-oxide semiconductor field-effect transistor (PFET) that introduces noise to the images \citep{rauscher2011irsSquared}.
+	This is a noise source where most of the noise power is concentrated at low frequencies.
+	1/f noise causes spatial correlations in the fast-read direction (along detector rows). It is highly correlated between amplifiers, suggesting that it is caused by a common reference voltage. 1/f noise can be reduced using reference pixels
 	\item \textbf{Even/odd offsets:} Alternating columns have different bias levels. Additionally, there are offsets between columns that can change from frame to frame, especially on NIRCam's LW detector
 	\item \textbf{kTC noise:} A random process due to the unknown amount of charge stored at the reset voltage level
 	\item \textbf{Detector Temperature Fluctuations:} The JWST detectors are sensitive to temperature changes on the focal plane arrays. For example, laboratory tests show that 100 mK temperature fluctuations can result in $\sim$ 80 ADU changes on the detector that are not corrected by reference pixels \citep{hall2005jwstArrays}. Fortunately, the detectors are actively thermally controlled to keep the temperature fluctuations to mostly $\lesssim$ 1 mK.
@@ -453,7 +383,7 @@ If necessary, the effect of temperature fluctuations can be calibrated to $\pm 1
 	\item \textbf{Elevated Columns} There is correlated noise along a column in many frames. These elevated columns can sometimes even move with time.
 	\item \textbf{Random Telegraph Noise (RTN)} Some of the pixels will exhibit spontaneous changes jumps in signal even with no illumination. Fortunately, RTN appears in only $\sim$1000 pixels out of 4$\times 10^6$ on the array.
 	\item \textbf{Detector Fringing} \textbf{\textcolor{red}{Add more details and citations}} The thin $\sim 5\mu$m layers of the H2RG detectors will cause interference patterns on the array due to constructive and destructive interference of light at wavelengths similar to the thickness of the layers. If the detector fringe pattern changes with time, it will change the throughput of a grism image.
-	\item \textbf{Amplifier Boundary Discontinuities} The NIRCam detectors can be read out in full frame, stripe and window modes. The full frame and stripe modes make use of 4 amplifiers that can record or reset the accumulated electrons in 4 pixels simultaneously in parallel. The parallel operation of the amplifiers reduces the frame time and reset time by a factor of 4 but can introduce subtle voltage biases between regions of the detector. If these voltage biases are not corrected, they can potentially introduce discontinuities in a spectrum, which crosses amplifier boundaries.
+	\item \textbf{Charge Trapping}
 \end{itemize}
 
 It should be noted that the detector effects related to the asic circuit can be specific to the ``personality'' of each asic. The asics all have different asic load files which are tuned to minimize the power consumption and dark current in a particular asic. Since the asic load files are specific to each detector, they may exhibit different noise properties.
@@ -489,31 +419,6 @@ Without pre-amp resets, the counts in a detector could potentially drift towards
 The long dark exposure example of 108 integrations shows the behavior over long timescales.}\label{fig:ampResetDark}
 \end{figure}
 
-\subsection{Charge Trapping}
-All HgCdTe detectors show a signal after bright illumination even if the illumination is removed; this is called persistence.
-The physical mechanism that explain persistence is that charges are trapped in the depletion region after illumination by photons as the detector well fills \citep{smith2008imgPersistence}
-This was specifically measured for the NIRCam detectors in \citet{leisenring2016persistence}.
-After the reverse-bias voltage is applied (a reset) in an ideal detector, the depletion region will be devoid of mobile charge carriers (electrons and holes).
-However, in real detectors, some charges are trapped within the depletion region.
-During a future integration, these charges will be released and shrink the size of the depletion region, filling a pixel with spurious signal (Data Numbers) not related to that integration's illumination by photons.
-
-Figure \ref{fig:npSchematicTraps} shows a schematic of a detector that has charge traps in the substrate.
-After illumination by a source, these traps will fill with charge that does not migrate across the depletion layer.
-When the reset voltage is applied to the detector, the trapped charge remains within the depletion layer.
-In the second integration in the schematic, charge is released, which reduces the size of the depletion layer faster than the incoming photons would otherwise.
-The consequence of charge traps is that there is a deficiency in measured charge on the first integration and an excess of measured charge on the second integration.
-Therefore, a constant astrophysical signal can be measured as a time-varying one due to the charge trapping effect.
-Over timescales longer than the charge release time, the detector will reach a steady state.
-As will be discussed in Section \ref{sec:persistence}, the flight NIRCam detector shows low levels of persistence compared to previous generation detectors used in HST.
-
-\begin{figure}[!hbtp]
-\centering
-\includegraphics[width=.99\columnwidth]{charge_traps_photodiode.pdf}
-\caption{A cartoon schematic of a H2RG detector with charge traps inspired by \citet{smith2008imgPersistence}, \citet{tulloch2018persistenceH2RG} and \citet{leisenring2016persistence}.
-Charged traps for negative and positive carriers (depicted as round circles) will capture charge before it can flow to the undepleted regions of the detector.
-The charge traps do not immediately empty with a detector reset, but instead release at later times causing a spurious signal.
-This spurious signal (the shrinking of the depletion region as highlighted with red circles), causes a voltage change in future integrations that appears the same as a true signal from incoming photons.}\label{fig:npSchematicTraps}
-\end{figure}
 
 \subsection{Subpixel Crosshatching}
 
@@ -2035,6 +1940,7 @@ We evaluate the largest sources of noise that add to JWST's error budget and lis
 	Long timescale traps contribute less then 1e-/DN/px so they are less problematic.
 \end{itemize}
 
+
 \section*{acknowledgements}
 MCMC fitting makes use of \texttt{emcee} \citep{foreman-mackey2013emcee} and the covariance plot was made with \texttt{corner.py} \citep{foremanCorner}.
 Funding for the E Schlawin is provided by NASA Goddard Spaceflight Center.
@@ -2045,6 +1951,107 @@ Services; the M, L, T, and Y dwarf compendium
 housed at \url{http://DwarfArchives.org}; the SpeX Prism
 Libraries at \url{http://www.browndwarfs.org/spexprism}; and the \texttt{astropy} package \citep{astropy2013}. 
 The authors wish to recognize and acknowledge the very significant cultural role and reverence that the summit of Mauna Kea has always had within the indigenous Hawaiian community. We are most fortunate to have the opportunity to conduct observations from this mountain.
+
+\appendix
+
+
+\section{A Primer on Detector Operation}\label{sec:detectorPrimer}
+
+\subsection{Photosensitive Operation}
+\textcolor{red}{\textbf{NOTE: This section needs checking for factual accuracy by a detector expert}}
+
+It is helpful to review the basic operation of a NIR detector \citep[e.g.][]{rieke2007irDetectorReview} in order to understand the systematics affecting time series.
+Figure \ref{fig:npSchematic} shows a schematic of an NP semiconductor junction for a H2RG detector from \citet{smith2008imgPersistence}.
+The crystalline HgCdTe structure has 4 valence electrons that form covalent bonds in a tetrahedral structure.
+By varying the relative amount of Hg, Cd and Te (doping), it is possible to increase or decrease the number of electrons to create mobile charge carriers that move along the crystaline lattice.
+The N-type semiconductor is a negatively-doped HgCdTe crystalline structure that has negative charge carriers (electrons).
+The P-type semiconductor is a positively-doped HgCdTe crystalline structure that has positive charge carriers (vacant holes in the lattice structure than can move like electrons).
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.99\columnwidth]{ideal_photodiode.pdf}
+\caption{A cartoon schematic of a H2RG detector inspired by \citet{smith2008imgPersistence} and \citet{tulloch2018persistenceH2RG}.
+The orange and blue purple colors depict the N-type and P-type semiconductors, respectively.
+The undepleted zones of the semiconductor (darker colors with - and + signs) contain mobile charge carriers whereas the depletion region (lighter color without - and +) has no mobile carriers and all electrons are in the valence state.
+The depletion region is widest after detector reset and shrinks as the detector is illuminated with photons that create electron-hole pairs.
+The electron-hole pairs migrate across the depletion region towards the undepleted zones due to an electric field in the depletion zone.
+The voltage can be measured non-destructively (for many reads) as the well fills and then reset before saturating.}\label{fig:npSchematic}
+\end{figure}
+
+
+
+The junction of these two materials enables electrons to flow from the N-type material to the P-type material where it can complete a valence shell in the semiconductor material.
+This produces a negative charge on the P-type side.
+Conversely, the positively charged holes from the P-type material flow to the N-type material to complete the valence shell and this produces a net positive charge.
+The resulting voltage difference is called the contact potential.
+In the region where electrons have completed the valence shells in the P-type material and holes in the N-type material, the valence shells are complete.
+This region spanning across the two semiconductor materials is called the depletion region (pictured in Figure \ref{fig:npSchematic}), because it contains no mobile charge carriers.
+The positive net charge on the N-type material and negative charge in the P-type material causes a voltage (potential) difference across the detector.
+It should be noted that the ``depletion region'' is depleted in {\it mobile charge carriers}, but is {\it not} depleted in net charge because has a net positive charge in the N-type depletion region and negative charge in the P-type depletion region.
+
+The NP junction in Figure \ref{fig:npSchematic} is ``reverse-biased'' with a positive potential on the N-type material and negative potential on the P-type.
+The positive potential on the N-type material attracts the negative charge carriers (electrons) whereas the negative potential on the P-type material attracts the  positive charge carriers (holes).
+The reverse bias thus reduces the number of mobile charge carriers and increases the size of the depletion region.
+The increased depletion region size also increases the well depth or capacity of electrons that the detector may collect before saturation.
+The reverse bias is applied at each reset at the beginning of a detector's integration.
+Figure \ref{fig:npSchematic} shows the initial reverse voltage that is applied during a pixel reset. 
+The physical size of the N-type HgCdTe semiconductor is much larger than the P-type HgCdTe because the density of carriers is lower in the N-type.
+
+Note that Figure \ref{fig:npSchematic} shows the mobile charge carriers only.
+Textbook NP junction schematics often show the net charge and thus symbolize the regions with charge carriers as empty and the depletion region with ``+'' symbols on the N-type semiconductor and ``-'' symbols on the P-type˚ \citep[e.g.][]{halliday2004physicsText}.
+The schematic in Figure \ref{fig:npSchematic} instead shows the mobile charge carriers as ``+'' and ``-'' because it is easier to visualize the charge trapping effect and motion of mobile charges this way \citep[e.g.][]{smith2008imgPersistence}.
+
+When an incoming photon strikes the N-type depletion region, it will excite an electron from the valence to conduction band which creates an electron-hole pair \citep{rieke2007irDetectorReview}.
+The depletion region has a net electric field pointed toward the P-type side, which controls the direction electrons and holes will migrate.
+The electron moves to the extremity of the depletion zone in the N-type material whereas the positive hole generated crosses the NP junction and adds a mobile charge to the P-type side.
+The incoming photon has the effect of decreasing the size of the depletion region.
+A second photon will excite another electron-hole pair so that a hole moves to the P-type side.
+This continues and decreases the size of the depletion region.
+The diffusion of charge carriers across the junction changes the voltage across the NP junction, which can be measured with a sensitive amplifier circuit.
+
+As the size of the depletion region decreases, the detector becomes decreasingly sensitive to new photons.
+Thus, the NIRCam HgCdTe detectors are never strictly linear.
+Eventually, with enough photons, the depletion region is too small to create electron-hole pairs with incoming photons.
+This is where the detector approaches saturation and no longer changes voltage with more light.
+
+\subsection{Readout Circuit}\label{sec:readout}
+
+The accumulated charge from absorbed photons in the detector is measured with a multiplexor (MUX) that form a readout integrated circuit (ROIC) \citep{rieke2007irDetectorReview}.
+This readout circuitry allows the signal to be measured non-destructively up the ramp in so-called ``multiaccum" mode.
+
+A sensitive amplifier converts the measured voltage potential (as compared with the bias level after reset) into a signal.
+The electronic circuit that digitizes the voltages is tuned to ensure the 16 bits (65,536 possible Data Numbers) measure the voltage across the NP junction from the value just after reset (before photons are detected) to the saturation voltage where the maximum number of photons are collected and no more electron-hole pairs can be produced in the depletion region.
+The minimum voltage is several thousands of counts above zero to ensure that fluctuations in the bias signal do not go below 0.
+The 65,536 DN level is tuned to be just above the HgCdTe full well capacity to measure full saturation of a pixel.
+
+
+
+
+\subsection{Charge Trapping}
+All HgCdTe detectors show a signal after bright illumination even if the illumination is removed; this is called persistence.
+The physical mechanism that explain persistence is that charges are trapped in the depletion region after illumination by photons as the detector well fills \citep{smith2008imgPersistence}
+This was specifically measured for the NIRCam detectors in \citet{leisenring2016persistence}.
+After the reverse-bias voltage is applied (a reset) in an ideal detector, the depletion region will be devoid of mobile charge carriers (electrons and holes).
+However, in real detectors, some charges are trapped within the depletion region.
+During a future integration, these charges will be released and shrink the size of the depletion region, filling a pixel with spurious signal (Data Numbers) not related to that integration's illumination by photons.
+
+Figure \ref{fig:npSchematicTraps} shows a schematic of a detector that has charge traps in the substrate.
+After illumination by a source, these traps will fill with charge that does not migrate across the depletion layer.
+When the reset voltage is applied to the detector, the trapped charge remains within the depletion layer.
+In the second integration in the schematic, charge is released, which reduces the size of the depletion layer faster than the incoming photons would otherwise.
+The consequence of charge traps is that there is a deficiency in measured charge on the first integration and an excess of measured charge on the second integration.
+Therefore, a constant astrophysical signal can be measured as a time-varying one due to the charge trapping effect.
+Over timescales longer than the charge release time, the detector will reach a steady state.
+As will be discussed in Section \ref{sec:persistence}, the flight NIRCam detector shows low levels of persistence compared to previous generation detectors used in HST.
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.99\columnwidth]{charge_traps_photodiode.pdf}
+\caption{A cartoon schematic of a H2RG detector with charge traps inspired by \citet{smith2008imgPersistence}, \citet{tulloch2018persistenceH2RG} and \citet{leisenring2016persistence}.
+Charged traps for negative and positive carriers (depicted as round circles) will capture charge before it can flow to the undepleted regions of the detector.
+The charge traps do not immediately empty with a detector reset, but instead release at later times causing a spurious signal.
+This spurious signal (the shrinking of the depletion region as highlighted with red circles), causes a voltage change in future integrations that appears the same as a true signal from incoming photons.}\label{fig:npSchematicTraps}
+\end{figure}
 
 %% To help institutions obtain information on the effectiveness of their 
 %% telescopes the AAS Journals has created a group of keywords for telescope 

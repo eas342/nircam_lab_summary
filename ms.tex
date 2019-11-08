@@ -931,6 +931,15 @@ The right panel shows the periodogram of each amplifier's time series over the f
 }\label{fig:darkPixelTimeSeries}
 \end{figure*}
 
+
+\begin{figure*}[!hbtp]
+\centering
+\includegraphics[width=.4\columnwidth]{pixeltime_series_amp_0_full_fft_cleaned_True.pdf}
+\caption{The discreet Fourier transform of the entire time series from one amplifier shows 1/f noise at low frequencies that levels off at high frequencies.
+}\label{fig:pixelTSeriesFFT}
+\end{figure*}
+
+
 \subsubsection{PCA Correction}
 Another approach to treating the 1/f noise is dimensionality reduction with Principal Component Analysis.
 Here, we assume that the counts for each pixel along a column is a random variable that can be correlated with pixels in other columns.

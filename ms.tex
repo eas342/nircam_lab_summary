@@ -366,30 +366,35 @@ However, there are many non-ideal effects that can affect the stability of a lig
 Here, we review many of the known noise sources that could impact the stability of a time series beyond photon counting statistics. These known detector effects that can impact stability are:
 
 \begin{itemize}[noitemsep]
-	\item \textbf{Intrapixel sensitivity:} Telescope pointing drifts and jitter can impact the amount of flux measured if the response of pixels is not perfectly uniform.
-	This has a particularly strong impact on the time series from the Spitzer IRAC instrument \citep{ingalls2016spitzerRepeatability}.
-	It can also appear on JWST detectors because the sub-pixel flat field is not uniform.
-	Crosshatching patterns on HgCdTe detectors (which all JWST near-infrared instruments use) have been measured to extend to the sub-pixel level  \citep{shapiro2018crosshatch,ninan2019crosshatchHPF}
 	\item \textbf{Pre-amp reset offsets:} (an Asic-related effect) 
 The resets cause discontinuities in the pedestal level of all pixels between frames.
 Pre-amp resets can also appear in slope images (DN/second) because NIRCam's amplifiers are reset once per frame (not once per integration).
 This is an effect where averaging over more pixels does not decrease the noise, but reference pixel or background subtraction can.
 These are discussed further in Section \ref{sec:preAmp}.
-		\subitem \textbf{Amplifier Boundary Discontinuities} The NIRCam detectors can be read out in full frame, stripe and window modes. The full frame and stripe modes make use of 4 amplifiers that can record or reset the accumulated electrons in 4 pixels simultaneously in parallel. The parallel operation of the amplifiers reduces the frame time and reset time by a factor of 4 but can introduce subtle voltage biases between regions of the detector. If these voltage biases are not corrected, they can potentially introduce discontinuities in a spectrum, which crosses amplifier boundaries.
+	\item \textbf{Amplifier Boundary Discontinuities} The NIRCam detectors can be read out in full frame, stripe and window modes. The full frame and stripe modes make use of 4 amplifiers that can record or reset the accumulated electrons in 4 pixels simultaneously in parallel. The parallel operation of the amplifiers reduces the frame time and reset time by a factor of 4 but can introduce subtle voltage biases between regions of the detector. If these voltage biases are not corrected, they can potentially introduce discontinuities in a spectrum, which crosses amplifier boundaries.
+	\item \textbf{Intrapixel sensitivity:} Telescope pointing drifts and jitter can impact the amount of flux measured if the response of pixels is not perfectly uniform.
+	This has a particularly strong impact on the time series from the Spitzer IRAC instrument \citep{ingalls2016spitzerRepeatability}.
+	It can also appear on JWST detectors because the sub-pixel flat field is not uniform.
+	Crosshatching patterns on HgCdTe detectors (which all JWST near-infrared instruments use) exist at the sub-pixel level  \citep{shapiro2018crosshatch,ninan2019crosshatchHPF}
 	\item \textbf{1/f noise:} The JWST HgCdTe readout electronics have a p-type metal-oxide semiconductor field-effect transistor (PFET) source follower that introduces noise to the images as well as DC biases in the ASIC electronics \citep{rauscher2011irsSquared}.
 	This is a noise source where most of the noise power is concentrated at low frequencies.
 	1/f noise causes spatial correlations in the fast-read direction (along detector rows). It is highly correlated between amplifiers, suggesting that it is caused by a common reference voltage. 1/f noise can be reduced by subtracting the values from background pixels or reference pixels.
 	\item \textbf{Even/odd offsets:} Alternating columns have different bias levels. Additionally, there are offsets between columns that can change from frame to frame, especially on NIRCam's LW detector
-	\item \textbf{kTC noise:} A random process due to the unknown amount of charge stored at the reset voltage level
+	\item \textbf{kTC noise:} Each reset at the beginning of an integration introduces thermal noise associated with the unknown amount of charge stored in a pixel at the reset voltage level.
+	Fortunately, the bias offset produces by kTC noise will easily subtract out when fitting a slope image from the multiple samples up the ramp.
+	This noise would  only become relevant when attempting to observe integrations of 1 group up the ramp.
 	\item \textbf{Detector Temperature Fluctuations:} The JWST detectors are sensitive to temperature changes on the focal plane arrays. For example, laboratory tests show that 100 mK temperature fluctuations can result in $\sim$ 80 ADU changes on the detector that are not corrected by reference pixels \citep{hall2005jwstArrays}. Fortunately, the detectors are actively thermally controlled to keep the temperature fluctuations to mostly $\lesssim$ 1 mK.
 The one exception is that the Long Wavelength A-side detector (A5) exhibited $\sim$ 20 min oscillations with an amplitude of 15-20 mK when using the Temperature Monitor Control (TMC) 1 active thermal control.
 Fortunately, the TMC 2 control does not undergo these oscillations and will be employed in orbit.
 If necessary, the effect of temperature fluctuations can be calibrated to $\pm 1 e^-$ for excursions less than $\pm$ 50 mK \citep{hall2005jwstArrays}.
-	\item \textbf{ASIC Temperature Fluctuations:} The asic temperature will change as the operating mode. For example, in the CV3 stability test, the temperature of the A asic changed by $\sim$80 mK when the readout mode was switched from full frame to subarray. This temperature change is expected to be smaller in flight due to adjustments in ?? (Marcia said in 2018-11-02 meeting)
+	\item \textbf{ASIC Temperature Fluctuations:} The asic temperature will change as the operating mode. For example, in the CV3 stability test, the temperature of the A asic changed by $\sim$80 mK when the readout mode was switched from full frame to subarray.
+	This temperature change is expected to be smaller in flight due to adjustments in the operations to run all four amplifiers regardless of how many are used to collect science data.
 	\item \textbf{Elevated Columns} There is correlated noise along a column in many frames. These elevated columns can sometimes even move with time.
 	\item \textbf{Random Telegraph Noise (RTN)} Some of the pixels will exhibit spontaneous changes jumps in signal even with no illumination. Fortunately, RTN appears in only $\sim$1000 pixels out of 4$\times 10^6$ on the array.
 	\item \textbf{Detector Fringing} \textbf{\textcolor{red}{Add more details and citations}} The thin $\sim 5\mu$m layers of the H2RG detectors will cause interference patterns on the array due to constructive and destructive interference of light at wavelengths similar to the thickness of the layers. If the detector fringe pattern changes with time, it will change the throughput of a grism image.
-	\item \textbf{Charge Trapping}
+	\item \textbf{Charge Trapping} A major correlated error source on HST WFC3 is the ``hook effect'' \citep{berta2012flat_gj1214}.
+	The hook effects is due to charge can be trapped within the detector's depletion region (initially lowering the flux) and then released at later times (increasing the flux) \citep{zhou2017chargeTrap}.
+	JWST's NIRCam instrument has very lower rates of persistence (<1 DN/sec) at 100 seconds after saturation, so it is expected that charge trapping will be a minor concern for JWST's HgCdTe detectors.
 \end{itemize}
 
 It should be noted that the detector effects related to the asic circuit can be specific to the ``personality'' of each asic. The asics all have different asic load files which are tuned to minimize the power consumption and dark current in a particular asic. Since the asic load files are specific to each detector, they may exhibit different noise properties.
@@ -400,8 +405,8 @@ Some caution should be taken when comparing noise tests with engineering grade o
 The NIRCam detectors' pre-amplifiers (pre-amps) have a reference voltage that can drift with time.
 This can affect the pedestal level of all pixels over long ($\gtrsim$ 20 minute timescales).
 These pre-amplifier levels can either be reset at the beginning of an integration with samples up the ramp or with each frame up the ramp.
-The NIRCam detectors are usually set to reset once per frame to prevent large amplifier drifts over an integration \citep{robberto2014refPixPreAmp}.
-However, one set of darks was collected at Lockheed CV with a reset only once per integration to study the effects of the pre-amplifier resets.
+The NIRCam detectors are reset once per frame to prevent large amplifier drifts over an integration \citep{robberto2014refPixPreAmp}.
+One set of darks was collected at Lockheed CV with a reset only once per integration to study the effects of the pre-amplifier resets.
 
 In the Lockheed CV test, the pedestal level of all pixels could be seen to drift over 19.3 minute dark integrations by 5 to 100 DN.
 The drift was usually linear over these 19 minute exposures, but in one case was observed to drift downward from 100 DN to -50 DN and back to 100 DN \citep{robberto2014refPixPreAmp}.
@@ -434,7 +439,7 @@ The patterns are located at 23.1$\degree$ , 90.9$\degree$, and 158.6 $\degree$ c
 The angle between these lines are 67.8$\degree$, 67.7$\degree$ and 44.5$\degree$.
 These angles and patterns can be analyzed with a 2D power spectrum as shown in Figure \ref{fig:crossHatchA5}.
 
-The angles of the crosshatch patterns are likely determined by the crystal pattern of HgCdTe.
+The angles of the crosshatch patterns are determined by the crystal pattern of HgCdTe.
 HgCdTe has a zincblende structure with tetrahedral bond angles where each Hg or Cd atom is surrounded by 4 Te atoms \citep{gemain2012mercVacanciesHgCdTe}.
 HgCdTe detectors are manufactured using molecular beam epitaxy upon a substrate, a process which can result in topological defects with peak to valley amplitudes of 5-20 nm in height variations \citep{chang2008surfaceMorphologyHgCdTe}.
 The surface morphology of the HgCdTe crystal shows that the crosshatch patterns are are oriented along the intersection of the (211) growth plane of the crystal and the 8 HgCdTe slip planes.
@@ -447,16 +452,14 @@ We deduce that the crosshatch pattern is mostly likely related to the crystal la
 
 The crosshatch structure of the detectors extends down to the subpixel level, so it will not be fully corrected with a flat field division.
 This sub-pixel structure has been imaged with microscopy on a Euclid HgCdTe detector \citep{shapiro2018crosshatch}.
-Atomic force microscopy shows topological features that are approximately 1.2~$\mu$m in width \citep{chang2008surfaceMorphologyHgCdTe}.
+Atomic force microscopy shows topological features that are approximately 1.2~$\mu$m in width \citep{chang2008surfaceMorphologyHgCdTe} compared to the 18~$\mu$m pixel sizes.
 The width of the structures can also be estimated from the behavior for crosshatch lines as they cross pixel boundaries \citep{ninan2019crosshatchHPF}.
 We estimate that the crosshatch pattern oriented at 90.9$\degree$ crosses 1 horizontal pixel for every 64 vertical pixels.
 While crossing the boundary, there are $\approx 38$ rows where the crosshatch pattern spans more than 2 pixels.
 If the crosshatch pattern has a tophat response function, then these 38 rows where the pattern spans two pixels imply a tophat full width of 0.6 pixels or a physical width of 10.8~$\mu$m for an 18~$\mu$m pixel pitch.
 This is more than twice the estimate from \citet{ninan2019crosshatchHPF} for an HgCdTe used on the Habitable Planet Finder.
-It is possible that the crosshatch pattern's width varies among detectors or that a tophat function is a poor approximation of the actual subpixel response.
+We expect that the crosshatch pattern's width varies among detectors and that a tophat function is a poor approximation of the actual subpixel response.
 Within NIRCam detectors, there are large variations in the strength and orientation of crosshatch features.
-
-
 
 
 \begin{figure}[!hbtp]
@@ -510,16 +513,16 @@ k_y'(\theta_i) = -k_x  \sin{\theta_i} + k_y \cos{\theta_i}.
 \end{equation}
 We include three angles so that the total power spectral density is
 \begin{equation}
-f(k_x,k_y) = \sum_{i=1}^{i=3} f_i(k_{x,i}'(\theta_i),k_{y,i}'(\theta_i),a_i,b,c) + d \exp{\left(-k_r/e\right)},
+f(k_x,k_y) = \sum_{i=1}^{i=3} f_i(k_{x,i}'(\theta_i),k_{y,i}'(\theta_i),a_i,b,c) + d \exp{\left(-k_r/e_b\right)},
 \end{equation}
 
 This model has 8 free parameters: three angles ($\theta_i$, three amplitudes ($a_i$), a joint parallel exponential constant ($b$) and joint Lorentzian width ($c$).
 Finally, we include an exponential term that fits the broad azimuthally symmetric background to all the power spectra,
-where $d$ is the amplitude of the radial ``background'', $k_r= \sqrt{k_x^2+k_y^2}$ is the radial frequency and $e$ is the radial background exponential constant.
+where $d$ is the amplitude of the radial ``background'', $k_r= \sqrt{k_x^2+k_y^2}$ is the radial frequency and $e_b$ is the radial background exponential constant.
 We only fit the region of the power spectral density above frequencies of 0.05 px$^{-1}$ to focus on the high frequency component of the flat field where the crosshatch is most prevalent.
 
 For the F300M filter and ALONG detector, we find 
-for $\theta_1 = 0.906 \pm 0.001 \degree, \theta_2 = 68.605 \pm 0.001 \degree, \theta_3 = 113.075 \pm 0.001, a_1 = 2.774 \pm 0.002 \times 10^{-7}, a_2 = 1.569 \pm 0.002 \times 10^{-7}, a_3 = 1.744 \pm 0.002 \times 10^{-7}, b=0.345 \pm 0.0005 $ px$^{-1}$, $c=2.05 \pm 0.07 \times 10^{-2}$ px$^{-1}$, $d=6.78 \pm 0.01 10^{-3}$ and $e=0.26 \pm 0.01$ px$^{-1}$.
+for $\theta_1 = 0.906 \pm 0.001 \degree, \theta_2 = 68.605 \pm 0.001 \degree, \theta_3 = 113.075 \pm 0.001, a_1 = 2.774 \pm 0.002 \times 10^{-7}, a_2 = 1.569 \pm 0.002 \times 10^{-7}, a_3 = 1.744 \pm 0.002 \times 10^{-7}, b=0.345 \pm 0.0005 $ px$^{-1}$, $c=2.05 \pm 0.07 \times 10^{-2}$ px$^{-1}$, $d=6.78 \pm 0.01 10^{-3}$ and $e_b=0.26 \pm 0.01$ px$^{-1}$.
 The uncertainties were simply derived from the diagonals of the covariance matrix and likely are underestimated.
 
 NIRCam's 10 SCA's have very similar crosshatch angles with separations of 44.5 $\degree$ and 67.7 to 67.8 $\degree$.

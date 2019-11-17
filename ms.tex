@@ -549,8 +549,8 @@ NIRCam observations are expected to have a root-mean-square deviation of 6.0 mas
 We simulate the effect of this jitter on NIRCam time series observations with the following steps:
 \begin{itemize}
 	\item Fit the existing flat field to a crosshatch model in the Fourier domain
-	\item Extrapolate the crosshatch model to high frequencies to estimate the sub-pixel structure
-	\item Simulate a PSF using \texttt{webbpsf} \citep{perrin2014webbpsf}
+	\item Extrapolate the crosshatch model to higher frequencies (30 px$^{-1}$) to estimate the sub-pixel structure
+	\item Simulate an over-sampled PSF using \texttt{webbpsf} \citep{perrin2014webbpsf}
 	\item Multiply the PSF by the simulated flat field
 	\item Scan the PSF along the X and Y directions up to a magnitude of 6 mas
 	\item Bin the simulated images into the native pixel size

@@ -356,6 +356,10 @@ The NIRCam grism mode will collect moderate resolution R$\sim$1100-1700 spectra 
 This grism mode can be used simultaneously with short wavelength weak lens imaging or the Dispersed Hartmann Sensor mode \citep{schlawin2017dhs}. If it becomes an approved and implemented mode, the DHS will permit spectroscopy simultaneous from 1.0 to 2.0~$\mu$m because of a dichroic beamsplitter that divides the light from NIRCam into two different channels.
 The DHS mode will permit time series spectroscopy on very bright targets ($K_S \sim 1$) inaccessible by other modes.
 
+Given the finite lifetime of the JWST mission set by onboard fuel, it is important to understand the systematic errors before launch to maximize the science return of the observatory.
+We discuss the major sources of systematic errors that can affect the NIRCam instrument.
+Parallel efforts to characterize other instrument's noise sources are being done, such as with MIRI's detectors \citep{matuso2019siAsDetectorStability}.
+
 Section \ref{sec:knownEffects} lists the known systematic effects that can impeded high precision time series and increase the noise above the photon and read noise.
 Section \ref{sec:experiments} describes the experiments on the ground that are used to prepare for JWST observations in flight.
 
@@ -702,12 +706,12 @@ A periodogram shows a peak near 19 pixels period, however, it is not an overwhel
 \clearpage
 \section{Ground-based Experiments}\label{sec:experiments}
 
-Table \ref{tab:testSummary} shows a summary of the ground-based tests that were performed on NIRCam detectors.
+Table \ref{tab:testSummary} contains a summary of the ground-based tests that were performed on NIRCam detectors.
 The flight NIRCam detectors, controllers, electronics, optics and instrument hardware were used in the Cryogenic Vacuum 3 (CV3) Test 3 as well as OTIS (Optical Telescope Element and Integrated Science).
-There were are dewars at the Steward Observatory at the University of Arizona used for time series stability tests.
+There are dewars at the Steward Observatory at the University of Arizona used for time series stability tests.
 The GL dewar experiments used flight-like detectors, but a different controller (Leach).
 The Asic dewar located at Steward Observatory in Tucson, Arizona used the same kind of detectors as NIRCam, the same kind of asic controllers and the same flight software, but no flight-like optics.
-These two different kinds of detector electronics can be compared against each other to help isolate detector-related systematics from readout electronics-related systematics.
+These two different kinds of detector electronics can be compared against each other to help isolate optical-related systematics, detector-related systematics and electronics-related systematics.
 
 The instrument modes tested included mostly imaging with narrowband LEDs, but there was also a test with spectroscopy on a broadband source.
 The one test with a broadband source was an OTIS stability test at NASA Johnson was a grism spectroscopy mode, which illuminated the long wavelength detector with a slitless spectrum covering 2.4 to 4.0~$\mu$m for the F322W2 filter, as seen in Figure \ref{fig:ampOffsetsOtisGrismSlope}.
@@ -715,7 +719,7 @@ The WLP8 imaging tests are where a point source is de-focused by 8 waves with a 
 This mode was designed for wavefront sensing, but is also useful for high-precision time series because it spreads the light over many pixels.
 The weak lens produces a point spread function (PSF) that is hexagonal like JWST's mirrors and has a flat-to-flat width of $\sim$108 pixels and a vertex-to-vertex width of $\sim$136 pixels.
 The hexagonal PSF also has a central vertical peak which can be used for aperture centering.
-The tests with dewars did not have NIRCam optics and instead were flood illuminated with a light source that had large spatial variations due to a non-uniform source.
+The tests with the GL and ASIC dewars did not have NIRCam optics and instead were flood illuminated with a light source that had large spatial variations due to a non-uniform source.
  
 \begin{deluxetable*}{ccCrlcc}[b!]
 \tablecaption{Summary of Ground-Based Tests}\label{tab:testSummary}
@@ -752,7 +756,7 @@ Asic dewar & Steward Obs.  & 2017-2019  &       	& LED           & pinhole flood
 \end{deluxetable*}
 
 \clearpage
-\subsection{Long Darks}\label{sec:longDarks}
+\subsection{OTIS Long Darks}\label{sec:longDarks}
 
 It is instructive to look at dark frames to isolate the contributions of the read-out electronics, including the side-car asic, and how much they contribute to the error budget.
 The dark frames do not have issues with the photometric stability of illumination lamps, which is a persistent challenge with ground-based tests.

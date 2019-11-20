@@ -451,17 +451,33 @@ If the boundaries somehow proved to be an issue for time series spectra, the WIN
 
 \begin{figure}[!hbtp]
 \centering
-\includegraphics[width=.99\columnwidth]{amplifier_offsets_in_otis_lw_grism.pdf}
+\includegraphics[width=.79\columnwidth]{amplifier_offsets_in_otis_lw_grism.pdf}
 \caption{An example slope image from the LW OTIS Stability test.
 {\it First Panel:} No reference pixel correction is applied, leaving offsets at the amplifier boundaries.
 {\it Second Panel:} Averaging all the reference pixels within an amplifier and subtracting the result reduces the offsets between amplifiers but there are still noticeable boundaries at X= 512, 1024 and 1536.
 {\it Third Panel:} Reference pixel correction using the 4 non-illuminated pixels in each column significantly reduces offsets between amplifiers, but introduces read noise to each column.
 {\it Fourth Panel:} Background subtraction with the mean value of the pixels below Y=15 and above Y=190 eliminates offsets between amplifiers without introducing any substantial new noise source.
-\textcolor{red}{Things to try: 1) keep looking for a fringing in the spectrum}
 }\label{fig:ampOffsetsOtisGrismSlope}
 \end{figure}
 
+\subsection{1/f Noise}
+The readout circuitry for NIRCam and other JWST NIR instruments introduces correlated noise from pixel-to-pixel.
+This is visible when examining the time series of pixels as they are read out within a frame in the order they are addressed.\footnote{See a diagram of the readout directions at \url{https://jwst-docs.stsci.edu/near-infrared-camera/nircam-instrumentation/nircam-detector-overview/nircam-detector-readout}}
+The power spectrum of this pixel-by-pixel time series reveals high power at low frequencies that drops roughly like a 1/f power law.
+Figure \ref{fig:pixelTSeriesPSpec} shows the average Lomb Scargle periodogram from amplifier over 108 dark frames.
+To create the periodogram, the average of all frames is subtracted to remove the bias and all pixels that deviate by more than 80 DN from the average are masked to eliminate bad pixels.
+
+
+\begin{figure*}[!hbtp]
+\centering
+\includegraphics[width=.4\columnwidth]{avg_psd_amp_1.pdf}
+\caption{The average Lomb Scargle periodogram from Amplifier 1's time series over 108 groups.
+The line shows a 1/f slope law.
+}\label{fig:pixelTSeriesPSpec}
+\end{figure*}
+
 \subsection{Fringing}
+
 \begin{figure}[!hbtp]
 \centering
 \includegraphics[width=.49\columnwidth]{otis_spec_and_norm.pdf}
@@ -471,6 +487,7 @@ The spectrum is normalized by dividing by a spline fit (bottom left plot) to sea
 The sca
 A periodogram shows a peak near 19 pixels period, however, it is not an overwhelming periodic signature.
 \textcolor{red}{double check the scatter in spectrum to photon + read noise}
+\textcolor{red}{Things to try: 1) keep looking for a fringing in the spectrum}
 }\label{fig:integratedOtisGrismSpec}
 \end{figure}
 
@@ -943,15 +960,6 @@ The left panel shows the a time near the beginning of a frame, where amplifiers 
 The middle panel shows another part of the time series where Amplifiers 1 and 2 have more disparate noise signatures.
 The right panel shows the periodogram of each amplifier's time series over the first 10$^5$ clock cycles (0.1) seconds, which exhibits no consistent peaks.
 }\label{fig:darkPixelTimeSeries}
-\end{figure*}
-
-
-\begin{figure*}[!hbtp]
-\centering
-\includegraphics[width=.4\columnwidth]{avg_psd_amp_0.pdf}
-\caption{The average Lomb Scargle periodogram from Amplifier 0's time series over 108 groups.
-The line shows a 1/f slope law.
-}\label{fig:pixelTSeriesFFT}
 \end{figure*}
 
 

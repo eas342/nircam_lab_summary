@@ -435,6 +435,44 @@ Without pre-amp resets, the counts in a detector could potentially drift towards
 The long dark exposure example of 108 integrations shows the behavior over long timescales.}\label{fig:ampResetDark}
 \end{figure}
 
+\subsection{Amplifier Boundary Discontinuities}
+
+NIRCam's STRIPE mode and full frame mode both employ 4 amplifiers to simultaneously read out or reset 4 pixels at once.
+This simultaneous use of 4 amplifiers reduces the frame time by a factor of 4 and thus increases the brightness of objects that can be detected before saturation as well as increase the number of reads up a detector pixel to average down readout noise.
+On the flip side, the four amplifiers will have different behaviors such as offsets in the bias level.
+The differential biases between the amplifiers will show up as step function changes in the slope of the image at the amplifier boundaries (512, 1024 and 1536), as visible in Figure \ref{fig:ampOffsetsOtisGrismSlope} (top panel).
+If a spectrum of a source is extracted without any vertical background extraction, the amplifier offsets cause sharp discontinuities in the summed spectrum.
+
+Fortunately, the amplifier offsets are efficiently removed by reference pixels.
+For example, we subtract the median of the 4 reference pixels from each column and this efficiently removes the bias signal from each amplifier shown in Figure \ref{fig:ampOffsetsOtisGrismSlope} (middle panel and bottom panel).
+It should be noted, however, that there are gradients in the bias signal within each amplifier. If we simply subtract the median value of all reference pixels within an amplifier without applying them on a per-column basis, there are still discontinuities in the spectrum.
+In addition to reference pixels, background subtraction along each column removes the amplifier boundary effect.
+If the boundaries somehow proved to be an issue for time series spectra, the WINDOW subarray mode, which uses a single amplifier (at the cost of 4 times the frame time) is an option.
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.99\columnwidth]{amplifier_offsets_in_otis_lw_grism.pdf}
+\caption{An example slope image from the LW OTIS Stability test.
+{\it First Panel:} No reference pixel correction is applied, leaving offsets at the amplifier boundaries.
+{\it Second Panel:} Averaging all the reference pixels within an amplifier and subtracting the result reduces the offsets between amplifiers but there are still noticeable boundaries at X= 512, 1024 and 1536.
+{\it Third Panel:} Reference pixel correction using the 4 non-illuminated pixels in each column significantly reduces offsets between amplifiers, but introduces read noise to each column.
+{\it Fourth Panel:} Background subtraction with the mean value of the pixels below Y=15 and above Y=190 eliminates offsets between amplifiers without introducing any substantial new noise source.
+\textcolor{red}{Things to try: 1) keep looking for a fringing in the spectrum}
+}\label{fig:ampOffsetsOtisGrismSlope}
+\end{figure}
+
+\subsection{Fringing}
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.49\columnwidth]{otis_spec_and_norm.pdf}
+\includegraphics[width=.49\columnwidth]{otis_spec_periodogram.pdf}
+\caption{The integrated spectrum from Figure \ref{fig:ampOffsetsOtisGrismSlope} shows high frequency noise much far in excess of the spectrum's photon and read noise.
+The spectrum is normalized by dividing by a spline fit (bottom left plot) to search for fringing effects
+The sca
+A periodogram shows a peak near 19 pixels period, however, it is not an overwhelming periodic signature.
+\textcolor{red}{double check the scatter in spectrum to photon + read noise}
+}\label{fig:integratedOtisGrismSpec}
+\end{figure}
 
 \subsection{Subpixel Crosshatching}
 
@@ -665,44 +703,6 @@ The bottom left corner for each subarray is listed in parentheses in the title o
 \end{figure}
 
 
-\subsection{Amplifier Boundary Discontinuities}
-
-NIRCam's STRIPE mode and full frame mode both employ 4 amplifiers to simultaneously read out or reset 4 pixels at once.
-This simultaneous use of 4 amplifiers reduces the frame time by a factor of 4 and thus increases the brightness of objects that can be detected before saturation as well as increase the number of reads up a detector pixel to average down readout noise.
-On the flip side, the four amplifiers will have different behaviors such as offsets in the bias level.
-The differential biases between the amplifiers will show up as step function changes in the slope of the image at the amplifier boundaries (512, 1024 and 1536), as visible in Figure \ref{fig:ampOffsetsOtisGrismSlope} (top panel).
-If a spectrum of a source is extracted without any vertical background extraction, the amplifier offsets cause sharp discontinuities in the summed spectrum.
-
-Fortunately, the amplifier offsets are efficiently removed by reference pixels.
-For example, we subtract the median of the 4 reference pixels from each column and this efficiently removes the bias signal from each amplifier shown in Figure \ref{fig:ampOffsetsOtisGrismSlope} (middle panel and bottom panel).
-It should be noted, however, that there are gradients in the bias signal within each amplifier. If we simply subtract the median value of all reference pixels within an amplifier without applying them on a per-column basis, there are still discontinuities in the spectrum.
-In addition to reference pixels, background subtraction along each column removes the amplifier boundary effect.
-If the boundaries somehow proved to be an issue for time series spectra, the WINDOW subarray mode, which uses a single amplifier (at the cost of 4 times the frame time) is an option.
-
-\begin{figure}[!hbtp]
-\centering
-\includegraphics[width=.99\columnwidth]{amplifier_offsets_in_otis_lw_grism.pdf}
-\caption{An example slope image from the LW OTIS Stability test.
-{\it First Panel:} No reference pixel correction is applied, leaving offsets at the amplifier boundaries.
-{\it Second Panel:} Averaging all the reference pixels within an amplifier and subtracting the result reduces the offsets between amplifiers but there are still noticeable boundaries at X= 512, 1024 and 1536.
-{\it Third Panel:} Reference pixel correction using the 4 non-illuminated pixels in each column significantly reduces offsets between amplifiers, but introduces read noise to each column.
-{\it Fourth Panel:} Background subtraction with the mean value of the pixels below Y=15 and above Y=190 eliminates offsets between amplifiers without introducing any substantial new noise source.
-\textcolor{red}{Things to try: 1) keep looking for a fringing in the spectrum}
-}\label{fig:ampOffsetsOtisGrismSlope}
-\end{figure}
-
-
-\begin{figure}[!hbtp]
-\centering
-\includegraphics[width=.49\columnwidth]{otis_spec_and_norm.pdf}
-\includegraphics[width=.49\columnwidth]{otis_spec_periodogram.pdf}
-\caption{The integrated spectrum from Figure \ref{fig:ampOffsetsOtisGrismSlope} shows high frequency noise much far in excess of the spectrum's photon and read noise.
-The spectrum is normalized by dividing by a spline fit (bottom left plot) to search for fringing effects
-The sca
-A periodogram shows a peak near 19 pixels period, however, it is not an overwhelming periodic signature.
-\textcolor{red}{double check the scatter in spectrum to photon + read noise}
-}\label{fig:integratedOtisGrismSpec}
-\end{figure}
 
 \clearpage
 \section{Ground-based Experiments}\label{sec:experiments}

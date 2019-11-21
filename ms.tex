@@ -460,6 +460,8 @@ If the boundaries somehow proved to be an issue for time series spectra, the WIN
 }\label{fig:ampOffsetsOtisGrismSlope}
 \end{figure}
 
+\clearpage
+
 \subsection{1/f Noise}
 The readout circuitry for NIRCam and other JWST NIR instruments introduces correlated noise from pixel-to-pixel.
 This is visible when examining the time series of pixels as they are read out within a frame in the order they are addressed.\footnote{See a diagram of the readout directions at \url{https://jwst-docs.stsci.edu/near-infrared-camera/nircam-instrumentation/nircam-detector-overview/nircam-detector-readout}}
@@ -471,8 +473,11 @@ To create the periodogram, the average of all frames is subtracted to remove the
 \begin{figure*}[!hbtp]
 \centering
 \includegraphics[width=.4\columnwidth]{avg_psd_amp_1.pdf}
-\caption{The average Lomb Scargle periodogram from Amplifier 1's time series over 108 groups.
-The line shows a 1/f slope law.
+\includegraphics[width=.4\columnwidth]{preamp_removed_grp_54.pdf}
+\caption{{\it Left:} The average Lomb Scargle periodogram from Amplifier 1's time series over 108 groups.
+The noise in the spectrum is close to a 1/f power law (orange line) from 10 to 1000, Hz.
+{\it Right:} This 1/f noise introduced in the readout circuit causes prominent correlated noise along the fast-read direction (horizontal).
+The amplifier offsets have been removed, but the 1/f noise from these adjacent amplifiers shows different behavior.
 }\label{fig:pixelTSeriesPSpec}
 \end{figure*}
 

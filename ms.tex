@@ -366,9 +366,9 @@ Section \ref{sec:experiments} describes the experiments on the ground that are u
 
 
 \section{Known Detector Effects}\label{sec:knownEffects}
-Section \ref{sec:detectorPrimer} describes the operation of a HgCdTe array.
+An ideal HgCdTe detector simply counts the photons incident on its surface (as described in section \ref{sec:detectorPrimer}).
 However, there are many non-ideal effects that can affect the stability of a light curve of a transiting exoplanet.
-Here, we review many of the known noise sources that could impact the stability of a time series beyond photon counting statistics. These known detector effects that can impact stability are:
+Here, we review many of the known noise sources that could impact the stability of a time series beyond photon counting statistics. These known detector effects that can impact stability are listed briefly and then in more detail as related to the JWST NIRCam detectors below that.
 
 \begin{itemize}[noitemsep]
 	\item \textbf{Pre-amp reset offsets:} (an Asic-related effect) 
@@ -377,13 +377,13 @@ Pre-amp resets can also appear in slope images (DN/second) because NIRCam's ampl
 This is an effect where averaging over more pixels does not decrease the noise, but reference pixel or background subtraction can.
 These are discussed further in Section \ref{sec:preAmp}.
 	\item \textbf{Amplifier Boundary Discontinuities} The NIRCam detectors can be read out in full frame, stripe and window modes. The full frame and stripe modes make use of 4 amplifiers that can record or reset the accumulated electrons in 4 pixels simultaneously in parallel. The parallel operation of the amplifiers reduces the frame time and reset time by a factor of 4 but can introduce subtle voltage biases between regions of the detector. If these voltage biases are not corrected, they can potentially introduce discontinuities in a spectrum, which crosses amplifier boundaries.
+	\item \textbf{1/f noise:} The JWST HgCdTe readout electronics have a p-type metal-oxide semiconductor field-effect transistor (PFET) source follower that introduces noise to the images as well as DC biases in the ASIC electronics \citep{rauscher2011irsSquared}.
+	This is a noise source where most of the noise power is concentrated at low frequencies.
+	1/f noise causes spatial correlations in the fast-read direction (along detector rows). It is highly correlated between amplifiers, suggesting that it is caused by a common reference voltage. 1/f noise can be reduced by subtracting the values from background pixels or reference pixels.
 	\item \textbf{Intrapixel sensitivity:} Telescope pointing drifts and jitter can impact the amount of flux measured if the response of pixels is not perfectly uniform.
 	This has a particularly strong impact on the time series from the Spitzer IRAC instrument \citep{ingalls2016spitzerRepeatability}.
 	It can also appear on JWST detectors because the sub-pixel flat field is not uniform.
 	Crosshatching patterns on HgCdTe detectors (which all JWST near-infrared instruments use) exist at the sub-pixel level  \citep{shapiro2018crosshatch,ninan2019crosshatchHPF}
-	\item \textbf{1/f noise:} The JWST HgCdTe readout electronics have a p-type metal-oxide semiconductor field-effect transistor (PFET) source follower that introduces noise to the images as well as DC biases in the ASIC electronics \citep{rauscher2011irsSquared}.
-	This is a noise source where most of the noise power is concentrated at low frequencies.
-	1/f noise causes spatial correlations in the fast-read direction (along detector rows). It is highly correlated between amplifiers, suggesting that it is caused by a common reference voltage. 1/f noise can be reduced by subtracting the values from background pixels or reference pixels.
 	\item \textbf{Even/odd offsets:} Alternating columns have different bias levels. Additionally, there are offsets between columns that can change from frame to frame, especially on NIRCam's LW detector
 	\item \textbf{kTC noise:} Each reset at the beginning of an integration introduces thermal noise associated with the unknown amount of charge stored in a pixel at the reset voltage level.
 	Fortunately, the bias offset produces by kTC noise will easily subtract out when fitting a slope image from the multiple samples up the ramp.
@@ -476,7 +476,7 @@ To create the periodogram, the average of all frames is subtracted to remove the
 \includegraphics[width=.4\columnwidth]{preamp_removed_grp_54.pdf}
 \caption{{\it Left:} The average Lomb Scargle periodogram from Amplifier 1's time series over 108 groups.
 The noise in the spectrum is close to a 1/f power law (orange line) from 10 to 1000, Hz.
-{\it Right:} This 1/f noise introduced in the readout circuit causes prominent correlated noise along the fast-read direction (horizontal).
+{\it Right:} This 1/f noise introduced in the readout circuit causes prominent correlated noise along the fast-read direction (horizontal) on a dark frame.
 The amplifier offsets have been removed, but the 1/f noise from these adjacent amplifiers shows different behavior.
 }\label{fig:pixelTSeriesPSpec}
 \end{figure*}
@@ -724,6 +724,18 @@ The bottom left corner for each subarray is listed in parentheses in the title o
  }\label{fig:subpixScanSimulation}
 \end{figure}
 
+\clearpage
+
+\subsection{Random Telegraph Noise and RC pixels}
+Several pixels exhibit RC (exponential) behavior and other exhibit unpredictable jumps in their DC levels.
+
+\begin{figure*}
+\gridline{\fig{rtn_placeholder.png}{0.45\textwidth}{RTN Pixel} 
+\fig{{rc_placeholder.png}}{0.5\textwidth}{RC pixel}}
+\caption{Pixels sometimes exhibit unusual behaviors that are not related to counting photon flux.
+Examples are shown for RTN and RC pixels.
+}\label{fig:RTNandRC}
+\end{figure*}
 
 
 \clearpage

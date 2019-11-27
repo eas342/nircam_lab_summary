@@ -728,6 +728,12 @@ The bottom left corner for each subarray is listed in parentheses in the title o
 
 \subsection{Random Telegraph Noise and RC pixels}
 Several pixels exhibit RC (exponential) behavior and other exhibit unpredictable jumps in their DC levels.
+The jumps are called Random Telegraph Noise (RTN) and some examples are shown in Figure \ref{fig:RTNandRC}.
+These are rare events (400-1000 pixels out of 4$\times 10^6$) so they are unlikely to end up in a grism or in-focus aperture.
+
+For Weak Lens photometric aperture (such as a 70 pixel radius aperture), there will be of order 2-4 pixels exhibiting RTN.
+The RTN may not be removed by jump detection algorithms if they are similar order of magnitude to the photon noise for a single pixel ($\sim$180 DN).
+If these are not identified, the RTN can contribute $\sim$200 counts in 4$\times 10^7$ or 5 ppm changes.
 
 \begin{figure*}
 \gridline{\fig{example_rtn.pdf}{0.45\textwidth}{RTN Pixel} 

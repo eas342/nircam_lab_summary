@@ -465,21 +465,27 @@ If the boundaries somehow proved to be an issue for time series spectra, the WIN
 \subsection{1/f Noise}
 The readout circuitry for NIRCam and other JWST NIR instruments introduces correlated noise from pixel-to-pixel.
 This is visible when examining the time series of pixels as they are read out within a frame in the order they are addressed.\footnote{See a diagram of the readout directions at \url{https://jwst-docs.stsci.edu/near-infrared-camera/nircam-instrumentation/nircam-detector-overview/nircam-detector-readout}}
-The power spectrum of this pixel-by-pixel time series reveals high power at low frequencies that drops roughly like a 1/f power law.
+The power spectrum of this pixel-by-pixel time series reveals high power at low frequencies that drops roughly like a 1/f power law in the power spectrum of the time series.
 Figure \ref{fig:pixelTSeriesPSpec} shows the average Lomb Scargle periodogram from amplifier over 108 dark frames.
 To create the periodogram, the average of all frames is subtracted to remove the bias and all pixels that deviate by more than 80 DN from the average are masked to eliminate bad pixels.
-
+The periodogram shows many spikes at high frequency including one at the line reset time (the time to read out all the pixels in a row before moving to the next row).
 
 \begin{figure*}[!hbtp]
 \centering
 \includegraphics[width=.4\columnwidth]{avg_psd_amp_1.pdf}
 \includegraphics[width=.4\columnwidth]{preamp_removed_grp_54.pdf}
 \caption{{\it Left:} The average Lomb Scargle periodogram from Amplifier 1's time series over 108 groups.
-The noise in the spectrum is close to a 1/f power law (orange line) from 10 to 1000, Hz.
+The noise in the spectrum is close to a 1/f power law (orange line) from 10 to 1000 Hz.
+Above 1000 Hz, it is closer to white noise (green line) with spikes at specific frequencies.
 {\it Right:} This 1/f noise introduced in the readout circuit causes prominent correlated noise along the fast-read direction (horizontal) on a dark frame.
 The amplifier offsets have been removed, but the 1/f noise from these adjacent amplifiers shows different behavior.
 }\label{fig:pixelTSeriesPSpec}
 \end{figure*}
+
+The 1/f noise can be reduced by subtracting reference pixels and/or active pixels over the aperture of interest.
+As the power spectrum shows, the 1/f noise begins to contribute significantly for frequencies below 1000 Hz (ie. timescales longer than 100 cycles as measured in the 10$\mu$s time to address the pixels).
+Ideally, source apertures would be less than 100 pixels wide so that background subtraction along rows will remove the 1/f noise but this is impossible for grism spectra dispersed along the rows.
+NIRCam has a "GRISMC" grism that will disperse along the column direction but this mode would not allow stripe subarrays and would therefore saturate on bright targets with $K \lesssim 5.5$.
 
 \subsection{Fringing}
 
@@ -734,6 +740,10 @@ These are rare events (400-1000 pixels out of 4$\times 10^6$) so they are unlike
 For Weak Lens photometric aperture (such as a 70 pixel radius aperture), there will be of order 2-4 pixels exhibiting RTN.
 The RTN may not be removed by jump detection algorithms if they are similar order of magnitude to the photon noise for a single pixel ($\sim$180 DN).
 If these are not identified, the RTN can contribute $\sim$200 counts in 4$\times 10^7$ or 5 ppm changes.
+
+There are also RC pixels (as shown in Figure \ref{fig:RTNandRC}) that have exponential curves like a resister-capacitor circuit.
+These pixels consistently show RC behavior and are flagged as ``Do-not-use'' for the pipeline so they may be skipped in the aperture summation.
+There are 15 RC pixels in a 20 pixel tall F444W aperture and 31 RC pixels in a 20 pixel tall F322W2 aperture.
 
 \begin{figure*}
 \gridline{\fig{example_rtn.pdf}{0.45\textwidth}{RTN Pixels} 

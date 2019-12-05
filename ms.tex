@@ -469,6 +469,8 @@ The power spectrum of this pixel-by-pixel time series reveals high power at low 
 Figure \ref{fig:pixelTSeriesPSpec} shows the average Lomb Scargle periodogram from amplifier over 108 dark frames.
 To create the periodogram, the average of all frames is subtracted to remove the bias and all pixels that deviate by more than 80 DN from the average are masked to eliminate bad pixels.
 The periodogram shows many spikes at high frequency including one at the line reset time (the time to read out all the pixels in a row before moving to the next row).
+The 1/f noise is compared to a simulated time series with the same robust standard deviation but with Gaussian white noise where each pixel is independent and identically distributed as a Gaussian.
+It is clear from Figure \ref{fig:pixelTSeriesPSpec} that the 1/f noise and the periodic signatures significantly increase the power over uncorrelated white noise (green line).
 
 \begin{figure*}[!hbtp]
 \centering
@@ -742,7 +744,7 @@ The RTN may not be removed by jump detection algorithms if they are similar orde
 If these are not identified, the RTN can contribute $\sim$200 counts in 4$\times 10^7$ or 5 ppm changes.
 
 There are also RC pixels (as shown in Figure \ref{fig:RTNandRC}) that have exponential curves like a resister-capacitor circuit.
-These pixels consistently show RC behavior and are flagged as ``Do-not-use'' for the pipeline so they may be skipped in the aperture summation.
+These pixels consistently show RC behavior and are flagged as ``Do-not-use'' for the pipeline so they may be skipped in the aperture summation (ie. applied a weight of zero in a weighted sum).
 There are 15 RC pixels in a 20 pixel tall F444W aperture and 31 RC pixels in a 20 pixel tall F322W2 aperture.
 
 \begin{figure*}
@@ -1025,7 +1027,8 @@ Adding 10 more principal components for a total of 20 eigenvectors only reduces 
 \includegraphics[width=.4\columnwidth]{pca_dark_amp_all_extra_bias_sub_grp_55.pdf}
 \caption{The first 10 principal component eigenvectors identified from group 54 (left) and group 55 (right).
 The pre-amplifier reset values are seen in the first principal component, and change from one group (one read in RAPID) to another.
-The principal components generally increase 
+The principal components generally increase in frequency with principal component number.
+In other words, the highest frequency principal components explain the least amount of the variance as would be expected for 1/f noise.
 }\label{fig:pcaEigenvectors}
 \end{figure*}
 

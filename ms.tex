@@ -1758,8 +1758,15 @@ The box temperature leads the flux variations by 4.9 minutes, likely due to the 
 \begin{figure*}
 {\gridline{\fig{azlab08_sub320_multiexp_temp_correlation.pdf}{0.48\textwidth}{Sub 320 Multi-exposure test}
 \fig{azlab08_sub320_lakeshore_tchange_temp_correlation.pdf}{0.48\textwidth}{Lakeshore Temp Change}}}
-\caption{Two separate time series show the same correlation with Box Temperature after removing the 4.9 hour time offset}
+\caption{Two separate time series show the same correlation with Box Temperature after removing the 4.9 hour time offset}\label{fig:LEDTcorrelation}
 \end{figure*}
+
+\begin{figure*}
+{\gridline{\fig{azlab08_sub320_multiexp_corrected.pdf}{0.48\textwidth}{Sub 320 Multi-exposure test}
+\fig{azlab08_sub320_lakeshore_tchange_corrected.pdf}{0.48\textwidth}{Lakeshore Temp Change}}}\label{fig:LEDTcorrection}
+\caption{After removing the 4.9 hour time offset and a linear trend with temperature, the fluctuations are greatly reduced.}
+\end{figure*}
+
 
 \clearpage
 \subsection{Reference Pixels versus No Reference Pixels}

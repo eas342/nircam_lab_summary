@@ -468,9 +468,11 @@ This is visible when examining the time series of pixels as they are read out wi
 The power spectrum of this pixel-by-pixel time series reveals high power at low frequencies that drops roughly like a 1/f power law in the power spectrum of the time series.
 Figure \ref{fig:pixelTSeriesPSpec} shows the average Lomb Scargle periodogram from amplifier over 108 dark frames.
 To create the periodogram, the average of all frames is subtracted to remove the bias and all pixels that deviate by more than 80 DN from the average are masked to eliminate bad pixels.
-The periodogram shows many spikes at high frequency including one at the line reset time (the time to read out all the pixels in a row before moving to the next row).
+The periodogram shows many spikes at high frequency including one at the line reset time of 524 clock cycles, which is the time to read out all the pixels in a row for the amplifier and line overheads before moving to the next row.
+
 The 1/f noise is compared to a simulated time series with the same robust standard deviation but with Gaussian white noise where each pixel is independent and identically distributed as a Gaussian.
-It is clear from Figure \ref{fig:pixelTSeriesPSpec} that the 1/f noise and the periodic signatures significantly increase the power over uncorrelated white noise (green line).
+It is clear from Figure \ref{fig:pixelTSeriesPSpec} that the 1/f noise and the periodic signatures significantly increase the power over uncorrelated white noise (green line) at low frequencies.
+1/f rises above the white noise level at 70 cycles / 1400 Hz for amplifier 1 and the intersection ranges from 70 to 135 across the 4 amplifiers.
 
 \begin{figure*}[!hbtp]
 \centering
@@ -480,16 +482,19 @@ It is clear from Figure \ref{fig:pixelTSeriesPSpec} that the 1/f noise and the p
 The noise in the spectrum is close to a 1/f power law (orange line) from 10 to 1000 Hz.
 Above 1000 Hz, it is closer to white noise (green line) with spikes at specific frequencies.
 {\it Right:} This 1/f noise introduced in the readout circuit causes prominent correlated noise along the fast-read direction (horizontal) on a dark frame.
-The amplifier offsets have been removed, but the 1/f noise from these adjacent amplifiers shows different behavior.
+The amplifier offsets have been removed, but the 1/f noise from these adjacent amplifiers (separated at X=512) shows different behavior.
 }\label{fig:pixelTSeriesPSpec}
 \end{figure*}
 
 The 1/f noise can be reduced by subtracting reference pixels and/or active pixels over the aperture of interest.
 As the power spectrum shows, the 1/f noise begins to contribute significantly for frequencies below 1000 Hz (ie. timescales longer than 100 cycles as measured in the 10$\mu$s time to address the pixels).
 Ideally, source apertures would be less than 100 pixels wide so that background subtraction along rows will remove the 1/f noise but this is impossible for grism spectra dispersed along the rows.
-NIRCam has a "GRISMC" grism that will disperse along the column direction but this mode would not allow stripe subarrays and would therefore saturate on bright targets with $K \lesssim 5.5$.
+NIRCam has a "GRISMC" grism that will disperse along the column direction but this mode would not work with horizontal stripe subarrays and would therefore saturate on bright targets with $K \lesssim 5.5$.
+The benefits of a horizontal stripe subarray and a faster sampling rate must be weighed against the price of correlated 1/f noise along the spectrum that is not easily subtracted.
 
 \subsection{Fringing}
+
+The thin layer of NIRCam's HgCdTe detector can result in an interference pattern.
 
 \begin{figure}[!hbtp]
 \centering

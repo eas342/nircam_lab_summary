@@ -494,7 +494,8 @@ The benefits of a horizontal stripe subarray and a faster sampling rate must be 
 
 \subsection{Fringing}
 
-The thin layer of NIRCam's HgCdTe detector can result in an interference pattern.
+The thin layer of NIRCam's HgCdTe detector can result in an interference pattern much like thin film interference on bubbles.
+We investigate whether this can manifest itself on the spectrum with the NIRCam grism.
 
 \begin{figure}[!hbtp]
 \centering
@@ -502,10 +503,9 @@ The thin layer of NIRCam's HgCdTe detector can result in an interference pattern
 \includegraphics[width=.49\columnwidth]{otis_spec_periodogram.pdf}
 \caption{The integrated spectrum from Figure \ref{fig:ampOffsetsOtisGrismSlope} shows high frequency noise much far in excess of the spectrum's photon and read noise.
 The spectrum is normalized by dividing by a spline fit (bottom left plot) to search for fringing effects
-The sca
-A periodogram shows a peak near 19 pixels period, however, it is not an overwhelming periodic signature.
+A periodogram shows a peak near 15 pixels period, however, it is not an overwhelming periodic signature.
 \textcolor{red}{double check the scatter in spectrum to photon + read noise}
-\textcolor{red}{Things to try: 1) keep looking for a fringing in the spectrum}
+\textcolor{red}{Things to try: 1) keep looking for a fringing in the spectrum. Look at CV3 data, which has a tighter PSF}
 }\label{fig:integratedOtisGrismSpec}
 \end{figure}
 

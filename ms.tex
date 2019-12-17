@@ -582,7 +582,7 @@ The shorter wavelengths have deeper crosshatch troughs (left) and higher Fourier
 \end{figure}
 
 
-\subsubsection{Crosshatch Modeling}
+\subsubsection{Crosshatch Pattern Modeling}
 We model the crosshatch pattern in the Fourier space because it has a smoother pattern as a function of spatial frequency than in spatial coordinates as seen in Figure \ref{fig:crossHatchA5}.
 We divide the 2D Fourier power spectral density by the number of pixels in an input image.
 This was experimentally determined to give a power spectral density that does not change with the dimensions of the input image.
@@ -631,7 +631,7 @@ The images have all been normalized to the same scale to show the relative cross
 }\label{fig:crosshatchModelGallery}
 \end{figure}
 
-\subsubsection{Subpixel Crosshatching Simulation}\label{sec:CrosshatchSim}
+\subsubsection{Subpixel Crosshatching Calculation}\label{sec:CrosshatchSim}
 
 The subpixel crosshatch pattern can potentially introduce time-variable noise as the point spread function drifts with telescope pointing drifts, long timescale jitter.
 NIRCam observations are expected to have a root-mean-square deviation of 6.0 mas in each axis when measured in 15 second intervals over a 10,000 second observation.\footnote{See \url{https://jwst-docs.stsci.edu/display/JTI/JWST+Pointing+Performance\#JWSTPointingPerformance-Pointing\_stabilityPointingstability}}
@@ -714,6 +714,18 @@ When the LW grism time series mode is enabled, SW imaging data will automaticall
 Furthermore, the pixels for time series modes can be characterized in detail because the will be re-used for all time series observations in a given mode.
 Target acquisition is expected to achieve centroiding accuracy $\lesssim$ 10 mas ($\lesssim 6$ mas) for unsaturated target acquisition.\footnote{https://jwst-docs.stsci.edu/display/JTI/NIRCam+Time-Series+Imaging+Target+Acquisition}
 This ensures that time series observations will reliably return to the same location within the same set of pixels with every visit.
+
+\subsubsection{Time Series Simulation}
+The JWST fine steering mirror (FSM) is designed to correct any telescope pointing errors that are not full corrected by the reaction wheels.
+The JWST attitude control system team provided a simulation of the expected pointing performance shown in Figure \ref{fig:tserPointing}.
+
+\begin{figure*}
+\gridline{\fig{example_rtn.pdf}{0.45\textwidth}{Pointing Histograms} 
+\fig{example_rtn.pdf}{0.45\textwidth}{Pointing Time Series} }
+\caption{Pixels sometimes exhibit unusual behaviors that are not related to counting photon flux.
+Examples are shown for RTN and RC pixels.
+}\label{fig:tserPointing}
+\end{figure*}
 
 \subsubsection{Position of SubGrism Array}
 

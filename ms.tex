@@ -719,24 +719,37 @@ This ensures that time series observations will reliably return to the same loca
 The JWST fine steering mirror (FSM) is designed to correct any telescope pointing errors that are not full corrected by the reaction wheels.
 The JWST attitude control system team provided a simulation of the expected pointing performance shown in Figure \ref{fig:tserPointing}.
 
+The dominant variations in the pointing in the simulation from Figure \ref{fig:tserPointingFull} are High Gain Antenna (HGA) moves.
+These are moves are designed to keep the antenna pointing at ground-based Antennas for telemetry or data download.
+Fortunately, the errors due to High Gain Antenna moves damp quickly on $\lesssim$ 1 minute e-folding timescales.
+This means that for 1 minute integrations, only about 1\% of integrations will be affected by HGA moves and the data for these moves could be discarded.
+Other pointing errors can be caused by reaction wheel jitter, the MIRI cryocooler and fuel slosh in the fuel tanks.
+The effect of the reaction wheels and MIRI cryocooler will be to blur the PSF over an integration since they are higher frequency $\gtrsim 1$ Hz.
+Fuel slosh happens at the beginning of a visit after the telescope is slewed, but will dampen quickly on 100 second timescales.
+Therefore, the largest contributor to pointing variations will likely be 
+
+\textcolor{red}{Once, we have thermal inter-boresight motion, show how this affects pointing/flux}
+
 \begin{figure*}
 \gridline{\fig{histos_v2_v3.pdf}{0.45\textwidth}{Pointing Histograms} 
 \fig{tser_v2_v3_zoom_none.pdf}{0.45\textwidth}{Pointing Time Series} }
 \caption{The typical pointing stability is expected to be extremely stable to within a standard deviation of 2.4 mas (0.04 long wavelength pixels).
-}\label{fig:tserPointing}
+This pointing model only shows the line of sight variations, not including thermal distortions or the high frequency ($>$1 Hz) jitter.
+}\label{fig:tserPointingFull}
 \end{figure*}
 
 \begin{figure*}
 \gridline{\fig{tser_v2_v3_zoom_1.pdf}{0.45\textwidth}{Pointing Series Zoom 1} 
 \fig{tser_v2_v3_zoom_2.pdf}{0.45\textwidth}{Pointing Series Zoom 2} }
 \caption{Occasional pointing errors are expected to be quickly corrected by the fine steering mirror.
-}\label{fig:tserPointing}
+}\label{fig:tserPointingZoom}
 \end{figure*}
 
 \begin{figure*}
 \gridline{\fig{subpx_jitter_sim.pdf}{0.7\textwidth}{}}
-\caption{The very precise pointing expected by JWST will produce very small flux variations on the crosshatch pattern with an expected standard deviation of only 7 ppm.
-}\label{fig:tserPointing}
+\caption{The pointing time series from Figure \ref{fig:tserPointingFull} is binned into a 1 minute cadence and used as an input shifts to the crosshatch model.
+The very precise pointing expected by JWST will produce very small flux variations on the crosshatch pattern with an expected standard deviation of only 6 ppm.
+}\label{fig:tserPointingAndFlux}
 \end{figure*}
 
 

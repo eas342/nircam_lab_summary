@@ -467,7 +467,8 @@ The readout circuitry for NIRCam and other JWST NIR instruments introduces corre
 This is visible when examining the time series of pixels as they are read out within a frame in the order they are addressed.\footnote{See a diagram of the readout directions at \url{https://jwst-docs.stsci.edu/near-infrared-camera/nircam-instrumentation/nircam-detector-overview/nircam-detector-readout}}
 The power spectrum of this pixel-by-pixel time series reveals high power at low frequencies that drops roughly like a 1/f power law in the power spectrum of the time series.
 Figure \ref{fig:pixelTSeriesPSpec} shows the average Lomb Scargle periodogram from amplifier over 108 dark frames.
-To create the periodogram, the average of all frames is subtracted to remove the bias and all pixels that deviate by more than 80 DN from the average are masked to eliminate bad pixels.
+To create the periodogram, the reference pixels are used to remove amplifier offsets between frames.
+Next, the average of all frames is subtracted to remove the bias and all pixels that deviate by more than 80 DN from the average are masked to eliminate bad pixels.
 The periodogram shows many spikes at high frequency including one at the line reset time of 524 clock cycles, which is the time to read out all the pixels in a row for the amplifier and line overheads before moving to the next row.
 
 The 1/f noise is compared to a simulated time series with the same robust standard deviation but with Gaussian white noise where each pixel is independent and identically distributed as a Gaussian.
@@ -717,7 +718,7 @@ This ensures that time series observations will reliably return to the same loca
 
 \subsubsection{Time Series Simulation}
 The JWST fine steering mirror (FSM) is designed to correct any telescope pointing errors that are not full corrected by the reaction wheels.
-The JWST attitude control system team provided a simulation of the expected pointing performance shown in Figure \ref{fig:tserPointing}.
+The JWST attitude control system team provided a simulation of the expected pointing performance shown in Figure \ref{fig:tserPointingFull}.
 
 The dominant variations in the pointing in the simulation from Figure \ref{fig:tserPointingFull} are High Gain Antenna (HGA) moves.
 These are moves are designed to keep the antenna pointing at ground-based Antennas for telemetry or data download.

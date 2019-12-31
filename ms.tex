@@ -774,12 +774,14 @@ The ALONG detector has more pronounced crosshatching toward the middle of the de
 On the other hand, the BLONG detector has more pronounced crosshatching towards the boundary.
 We fit the crosshatch pattern to three regions of the detector:
 \begin{itemize}
-	\item The 2048$\times$64 SUBGRISM64 nominal position at the bottom of the array. Bottom Left corner is (0,0)
-	\item A 2048$\times$64 theoretical subarray at the top of the ALONG detector. Bottom Left corner is (0,1983)
+	\item The 2048$\times$64 SUBGRISM position at the bottom of the array where the bottom left corner is (0,0)
+	\item A 2048$\times$64 theoretical subarray at the top of the ALONG detector where the bottom left corner is (0,1983)
 	\item A 2048$\times$64 cutout of the full frame detector that is centered on the grism time series field point.
 \end{itemize}
 
 The three subarrays considered are shown in Figure \ref{fig:subpixScanSimulation}.
+The first position is the SUBGRISM64 subarray and the same field point that will be used for the SUBGRISM128 and SUBGRISM256 subarrays.
+we exclude
 The position at the top of the ALONG detector has the smallest amplitude of crosshatch pattern in all three directions.
 We exclude reference pixels (which form a 4 pixel wide boundary around the detector) and an additional row on the bottom and top of the array because these illuminated rows are anomalous.
 The best-fit amplitudes are used as input to the jitter simulations in Section \ref{sec:CrosshatchSim}.

@@ -521,7 +521,7 @@ However, the CV3 image in Figure \ref{fig:cv3ExtractedSpectrum} shows a lot of s
 \caption{The CV3 extracted spectrum shows large structure.
 After normalizing, the periodogram shows a significant peak at a period of 37 pixels with a formal false alarm probability of $10^{-18}$.
 Is this fringing?
-There are also peaks at 1px and 20 px that are likely spurious.}\label{fig:cv3ExtractedSpectrum}
+There are also peaks at 1px and 20 px that are likely spurious aliases of the pixel grid.}\label{fig:cv3ExtractedSpectrum}
 \end{figure}
 
 
@@ -711,8 +711,9 @@ The subpixel crosshatch structure does indeed create flux variations with image 
 The amplitude of the flux changes is potentially up to 300 ppm.
 This is significant when compared to atmospheric features of giant planets ($\lesssim$ 100 ppm) or the transit depth of an Earth-like planet transiting a sun-like star ($\lesssim$ 80 ppm).
 
-Fortunately, the subpixel crosshatch systematic is a smooth function of pointing drift, shown in Figure \ref{fig:subpixScanSimulation}
-Smooth functions, such as polynomials, with centroid position will likely 
+Fortunately, the subpixel crosshatch systematic is a smooth function of pointing drift, shown in Figure \ref{fig:subpixScanSimulation}.
+A polynomial function can be fit to this subpixel dependence then the centroid of each integration can be inserted as an argument to the function to provide a correction as a function of time.
+Alternatively, a Gaussian process regression could be applied.
 Centroiding is possible in imaging and spectroscopic modes using PSF fitting or cross-correlation.
 When the LW grism time series mode is enabled, SW imaging data will automatically be collected simultaneously enabling the SW centroids to be used to track the motion of the dispersed grism image.
 Furthermore, the pixels for time series modes can be characterized in detail because the will be re-used for all time series observations in a given mode.
@@ -724,13 +725,13 @@ The JWST fine steering mirror (FSM) is designed to correct any telescope pointin
 The JWST attitude control system team provided a simulation of the expected pointing performance shown in Figure \ref{fig:tserPointingFull}.
 
 The dominant variations in the pointing in the simulation from Figure \ref{fig:tserPointingFull} are High Gain Antenna (HGA) moves.
-These are moves are designed to keep the antenna pointing at ground-based Antennas for telemetry or data download.
-Fortunately, the errors due to High Gain Antenna moves damp quickly on $\lesssim$ 1 minute e-folding timescales.
+These are moves are designed to keep the antenna pointing at ground-based antennas for telemetry or data download.
+Fortunately, the errors due to HGA moves damp quickly on $\lesssim$ 1 minute e-folding timescales, as show in Figure \ref{fig:tserPointingZoom}.
 This means that for 1 minute integrations, only about 1\% of integrations will be affected by HGA moves and the data for these moves could be discarded.
 Other pointing errors can be caused by reaction wheel jitter, the MIRI cryocooler and fuel slosh in the fuel tanks.
 The effect of the reaction wheels and MIRI cryocooler will be to blur the PSF over an integration since they are higher frequency $\gtrsim 1$ Hz.
 Fuel slosh happens at the beginning of a visit after the telescope is slewed, but will dampen quickly on 100 second timescales.
-Therefore, the largest contributor to pointing variations will likely be 
+Therefore, the largest contributor to pointing variations will likely be HGA moves and thermal inter-boresight motion.
 
 \textcolor{red}{Once, we have thermal inter-boresight motion, show how this affects pointing/flux}
 
@@ -748,6 +749,14 @@ This pointing model only shows the line of sight variations, not including therm
 \caption{Occasional pointing errors are expected to be quickly corrected by the fine steering mirror.
 }\label{fig:tserPointingZoom}
 \end{figure*}
+
+We simulate the change in flux as a function of position using our oversampled flat field, as in Figure \ref{fig:subpixScanSimulation}.
+First, we bin the sub-pixel jitter time series into 1 minute time bins to represent 1 minute integrations, as shown in Figure \ref{fig:tserPointingAndFlux}.
+We then use the positions to shift the PSF on the oversampled flat field as listed at the beginning of this section.
+The resulting flux variations are very small compared to factors like the 1/f noise.
+The standard deviation of the time series due to small line-of-sight telescope jitter on top of the subpixel crosshatching pattern is only 6 ppm.
+Therefore, the line-of-sight subpixel jitter is expected to have a small affect on NIRCam stability.
+Furthermore, centroid motion measurements can be used to correct the flux variations due to subpixel jitter with a polynomial or Gaussian process regression.
 
 \begin{figure*}
 \gridline{\fig{subpx_jitter_sim.pdf}{0.7\textwidth}{}}

@@ -833,7 +833,7 @@ Examples are shown for RTN and RC pixels.
 
 Table \ref{tab:testSummary} contains a summary of the ground-based tests that were performed on NIRCam detectors.
 The flight NIRCam detectors, controllers, electronics, optics and instrument hardware were used in the Cryogenic Vacuum 3 (CV3) Test 3 as well as OTIS (Optical Telescope Element and Integrated Science).
-There are dewars at the Steward Observatory at the University of Arizona used for time series stability tests.
+There are also dewars at the Steward Observatory at the University of Arizona used for time series stability tests.
 The GL dewar experiments used flight-like detectors, but a different controller (Leach).
 The Asic dewar located at Steward Observatory in Tucson, Arizona used the same kind of detectors as NIRCam, the same kind of asic controllers and the same flight software, but no flight-like optics.
 These two different kinds of detector electronics can be compared against each other to help isolate optical-related systematics, detector-related systematics and electronics-related systematics.
@@ -905,7 +905,7 @@ The reference pixels (making up a 4 pixel boundary on the edges of the detector)
 The reference pixels are most useful for subtracting the offsets between amplifiers because there are 8 rows of 512 pixels or a total of 4096 reference pixels to average for each amplifier at the bottom and top of the arrays.
 There are an additional 4 columns on the left and right side boundaries (8176 pixels) that can be used to further correct the left and right amplifier offests.
 However, the 1/f noise that correlates along the fast-read (X) direction is more difficult to remove with reference pixels.
-Only 4 pixels on the left and 4 pixels on the right side may be used to subtract the 1/f noise in a given row.
+Only 4 pixels on the left and 4 pixels on the right side may be used to subtract the 1/f noise in a given row and the 4 amplifiers can exhibit different 1/f noise. 
 Therefore, significantly residuals remain along the fast-read (X) direction in the reference-corrected read pair shown in Figure \ref{fig:longDarkPhot}.
 These side reference pixels also cannot give any information about the read noise correlations that happen on shorter length scales than 512 pixels (5 ms).
 
@@ -943,12 +943,10 @@ In terms of fractional noise, the photon shot noise should be 113 ppm and the re
 Therefore, the read noise is expected to be 1/4 the shot noise for 2 group RAPID read mode (ie CDS).
 When averaging together 111 full frames over 60 minutes (an order-of-magnitude transit duration for most planets), the photon noise would contribute 11 ppm and the read noise would contribute 3 ppm.
 
-
-
 In our experimental time series, however, the standard deviation in the time series in these 3 apertures is 22,000 to 25,000 DN (without any attempt to correct for 1/f noise using reference pixels or otherwise).
 If uncorrected, this extra read noise will contribute 560 to 630 ppm to the time series per read pair!
-This would be a very inefficient observations if the read noise dominated the $\sim$113 ppm photon noise.
-As can be seen in Figure \ref{fig:longDarkPhot}, there are significant correlations along the fast read (X) direction of the detector due to 1/f noise.
+This read noise would be $\sim$5$\times$ the $\sim$113 ppm photon noise.
+Fortunately, there are ways to significantly reduce the 1/f noise.
 
 \begin{deluxetable*}{ccc}[b!]
 \tablecaption{Summary of Noise Sources in Weak Lens +8 Aperture Dark Test}\label{tab:noiseSummaryWLP8}

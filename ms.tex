@@ -635,6 +635,43 @@ The images have all been normalized to the same scale to show the relative cross
 }\label{fig:crosshatchModelGallery}
 \end{figure}
 
+\clearpage
+\subsubsection{Position of SubGrism Array}
+
+The crosshatch pattern varies in amplitude and angular dependence from one physical location on the detector to another.
+The ALONG detector has more pronounced crosshatching toward the middle of the detector that falls off toward the perimeter.
+On the other hand, the BLONG detector has more pronounced crosshatching towards the boundary.
+We fit the crosshatch pattern to three regions of the ALONG detector, which is the one used for the NIRCam grism time series mode:
+\begin{enumerate}
+	\item The 2048$\times$64 SUBGRISM position at the bottom of the array where the bottom left corner is (4,5) \label{subgrism64pos}
+	\item A 2048$\times$64 theoretical subarray at the top of the ALONG detector where the bottom left corner is (4,1984)
+	\item A 2048$\times$64 cutout of the full frame detector that is centered on the grism time series field point.
+\end{enumerate}
+
+The three subarrays considered are shown in Figure \ref{fig:subpixScanSimulation}.
+We exclude reference pixels (which form a 4 pixel wide boundary around the detector) and an additional row on the bottom and top of the array because these illuminated rows are outliers in the flat field.
+The first position is nearly the same as the SUBGRISM64 subarray position in the grism time series mode, except that the SUBGRISM64 includes the first 5 rows which are excluded here from the crosshatch analysis.
+The field point used for the SUBGRISM64 mode is expected to be the same one as will be used for the SUBGRISM128 and SUBGRISM256 subarrays.
+The position at the top of the ALONG detector has the smallest amplitude of crosshatch pattern in all three directions.
+The best-fit amplitudes are used as input to the jitter simulations in Section \ref{sec:CrosshatchSim}.
+We find that the maximum flux change for a 0.1 pixel shift is 118 ppm for the nominal grism position, 108 ppm for the top of the array and 153 ppm at the full frame grism position.
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=0.99\columnwidth]{subg_pos_topGrism64.pdf}\\
+\includegraphics[width=0.99\columnwidth]{subg_pos_fullfGrismRegion.pdf}\\
+\includegraphics[width=0.99\columnwidth]{subg_pos_subgrism64.pdf}\\
+\vspace{0.2in}
+\includegraphics[width=0.99\columnwidth]{subg_pos_topGrism64_psd.pdf}\\
+\includegraphics[width=0.99\columnwidth]{subg_pos_fullfGrismRegion_psd.pdf}\\
+\includegraphics[width=0.99\columnwidth]{subg_pos_subgrism64_psd.pdf}\\
+\caption{
+The top of the array has the smallest level of crosshatching and the middle has the largest.
+This is visible in the flat field images (top three panels) and their power spectral density functions (bottom three panels) for three different sections of the A5 detector: a theoretical ``aperture'' position at the top of the array (first plot from top), the full frame position near Y=512 (second plot from top) and the nominal SUBGRISM64 at the bottom of the array (third plot from top).
+The bottom left corner for each subarray is listed in parentheses in the title of the flat field plot and the best-fit amplitudes are listed in the title of the power spectral density plot.
+ }\label{fig:subpixScanSimulation}
+\end{figure}
+
 \subsubsection{Subpixel Crosshatching Calculation}\label{sec:CrosshatchSim}
 
 The subpixel crosshatch pattern can potentially introduce time-variable noise as the point spread function drifts with telescope pointing drifts, long timescale jitter.
@@ -767,42 +804,6 @@ The very precise pointing expected by JWST will produce very small flux variatio
 
 
 
-\subsubsection{Position of SubGrism Array}
-
-The crosshatch pattern varies in amplitude and angular dependence from one physical location on the detector to another.
-The ALONG detector has more pronounced crosshatching toward the middle of the detector that falls off toward the perimeter.
-On the other hand, the BLONG detector has more pronounced crosshatching towards the boundary.
-We fit the crosshatch pattern to three regions of the detector:
-\begin{itemize}
-	\item The 2048$\times$64 SUBGRISM position at the bottom of the array where the bottom left corner is (0,0)
-	\item A 2048$\times$64 theoretical subarray at the top of the ALONG detector where the bottom left corner is (0,1983)
-	\item A 2048$\times$64 cutout of the full frame detector that is centered on the grism time series field point.
-\end{itemize}
-
-The three subarrays considered are shown in Figure \ref{fig:subpixScanSimulation}.
-The first position is the SUBGRISM64 subarray and the same field point that will be used for the SUBGRISM128 and SUBGRISM256 subarrays.
-we exclude
-The position at the top of the ALONG detector has the smallest amplitude of crosshatch pattern in all three directions.
-We exclude reference pixels (which form a 4 pixel wide boundary around the detector) and an additional row on the bottom and top of the array because these illuminated rows are anomalous.
-The best-fit amplitudes are used as input to the jitter simulations in Section \ref{sec:CrosshatchSim}.
-We find that the maximum flux change for a 0.1 pixel shift is 118 ppm for the nominal grism position, 108 ppm for the top of the array and 153 ppm at the full frame grism position.
-
-\begin{figure}[!hbtp]
-\centering
-\includegraphics[width=0.99\columnwidth]{subg_pos_topGrism64.pdf}\\
-\includegraphics[width=0.99\columnwidth]{subg_pos_fullfGrismRegion.pdf}\\
-\includegraphics[width=0.99\columnwidth]{subg_pos_subgrism64.pdf}\\
-\vspace{0.2in}
-\includegraphics[width=0.99\columnwidth]{subg_pos_topGrism64_psd.pdf}\\
-\includegraphics[width=0.99\columnwidth]{subg_pos_fullfGrismRegion_psd.pdf}\\
-\includegraphics[width=0.99\columnwidth]{subg_pos_subgrism64_psd.pdf}\\
-\caption{
-The top of the array has the smallest level of crosshatching and the middle has the largest.
-This is visible in the flat field images (top three panels) and their power spectral density functions (bottom three panels) for three different sections of the A5 detector: a theoretical ``aperture'' position at the top of the array (first plot from top), the full frame position near Y=512 (second plot from top) and the nominal SUBGRISM64 at the bottom of the array (third plot from top).
-The bottom left corner for each subarray is listed in parentheses in the title of the flat field plot and the best-fit amplitudes are listed in the title of the power spectral density plot.
- }\label{fig:subpixScanSimulation}
-\end{figure}
-
 \clearpage
 
 \subsection{Random Telegraph Noise and RC pixels}
@@ -815,7 +816,7 @@ The RTN may not be removed by jump detection algorithms if they are similar orde
 If these are not identified, the RTN can contribute $\sim$200 counts in 4$\times 10^7$ or 5 ppm changes.
 
 There are also RC pixels (as shown in Figure \ref{fig:RTNandRC}) that have exponential curves like a resister-capacitor circuit.
-These pixels consistently show RC behavior and are flagged as ``Do-not-use'' for the pipeline so they may be skipped in the aperture summation (ie. applied a weight of zero in a weighted sum).
+These pixels consistently show RC behavior and are flagged as ``Do-not-use'' for the pipeline so they may be skipped in the aperture summation.
 There are 15 RC pixels in a 20 pixel tall F444W aperture and 31 RC pixels in a 20 pixel tall F322W2 aperture.
 
 \begin{figure*}

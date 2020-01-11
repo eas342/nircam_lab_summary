@@ -1287,7 +1287,7 @@ A series of NIRCam stability tests were carried out while the entire JWST telesc
 However, there is no feasible way to place a point source lamp at infinity to simulate the imaging of astrophysical objects onto a JWST instrument, so an alternate lamp setup is used.
 During these tests, there were two configurations 1) the ``half pass" tests where lamp sources within the optical system and 2) ``pass and a half" tests where the a lamp source within the optical system bounces light off the secondary, primary, flat mirrors mounted on the chamber's ceiling and then through the entire telescope and instrument chain to the detectors.
 
-\subsubsection{Pass and a Half Grism Time Series Test}
+\subsubsection{Pass and a Half Grism Time Series Test - Photometry}
 The OTIS testing included a time series mode similar to the grism time series template used in orbit for transiting planets.
 Figure \ref{fig:otisPSFs} shows the point spread functions for the OTIS tests that simultaneously illuminated the short wavelength and long wavelength channels.
 The ``O9'' supercontinuum illuminated the detector over a wide wavelength range from 2.5 to 4.1$\mu$m.
@@ -1347,6 +1347,8 @@ Row-by-row-subtraction dramatically decreases the noise due to 1/f noise while c
 }\label{fig:otisLWSWtserShift}
 \end{figure*}
 
+\subsubsection{Pass and a Half Grism Time Series Test - Spectroscopy}
+
 \begin{figure*}
 %\gridline{\fig{tser_LW_OTIS.pdf}{0.99\textwidth}{WLP8 Image} }
 \gridline{\fig{o9LEDwFlat_dyn_spec_NRCN83-256-O9LW.pdf}{0.55\textwidth}{Dynamic Spectrum}
@@ -1358,6 +1360,16 @@ The effect of image motion along the dispersion direction is visible as broad st
 }\label{fig:otisLWdynSpec}
 \end{figure*}
 
+We also analyze the spectroscopic time series for the OTIS grism time series.
+The extracted spectrum and dynamic spectrum (how it varies in time) can be seen in Figure \ref{fig:otisLWdynSpec}.
+Flat fielding is important for removing the imprint of the crosshatch pattern, as visible in Figure \ref{fig:otisLWflatVsNoFlat}.
+
+\begin{figure*}
+\gridline{\fig{comparison_spec_otis_flat_vs_no_flat.pdf}{0.55\textwidth}{}}
+\caption{Flat fielding has a pronounced effect of reducing the crosshatch pattern in the spectrum.
+The offset between the spectra are likely due to the non-linearity corrections applied to the flat fielded data.
+}\label{fig:otisLWflatVsNoFlat}
+\end{figure*}
 
 
 \clearpage

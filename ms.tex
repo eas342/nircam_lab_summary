@@ -399,7 +399,7 @@ If necessary, the effect of temperature fluctuations can be calibrated to $\pm 1
 	\item \textbf{Detector Fringing} \textbf{\textcolor{red}{Add more details and citations}} The thin $\sim 5\mu$m layers of the H2RG detectors will cause interference patterns on the array due to constructive and destructive interference of light at wavelengths similar to the thickness of the layers. If the detector fringe pattern changes with time, it will change the throughput of a grism image.
 	\item \textbf{Charge Trapping} A major correlated error source on HST WFC3 is the ``hook effect'' \citep{berta2012flat_gj1214}.
 	The hook effects is due to charge can be trapped within the detector's depletion region (initially lowering the flux) and then released at later times (increasing the flux) \citep{zhou2017chargeTrap}.
-	JWST's NIRCam instrument has very lower rates of persistence (<1 DN/sec) at 100 seconds after saturation, so it is expected that charge trapping will be a minor concern for JWST's HgCdTe detectors.
+	JWST's NIRCam instrument has very lower rates of persistence ($<$1 DN/sec) at 100 seconds after saturation, so it is expected that charge trapping will be a minor concern for JWST's HgCdTe detectors.
 \end{itemize}
 
 It should be noted that the detector effects related to the asic circuit can be specific to the ``personality'' of each asic. The asics all have different asic load files which are tuned to minimize the power consumption and dark current in a particular asic. Since the asic load files are specific to each detector, they may exhibit different noise properties.
@@ -1320,15 +1320,6 @@ For the grism time series, we use a rectangular aperture and a vertically offset
 }\label{fig:otisLWSWtser}
 \end{figure*}
 
-\begin{figure*}
-%\gridline{\fig{tser_LW_OTIS.pdf}{0.99\textwidth}{WLP8 Image} }
-\gridline{\fig{tser_LWSW_OTIS_w_shift.pdf}{0.6\textwidth}{Grism Time Series}}
-\caption{Same as Figure \ref{fig:otisLWSWtser} but where the SW shifts were applied (with a scaling factor of 0.5) to the long wave.
-The aperture shifting appears to increase the flux errors with centroid shifts.
-}\label{fig:otisLWSWtserShift}
-\end{figure*}
-
-
 
 The locations of the subarrays have ROWCORNER=431.
 This means there are not top or bottom reference pixels.
@@ -1336,7 +1327,6 @@ If we use a horizontally-displaced background region, the pre-amp offsets will n
 We therefore subtract the median from each column and then each row (not including the grism aperture).
 We subtract the median of each column first to remove the amplifier offsets and then the median of each row second to reduce the 1/f noise.
 Figure \ref{fig:otisLWSWtserShift} shows the dramatic effect of subtracting the columns and rows from each aperture.
-
 
 \begin{figure*}
 %\gridline{\fig{tser_LW_OTIS.pdf}{0.99\textwidth}{WLP8 Image} }
@@ -1361,7 +1351,7 @@ The effect of image motion along the dispersion direction is visible as broad st
 \end{figure*}
 
 We also analyze the spectroscopic time series for the OTIS grism time series.
-The extracted spectrum and dynamic spectrum (how it varies in time) can be seen in Figure \ref{fig:otisLWdynSpec}.
+The extracted spectrum and dynamic spectrum (how each wavelength varies in time) can be seen in Figure \ref{fig:otisLWdynSpec}.
 Flat fielding is important for removing the imprint of the crosshatch pattern, as visible in Figure \ref{fig:otisLWflatVsNoFlat}.
 
 \begin{figure*}
@@ -1388,7 +1378,20 @@ These are dramatically reduced when cross-correlating and finding the peak to ad
 }\label{fig:otisWavebinTSeries}
 \end{figure*}
 
+\subsection{Using SW centroid for LW grism}
 
+We attempt to use the centroids form the SW imaging as input for a broadband grism aperture.
+This potentially provides a way to input centroid information without cross-correlating a spectrum.
+However, the SW centroids add more noise to the photometry as seen in Figure \ref{fig:otisLWSWtserShift}.
+\textcolor{red}{\bf Did I properly multiply shifts by -0.5?}
+
+\begin{figure*}
+%\gridline{\fig{tser_LW_OTIS.pdf}{0.99\textwidth}{WLP8 Image} }
+\gridline{\fig{tser_LWSW_OTIS_w_shift.pdf}{0.6\textwidth}{Grism Time Series}}
+\caption{Same as Figure \ref{fig:otisLWSWtser} but where the SW shifts were applied (with a scaling factor of 0.5) to the long wave.
+The aperture shifting appears to increase the flux errors with centroid shifts.
+}\label{fig:otisLWSWtserShift}
+\end{figure*}
 
 \clearpage
 
@@ -2267,6 +2270,8 @@ The charge traps do not immediately empty with a detector reset, but instead rel
 This spurious signal (the shrinking of the depletion region as highlighted with red circles), causes a voltage change in future integrations that appears the same as a true signal from incoming photons.}\label{fig:npSchematicTraps}
 \end{figure}
 
+
+
 %% To help institutions obtain information on the effectiveness of their 
 %% telescopes the AAS Journals has created a group of keywords for telescope 
 %% facilities.
@@ -2303,7 +2308,6 @@ This spurious signal (the shrinking of the depletion region as highlighted with 
 %% command and will number appendix equations (A1), (A2), etc. The
 %% Figure and Table counter will not reset.
 
-\appendix
 
 %\section{Extra Info}
 

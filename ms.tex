@@ -384,10 +384,11 @@ These are discussed further in Section \ref{sec:preAmp}.
 	This has a particularly strong impact on the time series from the Spitzer IRAC instrument \citep{ingalls2016spitzerRepeatability}.
 	It can also appear on JWST detectors because the sub-pixel flat field is not uniform.
 	Crosshatching patterns on HgCdTe detectors (which all JWST near-infrared instruments use) exist at the sub-pixel level  \citep{shapiro2018crosshatch,ninan2019crosshatchHPF}
-	\item \textbf{Even/odd offsets:} Alternating columns have different bias levels. Additionally, there are offsets between columns that can change from frame to frame, especially on NIRCam's LW detector
+	\item \textbf{Even/odd offsets:} Alternating columns have different bias levels. Additionally, there are offsets between columns that can change from frame to frame, especially on NIRCam's LW detector.
+	These can be reduced with reference pixels or background subtraction.
 	\item \textbf{kTC noise:} Each reset at the beginning of an integration introduces thermal noise associated with the unknown amount of charge stored in a pixel at the reset voltage level.
 	Fortunately, the bias offset produces by kTC noise will easily subtract out when fitting a slope image from the multiple samples up the ramp.
-	This noise would  only become relevant when attempting to observe integrations of 1 group up the ramp.
+	This noise would  only become relevant when attempting to make use of the first group of a ramp (such as when only 1 group is commanded).
 	\item \textbf{Detector Temperature Fluctuations:} The JWST detectors are sensitive to temperature changes on the focal plane arrays. For example, laboratory tests show that 100 mK temperature fluctuations can result in $\sim$ 80 ADU changes on the detector that are not corrected by reference pixels \citep{hall2005jwstArrays}. Fortunately, the detectors are actively thermally controlled to keep the temperature fluctuations to mostly $\lesssim$ 1 mK.
 The one exception is that the Long Wavelength A-side detector (A5) exhibited $\sim$ 20 min oscillations with an amplitude of 15-20 mK when using the Temperature Monitor Control (TMC) 1 active thermal control.
 Fortunately, the TMC 2 control does not undergo these oscillations and will be employed in orbit.
@@ -869,13 +870,13 @@ The tests with the GL and ASIC dewars did not have NIRCam optics and instead wer
 \colhead{}
 }
 \startdata
-Lockheed CV& Lockheed Martin& 2014??    & \nodata   & Darks         & Long Darks & \nodata \\ 
-Reset per int test & Lockheed Martin& 2014??    & \nodata   & Darks         & Long Darks & Y \\ 
+%Lockheed CV& Lockheed Martin& 2014??    & \nodata   & Darks         & Long Darks & \nodata \\ 
+%Reset per int test & Lockheed Martin& 2014??    & \nodata   & Darks         & Long Darks & Y \\ 
 CV 3       & NASA Goddard  & 2016       & 500   	& LED           & WLP8 imaging & Y\\
 OTIS       & NASA Johnson  & 2017       &   2200    	& Continuum     & Grism spectroscopy & Y\\
 OTIS       & NASA Johnson  & 2017       &   21,000    	& Continuum     & WLP8 Imaging & Y \\
 GL dewar   & Steward Obs.  & 2015-2016  &       	& LED	        & flood-illuminated imaging & N \\
-Asic dewar & Steward Obs.  & 2017-2019  &       	& LED           & pinhole flood-illuminated imaging & N\\
+Asic dewar & Steward Obs.  & 2017-2019  &       	& LED           & pinhole \& flood-illuminated imaging & N\\
 \enddata
 \tablecomments{Cryogenic vacuum (CV), Optical Telescope element and Integrated Science (OTIS).}
 \end{deluxetable*}
@@ -1267,7 +1268,7 @@ After the calibrated images are created, we experimented with different types of
 
 After experimenting with these configurations, we find the following pipeline steps are important:
 \begin{itemize}
-	\item Fitting a line up the ramp gives superior results to subtracting the last and first pairs of read (as expected by reducing the read noise)
+	\item Fitting a line up the ramp gives superior results to subtracting the last and first pairs of read (as expected by reducing the read and electronic 1/f noise)
 	\item Centering the aperture with the central spot inside the hexagon is important to conserve the flux within the aperture
 	\item Row-by-row subtraction (along the detector's fast-read direction) gives superior background subtraction to traditional aperture photometry (using the mean or robust average value in a background annulus)
 	\item Aperture sizes for the source at ~70 pixels, outside the hexagon, gave the best precisions
@@ -1341,6 +1342,14 @@ Row-by-row-subtraction dramatically decreases the noise due to 1/f noise while c
 \subsubsection{Pass and a Half Grism Time Series Test - Spectroscopy}
 
 \begin{figure*}
+\gridline{\fig{comparison_spec_otis_flat_vs_no_flat.pdf}{0.55\textwidth}{}}
+\caption{Flat fielding has a pronounced effect of reducing the crosshatch pattern in the spectrum.
+There are small offsets in the flux os the spectrum also because of the flat field.
+}\label{fig:otisLWflatVsNoFlat}
+\end{figure*}
+
+
+\begin{figure*}
 %\gridline{\fig{tser_LW_OTIS.pdf}{0.99\textwidth}{WLP8 Image} }
 \gridline{\fig{o9LEDwf322w2Flat_dyn_spec_NRCN83-256-O9LW}{0.49\textwidth}{Dynamic Spectrum}
 \fig{o9LEDwf322w2Flat_dyn_spec_NRCN83-256-O9LW_aligned}{0.49\textwidth}{Dynamic Spectrum with Alignment}}
@@ -1356,13 +1365,6 @@ These are dramatically reduced when using cross correlation
 We also analyze the spectroscopic time series for the OTIS grism time series.
 The extracted spectrum and dynamic spectrum (how each wavelength varies in time) can be seen in Figure \ref{fig:otisLWdynSpec}.
 Flat fielding is important for removing the imprint of the crosshatch pattern, as visible in Figure \ref{fig:otisLWflatVsNoFlat}.
-
-\begin{figure*}
-\gridline{\fig{comparison_spec_otis_flat_vs_no_flat.pdf}{0.55\textwidth}{}}
-\caption{Flat fielding has a pronounced effect of reducing the crosshatch pattern in the spectrum.
-There are small offsets in the flux os the spectrum also because of the flat field.
-}\label{fig:otisLWflatVsNoFlat}
-\end{figure*}
 
 The wavelength-binned time series shows dramatic variations (shown in Figure \ref{fig:otisWavebinTSeries}) due to the shifts in the dispersion direction.
 
@@ -1388,6 +1390,15 @@ However, the SW centroids add more noise to the photometry as seen in Figure \re
 \caption{Same as Figure \ref{fig:otisLWSWtser} but where the SW shifts were applied (with a scaling factor of 0.5) to the long wave.
 The aperture shifting appears to increase the flux errors with centroid shifts.
 }\label{fig:otisLWSWtserShift}
+\end{figure*}
+
+
+\subsection{Differential Spectrum}
+We investigate whether the lamp fluctuations can be removed by dividing by a signal-to-noise-weighted broadband time series.
+\begin{figure*}
+\gridline{\fig{wavebin_tser_o9LEDwf322w2Flat_NRCN83-256-O9LW_differential.pdf}{0.49\textwidth}{Differential Time series}}
+\caption{Differential time series
+}\label{fig:otisLWDiffdynSpec}
 \end{figure*}
 
 \clearpage
@@ -1769,7 +1780,7 @@ Each amplifier has its own 1/f noise character, but the lamp variations measured
 \clearpage
 \subsubsection{Dark Baseline Test}\label{sec:darkBaseline}
 In Figure \ref{fig:darkBaselineAllan}, we show that the noise in a series of dark integrations averages with the square root of the number of integrations.
-While 1/f is highly correlated within an aperture and results in a large value.
+While 1/f is highly correlated within an aperture and results in a large value of noise per integration, the integrations are all statistically independent. Threfore, on 10 minute long timescales, the total noise of the readout electronics including 1/f and dark current in the aperture drops to 10 ppm.
 
 \begin{figure*}[!hbtp]
 \centering
@@ -2146,6 +2157,7 @@ We evaluate the largest sources of noise that add to JWST's error budget and lis
 	Crosshatching structures extend down to the subpixel level where they will not be corrected for in standard flat fielding procedures, especially at the wavelengths that are below Nyquist sampling ($< 3.7\mu$m for the long wavelength and ($1.8\mu$m for the short wavelength).
 	The ALONG detector (used for grism time series) experiences the most pronounced crosshatching amplitudes.
 	We estimate that up to 150 ppm variations in flux can occur for small pointing drifts of 7 mas (or 0.1 NIRCam long wavelength pixels).
+	Fortunately, the pointing drifts are expected to be very small other than brief and infrequent High Gain Antenna moves, so the expected standard deviation of flux due to pointing jitter is only $\sim$ 6 ppm.
 	The variations in flux at the subpixel level appear smooth enough that they could likely be calibrated as a function of position.
 	Accurate target acquisition will ensure that the same sets of pixels will be used for all grism time series, which permits detailed characterization of the subpixel behavior for re-use on multiple different visits.
 	\item \textbf{Charge Trapping/Persistence/HST Ram-up:} HST observations of exoplanets experience a well-known ``hook effect'' at the beginning of each orbit that rises like an exponential function of time.

@@ -497,42 +497,17 @@ The benefits of a horizontal stripe subarray and a faster sampling rate must be 
 \subsection{Fringing}
 
 The thin layer of NIRCam's HgCdTe detector can result in an interference pattern much like thin film interference on bubbles.
-We investigate whether this can manifest itself on the spectrum with the NIRCam grism.
+Fringing will be less noticeable when many wavelengths are mixed together, but with grism spectra where the wavelengths are separated, the interference effects are more pronounced.
+We investigate whether this can manifest itself on the spectrum with the NIRCam grism by looking for periodic signatures that vary in frequency as a function of wavelength.
 
-\begin{figure}[!hbtp]
-\centering
-\includegraphics[width=.49\columnwidth]{otis_spec_and_norm.pdf}
-\includegraphics[width=.49\columnwidth]{otis_spec_periodogram.pdf}
-\caption{The integrated spectrum from Figure \ref{fig:ampOffsetsOtisGrismSlope} shows high frequency noise much far in excess of the spectrum's photon and read noise.
-The spectrum is normalized by dividing by a spline fit (bottom left plot) to search for fringing effects
-A periodogram shows a peak near 15 pixels period, however, it is not an overwhelming periodic signature.
-\textcolor{red}{double check the scatter in spectrum to photon + read noise}
-\textcolor{red}{Things to try: 1) keep looking for a fringing in the spectrum. Look at CV3 data, which has a tighter PSF}
-}\label{fig:integratedOtisGrismSpec}
-\end{figure}
-
-\begin{figure}[!hbtp]
-\centering
-\includegraphics[width=.99\columnwidth]{fringing_grism_otis.pdf}
-\caption{The average OTIS spectrum over the time series grism test shows evidence for fringing.
-An illustrative sinusoidal function is plotted for comparison.
-}\label{fig:avgOtisGrismSpecFringing}
-\end{figure}
-
-
-The fringing doesn't show up in the OTIS spectrum from Figure \ref{fig:integratedOtisGrismSpec} and is very subtle in Figure \ref{fig:avgOtisGrismSpecFringing}, probably because of the broad PSF.
-However, the CV3 image in Figure \ref{fig:cv3ExtractedSpectrum} shows a lot of structure in the spectrum.
-\textcolor{red}{\bf Is this fringing?}
-
-\begin{figure}[!hbtp]
-\centering
-\includegraphics[width=.49\columnwidth]{labLED_ind_spec_CV3NRCN036810.pdf}
-\includegraphics[width=.49\columnwidth]{labLED_spec_periodo_CV3NRCN036810.pdf}
-\caption{The CV3 extracted spectrum shows large structure.
-After normalizing, the periodogram shows a significant peak at a period of 37 pixels with a formal false alarm probability of $10^{-18}$.
-Is this fringing?
-There are also peaks at 1px and 20 px that are likely spurious aliases of the pixel grid.}\label{fig:cv3ExtractedSpectrum}
-\end{figure}
+Figure \ref{fig:cv3ExtractedSpectrum} shows an extracted spectrum from Cryogenic Vacuum 3 testing where a broadband point source is dispersed by the grism.
+The slope image is calculated from the raw ramp using the internal NIRCam ramps-to-slopes pipeline \texttt{nchdas}.
+The background is subtracted with a 2nd order polynomial fit and the flux is extracted with an optimally weighted summation \citep[e.g.][]{horne1986optimalE}.
+The spectrum is normalized by a 3rd order spline fit with 400 knots to remove the broad shape of the spectrum and the throughput curves.
+The resulting spectrum shows high frequency ($\sim$0.2 px$^{-1}$ to $\sim$0.5 px$^{-1}$) variations far in excess of the photon and read noise.
+These oscillations increase in frequency at longer wavelengths (X pixels).
+The variations have peak-to-valley amplitudes of about 10\%.
+However, we expect that the fringing structure will hold relatively constant during time so long as the pointing is stable at the sub-pixel level.
 
 \begin{figure}[!hbtp]
 \centering
@@ -2295,6 +2270,40 @@ The charge traps do not immediately empty with a detector reset, but instead rel
 This spurious signal (the shrinking of the depletion region as highlighted with red circles), causes a voltage change in future integrations that appears the same as a true signal from incoming photons.}\label{fig:npSchematicTraps}
 \end{figure}
 
+\subsection{Extracted Spectra and periodograms}
+
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.49\columnwidth]{otis_spec_and_norm.pdf}
+\includegraphics[width=.49\columnwidth]{otis_spec_periodogram.pdf}
+\caption{The integrated spectrum from Figure \ref{fig:ampOffsetsOtisGrismSlope} shows high frequency noise much far in excess of the spectrum's photon and read noise.
+The spectrum is normalized by dividing by a spline fit (bottom left plot) to search for fringing effects
+A periodogram shows a peak near 15 pixels period, however, it is not an overwhelming periodic signature.
+\textcolor{red}{In retrospect, this noise is due to the flat fielding, but averaging over many spectra with better flat fielding and some motion along the dispersion direction shows subtle fringing in Figure \ref{fig:avgOtisGrismSpecFringing}}
+}\label{fig:integratedOtisGrismSpec}
+\end{figure}
+
+The fringing is very subtle in Figure \ref{fig:avgOtisGrismSpecFringing}, probably because of the broad PSF.
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.99\columnwidth]{fringing_grism_otis.pdf}
+\caption{The average OTIS spectrum over the time series grism test shows evidence for fringing.
+An illustrative sinusoidal function is plotted for comparison.
+}\label{fig:avgOtisGrismSpecFringing}
+\end{figure}
+
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.49\columnwidth]{labLED_ind_spec_CV3NRCN036810.pdf}
+\includegraphics[width=.49\columnwidth]{labLED_spec_periodo_CV3NRCN036810.pdf}
+\caption{The CV3 extracted spectrum shows large structure.
+After normalizing, the periodogram shows a significant peak at a period of 37 pixels with a formal false alarm probability of $10^{-18}$.
+Is this fringing?
+There are also peaks at 1px and 20 px that are likely spurious aliases of the pixel grid.}\label{fig:cv3ExtractedSpectrum}
+\end{figure}
 
 
 %% To help institutions obtain information on the effectiveness of their 

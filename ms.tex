@@ -1020,7 +1020,7 @@ Subtraction by the smoothed image has a dramatic effect on reducing correlated 1
 The dramatic difference from the smoothing kernel is beyond what is possible for a real source.
 This is because the 40 pixel wide kernel was applied all the way through the source aperture, which would subtract and distort any signal from a star/planet source.
 In reality, the kernel should be wider than the source aperture diameter and interpolate through the source points.
-Note that this experiment with result in perfect subtraction (0 ppm noise) if the kernel was only 1 pixel wide!
+Note that this experiment would result in perfect subtraction (0 ppm noise) if the kernel was only 1 pixel wide!
 We repeated the experiment with a 161 pixel wide kernel and masked bad pixels and the source pixels.
 We use the \texttt{astropy.convolution.convolve()} routine, which calculates a convolution of the kernel by the image.
 \texttt{astropy.convolution.convolve()} ignores al NaN values in the mask and renormalizes the kernel by the sum of the remaining kernel points.

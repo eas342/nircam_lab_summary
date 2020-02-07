@@ -7,7 +7,7 @@
  
 ### Known Detector Effects
 
-- Improve fringing section - I think we can see this after removing FF
+- (done) Improve fringing section - I think we can see this after removing FF
    * Fit a sin(x^2) or something?
    
 - Put in Inter-Boresight motion effects for subpixel crosshatching

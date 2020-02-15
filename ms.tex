@@ -940,7 +940,7 @@ If uncorrected, this extra read noise will contribute 560 to 630 ppm to the time
 This read noise would be $\sim$5$\times$ the $\sim$113 ppm photon noise.
 Fortunately, there are ways to significantly reduce the 1/f noise.
 
-\begin{deluxetable*}{ccccc}[b!]
+\begin{deluxetable*}{c|cc|cc}[b!]
 \tablecaption{Summary of Noise Sources in OTIS Dark Test}\label{tab:noiseSummaryWLP8}
 \tabletypesize{\footnotesize}
 %\tablecolumns{7}
@@ -974,8 +974,8 @@ Measured Read Noise (5 Component PCA on each amplifier) & 3,200 & 81 & & \\
 Measured Read Noise (row-by-row amp-by-amp mean subtraction) & 2,900 & 75 & & \\
 Measured Read Noise (smoothed 40 px kernel on top of aperture) & 900 & 23 & & \\
 \enddata
-\tablecomments{The theoretical and measured noise sources in one integration for a Weak Lens +8 Time Series.
-The ppm units are assuming a peak 60\% well depth or 3.9$\times 10^7$ DN during an integration for the weak lens PSF.
+\tablecomments{The theoretical and measured noise sources in one integration for a Weak Lens +8 and Grism Time Series.
+The ppm units are assuming a peak 60\% well depth or 3.9$\times 10^7$ DN during an integration for the weak lens PSF and 4.2$\times 10^6$ DN during and integration for the grism PSF.
 The noise is the sum within a 70 pixel radius source aperture and 75 to 100 pixel background aperture (in DN) or relative to the photon signal (in ppm).
 The integration is assumed to be a bright source with 2 groups of 1 integration each up the ramp (Correlated Double Sampling or CDS mode).}
 \end{deluxetable*}

@@ -961,13 +961,13 @@ Fortunately, there are ways to significantly reduce the 1/f noise.
 \colhead{DN} &
 \colhead{ppm}\\}
 \startdata
-Ideal Photon Noise & 4,400 & 113 & 1,520 & 364 \\
-Ideal Uncorrelated Read Noise & 1,300 & 33 & 470 & 113 \\
+Ideal Photon Noise & 4,400 & 113 & 1,420 & 390 \\
+Ideal Uncorrelated Read Noise & 1,300 & 33 & 348 & 95 \\
 \hline
-Measured Read Noise with amplifier offsets (no correction) & 23,500 & 600 & 81,220 & 19,450  \\
-Measured Read Noise (reference pixel correction) & 10,800 & 280 & 12,900 & 3,090 \\
+Measured Read Noise with amplifier offsets (no correction) & 23,500 & 600 & 77,600 & 21,200  \\
+Measured Read Noise (reference pixel correction) & 10,800 & 280 & 9,640 & 2,640 \\
 Measured Read Noise (reference channel subtraction) & 9,700 & 250 & & \\
-Measured Read Noise (row-by-row subtraction) & 6,000 & 150 & 7,120 & 1,705 \\
+Measured Read Noise (row-by-row subtraction) & 6,000 & 150 & 3,630 & 992 \\
 Measured Read Noise (20 Component PCA subtraction) & 5,400 & 140 & & \\
 Measured Read Noise (smoothed 161 px kernel interpolating over aperture) & 3,300 & 85 & & \\
 Measured Read Noise (5 Component PCA on each amplifier) & 3,200 & 81 & & \\
@@ -975,8 +975,8 @@ Measured Read Noise (row-by-row amp-by-amp mean subtraction) & 2,900 & 75 & & \\
 Measured Read Noise (smoothed 40 px kernel on top of aperture) & 900 & 23 & & \\
 \enddata
 \tablecomments{The theoretical and measured noise sources in one integration for a Weak Lens +8 and Grism Time Series.
-The ppm units are assuming a peak 60\% well depth or 3.9$\times 10^7$ DN during an integration for the weak lens PSF and 4.2$\times 10^6$ DN during and integration for the grism PSF.
-The noise is the sum within a 70 pixel radius source aperture and 75 to 100 pixel background aperture (in DN) or relative to the photon signal (in ppm).
+The ppm units are assuming a peak 60\% well depth or 3.9$\times 10^7$ DN during an integration for the weak lens PSF and 3.7$\times 10^6$ DN during and integration for the grism PSF.
+The noise is reported for the the aperture/spectral extraction (in DN) or relative to the photon signal (in ppm).
 The integration is assumed to be a bright source with 2 groups of 1 integration each up the ramp (Correlated Double Sampling or CDS mode).}
 \end{deluxetable*}
 
@@ -1129,12 +1129,19 @@ The background subtraction along the spatial direction (vertically) will efficie
 However, there are no side reference pixels or background regions available on the middle two amplifiers.
 Therefore, the 1/f noise will adversely impact broadband behaviors of the lightcurves, especially on the middle two amplifiers.
 
-We give some illustrative numbers for a 0.17 $\mu$m wide bin of a grism spectrum as shown in Figure \ref{tab:noiseSummary1overf}.
-Without reference pixel subtraction, the grism apertures have standard deviations of 81,200 DN.
-Reference pixel subtraction drops this value to 12,900 DN and row-by-row subtraction drops it to 7,120 DN.
-For a well depth of 60\%, there are $4.2 \times 10^6$ DN of source counts in the 0.17 $\mu$m bin, which amounts to a photon error of 7,400 DN assuming a gain of 1.84.
+We give some illustrative numbers for a 0.165 $\mu$m wide bin of a grism spectrum centered on 3.25 $\mu$m as listed in Table \ref{tab:noiseSummary1overf}.
+Without reference pixel subtraction, the grism apertures have standard deviations of 77,600 DN.
+Reference pixel subtraction drops this value to 9,640 DN and row-by-row subtraction drops it to 3,630 DN.
+For a well depth of 60\%, there are $3.7 \times 10^6$ DN of source counts in the 0.17 $\mu$m bin, which amounts to a photon error of 1,420 DN assuming a gain of 1.84.
 Therefore, 1/f noise can potentially dominate the error budget for broadband grism time series!
-Expressed in ppm, the read noise after processing with row-by-row subtraction is 90 ppm as compared to a photon noise of 74 ppm for a CDS subtraction (2 groups in ramp).
+Expressed in ppm, the read noise after processing with row-by-row subtraction is 990 ppm as compared to a photon noise of 95 ppm for a CDS subtraction (2 groups in ramp).
+
+Given the high 1/f read noise, it is important to maximize the number of samples up the ramp.
+The read noise averages down like $\sqrt{N}$ statistics (ie. each read can be assumed independent and identically distributed).
+Therefore, for the example bin size of 0.17~$\mu$m, there should be at least 13 reads to average per integration.
+For RAPID and BRIGHT1 modes, there should therefore be 13 groups and for BRIGHT2, there should be at least 7 groups (of 2 frames each).
+This would make the photon noise about equal to the read noise but ideally the read noise should be a small fraction of the photon noise.
+
 
 The timescale of most interest to studying atmospheres is the transit duration when trying to assess the stability.
 The transit durations for most exoplanets considered is several hours long.

@@ -941,7 +941,7 @@ This read noise would be $\sim$5$\times$ the $\sim$113 ppm photon noise.
 Fortunately, there are ways to significantly reduce the 1/f noise.
 
 \begin{deluxetable*}{c|cc|cc}[b!]
-\tablecaption{Summary of Noise Sources in OTIS Dark Test}\label{tab:noiseSummaryWLP8}
+\tablecaption{Summary of Noise Sources in OTIS Dark Test}\label{tab:noiseSummary1overf}
 \tabletypesize{\footnotesize}
 %\tablecolumns{7}
 %\tablenum{2}
@@ -1127,10 +1127,12 @@ The NIRCam grism time series are particularly susceptible to 1/f noise because t
 This is visible in Figure \ref{fig:longDarkGrism} where the grism apertures (in red) are parallel to the 1/f noise correlations.
 The background subtraction along the spatial direction (vertically) will efficiently remove pre-amplifier offsets from frame to frame and amplifier to amplifier.
 However, there are no side reference pixels or background regions available on the middle two amplifiers.
-Therefore, the 1/f noise will adversely impact broadband behaviors of the lightcurves.
-Without reference pixel subtraction, the grism apertures have standard deviations of 153,000 DN.
-Reference pixel subtraction drops this value to 45,000 DN and row-by-row subtraction drops it to 9,000 DN.
-For a well depth of 60\%, there are $1.0 \times 10^8$ DN of source counts in an exposure, which amounts to a photon error of 7,400 DN assuming a gain of 1.84.
+Therefore, the 1/f noise will adversely impact broadband behaviors of the lightcurves, especially on the middle two amplifiers.
+
+We give some illustrative numbers for a 0.17 $\mu$m wide bin of a grism spectrum as shown in Figure \ref{tab:noiseSummary1overf}.
+Without reference pixel subtraction, the grism apertures have standard deviations of 81,200 DN.
+Reference pixel subtraction drops this value to 12,900 DN and row-by-row subtraction drops it to 7,120 DN.
+For a well depth of 60\%, there are $4.2 \times 10^6$ DN of source counts in the 0.17 $\mu$m bin, which amounts to a photon error of 7,400 DN assuming a gain of 1.84.
 Therefore, 1/f noise can potentially dominate the error budget for broadband grism time series!
 Expressed in ppm, the read noise after processing with row-by-row subtraction is 90 ppm as compared to a photon noise of 74 ppm for a CDS subtraction (2 groups in ramp).
 

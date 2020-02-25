@@ -517,6 +517,7 @@ An illustrative sinusoidal function is plotted for comparison to better see how 
 }\label{fig:CV3GrismSpecFringing}
 \end{figure}
 
+\clearpage
 \subsection{Subpixel Crosshatching}
 
 \subsubsection{Subpixel Crosshatching Characterization}
@@ -1126,7 +1127,7 @@ The amplifier boundaries are demarcated by solid vertical lines.
 The NIRCam grism time series are particularly susceptible to 1/f noise because the dispersion direction is parallel to the detector's fast-read direction.
 This is visible in Figure \ref{fig:longDarkGrism} where the grism apertures (in red) are parallel to the 1/f noise correlations.
 The background subtraction along the spatial direction (vertically) will efficiently remove pre-amplifier offsets from frame to frame and amplifier to amplifier.
-However, there are no side reference pixels or background regions available on the middle two amplifiers.
+However, there are no side reference pixels or horizontally-offset background regions available on the middle two amplifiers.
 Therefore, the 1/f noise will adversely impact broadband behaviors of the lightcurves, especially on the middle two amplifiers.
 
 We give some illustrative numbers for a 0.165 $\mu$m wide bin of a grism spectrum centered on 3.25 $\mu$m as listed in Table \ref{tab:noiseSummary1overf}.
@@ -1170,6 +1171,14 @@ The photometric aperture is made to represent a similar one to the F322W2 grism 
 }\label{fig:longDarkGrism}
 \end{figure*}
 
+
+Given the high level of correlation between pixels, another way to reduce 1/f noise is with a small aperture.
+For example, a 15 pixel wide aperture results in measured read noise of 990 ppm for the same 0.17$\mu$m wide bin centered at 4.25$\mu$m whereas a 3 pixel wide aperture results in a measured read noise of 290 ppm, which is below the expected photon noise.
+For a one pixel wide aperture, the measured read noise is only 230 ppm.
+Of course such small apertures will be subject to other losses by missing so much of the PSF.
+Therefore, the spectroscopic pipeline should either use a small aperture or provide extra weights to the brightest pixels such as in optimal extraction \citep[e.g.][]{horne1986optimalE}.
+If one calculates the weights to the spectra simply by the signal-to-noise while assuming each pixel's noise is independent, the weights are not heavy enough for the brightest pixels.
+Simply variance weighting the spectra by the read and photon noise does not provide heavy enough weights 
 
 %% See the notebooks wlp8_psf_image.ipynb and noise_sources_wlp8.ipynb for calculations
 \subsubsection{The impact of correlated read noise on time series}

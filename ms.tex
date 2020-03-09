@@ -974,6 +974,7 @@ Measured Read Noise (smoothed 161 px kernel interpolating over aperture) & 3,300
 Measured Read Noise (5 Component PCA on each amplifier) & 3,200 & 81 & & \\
 Measured Read Noise (row-by-row amp-by-amp mean subtraction) & 2,900 & 75 & & \\
 Measured Read Noise (smoothed 40 px kernel on top of aperture) & 900 & 23 & & \\
+Measured Read Noise (profile-weighted summation)	& & & 1,310 & 355 \\
 \enddata
 \tablecomments{The theoretical and measured noise sources in one integration for a Weak Lens +8 and Grism Time Series.
 The ppm units are assuming a peak 60\% well depth or 3.9$\times 10^7$ DN during an integration for the weak lens PSF and 3.7$\times 10^6$ DN during and integration for the grism PSF.
@@ -1178,7 +1179,30 @@ For a one pixel wide aperture, the measured read noise is only 230 ppm.
 Of course such small apertures will be subject to other losses by missing so much of the PSF.
 Therefore, the spectroscopic pipeline should either use a small aperture or provide extra weights to the brightest pixels such as in optimal extraction \citep[e.g.][]{horne1986optimalE}.
 If one calculates the weights to the spectra simply by the signal-to-noise while assuming each pixel's noise is independent, the weights are not heavy enough for the brightest pixels.
-Simply variance weighting the spectra by the read and photon noise does not provide heavy enough weights 
+This is because the observations will largely be in the foreground limit (where the variance is equal to the number of photons), where weighting by the profile for pixel $j$ (P$_j$) divided by the variance (V$_i$) becomes
+\begin{equation}
+w_j = P_j / V_j = N_{ph} / N_{ph} = 1.0,
+\end{equation}
+where $N_{ph}$ is the number of photons on that pixel.
+
+However, if one generalizes the weighted average to a covariance matrix \citep{schmelling1995averagingCorrelatedData}, the weights become,
+\begin{equation}
+w_j = \sum_{i=1}^{m} \left( C^{-1}\right)_{ij} P_j,\label{eq:covarianceWeighted}
+\end{equation}
+where $C^{-1}$ is the inverse of the covariance matrix between pixels $i$ and $j$ and $m$ is the number of pixels in the summation.
+Simply variance weighting the spectra by the read and photon noise does not provide heavy enough weights.
+If we assume the read noise is perfectly correlated along the spectral direction and uncorrelated along the spatial direction, then equation \ref{eq:covarianceWeighted} becomes
+\begin{equation}
+w_j = \frac{P_j}{N_{ph} + N_{px} \sigma_R^2},
+\end{equation}
+where $N_{px}$ is the number of spectral pixels that will be binned and $\sigma_R$ is the read noise per pixel.
+Thus, for large values of $N_{px}$ (up to 512 for an amplifier), the $\sigma_R \approx 14e^-$ of read noise per pixel, can compound to 100,400 e$^e-$ and the weighting approaches
+\begin{equation}
+w_j \propto P_j.
+\end{equation}
+Profile weighting should therefore lower the error on wavelength-binned time series.
+For the grism aperture experiment, we find that profile weighting gives a measured read noise of 355 ppm.
+
 
 %% See the notebooks wlp8_psf_image.ipynb and noise_sources_wlp8.ipynb for calculations
 \subsubsection{The impact of correlated read noise on time series}

@@ -1203,6 +1203,13 @@ w_j \propto P_j.
 Profile weighting should therefore lower the error on wavelength-binned time series.
 For the grism aperture experiment, we find that profile weighting gives a measured read noise of 355 ppm.
 
+\subsubsection{Empirical Covariance Matrix}
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.7\columnwidth]{spec_spatial_cov.pdf}
+\caption{The read noise is strongly correlated in the spectral direction (diagnoal boxes) and somewhat correlated in the spatial direction (off diagonal region).}\label{fig:covSpeSpatial}
+\end{figure}
 
 %% See the notebooks wlp8_psf_image.ipynb and noise_sources_wlp8.ipynb for calculations
 \subsubsection{The impact of correlated read noise on time series}
@@ -1226,7 +1233,7 @@ As an example, a $K$=8.5 magnitude star observed in full frame WEAK LENS +8 imag
 
 We have demonstrated that row-by-row and amplifier-by-amplifier median subtraction can substantially reduce the read noise for a correlated double sample subtraction from 23,500 DN to 2,900 DN.
 Therefore, the corrected read noise per integration should be:
-\begin{equation}\label{bestRNCorrection}
+\begin{equation}\label{eq:bestRNCorrection}
 RN_{ap,70,75,100} = \frac{4,100 DN}{ \sqrt{N_{frames}}}
 \end{equation}
 \textcolor{red}{\bf This is for the ALONG detector.
@@ -1236,6 +1243,15 @@ Fortunately, this is now a small fraction of the photon uncertainty of 9,100 DN 
 
 
 \textcolor{red}{\bf Include more calculations on how the individual frame read noise would impact many frames in a time series of a bright target vs a faint target.}
+
+\subsubsection{Impact to Grism Time series}
+We consider a 0.17$\mu$m-wide wavelength bin and 20 pixel aperture diameter as a test case for how badly it will impact spectroscopic features that are 0.17$\mu$m wide.
+In this case, we assume row-by-row subtraction is performed and that the CDS noise from the OTIS ground-based test is representative of flight.
+Then, the equivalent grism aperture noise to equation \ref{eq:bestRNCorrection} is
+\begin{equation}
+RN_{grism,0.17\mu\mathrm{m}} = \frac{5,130 DN}{ \sqrt{N_{frames}}}.
+\end{equation}
+For the grism aperture
 
 \subsection{Goddard Cryogenic Vacuum (CV) Stability Tests}
 

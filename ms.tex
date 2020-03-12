@@ -1196,19 +1196,29 @@ If we assume the read noise is perfectly correlated along the spectral direction
 w_j = \frac{P_j}{N_{ph} + N_{px} \sigma_R^2},
 \end{equation}
 where $N_{px}$ is the number of spectral pixels that will be binned and $\sigma_R$ is the read noise per pixel.
-Thus, for large values of $N_{px}$ (up to 512 for an amplifier), the $\sigma_R \approx 14e^-$ of read noise per pixel, can compound to 100,400 e$^e-$ and the weighting approaches
+Thus, for large values of $N_{px}$ (up to 512 for an amplifier), the $\sigma_R \approx 14e^-$ of read noise per pixel, can compound to 100,400 e$^-$ and the weighting approaches
 \begin{equation}
 w_j \propto P_j.
 \end{equation}
 Profile weighting should therefore lower the error on wavelength-binned time series.
 For the grism aperture experiment, we find that profile weighting gives a measured read noise of 355 ppm.
+Thus, profile weighting still does not reduce the standard deviation over an extraction aperture that is just 1 pixel wide at the peak grism flux.
+We show the real covariance matrix in Section \ref{sec:empCovarianceMatrix}.
 
-\subsubsection{Empirical Covariance Matrix}
+\subsubsection{Empirical Covariance Matrix}\label{sec:empCovarianceMatrix}
+The ideal weighting of the spectrum from Equation \ref{eq:covarianceWeighted} depends on the covariance matrix $C_{ij}$.
+We use CDS (correlated double sampling) read pairs of OTIS long dark data (108 frames) with reference pixel corrections to estimate $C_{ij}$.
+We consider a wavelength bin that is 100 pixels in the dispersion direction (0.1$\mu$m) and 14 spatial spatial pixels.
+Figure \ref{fig:covSpecSpatial} shows the covariance matrix of this wavelength bin, taken from the median of 20 regions of the detector.
+The diagonal elements are consistent with NIRCam detector performance with $\sigma^2 \approx 13^2 (e^-)^2=169 (e^-)^2$.
+It is clear that 1/f noise causes covariance most prominently along the spectral direction (the fast-read direction), with a covariance nearly uniformly at 36~$(e^-)^2$.
+Surprisingly, there is also a covariance between spatial pixels (the slow read direction) of $\sim$16 $(e^-)^2$ that falls off to $\sim 10 (e^-)^2$.
+
 
 \begin{figure}[!hbtp]
 \centering
 \includegraphics[width=.7\columnwidth]{spec_spatial_cov.pdf}
-\caption{The read noise is strongly correlated in the spectral direction (diagnoal boxes) and somewhat correlated in the spatial direction (off diagonal region).}\label{fig:covSpeSpatial}
+\caption{The read noise is strongly correlated in the spectral direction (diagnoal boxes) and somewhat correlated in the spatial direction (off diagonal region).}\label{fig:covSpecSpatial}
 \end{figure}
 
 %% See the notebooks wlp8_psf_image.ipynb and noise_sources_wlp8.ipynb for calculations

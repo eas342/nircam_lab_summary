@@ -310,7 +310,11 @@ This is especially true if JWST is used to search for biosignatures in temperatu
 Here, we provide the lessons learned from ground-based characterization of the NIRCam H2RG detectors, which will be used for exoplanet spectra.
 %and are the same type of detectors used in JWST's NIRISS and NIRSpec instruments.
 We summarize the lessons learned from tests at NASA Goddard, NASA Johnson and the University of Arizona detector lab.
-
+Correlated electronic noise (1/f noise) in the detectors can limit the sensitivity of grism time series for a given frame (300 ppm to 1000 ppm depending on the extraction method), but will average down like $\sqrt{N}$ for $N$ frames.
+Care should be taken to include as many frames as possible per visit to reduce this 1/f noise source: thus, we recommend the smallest detector subarray sizes one can tolerate, 4 output channels and readout modes that minimize skipped frames (RAPID or BRIGHT2).
+Pointing jitter and high gain antenna moves on top of the detectors' subpixel crosshatch patterns will produce relatively small variations $\lesssim 10$ ppm, before they are corrected.
+In contrast to the HST WFC3 detectors, persistence due to charge trapping will have a negligible effect on time series.
+Future performance tests during commissioning and the early release science will still be needed to assess the noise floor on stars, which are more stable than the available LED lamps used in lab-based tests.
 \end{abstract}
 
 %% Keywords should appear after the \end{abstract} command. 
@@ -354,7 +358,7 @@ Many of these effects are detector-related including charge trapping on HST's de
 The NIRCam instrument \citep{rieke2005nircamSPIE} contains a slitless grism mode with its long wavelength channel \citep{greene2017jatisNIRCam}.
 This slitless grism mode is analogous to the WFC3 grism on HST that has been successfully employed on many transiting planets \citep[e.g.][]{deming13,kreidberg2014wasp43,sing2016continuum,wakeford2017hatp26}.
 The NIRCam grism mode will collect moderate resolution R$\sim$1100-1700 spectra over the wavelength range from 2.4 to 5.0~$\mu$m.
-This grism mode can be used simultaneously with short wavelength weak lens imaging or the Dispersed Hartmann Sensor mode \citep{schlawin2017dhs}. If it becomes an approved and implemented mode, the DHS will permit spectroscopy simultaneous from 1.0 to 2.0~$\mu$m because of a dichroic beamsplitter that divides the light from NIRCam into two different channels.
+This grism mode can be used simultaneously with short wavelength weak lens imaging or (in future cycles) the Dispersed Hartmann Sensor mode \citep{schlawin2017dhs}. If it becomes an approved and implemented mode, the DHS will permit spectroscopy simultaneous from 1.0 to 2.0~$\mu$m because of a dichroic beamsplitter that divides the light from NIRCam into two different channels.
 The DHS mode will permit time series spectroscopy on very bright targets ($K_S \sim 1$) inaccessible by other modes.
 
 Given the finite lifetime of the JWST mission set by onboard fuel, it is important to understand the systematic errors before launch to maximize the science return of the observatory.
@@ -371,10 +375,10 @@ However, there are many non-ideal effects that can affect the stability of a lig
 Here, we review many of the known noise sources that could impact the stability of a time series beyond photon counting statistics. These known detector effects that can impact stability are listed briefly and then in more detail as related to the JWST NIRCam detectors below that.
 
 \begin{itemize}[noitemsep]
-	\item \textbf{Pre-amp reset offsets:} (an Asic-related effect) 
+	\item \textbf{Pre-amplifier reset offsets:} (an Asic-related effect) 
 The resets cause discontinuities in the pedestal level of all pixels between frames.
 Pre-amp resets can also appear in slope images (DN/second) because NIRCam's amplifiers are reset once per frame (not once per integration).
-This is an effect where averaging over more pixels does not decrease the noise, but reference pixel or background subtraction can.
+This is an effect where averaging over more pixels does not decrease the noise, but reference pixel or background subtraction can efficiently remove the pre-amp offsets.
 These are discussed further in Section \ref{sec:preAmp}.
 	\item \textbf{Amplifier Boundary Discontinuities} The NIRCam detectors can be read out in full frame, stripe and window modes. The full frame and stripe modes make use of 4 amplifiers that can record or reset the accumulated electrons in 4 pixels simultaneously in parallel. The parallel operation of the amplifiers reduces the frame time and reset time by a factor of 4 but can introduce subtle voltage biases between regions of the detector. If these voltage biases are not corrected, they can potentially introduce discontinuities in a spectrum, which crosses amplifier boundaries.
 	\item \textbf{1/f noise:} The JWST HgCdTe readout electronics have a p-type metal-oxide semiconductor field-effect transistor (PFET) source follower that introduces noise to the images as well as DC biases in the ASIC electronics \citep{rauscher2011irsSquared}.
@@ -397,10 +401,10 @@ If necessary, the effect of temperature fluctuations can be calibrated to $\pm 1
 	This temperature change is expected to be smaller in flight due to adjustments in the operations to run all four amplifiers regardless of how many are used to collect science data.
 	\item \textbf{Elevated Columns} There is correlated noise along a column in many frames. These elevated columns can sometimes even move with time.
 	\item \textbf{Random Telegraph Noise (RTN)} Some of the pixels will exhibit spontaneous changes jumps in signal even with no illumination. Fortunately, RTN appears in only $\sim$1000 pixels out of 4$\times 10^6$ on the array.
-	\item \textbf{Detector Fringing} \textbf{\textcolor{red}{Add more details and citations}} The thin $\sim 5\mu$m layers of the H2RG detectors will cause interference patterns on the array due to constructive and destructive interference of light at wavelengths similar to the thickness of the layers. If the detector fringe pattern changes with time, it will change the throughput of a grism image.
+	\item \textbf{Detector Fringing} \textbf{\textcolor{red}{Is there a good citation?}} The thin $\sim 5\mu$m layers of the H2RG detectors will cause interference patterns on the array due to constructive and destructive interference of light at wavelengths similar to the thickness of the layers. If the detector fringe pattern changes with time, it will change the throughput of a grism image.
 	\item \textbf{Charge Trapping} A major correlated error source on HST WFC3 is the ``hook effect'' \citep{berta2012flat_gj1214}.
 	The hook effects is due to charge can be trapped within the detector's depletion region (initially lowering the flux) and then released at later times (increasing the flux) \citep{zhou2017chargeTrap}.
-	JWST's NIRCam instrument has very lower rates of persistence ($<$1 DN/sec) at 100 seconds after saturation, so it is expected that charge trapping will be a minor concern for JWST's HgCdTe detectors.
+	JWST's NIRCam instrument has very lower rates of persistence ($<$1 DN/sec) at 100 seconds after saturation \citep{leisenring2016persistence}, so it is expected that charge trapping will be a minor concern for JWST's HgCdTe detectors.
 \end{itemize}
 
 It should be noted that the detector effects related to the asic circuit can be specific to the ``personality'' of each asic. The asics all have different asic load files which are tuned to minimize the power consumption and dark current in a particular asic. Since the asic load files are specific to each detector, they may exhibit different noise properties.
@@ -417,16 +421,16 @@ One set of darks was collected at Lockheed CV with a reset only once per integra
 In the Lockheed CV test, the pedestal level of all pixels could be seen to drift over 19.3 minute dark integrations by 5 to 100 DN.
 The drift was usually linear over these 19 minute exposures, but in one case was observed to drift downward from 100 DN to -50 DN and back to 100 DN \citep{robberto2014refPixPreAmp}.
 The timescales for pre-amp resets are relevant to exoplanet time series, which have transit durations of $\sim$0.5 to 3 hours for typical targets.
-However, reference pixel subtraction can efficiently remove pre-amp drifts, so with proper data reduction and subarrays that include reference pixels, the pre-amp drifts can be dramatically reduced.
-It is also likely that background subtraction can mitigate the pre-amp reset offsets from time series integrations.
-The NIRCam grism subarrays and dispersed source location are placed at the edge of the NIRCam Long Wavelength detector to ensure reference pixels are saved with active pixels.
+However, reference pixel subtraction or background subtraction can efficiently remove pre-amp drifts, so with proper data reduction, the pre-amp drifts can be effectively eliminated.
+The NIRCam grism subarrays and dispersed source location are placed at the edge of the NIRCam Long Wavelength detector to ensure reference pixels are saved with active pixels, so reference pixels will always be available for the grism.
 
 Figure \ref{fig:ampResetDark} shows an example time series of the reference pixels for a dark exposure.
 The pedestal/bias level of the reference pixels undergoes a sharp jump between each frame (10.7 seconds in duration).
-These pre-amp resets per frame causes discontinuities over every frame within an integration, but there is an upside:
-Over long timescales (10$^3$ seconds), these resets pre-amp resets will keep the bias drifts hovering around zero without any long slopes or drifts.
-This is helpful in keeping the detector counts below the 65,536 DN saturation limit and thus pre-amp resets permit a larger usable well depth over the counts from 0 to 65,536 DN.
-Without pre-amp resets, the counts in a detector could potentially drift towards 65,536 DN and shrinks the usable well depth.
+Fortunately, the pixels within an amplifier move together, so reference pixel subtraction or background subtraction will efficiently remove the offsets.
+%These pre-amp resets per frame causes discontinuities over every frame within an integration, but there is an upside:
+%Over long timescales (10$^3$ seconds), these resets pre-amp resets will keep the bias drifts hovering around zero without any long slopes or drifts.
+%This is helpful in keeping the detector counts below the 65,536 DN saturation limit and thus pre-amp resets permit a larger usable well depth over the counts from 0 to 65,536 DN.
+%Without pre-amp resets, the counts in a detector could potentially drift towards by thousands of DN and shrink the usable well depth.
 
 \begin{figure}[!hbtp]
 \centering
@@ -440,15 +444,16 @@ The long dark exposure example of 108 integrations shows the behavior over long 
 
 NIRCam's STRIPE mode and full frame mode both employ 4 amplifiers to simultaneously read out or reset 4 pixels at once.
 This simultaneous use of 4 amplifiers reduces the frame time by a factor of 4 and thus increases the brightness of objects that can be detected before saturation as well as increase the number of reads up a detector pixel to average down readout noise.
+Users have the option to select the 1 or 4 amplifiers with the ``No. of output channels'' in APT.
 On the flip side, the four amplifiers will have different behaviors such as offsets in the bias level.
 The differential biases between the amplifiers will show up as step function changes in the slope of the image at the amplifier boundaries (512, 1024 and 1536), as visible in Figure \ref{fig:ampOffsetsOtisGrismSlope} (top panel).
-If a spectrum of a source is extracted without any vertical background extraction, the amplifier offsets cause sharp discontinuities in the summed spectrum.
+If a spectrum of a source is extracted without any vertical background extraction or reference pixel correction, the amplifier offsets cause sharp discontinuities in the summed spectrum.
 
-Fortunately, the amplifier offsets are efficiently removed by reference pixels.
-For example, we subtract the median of the 4 reference pixels from each column and this efficiently removes the bias signal from each amplifier shown in Figure \ref{fig:ampOffsetsOtisGrismSlope} (middle panel and bottom panel).
-It should be noted, however, that there are gradients in the bias signal within each amplifier. If we simply subtract the median value of all reference pixels within an amplifier without applying them on a per-column basis, there are still discontinuities in the spectrum.
-In addition to reference pixels, background subtraction along each column removes the amplifier boundary effect.
-If the boundaries somehow proved to be an issue for time series spectra, the WINDOW subarray mode, which uses a single amplifier (at the cost of 4 times the frame time) is an option.
+Fortunately, the amplifier offsets are efficiently removed by reference pixels and background subtraction.
+For example, subtracting the average reference pixel in each amplifier will reduce the offsets between amplifiers, shown in Figure \ref{fig:ampOffsetsOtisGrismSlope}, (second from top panel).
+It should be noted, however, that there are gradients in the bias signal within each amplifier.
+One could subtract the mean reference pixel in each column to reduce these gradients, shown in Figure \ref{fig:ampOffsetsOtisGrismSlope}, (third fro top panel) but given that there are only 4 reference pixels at the bottom of each column, this introduces extra noise in the subtraction.
+Instead, one can use the background region for each column ($\sim$80 pixels) to best remove gradients and the amplifier offsets.
 
 \begin{figure}[!hbtp]
 \centering
@@ -466,7 +471,7 @@ If the boundaries somehow proved to be an issue for time series spectra, the WIN
 \subsection{1/f Noise}
 The readout circuitry for NIRCam and other JWST NIR instruments introduces correlated noise from pixel-to-pixel.
 This is visible when examining the time series of pixels as they are read out within a frame in the order they are addressed.\footnote{See a diagram of the readout directions at \url{https://jwst-docs.stsci.edu/near-infrared-camera/nircam-instrumentation/nircam-detector-overview/nircam-detector-readout}}
-The power spectrum of this pixel-by-pixel time series reveals high power at low frequencies that drops roughly like a 1/f power law in the power spectrum of the time series.
+The power spectrum of this pixel-by-pixel time series reveals high power at low frequencies that drops approximately like a 1/f power law in the power spectrum of the time series.
 Figure \ref{fig:pixelTSeriesPSpec} shows the average Lomb Scargle periodogram from amplifier over 108 dark frames.
 To create the periodogram, the reference pixels are used to remove amplifier offsets between frames.
 Next, the average of all frames is subtracted to remove the bias and all pixels that deviate by more than 80 DN from the average are masked to eliminate bad pixels.
@@ -491,8 +496,8 @@ The amplifier offsets have been removed, but the 1/f noise from these adjacent a
 The 1/f noise can be reduced by subtracting reference pixels and/or active pixels over the aperture of interest.
 As the power spectrum shows, the 1/f noise begins to contribute significantly for frequencies below 1000 Hz (ie. timescales longer than 100 cycles as measured in the 10$\mu$s time to address the pixels).
 Ideally, source apertures would be less than 100 pixels wide so that background subtraction along rows will remove the 1/f noise but this is impossible for grism spectra dispersed along the rows.
-NIRCam has a "GRISMC" grism that will disperse along the column direction but this mode would not work with horizontal stripe subarrays and would therefore saturate on bright targets with $K \lesssim 5.5$.
-The benefits of a horizontal stripe subarray and a faster sampling rate must be weighed against the price of correlated 1/f noise along the spectrum that is not easily subtracted.
+NIRCam has a ``GRISMC" grism that will disperse along the column direction but this mode would not work with horizontal stripe subarrays and would therefore saturate on bright targets with $K \lesssim 5.5$.
+For this reason, the ``GRISMC'' is not currently available for time series observations.
 
 \subsection{Fringing}
 
@@ -506,8 +511,9 @@ The background is subtracted with a 2nd order polynomial fit and the flux is ext
 The spectrum is normalized by a 3rd order spline fit with 400 knots to remove the broad shape of the spectrum and the throughput curves.
 The resulting spectrum shows high frequency ($\sim$0.2 px$^{-1}$ to $\sim$0.5 px$^{-1}$) variations far in excess of the photon and read noise.
 These oscillations increase in frequency at longer wavelengths (X pixels).
-The variations have peak-to-valley amplitudes of about 10\%.
-However, we expect that the fringing structure will hold relatively constant during time so long as the pointing is stable at the sub-pixel level.
+The variations have peak-to-valley amplitudes of about 8\%.
+However, we expect that the fringing structure will hold relatively constant during time due to the temperature stability of the instrument.
+
 
 \begin{figure}[!hbtp]
 \centering
@@ -532,10 +538,9 @@ HgCdTe detectors are manufactured using molecular beam epitaxy upon a substrate,
 The surface morphology of the HgCdTe crystal shows that the crosshatch patterns are are oriented along the intersection of the (211) growth plane of the crystal and the 8 HgCdTe slip planes.
 
 The relative angles of the HgCdTe slip planes and (211) growth plane are 44.42$\degree$, 67.79$\degree$ and 67.79$\degree$ \citep{chang2008surfaceMorphologyHgCdTe}, very close to the observed crosshatch angles.
-One possible projection of a zincblende structure is shown in Figure \ref{fig:crossHatchA5}.
-In this perspective, the projected bond angles are 44.4$\degree$, 67.8$\degree$ and 67.8$\degree$.
-These surface topological variations with crosshatch patterns are likely related to the observed patterns in the flat fields, which appear as quantum efficiency variations.
-We deduce that the crosshatch pattern is mostly likely related to the crystal lattice structure of the HgCdTe substrate and not the pixel circuitry.
+A projection of zincblende structure is shown in Figure \ref{fig:crossHatchA5} relative to the observed crosshatch patterns.
+The similarity between the crosshatch patterns in the flat field and the topological variations observed in \citet{chang2008surfaceMorphologyHgCdTe} leads to the likely conclusion that the surface variations lead to quantum efficiency variations.
+Thus, the crosshatch pattern is mostly likely related to the crystal lattice structure of the HgCdTe substrate and not the pixel circuitry.
 
 The crosshatch structure of the detectors extends down to the subpixel level, so it will not be fully corrected with a flat field division.
 This sub-pixel structure has been imaged with microscopy on a Euclid HgCdTe detector \citep{shapiro2018crosshatch}.
@@ -559,7 +564,7 @@ The A5 detector's flat field has a pronounced crosshatch pattern at 23.1$\degree
 The crosshatch pattern is visible in a zoom-in of the pixel flat field (top left).
 The 2D power spectrum of the flat field (top right) shows a continuum of frequencies aligned with the three crosshatch angles.
 Note the lines in frequency plane are perpendicular to the crosshatch directions in the image plane.
-These three relative crosshatch angles (67.8$\degree$, 67.7$\degree$ and 44.5$\degree$) are similar to a projection of a tetrahedral (zincblende) lattice structure of HgCdTe (bottom, 67.8$\degree$, 67.8$\degree$, 44.4$\degree$) onto the [211] miller plane.
+These three relative crosshatch angles (67.8$\degree$, 67.7$\degree$ and 44.5$\degree$) are similar to a projection of a tetrahedral (zincblende) lattice structure of HgCdTe (bottom, 67.8$\degree$, 67.8$\degree$, 44.4$\degree$).
 }\label{fig:crossHatchA5}
 \end{figure}
 
@@ -583,7 +588,7 @@ The shorter wavelengths have deeper crosshatch troughs (left) and higher Fourier
 We model the crosshatch pattern in the Fourier space because it has a smoother pattern as a function of spatial frequency than in spatial coordinates as seen in Figure \ref{fig:crossHatchA5}.
 We divide the 2D Fourier power spectral density by the number of pixels in an input image.
 This was experimentally determined to give a power spectral density that does not change with the dimensions of the input image.
-\textcolor{red}{Can we justify this more?}
+\textcolor{red}{Can we justify this more? I thought it would be pixels$^2$}
 
 We model the two dimensional Fourier power spectral density $f(k_{x,i}',k_{y,i}')$ for one angle $\theta_i$ as
 \begin{equation}\label{eq:analyticPSDradial}
@@ -610,6 +615,7 @@ We only fit the region of the power spectral density above frequencies of 0.05 p
 
 For the F300M filter and ALONG detector, we find 
 for $\theta_1 = 0.906 \pm 0.001 \degree, \theta_2 = 68.605 \pm 0.001 \degree, \theta_3 = 113.075 \pm 0.001, a_1 = 2.774 \pm 0.002 \times 10^{-7}, a_2 = 1.569 \pm 0.002 \times 10^{-7}, a_3 = 1.744 \pm 0.002 \times 10^{-7}, b=0.345 \pm 0.0005 $ px$^{-1}$, $c=2.05 \pm 0.07 \times 10^{-2}$ px$^{-1}$, $d=6.78 \pm 0.01 10^{-3}$ and $e_b=0.26 \pm 0.01$ px$^{-1}$.
+In other words, the separations between the vectors are $67.699 \degree, 67.831 \degree$, and $44.470 \degree$.
 The uncertainties were simply derived from the diagonals of the covariance matrix and likely are underestimated.
 
 NIRCam's 10 SCA's have very similar crosshatch angles with separations of 44.5 $\degree$ and 67.7 to 67.8 $\degree$.
@@ -623,7 +629,7 @@ Figure \ref{fig:crosshatchModelGallery} shows the best-fit crosshatch 2D power s
 \includegraphics[width=.99\columnwidth]{psd_models_gallery.pdf}
 \caption{
 Best-fit power spectra of all the NIRCam detectors show that the long wavelength detectors A5 and B5 show the most pronounced crosshatch patterns.
-The primary crosshatch tends to be aligned closely, but no exactly, with either the X or Y axis.
+The primary crosshatch tends to be aligned closely, but not exactly, with either the X or Y axis.
 The images have all been normalized to the same scale to show the relative crosshatch amplitudes of different detectors.
 }\label{fig:crosshatchModelGallery}
 \end{figure}
@@ -648,6 +654,7 @@ The field point used for the SUBGRISM64 mode is expected to be the same one as w
 The position at the top of the ALONG detector has the smallest amplitude of crosshatch pattern in all three directions.
 The best-fit amplitudes are used as input to the jitter simulations in Section \ref{sec:CrosshatchSim}.
 We find that the maximum flux change for a 0.1 pixel shift is 118 ppm for the nominal grism position, 108 ppm for the top of the array and 153 ppm at the full frame grism position.
+\textcolor{red}{\textbf{Update this for latest full frame grism field point}}
 
 \begin{figure}[!hbtp]
 \centering
@@ -676,7 +683,7 @@ We simulate the effect of this jitter on NIRCam time series observations with th
 	\item Extrapolate the crosshatch model to higher frequencies (30 px$^{-1}$) to estimate the sub-pixel structure
 	\item Simulate an over-sampled PSF using \texttt{webbpsf} \citep{perrin2014webbpsf}
 	\item Multiply the PSF by the simulated flat field
-	\item Scan the PSF along the X and Y directions up to a magnitude of 6 mas
+	\item Shift the PSF along the X and Y directions up to a magnitude of 6 mas
 	\item Bin the simulated images into the native pixel size
 	\item Divide by the pixel-to-pixel flat field
 	\item Measure the relative flux with a photometric aperture
@@ -738,7 +745,7 @@ These are correctable with smooth functions such as polynomials.
 \end{figure}
 
 The subpixel crosshatch structure does indeed create flux variations with image motion as shown in Figure \ref{fig:subpixScanSimulation}.
-The amplitude of the flux changes is potentially up to 300 ppm.
+The amplitude of the flux changes is potentially up to 150 ppm.
 This is significant when compared to atmospheric features of giant planets ($\lesssim$ 100 ppm) or the transit depth of an Earth-like planet transiting a sun-like star ($\lesssim$ 80 ppm).
 
 Fortunately, the subpixel crosshatch systematic is a smooth function of pointing drift, shown in Figure \ref{fig:subpixScanSimulation}.
@@ -1448,7 +1455,6 @@ These are dramatically reduced when cross-correlating and finding the peak to ad
 We attempt to use the centroids form the SW imaging as input for a broadband grism aperture.
 This potentially provides a way to input centroid information without cross-correlating a spectrum.
 However, the SW centroids add more noise to the photometry as seen in Figure \ref{fig:otisLWSWtserShift}.
-\textcolor{red}{\bf Did I properly multiply shifts by -0.5?}
 
 \begin{figure*}
 %\gridline{\fig{tser_LW_OTIS.pdf}{0.99\textwidth}{WLP8 Image} }

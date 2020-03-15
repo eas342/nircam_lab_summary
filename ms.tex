@@ -832,8 +832,8 @@ Examples are shown for RTN and RC pixels.
 \section{Ground-based Experiments}\label{sec:experiments}
 
 Table \ref{tab:testSummary} contains a summary of the ground-based tests that were performed on NIRCam detectors.
-The flight NIRCam detectors, controllers, electronics, optics and instrument hardware were used in the Cryogenic Vacuum 3 (CV3) Test 3 as well as OTIS (Optical Telescope Element and Integrated Science).
-There are also dewars at the Steward Observatory at the University of Arizona used for time series stability tests.
+The flight NIRCam detectors, controllers, electronics, optics and instrument hardware were used in the Cryogenic Vacuum Test 3 (CV3) as well as OTIS (Optical Telescope Element and Integrated Science).
+We also used dewars at the Steward Observatory at the University of Arizona used for time series stability tests.
 The GL dewar experiments used flight-like detectors, but a different controller (Leach).
 The Asic dewar located at Steward Observatory in Tucson, Arizona used the same kind of detectors as NIRCam, the same kind of asic controllers and the same flight software, but no flight-like optics.
 These two different kinds of detector electronics can be compared against each other to help isolate optical-related systematics, detector-related systematics and electronics-related systematics.
@@ -846,7 +846,7 @@ The weak lens produces a point spread function (PSF) that is hexagonal like JWST
 The hexagonal PSF also has a central vertical peak which can be used for aperture centering.
 The tests with the GL and ASIC dewars did not have NIRCam optics and instead were flood illuminated with a light source that had large spatial variations due to a non-uniform source.
  
-\begin{deluxetable*}{ccCrlcc}[b!]
+\begin{deluxetable*}{ccCrlccc}[b!]
 \tablecaption{Summary of Ground-Based Tests}\label{tab:testSummary}
 \tabletypesize{\footnotesize}
 %\tablecolumns{7}
@@ -859,11 +859,13 @@ The tests with the GL and ASIC dewars did not have NIRCam optics and instead wer
 \colhead{Best Stability} & 
 \colhead{Light Source} & 
 \colhead{Instrument Mode} &
-\colhead{Flight Hardware?} \\
+\colhead{Flight Hardware?}&
+\colhead{Controller} \\
 \colhead{} &
 \colhead{} &
 \colhead{(YYYY)} &
 \colhead{(ppm)} &
+\colhead{} &
 \colhead{} &
 \colhead{} &
 \colhead{}
@@ -871,11 +873,12 @@ The tests with the GL and ASIC dewars did not have NIRCam optics and instead wer
 \startdata
 %Lockheed CV& Lockheed Martin& 2014??    & \nodata   & Darks         & Long Darks & \nodata \\ 
 %Reset per int test & Lockheed Martin& 2014??    & \nodata   & Darks         & Long Darks & Y \\ 
-CV 3       & NASA Goddard  & 2016       & 500   	& LED           & WLP8 imaging & Y\\
-OTIS       & NASA Johnson  & 2017       &   2200    	& Continuum     & Grism spectroscopy & Y\\
-OTIS       & NASA Johnson  & 2017       &   21,000    	& Continuum     & WLP8 Imaging & Y \\
-GL dewar   & Steward Obs.  & 2015-2016  &       	& LED	        & flood-illuminated imaging & N \\
-Asic dewar & Steward Obs.  & 2017-2019  &       	& LED           & pinhole \& flood-illuminated imaging & N\\
+CV 3       & NASA Goddard  & 2016       & 500   	& LED           & WLP8 imaging & Y & Asic \\
+OTIS       & NASA Johnson  & 2017       &      	& Continuum     & Darks & Y & Asic\\
+OTIS       & NASA Johnson  & 2017       &   2200    	& Continuum     & Grism spectroscopy & Y & Asic\\
+OTIS       & NASA Johnson  & 2017       &   21,000    	& Continuum     & WLP8 Imaging & Y & Asic\\
+GL dewar   & U of Arizona  & 2015-2016  &       	& LED	        & flood-illuminated imaging & N & Leach\\
+Asic dewar & U of Arizona  & 2017-2019  &       	& LED           & flood-illuminated imaging & N & Asic\\
 \enddata
 \tablecomments{Cryogenic vacuum (CV), Optical Telescope element and Integrated Science (OTIS).}
 \end{deluxetable*}
@@ -885,7 +888,7 @@ Asic dewar & Steward Obs.  & 2017-2019  &       	& LED           & pinhole \& fl
 
 It is instructive to look at dark frames to isolate the contributions of the read-out electronics, including the side-car asic, and how much they contribute to the error budget.
 The dark frames do not have issues with the photometric stability of illumination lamps, which is a persistent challenge with ground-based tests.
-They also do not contain photon noise in the background, which can mask the electronic noise sources.
+They also do not contain photon noise in the background, which can make electronic noise sources harder to see.
 We study here the contributions from read noise, 1/f noise and dark current.
 This experiment with dark frames does not test subtle changes in behavior of the electronic read noise under illumination, such as cross-talk where pixels that have no direct flux from a source in an image correlate with other regions of the detector with high flux rates.
 
@@ -907,7 +910,7 @@ There are an additional 4 columns on the left and right side boundaries (8176 pi
 However, the 1/f noise that correlates along the fast-read (X) direction is more difficult to remove with reference pixels.
 Only 4 pixels on the left and 4 pixels on the right side may be used to subtract the 1/f noise in a given row and the 4 amplifiers can exhibit different 1/f noise. 
 Therefore, significantly residuals remain along the fast-read (X) direction in the reference-corrected read pair shown in Figure \ref{fig:longDarkPhot}.
-These side reference pixels also cannot give any information about the read noise correlations that happen on shorter length scales than 512 pixels (5 ms).
+These side reference pixels also cannot correct for read noise correlations that happen on shorter length scales than 512 pixels (5 ms).
 
 \begin{figure*}[!hbtp]
 \centering
@@ -935,7 +938,7 @@ For a read pair subtraction, the ``CDS'' (correlated double sample) read noise i
 If we assume each pixel's read noise is uncorrelated with its neighbors, the total noise within the source aperture is then $\sqrt{N_{px}} \times RN $ where $N_{px}$ is the number of pixels and $RN$ is the read noise of a single pixel.
 If we also assume that the background pixels are uncorrelated with each other and the source pixels, then the total noise in background-subtracted photometry is 1310 DN.
 
-This theoretical read noise should be compared to the photon noise expected inside an aperture during photometric stability time series applications.
+This theoretical read noise is smaller than the photon noise expected inside an aperture during photometric stability time series applications.
 The number of DN collected within a 70 pixel radius aperture for WLP8 data in our CV3 detector stability test with 2 groups in RAPID (ie a correlated double sample) was $S_{tot}=3.9\times 10^7$ DN during the integration.
 The peak pixel counts in this integration were 30,000 DN or about 60\% well depth for the A1 detector.
 The Poisson shot noise for photons is $N_{phot} = \sqrt{S_{tot}} / \sqrt{G} = 4,400$ DN, where $G$ is the gain ($G \approx 2.0$ for the SW detectors).
@@ -1333,6 +1336,18 @@ The WLP8SUB showed smaller standard deviation that the full frame tests, when th
 \end{figure}
 
 \subsection{Lessons Learned from CV3 Tests}\label{sec:CV3Lessons}
+
+\begin{figure*}
+\gridline{\fig{ES-WLP8SUB_pipeline_parameters.pdf}{0.39\textwidth}{WLP8 Time Series}
+\fig{{ES-FULL4_pipeline_parameters.pdf}}{0.39\textwidth}{FULL4 Time Series}}
+\caption{Flat fielding, linearity corrections and intrapixel capacitance corrections have a relatively small impact on the time series precisions measured during the CV3 test.
+Each table lists the measured noise (in ppm) when we turn on/off IPC correction (vertical direction), flat fielding (horizontal direction) and the linearity correction (diagonal direction).
+The IPC and flat fielding corrections are negligible.
+Above 50\% well depth, the HgCdTe detectors become less sensitive to photons, so applying the linearity correction naturally increases the apparent noise.
+}\label{fig:CV3pipeParamsWLP8}
+\end{figure*}
+
+
 Although the light curves from the CV3 stability tests were not able to achieve photon-limited performance to study the precision of transit and eclipse spectroscopy, there were some lessons learned from this data.
 We were able to determine the best practices for the pipeline and analysis by running the raw data through the pipeline and changing the steps to produce light curve.
 We experimented with the methodology for turning raw detector reads up the ramp into count rates on the detector, the intrapixel capacitance (IPC) correction, flat fielding, reference pixel correction and detector non-linearity.

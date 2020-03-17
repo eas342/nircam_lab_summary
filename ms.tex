@@ -1280,7 +1280,7 @@ The ISIM has all the instruments with their internal optics and detectors but no
 The OSIM simulates the PSF expected when a star or other point source illuminates the JWST instruments.
 While other tests described in this work illuminated the science instrument detectors in different ways, the point spread function most closely resembled the JWST flight point spread function.
 
-CV3 included a series of exposures over nearly 24 hours with an LED lamp in imaging mode to test the fundamental photometric performance.
+CV3 included a series of exposures about 16 hours with an LED lamp in imaging mode to test the fundamental photometric performance.
 The LED was a narrowband source at 1.55 $\mu$m, which was used in imaging mode since this would result in a narrow-lined spectrum.
 While the spectroscopic modes are expected to be the most scientifically interesting modes for studying exoplanet atmospheres, the broadband lamps needed to produce a spectrum tend to be less stable than LEDs.
 Therefore, the test was designed with an LED with the hope of measuring the precision possible with the NIRCam optics and detector.
@@ -1290,7 +1290,10 @@ This is also accomplished by ground-based observatories by either de-focusing th
 By spreading the light source over many pixels, the light curve becomes less sensitive to flat fielding or intra-pixel sensitivity errors with telescope pointing jitter or seeing variations during an observation.
 Similarly, NIRCam can employ a weak lens to defocus a star's light.
 Figure \ref{fig:WLP8PSF} show the PSF of the +8 wave defocused images during the CV3 stability tests.
-The hexagonal PSF is summed with circular aperture with a radius of 70 pixels.
+
+We applied the ramps-to-slopes pipeline \texttt{nchdas} to do reference pixel correction, apply a bad pixel mask and calculate slopes or differences of the reads.
+The reference pixel correction uses the top/bottom pixels to remove pre-amp resets and side reference pixels to reduce the 1/f noise.
+The hexagonal PSF is summed with circular aperture with a radius of 70 pixels and a background annulus spanning from 75 to 100 pixels using the \texttt{photutils} package \citep{bradley2016photutilsv0p3}.
 The central peak may used to find a centroid of the star and center the circular aperture.
 
 \begin{figure}[!hbtp]
@@ -1306,17 +1309,25 @@ A time series of all possible modes is shown in Figure \ref{fig:CV3longTser}.
 The full frame modes (FULL1 through FULLQ) used 2 samples of the ramp for integration times of 21.5 seconds whereas the subarrays were tuned to have a similar integration time (21.3 sec for 20 Groups of a 320$\times$320 subarray and 25.1 seconds for 6 groups of a 640$\times$640 subarray).
 This ensured that during these 4 different types of subarray/full frame window sizes, the well depths achieved were similar.
 
-It is apparent from Figure \ref{fig:CV3longTser} that the WLP8SUB test with a 320$\times$320 subarray and 20 groups of the ramp has smaller scatter than the FULL1 through FULLQ tests.
+It is apparent from Figure \ref{fig:CV3longTser} that the WLP8SUB test with a 320$\times$320 subarray and 20 groups of the ramp has smaller scatter on short timescales than the FULL1 through FULLQ tests.
 After removing a linear fit to the time series (to account for long term trends in the lamp), the standard deviation of the WLP8SUB data is 500 ppm whereas the FULL tests range from 1020 to 1540 ppm.
 For the FULL 2048$\times$2048 pixel integrations with 2 groups up the ramp, the count rate of photons is calculated in each pixel by subtracting the two groups (ie two reads for this RAPID mode) from each other and dividing by the group time (time between these two reads for this RAPID mode).
 For the WLP8SUB mode, a linear least squares fit is performed to the groups as a function of time and the slope of this line is the count rate on a pixel.
 The large number of groups used to fit this line ensures that the read noise is reduced by $\sim 1/\sqrt{N_G}$, where $N_G$ is the number of groups.
 
-There are two explanations for why the WLP8SUB mode shows less scatter than the FULL modes, 
+We consider two explanations for why the WLP8SUB mode shows less scatter than the FULL modes, 
 \begin{enumerate}[noitemsep]
 	\item The reduction of read noise improves the stability of the signal and\label{item:readNReasonCV3subFull}
-	\item That the lamp is variable on short time scales of a frame (10.74 seconds).\label{item:lampReasonCV3subFull}
+	\item That the lamp is variable on short time scales of a frame (10.74 seconds) and sampling.\label{item:lampReasonCV3subFull}
 \end{enumerate}
+As listed in Table \ref{tab:noiseSummary1overf}, the theoretical uncorrelated noise for double-correlated samples (CDS) is about 33 ppm.
+However, the dark frame tests in Section \ref{sec:longDarks} show that 1/f noise significantly increases this value.
+When reference pixel corrections are applied to the data and a 70 pixel source radius is used, the measured CDS read noise from the dark test is 280 ppm.
+Since the full frame imaging had 2 samples (2 groups in RAPID mode), the read noise should be 280 ppm.
+The WLP8SUB integrations had 20 groups, so the measured read noise should be 280 ppm $\sqrt{2/20}$ or 89 ppm.
+So, read noise differences can account for 200 ppm differences between the two modes.
+\textcolor{red}{\bf Continue HERE!}
+
 The read noise of a pixel is $RN_1 \approx$ 15 e$^-$ for the short wavelength arrays\footnote{https://jwst-docs.stsci.edu/display/JTI/NIRCam+Detector+Performance} in this test.
 If this is uncorrelated across the 70 pixel aperture source radius, the read noise from two groups  (correlated double sampling) on the total aperture is $RN_{tot} = \sqrt{N_{s,px}} RN_{CDS} = \sqrt{\pi} r_{s,px} RN_{CDS}$ = 124 * 15 e$^-$ = 1861 e$^- \approx 930 $DN.
 This amounts to 25 ppm, which is a small compared to the photon noise (113 ppm).
@@ -1346,7 +1357,6 @@ The IPC and flat fielding corrections are negligible.
 Above 50\% well depth, the HgCdTe detectors become less sensitive to photons, so applying the linearity correction naturally increases the apparent noise.
 }\label{fig:CV3pipeParamsWLP8}
 \end{figure*}
-
 
 Although the light curves from the CV3 stability tests were not able to achieve photon-limited performance to study the precision of transit and eclipse spectroscopy, there were some lessons learned from this data.
 We were able to determine the best practices for the pipeline and analysis by running the raw data through the pipeline and changing the steps to produce light curve.

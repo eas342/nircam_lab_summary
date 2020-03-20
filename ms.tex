@@ -952,7 +952,7 @@ This read noise would be $\sim$5$\times$ the $\sim$113 ppm photon noise.
 Fortunately, there are ways to significantly reduce the 1/f noise.
 
 \begin{deluxetable*}{c|cc|cc}[b!]
-\tablecaption{Summary of Noise Sources in OTIS Dark Test}\label{tab:noiseSummary1overf}
+\tablecaption{Summary of Noise Sources in OTIS Dark Test}
 \tabletypesize{\footnotesize}
 %\tablecolumns{7}
 %\tablenum{2}
@@ -990,6 +990,7 @@ Measured Read Noise (profile-weighted summation)	& & & 1,310 & 355 \\
 The ppm units are assuming a peak 60\% well depth or 3.9$\times 10^7$ DN during an integration for the weak lens PSF and 3.7$\times 10^6$ DN during and integration for the grism PSF.
 The noise is reported for the the aperture/spectral extraction (in DN) or relative to the photon signal (in ppm).
 The integration is assumed to be a bright source with 2 groups of 1 integration each up the ramp (Correlated Double Sampling or CDS mode).}
+\label{tab:noiseSummary1overf}
 \end{deluxetable*}
 
 These large correlations in read noise can be reduced with the side reference pixels, which are designed to track electronic noise without the presence of background photon noise.
@@ -1322,18 +1323,19 @@ We consider two explanations for why the WLP8SUB mode shows less scatter than th
 \end{enumerate}
 As listed in Table \ref{tab:noiseSummary1overf}, the theoretical uncorrelated noise for double-correlated samples (CDS) is about 33 ppm.
 However, the dark frame tests in Section \ref{sec:longDarks} show that 1/f noise significantly increases this value.
-When reference pixel corrections are applied to the data and a 70 pixel source radius is used, the measured CDS read noise from the dark test is 280 ppm.
-Since the full frame imaging had 2 samples (2 groups in RAPID mode), the read noise should be 280 ppm.
+When reference pixel corrections are applied to the data and a 70 pixel source radius is used, the measured CDS read noise from the dark test is 280 ppm for the long wavelength detector.
+Due to the source lamp setup, we average the flux from detector A1 and B4, which lowers the read noise by $\sqrt{2}$  to 200 ppm.
+As a check, we perform aperture photometry on an un-illuminated regions of the time series stability tests.
+We find a standard deviation of 172 ppm, due to slight differences in the read noise between detectors and the illumination.
+So, the measured standard deviation of ~1000 ppm during the full-frame tests is due largely to lamp variations.
+
 The WLP8SUB integrations had 20 groups, so the measured read noise should be 280 ppm $\sqrt{2/20}$ or 89 ppm.
-So, read noise differences can account for 200 ppm differences between the two modes.
+There is no region of the 320$\times$320 subarray that is as big as the source aperture and illuminated to empirical test this estimate.
+The difference of  83 ppm between the measured full frame read noise and the calculated subarray is not enough to explain the full difference in precision between the two tests.
+
 \textcolor{red}{\bf Continue HERE!}
 
-The read noise of a pixel is $RN_1 \approx$ 15 e$^-$ for the short wavelength arrays\footnote{https://jwst-docs.stsci.edu/display/JTI/NIRCam+Detector+Performance} in this test.
-If this is uncorrelated across the 70 pixel aperture source radius, the read noise from two groups  (correlated double sampling) on the total aperture is $RN_{tot} = \sqrt{N_{s,px}} RN_{CDS} = \sqrt{\pi} r_{s,px} RN_{CDS}$ = 124 * 15 e$^-$ = 1861 e$^- \approx 930 $DN.
-This amounts to 25 ppm, which is a small compared to the photon noise (113 ppm).
-Furthermore, the read noise for 20 groups is $RN_{20} \approx 6e^-$ would ammount to a 10 ppm, so a difference from the CDS readout of only 15 ppm. {\textbf{\textcolor{red}{(Note, here I have used the effective read noise for 90 groups on JDox, but should corrected to 20 groups)}}}
-This is dramatically smaller than the observed difference in standard deviation (500 ppm in subarray with 20 groups and 1020-1540 ppm in full frame in 2 groups).
-However, if there are correlated components to the read noise in this large aperture, the read noise could be higher.
+This is smaller than the observed difference in standard deviation (500 ppm in subarray with 20 groups and 1020-1540 ppm in full frame in 2 groups).
 
 Under scenario \ref{item:lampReasonCV3subFull}, the short timescale variations of efficiently averaged out by sampling the reads multiple times up the ramp.
 

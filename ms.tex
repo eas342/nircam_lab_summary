@@ -1279,7 +1279,10 @@ For the grism aperture
 During the Cyrogenic Vacuum Test 3, the Integrated Science Instrument Module (ISIM) was placed in a vacuum chamber with the Optical telescope element simulator (OSIM).
 The ISIM has all the instruments with their internal optics and detectors but no telescope mirrors.
 The OSIM simulates the PSF expected when a star or other point source illuminates the JWST instruments.
-While other tests described in this work illuminated the science instrument detectors in different ways, the point spread function most closely resembled the JWST flight point spread function.
+The point spread functions from CV3 most closely resembled the JWST flight point spread function and WLP8 defocused image of all ground based tests discussed in this work.
+Although the light curves from the CV3 stability tests were not able to achieve photon-limited performance to study the precision of transit and eclipse spectroscopy, there were some lessons learned from this data.
+
+\subsubsection{Comparison of Subarray and Full Frame Stability Tests}
 
 CV3 included a series of exposures about 16 hours with an LED lamp in imaging mode to test the fundamental photometric performance.
 The LED was a narrowband source at 1.55 $\mu$m, which was used in imaging mode since this would result in a narrow-lined spectrum.
@@ -1289,7 +1292,7 @@ Therefore, the test was designed with an LED with the hope of measuring the prec
 As with the spatial scanning mode on HST \citep[e.g.][]{mccullough2012spatialScan,deming13}, spreading the light of a source over many pixels can improve the precision of spectroscopy.
 This is also accomplished by ground-based observatories by either de-focusing the telescope \citep{southworth2009defocusing} or by employing a beam-shaping diffuser \citep{stefansson2017diffusers}.
 By spreading the light source over many pixels, the light curve becomes less sensitive to flat fielding or intra-pixel sensitivity errors with telescope pointing jitter or seeing variations during an observation.
-Similarly, NIRCam can employ a weak lens to defocus a star's light.
+Similarly, NIRCam time series observations can employ a weak lens to defocus a star's light.
 Figure \ref{fig:WLP8PSF} show the PSF of the +8 wave defocused images during the CV3 stability tests.
 
 We applied the ramps-to-slopes pipeline \texttt{nchdas} to do reference pixel correction, apply a bad pixel mask and calculate slopes or differences of the reads.
@@ -1305,48 +1308,30 @@ The central peak is used for centroiding, while the entire PSF is used for apert
 A 70 pixel radius aperture (shown here is a black circle) is used for the source aperture.}\label{fig:WLP8PSF}
 \end{figure}
 
+The LED lamp was coupled to optical fibers to illuminate two separate detectors simultaneously with the intention of having two independent measurements to compare.
+Unfortunately, the coupling mechanism into the fibers is sensitive to the lamp position, so the flux from the two detectors is highly anti-correlated, as shown in Figure \ref{fig:CV3longTserAB}.
+To better remove this fiber coupling effect, we average the flux from the two detectors for the rest of this discussion.
+This reduces the standard deviation of the time series to 500-1500 ppm.
+
 \begin{figure}[!hbtp]
 \centering
-\includegraphics[width=.69\columnwidth]{plot_mmm_showTemperatures_False_AB_sides.pdf}
-\caption{Time Series plot through the CV3 photometric stability campaign for the A1 and B4 detectors.
-The flux on the two detectors is highly anti-correlated so the flux is averaged between them for future analyses.
-The anti-correlation likely arises due to the lamp source motion that preferentially couples with one fiber and then the other.
-}\label{fig:CV3longTserAB}
+\includegraphics[width=.39\columnwidth]{cv3_A_vs_B_all.pdf}
+\caption{The light from an LED lamp is split into two optical fibers, which are highly anti-correlated likely because vibrations move the lamp relative to the fibers to couple one fiber better than the other.
+Here, the time series fit to a second order polynomial in time to remove long term trends and then the aperture flux for two detectors' fluxes are plotted against each other.
+For the discussion of CV3 tests forward, we average the two detectors (A1 and B4) to reduce this effect.}\label{fig:CV3longTserAB}
 \end{figure}
 
 A series of detector stability tests was performed using this +8 wave weak lens and 1.55 $\mu$m LED in a few different modes.
 A time series of all possible modes is shown in Figure \ref{fig:CV3longTser}.
-The full frame modes (FULL1 through FULLQ) used 2 samples of the ramp for integration times of 21.5 seconds whereas the subarrays were tuned to have a similar integration time (21.3 sec for 20 Groups of a 320$\times$320 subarray and 25.1 seconds for 6 groups of a 640$\times$640 subarray).
+The full frame modes (FULL1 through FULL6) used 2 samples of the ramp for integration times of 21.5 seconds whereas the subarrays were tuned to have a similar integration time (21.3 sec for 20 Groups of a 320$\times$320 subarray and 25.1 seconds for 6 groups of a 640$\times$640 subarray).
 This ensured that during these 4 different types of subarray/full frame window sizes, the well depths achieved were similar.
 
-It is apparent from Figure \ref{fig:CV3longTser} that the WLP8SUB test with a 320$\times$320 subarray and 20 groups of the ramp has smaller scatter on short timescales than the FULL1 through FULLQ tests.
+It is apparent from Figure \ref{fig:CV3longTser} that the WLP8SUB test with a 320$\times$320 subarray and 20 groups of the ramp has smaller scatter on short timescales than the FULL1 through FULL6 tests.
 After removing a linear fit to the time series (to account for long term trends in the lamp), the standard deviation of the WLP8SUB data is 500 ppm whereas the FULL tests range from 1020 to 1540 ppm.
 For the FULL 2048$\times$2048 pixel integrations with 2 groups up the ramp, the count rate of photons is calculated in each pixel by subtracting the two groups (ie two reads for this RAPID mode) from each other and dividing by the group time (time between these two reads for this RAPID mode).
 For the WLP8SUB mode, a linear least squares fit is performed to the groups as a function of time and the slope of this line is the count rate on a pixel.
-The large number of groups used to fit this line ensures that the read noise is reduced by $\sim 1/\sqrt{N_G}$, where $N_G$ is the number of groups.
+The large number of groups used to fit this line ensures that the read noise is reduced as compared to the FULL 2 group tests by $2/\sqrt{N_G}$, where $N_G$ is the number of groups.
 
-We consider two explanations for why the WLP8SUB mode shows less scatter than the FULL modes, 
-\begin{enumerate}[noitemsep]
-	\item The reduction of read noise improves the stability of the signal and\label{item:readNReasonCV3subFull}
-	\item That the lamp is variable on short time scales of a frame (10.74 seconds) and sampling.\label{item:lampReasonCV3subFull}
-\end{enumerate}
-As listed in Table \ref{tab:noiseSummary1overf}, the theoretical uncorrelated noise for double-correlated samples (CDS) is about 33 ppm.
-However, the dark frame tests in Section \ref{sec:longDarks} show that 1/f noise significantly increases this value.
-When reference pixel corrections are applied to the data and a 70 pixel source radius is used, the measured CDS read noise from the dark test is 280 ppm for the long wavelength detector.
-Due to the source lamp setup, we average the flux from detector A1 and B4, which lowers the read noise by $\sqrt{2}$  to 200 ppm.
-As a check, we perform aperture photometry on an un-illuminated regions of the time series stability tests.
-We find a standard deviation of 172 ppm, due to slight differences in the read noise between detectors and the illumination.
-So, the measured standard deviation of ~1000 ppm during the full-frame tests is due largely to lamp variations.
-
-The WLP8SUB integrations had 20 groups, so the measured read noise should be 280 ppm $\sqrt{2/20}$ or 89 ppm.
-There is no region of the 320$\times$320 subarray that is as big as the source aperture and illuminated to empirical test this estimate.
-The difference of  83 ppm between the measured full frame read noise and the calculated subarray is not enough to explain the full difference in precision between the two tests.
-
-\textcolor{red}{\bf Continue HERE!}
-
-This is smaller than the observed difference in standard deviation (500 ppm in subarray with 20 groups and 1020-1540 ppm in full frame in 2 groups).
-
-Under scenario \ref{item:lampReasonCV3subFull}, the short timescale variations of efficiently averaged out by sampling the reads multiple times up the ramp.
 
 \begin{figure}[!hbtp]
 \centering
@@ -1357,10 +1342,29 @@ All test shown above were using the Weak Lens +8 mode, with a PSF as shown in Fi
 The WLP8SUB showed smaller standard deviation that the full frame tests, when the linear trend is removed.}\label{fig:CV3longTser}
 \end{figure}
 
-\subsection{Lessons Learned from CV3 Tests}\label{sec:CV3Lessons}
+We consider two explanations for why the WLP8SUB mode shows less scatter than the FULL modes, 
+\begin{enumerate}[noitemsep]
+	\item The reduction of read noise improves the stability of the signal and\label{item:readNReasonCV3subFull}
+	\item That the lamp is variable on short time scales of a frame (10.74 seconds) and sampling.\label{item:lampReasonCV3subFull}
+\end{enumerate}
+As listed in Table \ref{tab:noiseSummary1overf}, the theoretical uncorrelated read noise for double-correlated samples (CDS) is about 33 ppm.
+However, the dark frame tests in Section \ref{sec:longDarks} show that 1/f noise significantly increases this value.
+When reference pixel corrections are applied to the data and a 70 pixel source radius is used, the measured CDS read noise from the dark test is 280 ppm for the long wavelength detector.
+Due to the source lamp setup discussed in Figure \ref{fig:CV3longTserAB}, we average the flux from detector A1 and B4, which lowers the read noise by $\sqrt{2}$  to 200 ppm.
+As a check, we perform aperture photometry on an un-illuminated regions of the time series stability tests and average the results of the two detectors.
+We find a standard deviation of 1100 to 1490 e$^-$/s or 150 ppm to 200 ppm of the 7.5$\times 10^6 e^-$/s flux, likely due to slight differences in the 1/f noise within the exposures.
+So, the measured standard deviation of ~1000 ppm during the full-frame tests is due largely to lamp variations and not read noise alone.
+
+The WLP8SUB integrations had 20 groups, so the measured read noise should be 280 ppm $\times \sqrt{2/20}$= 89 ppm.
+There is no un-illuminated region of the 320$\times$320 subarray that is as big as the source aperture so there is not empirical check on this 89 ppm estimate.
+The difference of 83 ppm between the measured full frame read noise and the calculated subarray is not enough to explain the full difference in precision between the two tests.
+Instead, we conclude that the lamp has significant short-timescale variability that the faster samples used on the SUB320 test can average over.
+The take-away from the comparison between subarrays is that one can reduce the read noise and short timescale variability with more samples up the ramp and a smaller subarray.
+
+\subsubsection{Lessons Learned on the Pipeline from CV3 Tests}\label{sec:CV3Lessons}
 
 \begin{figure*}
-\gridline{\fig{ES-WLP8SUB_pipeline_parameters.pdf}{0.39\textwidth}{WLP8 Time Series}
+\gridline{\fig{ES-WLP8SUB_pipeline_parameters.pdf}{0.39\textwidth}{SUB320 Time Series}
 \fig{{ES-FULL4_pipeline_parameters.pdf}}{0.39\textwidth}{FULL4 Time Series}}
 \caption{Flat fielding, linearity corrections and intrapixel capacitance corrections have a relatively small impact on the time series precisions measured during the CV3 test.
 Each table lists the measured noise (in ppm) when we turn on/off IPC correction (vertical direction), flat fielding (horizontal direction) and the linearity correction (diagonal direction).
@@ -1369,10 +1373,12 @@ Above 50\% well depth, the HgCdTe detectors become less sensitive to photons, so
 }\label{fig:CV3pipeParamsWLP8}
 \end{figure*}
 
-Although the light curves from the CV3 stability tests were not able to achieve photon-limited performance to study the precision of transit and eclipse spectroscopy, there were some lessons learned from this data.
-We were able to determine the best practices for the pipeline and analysis by running the raw data through the pipeline and changing the steps to produce light curve.
+We were investigated best practices for the pipeline and analysis by running the raw data through the pipeline and changing the steps to produce light curve.
 We experimented with the methodology for turning raw detector reads up the ramp into count rates on the detector, the intrapixel capacitance (IPC) correction, flat fielding, reference pixel correction and detector non-linearity.
 After the calibrated images are created, we experimented with different types of aperture photometry including different geometries, background calculations and aperture sizes.
+
+We find that the intrapixel capacitance (IPC) correction, flat fielding and linearity correction have relatively small impacts on photometric precision.
+In Figure \ref{fig:CV3pipeParamsWLP8} we show the standard deviation of the flux after averaging the A1 and B4 detectors and dividing by a linear fit to remove long-term trends for two example tests SUBThe IPC correction and 
 
 After experimenting with these configurations, we find the following pipeline steps are important:
 \begin{itemize}

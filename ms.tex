@@ -1305,6 +1305,15 @@ The central peak is used for centroiding, while the entire PSF is used for apert
 A 70 pixel radius aperture (shown here is a black circle) is used for the source aperture.}\label{fig:WLP8PSF}
 \end{figure}
 
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.69\columnwidth]{plot_mmm_showTemperatures_False_AB_sides.pdf}
+\caption{Time Series plot through the CV3 photometric stability campaign for the A1 and B4 detectors.
+The flux on the two detectors is highly anti-correlated so the flux is averaged between them for future analyses.
+The anti-correlation likely arises due to the lamp source motion that preferentially couples with one fiber and then the other.
+}\label{fig:CV3longTserAB}
+\end{figure}
+
 A series of detector stability tests was performed using this +8 wave weak lens and 1.55 $\mu$m LED in a few different modes.
 A time series of all possible modes is shown in Figure \ref{fig:CV3longTser}.
 The full frame modes (FULL1 through FULLQ) used 2 samples of the ramp for integration times of 21.5 seconds whereas the subarrays were tuned to have a similar integration time (21.3 sec for 20 Groups of a 320$\times$320 subarray and 25.1 seconds for 6 groups of a 640$\times$640 subarray).
@@ -1367,7 +1376,7 @@ After the calibrated images are created, we experimented with different types of
 
 After experimenting with these configurations, we find the following pipeline steps are important:
 \begin{itemize}
-	\item Fitting a line up the ramp gives superior results to subtracting the last and first pairs of read (as expected by reducing the read and electronic 1/f noise)
+	\item Fitting a line up the ramp gives superior results to subtracting the last and first pairs of read. This is  expected because more ramps reduce the 1/f and read noise, but the disparity (500 ppm versus 1200 ppm) is too large to be due to read noise alone.
 	\item Centering the aperture with the central spot inside the hexagon is important to conserve the flux within the aperture
 	\item Row-by-row subtraction (along the detector's fast-read direction) gives superior background subtraction to traditional aperture photometry (using the mean or robust average value in a background annulus)
 	\item Aperture sizes for the source at ~70 pixels, outside the hexagon, gave the best precisions
@@ -1379,7 +1388,6 @@ We also found reduction steps that had very little impact on the final photometr
 	\item IPC corrections ($\lesssim 0.01$ ppm)
 	\item Flat-fielding ($\lesssim 0.3$ ppm)
 \end{itemize}
-We summarize the lessons from the tests here.
 
 \clearpage
 \subsection{OTIS Tests}

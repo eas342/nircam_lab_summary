@@ -1373,12 +1373,22 @@ Above 50\% well depth, the HgCdTe detectors become less sensitive to photons, so
 }\label{fig:CV3pipeParamsWLP8}
 \end{figure*}
 
-We were investigated best practices for the pipeline and analysis by running the raw data through the pipeline and changing the steps to produce light curve.
+We investigated best practices for the pipeline and analysis by running the raw data through the pipeline and changing the steps that go into producing light curves.
 We experimented with the methodology for turning raw detector reads up the ramp into count rates on the detector, the intrapixel capacitance (IPC) correction, flat fielding, reference pixel correction and detector non-linearity.
 After the calibrated images are created, we experimented with different types of aperture photometry including different geometries, background calculations and aperture sizes.
 
 We find that the intrapixel capacitance (IPC) correction, flat fielding and linearity correction have relatively small impacts on photometric precision.
-In Figure \ref{fig:CV3pipeParamsWLP8} we show the standard deviation of the flux after averaging the A1 and B4 detectors and dividing by a linear fit to remove long-term trends for two example tests SUBThe IPC correction and 
+In Figure \ref{fig:CV3pipeParamsWLP8} we show the standard deviation of the flux after averaging the A1 and B4 detectors and removing a linear trend.
+We quote standard deviations for two example tests: SUB320 and FULL4.
+The IPC corrections matter less than 0.01 ppm, because the deconvolution kernel conserves flux and just moves it around.
+The flat fielding correction is less than 0.3 ppm because the image motion is at the sub-pixel level.
+
+The linearity correction does consistently increase the signal to noise by 7 to 23 ppm but this is a natural consequence of the np photodiode in our detectors.
+This is because the photodiode becomes decreasingly less sensitive to photons as it the well capacity is approached.
+At the extreme of saturation, the photodiode no longer senses new photons so you would measure a standard deviation of 0 ppm.
+The weak lens PSF illuminates the pixels to 15,000 to 30,000 DN or 25-50\% well depth and the non-linearity for this well depth is 0.5 to 2\%.
+This means that the measured standard deviation for linearized data should be about 1\% larger than for raw data, similar to the measurements in Figure \ref{fig:CV3pipeParamsWLP8}.
+We therefore conclude that the non-linearity correction makes a small difference to the final derived precision.
 
 After experimenting with these configurations, we find the following pipeline steps are important:
 \begin{itemize}

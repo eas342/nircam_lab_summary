@@ -452,8 +452,10 @@ If a spectrum of a source is extracted without any vertical background extractio
 Fortunately, the amplifier offsets are efficiently removed by reference pixels and background subtraction.
 For example, subtracting the average reference pixel in each amplifier will reduce the offsets between amplifiers, shown in Figure \ref{fig:ampOffsetsOtisGrismSlope}, (second from top panel).
 It should be noted, however, that there are gradients in the bias signal within each amplifier.
-One could subtract the mean reference pixel in each column to reduce these gradients, shown in Figure \ref{fig:ampOffsetsOtisGrismSlope}, (third fro top panel) but given that there are only 4 reference pixels at the bottom of each column, this introduces extra noise in the subtraction.
+One could subtract the mean reference pixel in each column to reduce these gradients, shown in Figure \ref{fig:ampOffsetsOtisGrismSlope}, (third from top panel) but given that there are only 4 reference pixels at the bottom of each column, this introduces extra noise in the subtraction.
 Instead, one can use the background region for each column ($\sim$80 pixels) to best remove gradients and the amplifier offsets.
+Here, we find the average of all pixels from Y=0 to 15 and Y=190 to 256 in each column and subtract this value from the whole column.
+This is repeated for all columns.
 
 \begin{figure}[!hbtp]
 \centering

@@ -1200,9 +1200,22 @@ where $N_{ph}$ is the number of photons on that pixel.
 
 However, if one generalizes the weighted average to a covariance matrix \citep{schmelling1995averagingCorrelatedData}, the weights become,
 \begin{equation}
-w_j = \sum_{i=1}^{m} \left( C^{-1}\right)_{ij} P_j,\label{eq:covarianceWeighted}
+w_j = P_j \sum_{i=1}^{m} \left( C^{-1}\right)_{ij},\label{eq:covarianceWeighted}
 \end{equation}
 where $C^{-1}$ is the inverse of the covariance matrix between pixels $i$ and $j$ and $m$ is the number of pixels in the summation.
+The optimally weighted flux ($f_{opt}$) then becomes
+\begin{equation}
+f_{opt} = \frac{\sum_{j=1}^{m} w_j S_j}{\sum_{j=1}^{m} w_j P_j},
+\end{equation}
+where $S_j$ is the background subtracted flux.
+
+% the longer form I'm not using
+%the weighted flux becomes,
+%\begin{equation}\label{eq:covarianceWeighted}
+%f_{opt} = \frac{\sum_{i,j=0}^{m} C^{-1}_{ij} S_j P_j}{\sum_{i,j=0}^{m} C^{-1}_{ij} P_j^2},
+%\end{equation}
+%where $C^{-1}$ is the inverse of the covariance matrix between pixels $i$ and $j$ and $m$ is the number of pixels in the summation and $S_j$ is the background subtracted flux.
+
 Simply variance weighting the spectra by the read and photon noise does not provide heavy enough weights.
 If we assume the read noise is perfectly correlated along the spectral direction and uncorrelated along the spatial direction, then equation \ref{eq:covarianceWeighted} becomes
 \begin{equation}
@@ -1213,6 +1226,7 @@ Thus, for large values of $N_{px}$ (up to 512 for an amplifier), the $\sigma_R \
 \begin{equation}
 w_j \propto P_j.
 \end{equation}
+
 Profile weighting should therefore lower the error on wavelength-binned time series.
 For the grism aperture experiment, we find that profile weighting gives a measured read noise of 355 ppm.
 Thus, profile weighting still does not reduce the standard deviation over an extraction aperture that is just 1 pixel wide at the peak grism flux.
@@ -1223,7 +1237,7 @@ The ideal weighting of the spectrum from Equation \ref{eq:covarianceWeighted} de
 We use CDS (correlated double sampling) read pairs of OTIS long dark data (108 frames) with reference pixel corrections to estimate $C_{ij}$.
 We consider a wavelength bin that is 100 pixels in the dispersion direction (0.1$\mu$m) and 14 spatial spatial pixels.
 Figure \ref{fig:covSpecSpatial} shows the covariance matrix of this wavelength bin, taken from the median of 20 regions of the detector.
-The diagonal elements are consistent with NIRCam detector performance with $\sigma^2 \approx 13^2 (e^-)^2=169 (e^-)^2$.
+The diagonal elements are consistent with published NIRCam detector performance tables with $\sigma^2 \approx 13^2 (e^-)^2=169 (e^-)^2$.
 It is clear that 1/f noise causes covariance most prominently along the spectral direction (the fast-read direction), with a covariance nearly uniformly at 36~$(e^-)^2$.
 Surprisingly, there is also a covariance between spatial pixels (the slow read direction) of $\sim$16 $(e^-)^2$ that falls off to $\sim 10 (e^-)^2$.
 
@@ -1311,8 +1325,9 @@ A 70 pixel radius aperture (shown here is a black circle) is used for the source
 \end{figure}
 
 The LED lamp was coupled to optical fibers to illuminate two separate detectors simultaneously with the intention of having two independent measurements to compare.
-Unfortunately, the coupling mechanism into the fibers is sensitive to the lamp position, so the flux from the two detectors is highly anti-correlated, as shown in Figure \ref{fig:CV3longTserAB}.
-To better remove this fiber coupling effect, we average the flux from the two detectors for the rest of this discussion.
+Unfortunately, vibrations and jitter in the optical setup affect the relative flux in the two fibers.
+The coupling mechanism into the fibers is sensitive to the lamp position, so the flux from the two detectors is highly anti-correlated, as shown in Figure \ref{fig:CV3longTserAB}.
+To redice this fiber coupling effect, we average the flux from the two detectors for the rest of this discussion.
 This reduces the standard deviation of the time series to 500-1500 ppm.
 
 \begin{figure}[!hbtp]
@@ -1327,6 +1342,7 @@ A series of detector stability tests was performed using this +8 wave weak lens 
 A time series of all possible modes is shown in Figure \ref{fig:CV3longTser}.
 The full frame modes (FULL1 through FULL6) used 2 samples of the ramp for integration times of 21.5 seconds whereas the subarrays were tuned to have a similar integration time (21.3 sec for 20 Groups of a 320$\times$320 subarray and 25.1 seconds for 6 groups of a 640$\times$640 subarray).
 This ensured that during these 4 different types of subarray/full frame window sizes, the well depths achieved were similar.
+However, the groups are fit to a line for each pixel, so the useful portion of the ramp is the time between the last and first read or 20.2 seconds for the 320$\times$320 subarray versus 10.7 seconds for the FULL1 through FULL6 tests.
 
 It is apparent from Figure \ref{fig:CV3longTser} that the WLP8SUB test with a 320$\times$320 subarray and 20 groups of the ramp has smaller scatter on short timescales than the FULL1 through FULL6 tests.
 After removing a linear fit to the time series (to account for long term trends in the lamp), the standard deviation of the WLP8SUB data is 500 ppm whereas the FULL tests range from 1020 to 1540 ppm.
@@ -1355,6 +1371,8 @@ When reference pixel corrections are applied to the data and a 70 pixel source r
 Due to the source lamp setup discussed in Figure \ref{fig:CV3longTserAB}, we average the flux from detector A1 and B4, which lowers the read noise by $\sqrt{2}$  to 200 ppm.
 As a check, we perform aperture photometry on an un-illuminated regions of the time series stability tests and average the results of the two detectors.
 We find a standard deviation of 1100 to 1490 e$^-$/s or 150 ppm to 200 ppm of the 7.5$\times 10^6 e^-$/s flux, likely due to slight differences in the 1/f noise within the exposures.
+If we use a row-by-row subtraction, as discussed in Section \ref{sec:indAmpAvg}, the read noise can be reduced.
+We use a robust mean row-by-row subtraction for a background annulus from 95 to 190 pixels and this reduces the measured read noise on a dark (un-illuminated) region to 60 to 100 ppm.
 So, the measured standard deviation of ~1000 ppm during the full-frame tests is due largely to lamp variations and not read noise alone.
 
 The WLP8SUB integrations had 20 groups, so the measured read noise should be 280 ppm $\times \sqrt{2/20}$= 89 ppm.
@@ -1362,6 +1380,7 @@ There is no un-illuminated region of the 320$\times$320 subarray that is as big 
 The difference of 83 ppm between the measured full frame read noise and the calculated subarray is not enough to explain the full difference in precision between the two tests.
 Instead, we conclude that the lamp has significant short-timescale variability that the faster samples used on the SUB320 test can average over.
 The take-away from the comparison between subarrays is that one can reduce the read noise and short timescale variability with more samples up the ramp and a smaller subarray.
+
 
 \subsubsection{Lessons Learned on the Pipeline from CV3 Tests}\label{sec:CV3Lessons}
 

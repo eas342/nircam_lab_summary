@@ -1241,12 +1241,18 @@ The diagonal elements are consistent with published NIRCam detector performance 
 It is clear that 1/f noise causes covariance most prominently along the spectral direction (the fast-read direction), with a covariance nearly uniformly at 36~$(e^-)^2$.
 Surprisingly, there is also a covariance between spatial pixels (the slow read direction) of $\sim$16 $(e^-)^2$ that falls off to $\sim 10 (e^-)^2$.
 
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.7\columnwidth]{spec_spatial_cov.pdf}
+\caption{The read noise is strongly correlated in the spectral direction (diagnoal boxes) and somewhat correlated in the spatial direction (off diagonal region).}\label{fig:covSpecSpatial}
+\end{figure}
 
 \begin{figure}[!hbtp]
 \centering
 \includegraphics[width=.7\columnwidth]{spec_spatial_cov.pdf}
 \caption{The read noise is strongly correlated in the spectral direction (diagnoal boxes) and somewhat correlated in the spatial direction (off diagonal region).}\label{fig:covSpecSpatial}
 \end{figure}
+
 
 %% See the notebooks wlp8_psf_image.ipynb and noise_sources_wlp8.ipynb for calculations
 \subsubsection{The impact of correlated read noise on time series}
@@ -1263,7 +1269,7 @@ RN_{ap,70,75,100} = \frac{21,200 DN}{ \sqrt{N_{frames}}} \approx \frac{46,000 e^
 \end{equation}
 where $N_{frames}$ is the number of frames in an integration and a gain of 2.17 $e^-$/DN is assumed for the A3 detector.
 If there are 2 frames in an integration, we recover 15,000 DN for the case of a read pair subtraction on the A3 detector.
-\textcolor{red}{\bf Make sure I scaled this correctly both for the read pair subtraction and a slope fit. Also empirically verify this with a slope fit to multiple images.}
+\textcolor{red}{\bf Also empirically verify this with a slope fit to multiple images.}
 For an integration that fills to a peak of $\sim$ 60\% well depth or 35,000 DN, the integrated DN counts for a WEAK LENS +8 PSF would be $1.8 \times10^8$ DN, having a photon uncertainty of 9,100 DN or 51 ppm.
 Therefore, the correlated read noise, if left uncorrected, will have a highly significant ($>50\%$) impact on an integration of 5 or fewer frames that fill to 60\% well depth.
 As an example, a $K$=8.5 magnitude star observed in full frame WEAK LENS +8 imaging mode with 6 RAPID groups up the ramp sampling and the F210M filter would have a photon noise equal to the (uncorrected) read noise and fill the detector to 54\% well depth.
@@ -1371,16 +1377,24 @@ When reference pixel corrections are applied to the data and a 70 pixel source r
 Due to the source lamp setup discussed in Figure \ref{fig:CV3longTserAB}, we average the flux from detector A1 and B4, which lowers the read noise by $\sqrt{2}$  to 200 ppm.
 As a check, we perform aperture photometry on an un-illuminated regions of the time series stability tests and average the results of the two detectors.
 We find a standard deviation of 1100 to 1490 e$^-$/s or 150 ppm to 200 ppm of the 7.5$\times 10^6 e^-$/s flux, likely due to slight differences in the 1/f noise within the exposures.
-If we use a row-by-row subtraction, as discussed in Section \ref{sec:indAmpAvg}, the read noise can be reduced.
-We use a robust mean row-by-row subtraction for a background annulus from 95 to 190 pixels and this reduces the measured read noise on a dark (un-illuminated) region to 60 to 100 ppm.
 So, the measured standard deviation of ~1000 ppm during the full-frame tests is due largely to lamp variations and not read noise alone.
+
 
 The WLP8SUB integrations had 20 groups, so the measured read noise should be 280 ppm $\times \sqrt{2/20}$= 89 ppm.
 There is no un-illuminated region of the 320$\times$320 subarray that is as big as the source aperture so there is not empirical check on this 89 ppm estimate.
 The difference of 83 ppm between the measured full frame read noise and the calculated subarray is not enough to explain the full difference in precision between the two tests.
+Thus, we rule out \ref{item:readNReasonCV3subFull} as the main noise source.
 Instead, we conclude that the lamp has significant short-timescale variability that the faster samples used on the SUB320 test can average over.
-The take-away from the comparison between subarrays is that one can reduce the read noise and short timescale variability with more samples up the ramp and a smaller subarray.
+%The take-away from the comparison between subarrays is that one can reduce the read noise and short timescale variability with more samples up the ramp and a smaller subarray.
 
+\subsubsection{Row-by-row Background Subtraction}
+
+Even though we rule out read noise as the dominant noise source, we investigate ways to reduce the fractional contribution of read noise.
+If we use a row-by-row subtraction, as discussed in Section \ref{sec:indAmpAvg}, the read noise can be reduced.
+We use a procedure that reduces the 1/f electronic noise.
+First, we find the robust mean flux for each row of the background annulus with radii of 95 and 195 pixels.
+We then, subtract this value from the entire row of the image and perform aperture photometry on the residual image surrounding the source with a circular aperture of 70 pixels.
+This procedure reduces the measured read noise on a dark (un-illuminated) region to 60 to 100 ppm.
 
 \subsubsection{Lessons Learned on the Pipeline from CV3 Tests}\label{sec:CV3Lessons}
 

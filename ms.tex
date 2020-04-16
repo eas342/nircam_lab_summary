@@ -886,7 +886,7 @@ Asic dewar & U of Arizona  & 2017-2019  &       	& LED           & flood-illumin
 \end{deluxetable*}
 
 \clearpage
-\subsection{OTIS Long Darks}\label{sec:longDarks}
+\subsection{Long Darks}\label{sec:longDarks}
 
 It is instructive to look at dark frames to isolate the contributions of the read-out electronics, including the side-car asic, and how much they contribute to the error budget.
 The dark frames do not have issues with the photometric stability of illumination lamps, which is a persistent challenge with ground-based tests.
@@ -1249,8 +1249,8 @@ Surprisingly, there is also a covariance between spatial pixels (the slow read d
 
 \begin{figure}[!hbtp]
 \centering
-\includegraphics[width=.7\columnwidth]{spec_spatial_cov.pdf}
-\caption{The read noise is strongly correlated in the spectral direction (diagnoal boxes) and somewhat correlated in the spatial direction (off diagonal region).}\label{fig:covSpecSpatial}
+\includegraphics[width=.7\columnwidth]{cov_weighted_weights.pdf}
+\caption{Spectral extraction weights for simple summation, conventional optimal extraction and covariance-weighting.}\label{fig:covWeightedSummation}
 \end{figure}
 
 
@@ -1396,7 +1396,7 @@ First, we find the robust mean flux for each row of the background annulus with 
 We then, subtract this value from the entire row of the image and perform aperture photometry on the residual image surrounding the source with a circular aperture of 70 pixels.
 This procedure reduces the measured read noise on a dark (un-illuminated) region to 60 to 100 ppm.
 
-\subsubsection{Lessons Learned on the Pipeline from CV3 Tests}\label{sec:CV3Lessons}
+\subsubsection{Best Pipeline Practices from CV3 Tests}\label{sec:CV3Lessons}
 
 \begin{figure*}
 \gridline{\fig{ES-WLP8SUB_pipeline_parameters.pdf}{0.39\textwidth}{SUB320 Time Series}
@@ -1408,19 +1408,22 @@ Above 50\% well depth, the HgCdTe detectors become less sensitive to photons, so
 }\label{fig:CV3pipeParamsWLP8}
 \end{figure*}
 
-We investigated best practices for the pipeline and analysis by running the raw data through the pipeline and changing the steps that go into producing light curves.
+We investigated best practices for the pipeline and analysis by running the raw data through the pipeline and sequentially adding and subtracting steps that go into producing light curves.
 We experimented with the methodology for turning raw detector reads up the ramp into count rates on the detector, the intrapixel capacitance (IPC) correction, flat fielding, reference pixel correction and detector non-linearity.
 After the calibrated images are created, we experimented with different types of aperture photometry including different geometries, background calculations and aperture sizes.
 
 We find that the intrapixel capacitance (IPC) correction, flat fielding and linearity correction have relatively small impacts on photometric precision.
 In Figure \ref{fig:CV3pipeParamsWLP8} we show the standard deviation of the flux after averaging the A1 and B4 detectors and removing a linear trend.
 We quote standard deviations for two example tests: SUB320 and FULL4.
-The IPC corrections matter less than 0.01 ppm, because the deconvolution kernel conserves flux and just moves it around.
-The flat fielding correction is less than 0.3 ppm because the image motion is at the sub-pixel level.
+The IPC corrections matter less than 0.01 ppm, because the deconvolution kernel conserves flux.
+So long as the aperture is significantly wider than the 3$\times$3 pixel kernel, the flux in an aperture should be constant.
+The flat fielding correction has less than a 2 ppm impact to the standard deviation because the image motion is at the sub-pixel level.
 
 The linearity correction does consistently increase the signal to noise by 7 to 23 ppm but this is a natural consequence of the np photodiode in our detectors.
 This is because the photodiode becomes decreasingly less sensitive to photons as it the well capacity is approached.
-At the extreme of saturation, the photodiode no longer senses new photons so you would measure a standard deviation of 0 ppm.
+Note that at the extreme of saturation, the photodiode no longer senses new photons so you would measure a standard deviation of 0 ppm.
+Therefore, the np photodiode naturally decreases the measured standard deviation of flux that will appear larger with a non-linearity correction.
+
 The weak lens PSF illuminates the pixels to 15,000 to 30,000 DN or 25-50\% well depth and the non-linearity for this well depth is 0.5 to 2\%.
 This means that the measured standard deviation for linearized data should be about 1\% larger than for raw data, similar to the measurements in Figure \ref{fig:CV3pipeParamsWLP8}.
 We therefore conclude that the non-linearity correction makes a small difference to the final derived precision.
@@ -1429,22 +1432,21 @@ After experimenting with these configurations, we find the following pipeline st
 \begin{itemize}
 	\item Fitting a line up the ramp gives superior results to subtracting the last and first pairs of read. This is  expected because more ramps reduce the 1/f and read noise, but the disparity (500 ppm versus 1200 ppm) is too large to be due to read noise alone.
 	\item Centering the aperture with the central spot inside the hexagon is important to conserve the flux within the aperture
-	\item Row-by-row subtraction (along the detector's fast-read direction) gives superior background subtraction to traditional aperture photometry (using the mean or robust average value in a background annulus)
+	\item Row-by-row subtraction (along the detector's fast-read direction) gives superior background subtraction to traditional aperture photometry (using the mean or robust average value in a background annulus) because it reduces the read noise.
 	\item Aperture sizes for the source at ~70 pixels, outside the hexagon, gave the best precisions
-	\item An annulus aperture on the source (including the inner and outer edges of the hexagonal PSF) usually gives the best precision light curves
 \end{itemize}
 
 We also found reduction steps that had very little impact on the final photometric precision including
 \begin{itemize}
 	\item IPC corrections ($\lesssim 0.01$ ppm)
-	\item Flat-fielding ($\lesssim 0.3$ ppm)
+	\item Flat-fielding ($\lesssim 2$ ppm)
 \end{itemize}
 
 \clearpage
 \subsection{OTIS Tests}
 
 A series of NIRCam stability tests were carried out while the entire JWST telescope system was placed in a tall vacuum chamber at NASA Johnson.
-However, there is no feasible way to place a point source lamp at infinity to simulate the imaging of astrophysical objects onto a JWST instrument, so an alternate lamp setup is used.
+However, there is no feasible way to place a point source lamp far enough away to simulate the imaging of astrophysical objects onto a JWST instrument, so an alternate lamp setup is used.
 During these tests, there were two configurations 1) the ``half pass" tests where lamp sources within the optical system and 2) ``pass and a half" tests where the a lamp source within the optical system bounces light off the secondary, primary, flat mirrors mounted on the chamber's ceiling and then through the entire telescope and instrument chain to the detectors.
 
 \subsubsection{Pass and a Half Grism Time Series Test - Photometry}

@@ -991,7 +991,8 @@ Measured Read Noise (profile-weighted summation)	& & & 1,310 & 355 \\
 \tablecomments{The theoretical and measured noise sources in one integration for a Weak Lens +8 and Grism Time Series.
 The ppm units are assuming a peak 60\% well depth or 3.9$\times 10^7$ DN during an integration for the weak lens PSF and 3.7$\times 10^6$ DN during and integration for the grism PSF.
 The noise is reported for the the aperture/spectral extraction (in DN) or relative to the photon signal (in ppm).
-The integration is assumed to be a bright source with 2 groups of 1 integration each up the ramp (Correlated Double Sampling or CDS mode).}
+The integration is assumed to be a bright source with 2 groups of 1 integration each up the ramp (Correlated Double Sampling or CDS mode).
+For the grism, statistics are shown for a representative 0.17~$\mu$m wide wavelength bin centered on 3.34~$\mu$m.}
 \label{tab:noiseSummary1overf}
 \end{deluxetable*}
 
@@ -1144,7 +1145,7 @@ The background subtraction along the spatial direction (vertically) will efficie
 However, there are no side reference pixels or horizontally-offset background regions available on the middle two amplifiers.
 Therefore, the 1/f noise will adversely impact broadband behaviors of the lightcurves, especially on the middle two amplifiers.
 
-We give some illustrative numbers for a 0.165 $\mu$m wide bin of a grism spectrum centered on 3.25 $\mu$m as listed in Table \ref{tab:noiseSummary1overf}.
+We give some illustrative numbers for a 0.165 $\mu$m wide bin of a grism spectrum centered on 3.34 $\mu$m as listed in Table \ref{tab:noiseSummary1overf}.
 Without reference pixel subtraction, the grism apertures have standard deviations of 77,600 DN.
 Reference pixel subtraction drops this value to 9,640 DN and row-by-row subtraction drops it to 3,630 DN.
 For a well depth of 60\%, there are $3.7 \times 10^6$ DN of source counts in the 0.17 $\mu$m bin, which amounts to a photon error of 1,420 DN assuming a gain of 1.84.
@@ -1185,55 +1186,75 @@ The photometric aperture is made to represent a similar one to the F322W2 grism 
 }\label{fig:longDarkGrism}
 \end{figure*}
 
-
 Given the high level of correlation between pixels, another way to reduce 1/f noise is with a small aperture.
-For example, a 15 pixel wide aperture results in measured read noise of 990 ppm for the same 0.17$\mu$m wide bin centered at 4.25$\mu$m whereas a 3 pixel wide aperture results in a measured read noise of 290 ppm, which is below the expected photon noise.
+For example, a 15 pixel wide aperture results in measured read noise of 990 ppm for the same 0.17$\mu$m wide bin centered at 3.34$\mu$m whereas a 3 pixel wide aperture results in a measured read noise of 290 ppm, which is below the expected photon noise.
 For a one pixel wide aperture, the measured read noise is only 230 ppm.
-Of course such small apertures will be subject to other losses by missing so much of the PSF.
-Therefore, the spectroscopic pipeline should either use a small aperture or provide extra weights to the brightest pixels such as in optimal extraction \citep[e.g.][]{horne1986optimalE}.
-If one calculates the weights to the spectra simply by the signal-to-noise while assuming each pixel's noise is independent, the weights are not heavy enough for the brightest pixels.
-This is because the observations will largely be in the foreground limit (where the variance is equal to the number of photons), where weighting by the profile for pixel $j$ (P$_j$) divided by the variance (V$_i$) becomes
-\begin{equation}
-w_j = P_j / V_j = N_{ph} / N_{ph} = 1.0,
-\end{equation}
-where $N_{ph}$ is the number of photons on that pixel.
+Of course such small apertures will be subject to other losses by missing so much of the PSF and the photon noise will be a larger fraction of the flux.
+Therefore, a weighting scheme expanded from optimal extraction \citep{horne1986optimalE} is preferred.
 
-However, if one generalizes the weighted average to a covariance matrix \citep{schmelling1995averagingCorrelatedData}, the weights become,
-\begin{equation}
-w_j = P_j \sum_{i=1}^{m} \left( C^{-1}\right)_{ij},\label{eq:covarianceWeighted}
-\end{equation}
-where $C^{-1}$ is the inverse of the covariance matrix between pixels $i$ and $j$ and $m$ is the number of pixels in the summation.
-The optimally weighted flux ($f_{opt}$) then becomes
-\begin{equation}
-f_{opt} = \frac{\sum_{j=1}^{m} w_j S_j}{\sum_{j=1}^{m} w_j P_j},
-\end{equation}
-where $S_j$ is the background subtracted flux.
+\subsubsection{Optimally Co-Variance Weighted Flux}\label{sec:optimalCovWeights}
 
-% the longer form I'm not using
-%the weighted flux becomes,
-%\begin{equation}\label{eq:covarianceWeighted}
-%f_{opt} = \frac{\sum_{i,j=0}^{m} C^{-1}_{ij} S_j P_j}{\sum_{i,j=0}^{m} C^{-1}_{ij} P_j^2},
+Here, we provide a modification to the optimal extraction formula from \citet{horne1986optimalE}, that uses the covariance matrix of correlated pixels.
+The goal is to find a scheme that estimates the total flux by summing the value in each pixel $j$.
+We start by calculating a profile function $P_j$ that describes the fraction of the total flux in pixel $j$.
+The profile is normalized so that
+\begin{equation}
+\sum_{j=1}^{m} P_j = 1.
+\end{equation}
+Any pixel is can be used to estimate the total flux $f_i$ by dividing by the profile.
+\begin{equation}
+f_j = \frac{S_j}{P_j},
+\end{equation}
+where $S_j$ is the background-subtracted flux.
+Therefore, the flux total is a weighted average of each pixel's estimate of the total flux $f_j$.
+The goal becomes a weighting scheme to determine which weights $w_j$ minimize the variance in the total background estimate:
+\begin{equation}
+f_{opt} = \frac{\sum_{j=1}^{m} w_j \frac{S_j}{P_j}}{\sum_{j=1}^{m} w_j}.
+\end{equation}
+
+If one assumes that all pixels are independent (and have zero correlation), the optimal weights (ones that minimize the variance in $f_{opt}$) are
+\begin{equation}
+w_j = \frac{1}{\mathrm{Var}(\frac{S_j}{P_j})} = \frac{1}{\frac{1}{P_j^2} \mathrm{Var}(S_j)} = \frac{P_j^2}{V_j},
+\end{equation}
+where Var() is the variance or the expectation of the deviation from the mean and $V_j =$Var$(S_j$) \citep{horne1986optimalE}.
+Exoplanet observations, where high signal to noise is needed to remove the planet from star signal, are generally in the foreground limit (where the variance is approximately equal to the number of photons).
+In this case, both the profile $P_j$ and variance $V_j$ will be proportional to the number of photons $N_{phot}$, so the pre-multiplier of the flux become
+\begin{equation}
+\frac{w_j}{P_j} \approx \frac{N_{phot}^2}{N_{phot} N_{phot}} = 1.0.
+\end{equation}
+Therefore, using this traditional formula will provide little difference with straight summation,
+\begin{equation}
+f_{sum} = \sum_{j=1}^{m} S_j.
+\end{equation} 
+
+However, in the presence of noise correlations, the formulae become modified.
+The optimal weights for correlated data are \citep{schmelling1995averagingCorrelatedData} the sum of the inverse covariance matrix,
+\begin{equation}\label{eq:covarianceweights}
+w_j = \sum_{i=0}^{m} C_{ij}^{-1},
+\end{equation}
+where $C_{ij}$ is the covariance (Cov()) of the variable $S_i/P_i$ with $S_j/P_j$,
+\begin{equation}
+C_{ij} = \mathrm{Cov}\left(\frac{S_i}{P_i},\frac{S_j}{P_j}\right) = \frac{1}{P_i P_j} \mathrm{Cov}(S_i,S_j).
+\end{equation}
+
+%Simply variance weighting the spectra by the read and photon noise does not provide heavy enough weights.
+%If we assume the read noise is perfectly correlated along the spectral direction and uncorrelated along the spatial direction, then equation \ref{eq:covarianceweights} becomes
+%\begin{equation}
+%w_j = \frac{P_j}{N_{ph} + N_{px} \sigma_R^2},
 %\end{equation}
-%where $C^{-1}$ is the inverse of the covariance matrix between pixels $i$ and $j$ and $m$ is the number of pixels in the summation and $S_j$ is the background subtracted flux.
-
-Simply variance weighting the spectra by the read and photon noise does not provide heavy enough weights.
-If we assume the read noise is perfectly correlated along the spectral direction and uncorrelated along the spatial direction, then equation \ref{eq:covarianceWeighted} becomes
-\begin{equation}
-w_j = \frac{P_j}{N_{ph} + N_{px} \sigma_R^2},
-\end{equation}
-where $N_{px}$ is the number of spectral pixels that will be binned and $\sigma_R$ is the read noise per pixel.
-Thus, for large values of $N_{px}$ (up to 512 for an amplifier), the $\sigma_R \approx 14e^-$ of read noise per pixel, can compound to 100,400 e$^-$ and the weighting approaches
-\begin{equation}
-w_j \propto P_j.
-\end{equation}
-
-Profile weighting should therefore lower the error on wavelength-binned time series.
-For the grism aperture experiment, we find that profile weighting gives a measured read noise of 355 ppm.
-Thus, profile weighting still does not reduce the standard deviation over an extraction aperture that is just 1 pixel wide at the peak grism flux.
-We show the real covariance matrix in Section \ref{sec:empCovarianceMatrix}.
+%where $N_{px}$ is the number of spectral pixels that will be binned and $\sigma_R$ is the read noise per pixel.
+%Thus, for large values of $N_{px}$ (up to 512 for an amplifier), the $\sigma_R \approx 14e^-$ of read noise per pixel, can compound to 100,400 e$^-$ and the weighting approaches
+%\begin{equation}
+%w_j \propto P_j.
+%\end{equation}
+%
+%Profile weighting should therefore lower the error on wavelength-binned time series.
+%For the grism aperture experiment, we find that profile weighting gives a measured read noise of 355 ppm.
+%Thus, profile weighting still does not reduce the standard deviation over an extraction aperture that is just 1 pixel wide at the peak grism flux.
+%We show the real covariance matrix in Section \ref{sec:empCovarianceMatrix}.
 
 \subsubsection{Empirical Covariance Matrix}\label{sec:empCovarianceMatrix}
-The ideal weighting of the spectrum from Equation \ref{eq:covarianceWeighted} depends on the covariance matrix $C_{ij}$.
+The ideal weighting of the spectrum from Equation \ref{eq:covarianceweights} depends on the covariance matrix $C_{ij}$.
 We use CDS (correlated double sampling) read pairs of OTIS long dark data (108 frames) with reference pixel corrections to estimate $C_{ij}$.
 We consider a wavelength bin that is 100 pixels in the dispersion direction (0.1$\mu$m) and 14 spatial spatial pixels.
 Figure \ref{fig:covSpecSpatial} shows the covariance matrix of this wavelength bin, taken from the median of 20 regions of the detector.

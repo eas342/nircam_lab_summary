@@ -1216,7 +1216,7 @@ If one assumes that all pixels are independent (and have zero correlation), the 
 \begin{equation}
 w_j = \frac{1}{\mathrm{Var}(\frac{S_j}{P_j})} = \frac{1}{\frac{1}{P_j^2} \mathrm{Var}(S_j)} = \frac{P_j^2}{V_j},
 \end{equation}
-where Var() is the variance or the expectation of the deviation from the mean and $V_j =$Var$(S_j$) \citep{horne1986optimalE}.
+where Var() is the variance or the expectation of the squared deviation from the mean and $V_j =$Var$(S_j$) \citep{horne1986optimalE}.
 Exoplanet observations, where high signal to noise is needed to remove the planet from star signal, are generally in the foreground limit (where the variance is approximately equal to the number of photons).
 In this case, both the profile $P_j$ and variance $V_j$ will be proportional to the number of photons $N_{phot}$, so the pre-multiplier of the flux become
 \begin{equation}
@@ -1228,7 +1228,7 @@ f_{sum} = \sum_{j=1}^{m} S_j.
 \end{equation} 
 
 However, in the presence of noise correlations, the formulae become modified.
-The optimal weights for correlated data are \citep{schmelling1995averagingCorrelatedData} the sum of the inverse covariance matrix,
+The optimal weights for correlated data are the sums of the inverse covariance matrix along one dimension  \citep{schmelling1995averagingCorrelatedData},
 \begin{equation}\label{eq:covarianceweights}
 w_j = \sum_{i=0}^{m} C_{ij}^{-1},
 \end{equation}
@@ -1259,18 +1259,35 @@ We use CDS (correlated double sampling) read pairs of OTIS long dark data (108 f
 We consider a wavelength bin that is 100 pixels in the dispersion direction (0.1$\mu$m) and 14 spatial spatial pixels.
 Figure \ref{fig:covSpecSpatial} shows the covariance matrix of this wavelength bin, taken from the median of 20 regions of the detector.
 The diagonal elements are consistent with published NIRCam detector performance tables with $\sigma^2 \approx 13^2 (e^-)^2=169 (e^-)^2$.
-It is clear that 1/f noise causes covariance most prominently along the spectral direction (the fast-read direction), with a covariance nearly uniformly at 36~$(e^-)^2$.
-Surprisingly, there is also a covariance between spatial pixels (the slow read direction) of $\sim$16 $(e^-)^2$ that falls off to $\sim 10 (e^-)^2$.
+It is clear that 1/f noise causes covariance most prominently along the spectral direction (the fast-read direction), with a covariance nearlynear 36~$(e^-)^2$.
+Surprisingly, there is also a covariance between spatial pixels (the slow read direction) of $\sim$20 $(e^-)^2$.
 
 \begin{figure}[!hbtp]
 \centering
-\includegraphics[width=.7\columnwidth]{spec_spatial_cov.pdf}
-\caption{The read noise is strongly correlated in the spectral direction (diagnoal boxes) and somewhat correlated in the spatial direction (off diagonal region).}\label{fig:covSpecSpatial}
+\includegraphics[width=.6\columnwidth]{spec_spatial_cov.pdf}
+\caption{The read noise shows significant correlations between pixels (unlike the traditional assumption that each pixel's noise is statistically independent).
+The data was computed from a long dark exposure of 54 read pairs where reference pixel corrections and column-by-column and row-by-row subtractions have been performed.
+The detector's diagonal elements are consistent with expected performance of $\approx 13^2 (e^-)^2=169 (e^-)^2$.
+Spatially, the pixels' have a strong covariance of 36~$(e^-)^2$ and a somewhat smaller spatial covariance of 20$(e^-)^2$.}\label{fig:covSpecSpatial}
 \end{figure}
 
 \begin{figure}[!hbtp]
 \centering
-\includegraphics[width=.7\columnwidth]{cov_weighted_weights.pdf}
+\includegraphics[width=.6\columnwidth]{cross_sections_cov.pdf}
+\caption{Average covariance along the spatial and spectral directions for a given pixel spacing.}\label{fig:covSpecSpatialDiff}
+\end{figure}
+
+
+
+The empirical covariance matrix from Figure \ref{fig:covSpecSpatial} is used to estimate the optimal pixel weights using Equation \ref{eq:covarianceweights}.
+We reduce the noise and jaggedness of the empirical covariance matrix in Figure \ref{fig:covSpecSpatial} by averaging the value along the diagonal, across all spectral pixels and across the spatial pixels with the same value of $i -j$.
+The resulting optimal weighting function $w_j/P_j$ is plotted in Figure \ref{fig:covWeightedSummation}.
+Here, the profile is the value from \texttt{pynrc}, which uses \texttt{webbpsf}.
+This optimal weighting significantly increases the contributions from the inner pixels 
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.5\columnwidth]{cov_weighted_weights.pdf}
 \caption{Spectral extraction weights for simple summation, conventional optimal extraction and covariance-weighting.}\label{fig:covWeightedSummation}
 \end{figure}
 

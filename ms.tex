@@ -974,19 +974,20 @@ Fortunately, there are ways to significantly reduce the 1/f noise.
 \colhead{DN} &
 \colhead{ppm}\\}
 \startdata
-Ideal Photon Noise & 4,400 & 113 & 1,420 & 390 \\
-Ideal Uncorrelated Read Noise & 1,300 & 33 & 348 & 95 \\
+Ideal Photon Noise & 4,400 & 113 & 1,430 & 388 \\
+Ideal Uncorrelated Read Noise & 1,300 & 33 & 350 & 94 \\
 \hline
-Measured Read Noise with amplifier offsets (no correction) & 23,500 & 600 & 77,600 & 21,200  \\
-Measured Read Noise (reference pixel correction) & 10,800 & 280 & 9,640 & 2,640 \\
+Measured Read Noise with amplifier offsets (no correction) & 23,500 & 600 & 80,930 & 21,900  \\
+Measured Read Noise (reference pixel correction) & 10,800 & 280 & 9,900 & 2,680 \\
 Measured Read Noise (reference channel subtraction) & 9,700 & 250 & & \\
-Measured Read Noise (row-by-row subtraction) & 6,000 & 150 & 3,630 & 992 \\
+Measured Read Noise (row-by-row subtraction) & 6,000 & 150 & 3,860 & 1044 \\
 Measured Read Noise (20 Component PCA subtraction) & 5,400 & 140 & & \\
 Measured Read Noise (smoothed 161 px kernel interpolating over aperture) & 3,300 & 85 & & \\
 Measured Read Noise (5 Component PCA on each amplifier) & 3,200 & 81 & & \\
 Measured Read Noise (row-by-row amp-by-amp mean subtraction) & 2,900 & 75 & & \\
 Measured Read Noise (smoothed 40 px kernel on top of aperture) & 900 & 23 & & \\
-Measured Read Noise (covariance-weighted summation)	& & & 854 & 231 \\
+Measured Read Noise (variance-weighted summation)	& & & 3,060 & 830 \\
+Measured Read Noise (covariance-weighted summation)	& & & 850 & 230 \\
 \enddata
 \tablecomments{The theoretical and measured noise sources in one integration for a Weak Lens +8 and Grism Time Series.
 The ppm units are assuming a peak 60\% well depth or 3.9$\times 10^7$ DN during an integration for the weak lens PSF and 3.7$\times 10^6$ DN during and integration for the grism PSF.

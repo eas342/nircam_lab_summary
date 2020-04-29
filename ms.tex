@@ -1238,6 +1238,7 @@ where $C_{ij}$ is the covariance (Cov()) of the variable $S_i/P_i$ with $S_j/P_j
 C_{ij} = \mathrm{Cov}\left(\frac{S_i}{P_i},\frac{S_j}{P_j}\right) = \frac{1}{P_i P_j} \mathrm{Cov}(S_i,S_j).
 \end{equation}
 
+
 The variance in the flux is
 \begin{equation}
 \mathrm{Var}(f_{opt}) = \frac{1}{\sum_{j=1}^m w_j}.
@@ -1263,18 +1264,22 @@ The variance in the flux is
 The ideal weighting of the spectrum from Equation \ref{eq:covarianceweights} depends on the covariance matrix $C_{ij}$.
 We use CDS (correlated double sampling) read pairs of OTIS long dark data (108 frames) with reference pixel corrections to estimate $C_{ij}$.
 We consider a wavelength bin that is 100 pixels in the dispersion direction (0.1$\mu$m) and 14 spatial spatial pixels.
-Figure \ref{fig:covSpecSpatial} shows the covariance matrix of this wavelength bin, taken from the median of 20 regions of the detector.
-The diagonal elements are consistent with published NIRCam detector performance tables with $\sigma^2 \approx 13^2 (e^-)^2=169 (e^-)^2$.
-It is clear that 1/f noise causes covariance most prominently along the spectral direction (the fast-read direction), with a covariance nearlynear 36~$(e^-)^2$.
-Surprisingly, there is also a covariance between spatial pixels (the slow read direction) of $\sim$20 $(e^-)^2$.
+We also subtract the CDS frames by the median of each row-by-row and the median of each column column-by-column to reduce the amplifier offsets and 1/f noise as done in Figure \ref{fig:longDarkPhot}.
+
+
+Figure \ref{fig:covSpecSpatial} shows the covariance matrix of this wavelength bin, taken from the median covariance matrix of 20 regions of the detector.
+The diagonal elements $\sim 150 (e^-)^2$ are smaller than published NIRCam detector performance tables ($\sigma^2 \approx 13^2 (e^-)^2=169 (e^-)^2$).
+However, if we skip the row-by-row and column-by-column subtraction step, they are consistent with $\sigma^2 \approx 13^2 (e^-)^2=169 (e^-)^2$.
+It is clear that 1/f noise causes covariance most prominently along the spectral direction (the fast-read direction), with a covariance near 20~$(e^-)^2$.
+Surprisingly, there is also a covariance between spatial pixels (the slow read direction) of $\sim$10 $(e^-)^2$.
 
 \begin{figure}[!hbtp]
 \centering
 \includegraphics[width=.6\columnwidth]{spec_spatial_cov.pdf}
 \caption{The read noise shows significant correlations between pixels (unlike the traditional assumption that each pixel's noise is statistically independent).
 The data was computed from a long dark exposure of 54 read pairs where reference pixel corrections and column-by-column and row-by-row subtractions have been performed.
-The detector's diagonal elements are consistent with expected performance of $\approx 13^2 (e^-)^2=169 (e^-)^2$.
-Spatially, the pixels' have a strong covariance of 36~$(e^-)^2$ and a somewhat smaller spatial covariance of 20$(e^-)^2$.}\label{fig:covSpecSpatial}
+The detector's diagonal elements are better than the read noise squared due to the row-by-row and column-by-column subtraction step.
+Spatially, the pixels' have a covariance of 20~$(e^-)^2$ and a somewhat smaller spatial covariance of 10$(e^-)^2$.}\label{fig:covSpecSpatial}
 \end{figure}
 
 \begin{figure}[!hbtp]
@@ -1289,7 +1294,8 @@ The empirical covariance matrix from Figure \ref{fig:covSpecSpatial} is used to 
 We reduce the noise and jaggedness of the empirical covariance matrix in Figure \ref{fig:covSpecSpatial} by averaging the value along the diagonal, across all spectral pixels and across the spatial pixels with the same value of $i -j$.
 The resulting optimal weighting function $w_j/P_j$ is plotted in Figure \ref{fig:covWeightedSummation}.
 Here, the profile is the value from \texttt{pynrc}, which uses \texttt{webbpsf}.
-This optimal weighting significantly increases the contributions from the inner pixels 
+This optimal weighting significantly increases the contributions from the inner pixels compared to variance weights.
+The optimal weighting scheme also negatively weights some pixels outside the core of the PSF to reduce correlated noise.
 
 \begin{figure}[!hbtp]
 \centering
@@ -1297,6 +1303,24 @@ This optimal weighting significantly increases the contributions from the inner 
 \caption{Spectral extraction weights for simple summation, conventional optimal extraction and covariance-weighting.}\label{fig:covWeightedSummation}
 \end{figure}
 
+Optimal covariance weighting significantly lowers the contribution of read noise to the overall error budget.
+We test this with a series of grism images with no photon noise added.
+We do background subtraction along the dispersion and spatial directions.
+We perform sum extraction over a 15 spatial pixels and then combine together 170 spectral pixels into a 0.17 $\mu$m wavelength bin.
+The standard deviation of sum extraction is 3,860 DN, which is 2.7$\times$ the read noise, as shown in Table \ref{tab:noiseSummary1overf}.
+The standard deviation of the extracted flux drops to 3,060 DN if optimal extraction is used.
+
+We use Equation \ref{eq:covarianceweights}, to further beat down the read noise.
+For the covariance weights, we assume constant off-diagonal weights of 15 (e$^-)^2$ and do not include the spectral covariance.
+The resulting standard deviation of 850 DN is now 60\% of the photon noise.
+Thus, we recommend optimal covariance weighting when extracting grism time series.
+As the number of groups of the ramp is increased, the read noise should drop as 1/$\sqrt{N_G}$ so the covariance weighting most important when $N_G$ is small.
+
+The methodology in calculating $P_j$ and Cov($S_i,S_j$) can significantly affect the precision on the time series.
+Typically $P_j$ and the photon noise contribution to Cov($S_i,S_j$) can be found by fitting smooth functions (polynomials) along the dispersion direction.
+If $P_j$ is calculated from each image individually, it will inherit the 1/f noise variations of each image.
+Therefore, we hold $P_j$ constant along the time series with a value saved from the middle image at all wavelengths.
+Alternatively, $P_j$ could be calculated from a PSF library or theoretically from \texttt{WebbPSF} \citep{perrin2014webbpsf}.
 
 %% See the notebooks wlp8_psf_image.ipynb and noise_sources_wlp8.ipynb for calculations
 \subsubsection{The impact of correlated read noise on time series}

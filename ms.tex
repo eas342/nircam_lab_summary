@@ -86,6 +86,7 @@
 \usepackage{float}
 \usepackage[caption=false]{subfig}
 \usepackage{enumitem}
+\listfiles
 
 %\usepackage{natbib}
 %\usepackage{pdflscape}
@@ -169,7 +170,7 @@
 
 \begin{document}
 
-\title{Lessons Learned about JWST Transiting Planet Time Series from Ground-based Studies of the NIRCam Detectors}
+\title{JWST Noise Floor I: Systematic Error Sources with JWST NIRCam Time Series}
 
 %% LaTeX will automatically break titles if they run longer than
 %% one line. However, you may use \\ to force a line break if
@@ -226,61 +227,29 @@
 933 North Cherry Avenue \\
 Tucson, AZ 85721, USA}
 
-\author{Rafia Bushra}
+\author{Karl Misselt?}
 \affiliation{Steward Observatory \\
 933 North Cherry Avenue \\
 Tucson, AZ 85721, USA}
 
-\author{Stephanie Striegel}
-\affiliation{Department of Physics \& Astronomy \\
-San Jose State University \\
-One Washington Square \\
-San Jose, CA 95192, USA}
+\author{Jarron Leisenring?}
+\affiliation{Steward Observatory \\
+933 North Cherry Avenue \\
+Tucson, AZ 85721, USA}
+
+\author{Thomas Beatty?}
+\affiliation{Steward Observatory \\
+933 North Cherry Avenue \\
+Tucson, AZ 85721, USA}
+
+\author{Thomas P Greene?}
 \affiliation{NASA Ames Research Center \\
 Space Science and Astrobiology Division \\
 Moffett Field, CA 94035, USA}
 
-\author{Xander Levinson}
-\affiliation{Department of Astronomy \& Astrophysics \\
-University of California, Santa Cruz \\
-1156 Highland Street \\
-Santa Cruz, CA 95062, USA}
-\affiliation{NASA Ames Research Center \\
-Space Science and Astrobiology Division \\
-Moffett Field, CA 94035, USA}
+\author{Peiman Maghami?}
 
-
-\author{Karl Misselt}
-\affiliation{Steward Observatory \\
-933 North Cherry Avenue \\
-Tucson, AZ 85721, USA}
-
-\author{Jarron Leisenring}
-\affiliation{Steward Observatory \\
-933 North Cherry Avenue \\
-Tucson, AZ 85721, USA}
-
-\author{Kenneth Don}
-\affiliation{Steward Observatory \\
-933 North Cherry Avenue \\
-Tucson, AZ 85721, USA}
-
-\author{Douglas Kelly}
-\affiliation{Steward Observatory \\
-933 North Cherry Avenue \\
-Tucson, AZ 85721, USA}
-
-\author{Thomas Beatty}
-\affiliation{Steward Observatory \\
-933 North Cherry Avenue \\
-Tucson, AZ 85721, USA}
-
-
-
-\author{Thomas P Greene}
-\affiliation{NASA Ames Research Center \\
-Space Science and Astrobiology Division \\
-Moffett Field, CA 94035, USA}
+\author{Michael McElwain}
 
 \author{Marcia Rieke}
 \affiliation{Steward Observatory \\
@@ -307,15 +276,12 @@ JWST transmission and emission spectra of transiting exoplanets will provide inv
 These spectra will reveal the composition and temperature structure at a level never achieved before.
 This promising science from JWST, however, will require exquisite precision and understanding of systematic errors that can impact the time series of planets crossing in front of and behind their host stars.
 This is especially true if JWST is used to search for biosignatures in temperature atmospheres on Earth-sized planets that may contain liquid water.
-Here, we provide the lessons learned from ground-based characterization of the NIRCam H2RG detectors, which will be used for exoplanet spectra.
-%and are the same type of detectors used in JWST's NIRISS and NIRSpec instruments.
-We summarize the lessons learned from tests at NASA Goddard, NASA Johnson and the University of Arizona detector lab.
+Here, we provide estimates of the noise source affecting JWST NIRCam time series.
 Correlated electronic noise (1/f noise) in the detectors can limit the sensitivity of grism time series for a given frame (300 ppm to 1000 ppm depending on the extraction method), but will average down like $\sqrt{N}$ for $N$ frames.
 Care should be taken to include as many frames as possible per visit to reduce this 1/f noise source: thus, we recommend the smallest detector subarray sizes one can tolerate, 4 output channels and readout modes that minimize skipped frames (RAPID or BRIGHT2).
-We also describe a covariance weighting scheme that can significantly lower the contributions from 1/f noise.
+We also describe a covariance weighting scheme that can significantly lower the contributions from 1/f noise as compared to sum extraction.
 Pointing jitter and high gain antenna moves on top of the detectors' subpixel crosshatch patterns will produce relatively small variations $\lesssim 10$ ppm, before they are corrected.
 In contrast to the HST WFC3 detectors, persistence due to charge trapping will have a negligible effect on time series.
-Future performance tests during commissioning and the early release science will still be needed to assess the noise floor on stars, which are more stable than the available LED lamps used in lab-based tests.
 \end{abstract}
 
 %% Keywords should appear after the \end{abstract} command. 
@@ -367,10 +333,8 @@ We discuss the major sources of systematic errors that can affect the NIRCam ins
 Parallel efforts to characterize other instrument's noise sources are being done, such as with MIRI's detectors \citep{matuso2019siAsDetectorStability}.
 
 Section \ref{sec:knownEffects} lists the known systematic effects that can impeded high precision time series and increase the noise above the photon and read noise.
-Section \ref{sec:experiments} describes the experiments on the ground that are used to prepare for JWST observations in flight.
 
-
-\section{Known Detector Effects}\label{sec:knownEffects}
+\section{List of Known Detector Effects}\label{sec:knownEffects}
 An ideal HgCdTe detector simply counts the photons incident on its surface (as described in section \ref{sec:detectorPrimer}).
 However, there are many non-ideal effects that can affect the stability of a light curve of a transiting exoplanet.
 Here, we review many of the known noise sources that could impact the stability of a time series beyond photon counting statistics. These known detector effects that can impact stability are listed briefly and then in more detail as related to the JWST NIRCam detectors below that.
@@ -411,7 +375,7 @@ If necessary, the effect of temperature fluctuations can be calibrated to $\pm 1
 It should be noted that the detector effects related to the asic circuit can be specific to the ``personality'' of each asic. The asics all have different asic load files which are tuned to minimize the power consumption and dark current in a particular asic. Since the asic load files are specific to each detector, they may exhibit different noise properties.
 Some caution should be taken when comparing noise tests with engineering grade or rejected detectors with the flight detectors.
 
-\subsection{Pre-amp Reset Offsets from the Lockheed CV Test}\label{sec:preAmp}
+\section{Pre-amp Reset Offsets from the Lockheed CV Test}\label{sec:preAmp}
 
 The NIRCam detectors' pre-amplifiers (pre-amps) have a reference voltage that can drift with time.
 This can affect the pedestal level of all pixels over long ($\gtrsim$ 20 minute timescales).
@@ -470,8 +434,7 @@ This is repeated for all columns.
 \end{figure}
 
 \clearpage
-
-\subsection{1/f Noise}
+\section{1/f Noise}
 The readout circuitry for NIRCam and other JWST NIR instruments introduces correlated noise from pixel-to-pixel.
 This is visible when examining the time series of pixels as they are read out within a frame in the order they are addressed.\footnote{See a diagram of the readout directions at \url{https://jwst-docs.stsci.edu/near-infrared-camera/nircam-instrumentation/nircam-detector-overview/nircam-detector-readout}}
 The power spectrum of this pixel-by-pixel time series reveals high power at low frequencies that drops approximately like a 1/f power law in the power spectrum of the time series.
@@ -502,391 +465,6 @@ Ideally, source apertures would be less than 100 pixels wide so that background 
 NIRCam has a ``GRISMC" grism that will disperse along the column direction but this mode would not work with horizontal stripe subarrays and would therefore saturate on bright targets with $K \lesssim 5.5$.
 For this reason, the ``GRISMC'' is not currently available for time series observations.
 
-\subsection{Fringing}
-
-The thin layer of NIRCam's HgCdTe detector can result in an interference pattern much like thin film interference on bubbles.
-Fringing will be less noticeable when many wavelengths are mixed together, but with grism spectra where the wavelengths are separated, the interference effects are more pronounced.
-We investigate whether this can manifest itself on the spectrum with the NIRCam grism by looking for periodic signatures that vary in frequency as a function of wavelength.
-
-Figure \ref{fig:cv3ExtractedSpectrum} shows an extracted spectrum from Cryogenic Vacuum 3 testing where a broadband point source is dispersed by the grism.
-The slope image is calculated from the raw ramp using the internal NIRCam ramps-to-slopes pipeline \texttt{nchdas}.
-The background is subtracted with a 2nd order polynomial fit and the flux is extracted with an optimally weighted summation \citep[e.g.][]{horne1986optimalE}.
-The spectrum is normalized by a 3rd order spline fit with 400 knots to remove the broad shape of the spectrum and the throughput curves.
-The resulting spectrum shows high frequency ($\sim$0.2 px$^{-1}$ to $\sim$0.5 px$^{-1}$) variations far in excess of the photon and read noise.
-These oscillations increase in frequency at longer wavelengths (X pixels).
-The variations have peak-to-valley amplitudes of about 8\%.
-However, we expect that the fringing structure will hold relatively constant during time due to the temperature stability of the instrument.
-
-
-\begin{figure}[!hbtp]
-\centering
-\includegraphics[width=.99\columnwidth]{fringing_grism_cv3.pdf}
-\caption{A CV3 grism spectrum over the time series grism test shows evidence for fringing and where the oscillations exceed the photon and read noise (green point).
-An illustrative sinusoidal function is plotted for comparison to better see how the frequencies change as a function of wavelength (X pixel).
-}\label{fig:CV3GrismSpecFringing}
-\end{figure}
-
-\clearpage
-\subsection{Subpixel Crosshatching}
-
-\subsubsection{Subpixel Crosshatching Characterization}
-The flat field of the ALONG detector, which is used for NIRCam grism series, has a pronounced crosshatch pattern visible in Figure \ref{fig:crossHatchA5}.
-The patterns are located at 23.1$\degree$ , 90.9$\degree$, and 158.6 $\degree$ counter-clockwise from the $+$X direction of the detector.
-The angle between these lines are 67.8$\degree$, 67.7$\degree$ and 44.5$\degree$.
-These angles and patterns can be analyzed with a 2D power spectrum as shown in Figure \ref{fig:crossHatchA5}.
-
-The angles of the crosshatch patterns are determined by the crystal pattern of HgCdTe.
-HgCdTe has a zincblende structure with tetrahedral bond angles where each Hg or Cd atom is surrounded by 4 Te atoms \citep{gemain2012mercVacanciesHgCdTe}.
-HgCdTe detectors are manufactured using molecular beam epitaxy upon a substrate, a process which can result in topological defects with peak to valley amplitudes of 5-20 nm in height variations \citep{chang2008surfaceMorphologyHgCdTe}.
-The surface morphology of the HgCdTe crystal shows that the crosshatch patterns are are oriented along the intersection of the (211) growth plane of the crystal and the 8 HgCdTe slip planes.
-
-The relative angles of the HgCdTe slip planes and (211) growth plane are 44.42$\degree$, 67.79$\degree$ and 67.79$\degree$ \citep{chang2008surfaceMorphologyHgCdTe}, very close to the observed crosshatch angles.
-A projection of zincblende structure is shown in Figure \ref{fig:crossHatchA5} relative to the observed crosshatch patterns.
-The similarity between the crosshatch patterns in the flat field and the topological variations observed in \citet{chang2008surfaceMorphologyHgCdTe} leads to the likely conclusion that the surface variations lead to quantum efficiency variations.
-Thus, the crosshatch pattern is mostly likely related to the crystal lattice structure of the HgCdTe substrate and not the pixel circuitry.
-
-The crosshatch structure of the detectors extends down to the subpixel level, so it will not be fully corrected with a flat field division.
-This sub-pixel structure has been imaged with microscopy on a Euclid HgCdTe detector \citep{shapiro2018crosshatch}.
-Atomic force microscopy shows topological features that are approximately 1.2~$\mu$m in width \citep{chang2008surfaceMorphologyHgCdTe} compared to the 18~$\mu$m pixel sizes.
-The width of the structures can also be estimated from the behavior for crosshatch lines as they cross pixel boundaries \citep{ninan2019crosshatchHPF}.
-We estimate that the crosshatch pattern oriented at 90.9$\degree$ crosses 1 horizontal pixel for every 64 vertical pixels.
-While crossing the boundary, there are $\approx 38$ rows where the crosshatch pattern spans more than 2 pixels.
-If the crosshatch pattern has a tophat response function, then these 38 rows where the pattern spans two pixels imply a tophat full width of 0.6 pixels or a physical width of 10.8~$\mu$m for an 18~$\mu$m pixel pitch.
-This is more than twice the estimate from \citet{ninan2019crosshatchHPF} for an HgCdTe used on the Habitable Planet Finder.
-We expect that the crosshatch pattern's width varies among detectors and that a tophat function is a poor approximation of the actual subpixel response.
-Within NIRCam detectors, there are large variations in the strength and orientation of crosshatch features.
-
-
-\begin{figure}[!hbtp]
-\centering
-\includegraphics[width=.49\columnwidth]{crosshatch_zoom.pdf}
-\includegraphics[width=.49\columnwidth]{crosshatch_2d_power.pdf}
-\includegraphics[width=.3\columnwidth]{tetrahedral_lattice_projection.png}
-\caption{
-The A5 detector's flat field has a pronounced crosshatch pattern at 23.1$\degree$ , 90.9$\degree$, and 158.6 $\degree$ CCW from the positive X direction.
-The crosshatch pattern is visible in a zoom-in of the pixel flat field (top left).
-The 2D power spectrum of the flat field (top right) shows a continuum of frequencies aligned with the three crosshatch angles.
-Note the lines in frequency plane are perpendicular to the crosshatch directions in the image plane.
-These three relative crosshatch angles (67.8$\degree$, 67.7$\degree$ and 44.5$\degree$) are similar to a projection of a tetrahedral (zincblende) lattice structure of HgCdTe (bottom, 67.8$\degree$, 67.8$\degree$, 44.4$\degree$).
-}\label{fig:crossHatchA5}
-\end{figure}
-
-The crosshatch pattern is wavelength dependent, as seen in Figure \ref{fig:crossHatchWavelengthDep}, where the throughput variations are the largest for short wavelengths (resolving crystal structures) and smallest for the long wavelengths.
-This is visible both in the throughput cross section of the flat field and the Fourier amplitude of the crosshatch as a function of wavelength.
-We find a steeper wavelength dependence to the crosshatch pattern near 0.9$\degree$ from horizontal in the frequency domain or 0.9$\degree$ from vertical in the length domain.
-%We also fit the crosshatch pattern.
-
-\begin{figure}[!hbtp]
-\centering
-\includegraphics[width=.49\columnwidth]{cross_sec_of_crosshatch.pdf}
-\includegraphics[width=.49\columnwidth]{fourier_power_from_fit.pdf}
-\caption{
-The crosshatch pattern changes as a function of wavelength, possibly because the shorter wavelengths resolve the structure better.
-The shorter wavelengths have deeper crosshatch troughs (left) and higher Fourier amplitudes (right).
-}\label{fig:crossHatchWavelengthDep}
-\end{figure}
-
-
-\subsubsection{Crosshatch Pattern Modeling}
-We model the crosshatch pattern in the Fourier space because it has a smoother pattern as a function of spatial frequency than in spatial coordinates as seen in Figure \ref{fig:crossHatchA5}.
-We divide the 2D Fourier power spectral density by the number of pixels in an input image.
-This was experimentally determined to give a power spectral density that does not change with the dimensions of the input image.
-\textcolor{red}{Can we justify this more? I thought it would be pixels$^2$}
-
-We model the two dimensional Fourier power spectral density $f(k_{x,i}',k_{y,i}')$ for one angle $\theta_i$ as
-\begin{equation}\label{eq:analyticPSDradial}
-f(k_{x,i}',k_{y,i}', a_i, b,c) = a_i \exp{\left(- |k_{x,i}'| / b \right)} \left( \frac{1}{(0.5 c)^2 + k_y'^2} \right),
-\end{equation}
-where $k_x'$ and $k_y'$ are rotated frequency coordinates in the parallel and perpendicular directions, $a$ is the amplitude, $b$ is the parallel exponential constant and $c$ is the Lorentzian full width at half maximum of the perpendicular dependence.
-For each of the three angles, there is a set of rotated coordinates centered at $(k_{x,0},k_{y,0})$= (0,0) following:
-\begin{equation}
-k_x'(\theta_i) = k_x \cos{\theta_i} + k_y \sin{\theta_i}
-\end{equation}
-and
-\begin{equation}
-k_y'(\theta_i) = -k_x  \sin{\theta_i} + k_y \cos{\theta_i}.
-\end{equation}
-We include three angles so that the total power spectral density is
-\begin{equation}
-f(k_x,k_y) = \sum_{i=1}^{i=3} f_i(k_{x,i}'(\theta_i),k_{y,i}'(\theta_i),a_i,b,c) + d \exp{\left(-k_r/e_b\right)},
-\end{equation}
-
-This model has 8 free parameters: three angles ($\theta_i$, three amplitudes ($a_i$), a joint parallel exponential constant ($b$) and joint Lorentzian width ($c$).
-Finally, we include an exponential term that fits the broad azimuthally symmetric background to all the power spectra,
-where $d$ is the amplitude of the radial ``background'', $k_r= \sqrt{k_x^2+k_y^2}$ is the radial frequency and $e_b$ is the radial background exponential constant.
-We only fit the region of the power spectral density above frequencies of 0.05 px$^{-1}$ to focus on the high frequency component of the flat field where the crosshatch is most prevalent.
-
-For the F300M filter and ALONG detector, we find 
-for $\theta_1 = 0.906 \pm 0.001 \degree, \theta_2 = 68.605 \pm 0.001 \degree, \theta_3 = 113.075 \pm 0.001, a_1 = 2.774 \pm 0.002 \times 10^{-7}, a_2 = 1.569 \pm 0.002 \times 10^{-7}, a_3 = 1.744 \pm 0.002 \times 10^{-7}, b=0.345 \pm 0.0005 $ px$^{-1}$, $c=2.05 \pm 0.07 \times 10^{-2}$ px$^{-1}$, $d=6.78 \pm 0.01 10^{-3}$ and $e_b=0.26 \pm 0.01$ px$^{-1}$.
-In other words, the separations between the vectors are $67.699 \degree, 67.831 \degree$, and $44.470 \degree$.
-The uncertainties were simply derived from the diagonals of the covariance matrix and likely are underestimated.
-
-NIRCam's 10 SCA's have very similar crosshatch angles with separations of 44.5 $\degree$ and 67.7 to 67.8 $\degree$.
-They tend to have one primary crosshatch axis oriented either along the X pixels or the Y pixels, with two flanking axes at $\sim 67.7 \degree$ to either side.
-The long wavelength arrays have a more pronounced crosshatch than the short wavelength arrays.
-The NRCB4 array's primary crosshatch direction is most closely aligned with a pixel axis (the Y direction) than any SCA.
-Figure \ref{fig:crosshatchModelGallery} shows the best-fit crosshatch 2D power spectra.
-
-\begin{figure}[!hbtp]
-\centering
-\includegraphics[width=.99\columnwidth]{psd_models_gallery.pdf}
-\caption{
-Best-fit power spectra of all the NIRCam detectors show that the long wavelength detectors A5 and B5 show the most pronounced crosshatch patterns.
-The primary crosshatch tends to be aligned closely, but not exactly, with either the X or Y axis.
-The images have all been normalized to the same scale to show the relative crosshatch amplitudes of different detectors.
-}\label{fig:crosshatchModelGallery}
-\end{figure}
-
-\clearpage
-\subsubsection{Position of SubGrism Array}
-
-The crosshatch pattern varies in amplitude and angular dependence from one physical location on the detector to another.
-The ALONG detector has more pronounced crosshatching toward the middle of the detector that falls off toward the perimeter.
-On the other hand, the BLONG detector has more pronounced crosshatching towards the boundary.
-We fit the crosshatch pattern to three regions of the ALONG detector, which is the one used for the NIRCam grism time series mode:
-\begin{enumerate}
-	\item The 2048$\times$64 SUBGRISM position at the bottom of the array where the bottom left corner is (4,5) \label{subgrism64pos}
-	\item A 2048$\times$64 theoretical subarray at the top of the ALONG detector where the bottom left corner is (4,1984)
-	\item A 2048$\times$64 cutout of the full frame detector that is centered on the grism time series field point.
-\end{enumerate}
-
-The three subarrays considered are shown in Figure \ref{fig:subpixScanSimulation}.
-We exclude reference pixels (which form a 4 pixel wide boundary around the detector) and an additional row on the bottom and top of the array because these illuminated rows are outliers in the flat field.
-The first position is nearly the same as the SUBGRISM64 subarray position in the grism time series mode, except that the SUBGRISM64 includes the first 5 rows which are excluded here from the crosshatch analysis.
-The field point used for the SUBGRISM64 mode is expected to be the same one as will be used for the SUBGRISM128 and SUBGRISM256 subarrays.
-The position at the top of the ALONG detector has the smallest amplitude of crosshatch pattern in all three directions.
-The best-fit amplitudes are used as input to the jitter simulations in Section \ref{sec:CrosshatchSim}.
-We find that the maximum flux change for a 0.1 pixel shift is 118 ppm for the nominal grism position, 108 ppm for the top of the array and 153 ppm at the full frame grism position.
-\textcolor{red}{\textbf{Update this for latest full frame grism field point}}
-
-\begin{figure}[!hbtp]
-\centering
-\includegraphics[width=0.99\columnwidth]{subg_pos_topGrism64.pdf}\\
-\includegraphics[width=0.99\columnwidth]{subg_pos_fullfGrismRegion.pdf}\\
-\includegraphics[width=0.99\columnwidth]{subg_pos_subgrism64.pdf}\\
-\vspace{0.2in}
-\includegraphics[width=0.99\columnwidth]{subg_pos_topGrism64_psd.pdf}\\
-\includegraphics[width=0.99\columnwidth]{subg_pos_fullfGrismRegion_psd.pdf}\\
-\includegraphics[width=0.99\columnwidth]{subg_pos_subgrism64_psd.pdf}\\
-\caption{
-The top of the array has the smallest level of crosshatching and the middle has the largest.
-This is visible in the flat field images (top three panels) and their power spectral density functions (bottom three panels) for three different sections of the A5 detector: a theoretical ``aperture'' position at the top of the array (first plot from top), the full frame position near Y=512 (second plot from top) and the nominal SUBGRISM64 at the bottom of the array (third plot from top).
-The bottom left corner for each subarray is listed in parentheses in the title of the flat field plot and the best-fit amplitudes are listed in the title of the power spectral density plot.
- }\label{fig:subpixScanSimulation}
-\end{figure}
-
-\subsubsection{Subpixel Crosshatching Calculation}\label{sec:CrosshatchSim}
-
-The subpixel crosshatch pattern can potentially introduce time-variable noise as the point spread function drifts with telescope pointing drifts, long timescale jitter.
-NIRCam observations are expected to have a root-mean-square deviation of 6.0 mas in each axis when measured in 15 second intervals over a 10,000 second observation.\footnote{See \url{https://jwst-docs.stsci.edu/display/JTI/JWST+Pointing+Performance\#JWSTPointingPerformance-Pointing\_stabilityPointingstability}}
-
-We simulate the effect of this jitter on NIRCam time series observations with the following steps:
-\begin{itemize}
-	\item Fit the existing flat field to a crosshatch model in the Fourier domain
-	\item Extrapolate the crosshatch model to higher frequencies (30 px$^{-1}$) to estimate the sub-pixel structure
-	\item Simulate an over-sampled PSF using \texttt{webbpsf} \citep{perrin2014webbpsf}
-	\item Multiply the PSF by the simulated flat field
-	\item Shift the PSF along the X and Y directions up to a magnitude of 6 mas
-	\item Bin the simulated images into the native pixel size
-	\item Divide by the pixel-to-pixel flat field
-	\item Measure the relative flux with a photometric aperture
-\end{itemize}
-
-
-
-We take the exponential model with best-fit parameters for the F300M filter and extend the exponential function out to an oversampling factor of 60 times the LW pixels.
-We evaluate equation \ref{eq:analyticPSDradial} for frequencies in the oversampled image from 0 px$^{-1}$ to 30 px$^{-1}$ and multiply this by the number of pixels and the square of the oversampling factor (ie. $60^2$) to convert from the scale-invariant Power Spectral Density to the simulated PSD.
-We then assign random phases uniformly from 0 to 2$\pi$ for the complex Fourier plane because the original image's complex phase distribution is similar to uniform.
-Finally, we take the real part of the inverse Fourier transform to create an oversampled image, as shown in \ref{fig:crossHatchSimPSF}.
-For comparison to the original flat in Figure \ref{fig:crossHatchA5}, we binned to the oversampled flat field to the native LW pixel (1.0 native pixels=60.0 oversampled pixels $\approx$0.063 \arcsec).
-This simulated pixel flat field with dimensions of 26 by 26 LW pixels has a peak of 1.15 to trough of 0.90 with a robust standard deviation of 0.05.
-For comparison, the middle of the original F300M flat for the ALONG detector has a robust standard deviation 0.06.
-
-\begin{figure}[!hbtp]
-\centering
-\includegraphics[width=.32\columnwidth]{sim_flat_Oversampled_plot.pdf}
-\includegraphics[width=.32\columnwidth]{sim_flat_Pixel_plot.pdf}
-\includegraphics[width=.32\columnwidth]{psf_with_phot_ap_with_crosshatch.pdf}
-\caption{
-The steps of the sub-pixel crosshatch photometry simulation are shown here.
-We simulate an over-sampled flat (left) by extrapolating the power spectrum to frequencies above the pixel sampling level.
-This simulated flat is binned to the native pixel resolution to produce a pixel flat field (middle) that would be used by a standard pipeline that has no sub-pixel corrections.
-A \texttt{WebbPSF} point spread function is created at the oversampled resolution, multiplied by the oversampled flat field and then binned to native resolution (right).
-Finally, the simulated image is divided by the pixel flat field as would be performed in a standard pipeline reduction.
-The simulated PSF shows the source and background apertures used in the simulation, which are centered on the PSF.
-}\label{fig:crossHatchSimPSF}
-\end{figure}
-
-We next calculate a point spread function using \texttt{webbpsf} \citep{perrin2014webbpsf}, oversampled by a factor of 60.
-\texttt{webbpsf} includes an optional blurring due to high frequency pointing jitter.
-We set this Gaussian blurring parameter to 1 mas to simulate a worst-case scenario where the pointing drift is dominated by long-timescale behavior with minimal high frequency jitter.
-We multiply the oversampled \texttt{webbpsf} source by the simulated oversampled flat and bin this to native pixel resolution to create a simulated observation as shown in Figure \ref{fig:crossHatchSimPSF}.
-This simulated observation is divided by the binned simulated flat as would be done by a standard pipeline's flat field correction.
-
-We repeat the last steps of the observation simulation by shifting the over-sampled PSF by sub-pixel amounts.
-The subpixel shifts of the over-sampled PSF are performed with \texttt{scipy.ndimage.shift}.
-For each shifted PSF, we multiply this by the subpixel crosshatch pattern and bin the result.
-These simulated operations represent pointing drift on the subpixel scale.
-
-We calculate aperture photometry with a circular aperture with a radius of 7 pixels and a background annulus from 7 to 10 pixels on each of the observations.
-The aperture is re-centered by the same position as the shift direction.
-For each sub-pixel pointing drift, the aperture sum is subtracted by the background flux average per pixel multiplied by the pixel area of the source aperture.
-While the simulations here include no background flux, we use the background subtraction to simulate the operations applied by a photometry pipeline.
-The differential flux between the centered PSF and the shifted one is shown in Figure \ref{fig:subpixScanSimulation}.
-
-
-\begin{figure}[!hbtp]
-\centering
-\includegraphics[width=.49\columnwidth]{scan_F300M_x_short_scan.pdf}
-\includegraphics[width=.49\columnwidth]{scan_F300M_y_short_scan.pdf}
-\caption{
-The simulated subpixel crosshatch pattern from Figure \ref{fig:crossHatchSimPSF} for the F300M filter will cause spurious flux changes with small pointing drifts.
-Here we show scans in the X direction and Y direction from the center of the image and a subpixel scale.
-The amplitude of these scans is 6.3 mas for the $\sim$63 mas/px plate scale of the LW detector.
-These are correctable with smooth functions such as polynomials.
-}\label{fig:subpixScanSimulation}
-\end{figure}
-
-The subpixel crosshatch structure does indeed create flux variations with image motion as shown in Figure \ref{fig:subpixScanSimulation}.
-The amplitude of the flux changes is potentially up to 150 ppm.
-This is significant when compared to atmospheric features of giant planets ($\lesssim$ 100 ppm) or the transit depth of an Earth-like planet transiting a sun-like star ($\lesssim$ 80 ppm).
-
-Fortunately, the subpixel crosshatch systematic is a smooth function of pointing drift, shown in Figure \ref{fig:subpixScanSimulation}.
-A polynomial function can be fit to this subpixel dependence then the centroid of each integration can be inserted as an argument to the function to provide a correction as a function of time.
-Alternatively, a Gaussian process regression could be applied.
-Centroiding is possible in imaging and spectroscopic modes using PSF fitting or cross-correlation.
-When the LW grism time series mode is enabled, SW imaging data will automatically be collected simultaneously enabling the SW centroids to be used to track the motion of the dispersed grism image.
-Furthermore, the pixels for time series modes can be characterized in detail because the will be re-used for all time series observations in a given mode.
-Target acquisition is expected to achieve centroiding accuracy $\lesssim$ 10 mas ($\lesssim 6$ mas) for unsaturated target acquisition.\footnote{https://jwst-docs.stsci.edu/display/JTI/NIRCam+Time-Series+Imaging+Target+Acquisition}
-This ensures that time series observations will reliably return to the same location within the same set of pixels with every visit.
-
-\subsubsection{Time Series Simulation}
-The JWST fine steering mirror (FSM) is designed to correct any telescope pointing errors that are not full corrected by the reaction wheels.
-The JWST attitude control system team provided a simulation of the expected pointing performance shown in Figure \ref{fig:tserPointingFull}.
-
-The dominant variations in the pointing in the simulation from Figure \ref{fig:tserPointingFull} are High Gain Antenna (HGA) moves.
-These are moves are designed to keep the antenna pointing at ground-based antennas for telemetry or data download.
-Fortunately, the errors due to HGA moves damp quickly on $\lesssim$ 1 minute e-folding timescales, as show in Figure \ref{fig:tserPointingZoom}.
-This means that for 1 minute integrations, only about 1\% of integrations will be affected by HGA moves and the data for these moves could be discarded.
-Other pointing errors can be caused by reaction wheel jitter, the MIRI cryocooler and fuel slosh in the fuel tanks.
-The effect of the reaction wheels and MIRI cryocooler will be to blur the PSF over an integration since they are higher frequency $\gtrsim 1$ Hz.
-Fuel slosh happens at the beginning of a visit after the telescope is slewed, but will dampen quickly on 100 second timescales.
-Therefore, the largest contributor to pointing variations will likely be HGA moves and thermal inter-boresight motion.
-
-\textcolor{red}{Once, we have thermal inter-boresight motion, show how this affects pointing/flux}
-
-\begin{figure*}
-\gridline{\fig{histos_v2_v3.pdf}{0.45\textwidth}{Pointing Histograms} 
-\fig{tser_v2_v3_zoom_none.pdf}{0.45\textwidth}{Pointing Time Series} }
-\caption{The typical pointing stability is expected to be extremely stable to within a standard deviation of 2.4 mas (0.04 long wavelength pixels).
-This pointing model only shows the line of sight variations, not including thermal distortions or the high frequency ($>$1 Hz) jitter.
-}\label{fig:tserPointingFull}
-\end{figure*}
-
-\begin{figure*}
-\gridline{\fig{tser_v2_v3_zoom_1.pdf}{0.45\textwidth}{Pointing Series Zoom 1} 
-\fig{tser_v2_v3_zoom_2.pdf}{0.45\textwidth}{Pointing Series Zoom 2} }
-\caption{Occasional pointing errors are expected to be quickly corrected by the fine steering mirror.
-}\label{fig:tserPointingZoom}
-\end{figure*}
-
-We simulate the change in flux as a function of position using our oversampled flat field, as in Figure \ref{fig:subpixScanSimulation}.
-First, we bin the sub-pixel jitter time series into 1 minute time bins to represent 1 minute integrations, as shown in Figure \ref{fig:tserPointingAndFlux}.
-We then use the positions to shift the PSF on the oversampled flat field as listed at the beginning of this section.
-The resulting flux variations are very small compared to factors like the 1/f noise.
-The standard deviation of the time series due to small line-of-sight telescope jitter on top of the subpixel crosshatching pattern is only 6 ppm.
-Therefore, the line-of-sight subpixel jitter is expected to have a small affect on NIRCam stability.
-Furthermore, centroid motion measurements can be used to correct the flux variations due to subpixel jitter with a polynomial or Gaussian process regression.
-
-\begin{figure*}
-\gridline{\fig{subpx_jitter_sim.pdf}{0.7\textwidth}{}}
-\caption{The pointing time series from Figure \ref{fig:tserPointingFull} is binned into a 1 minute cadence and used as an input shifts to the crosshatch model.
-The very precise pointing expected by JWST will produce very small flux variations on the crosshatch pattern with an expected standard deviation of only 6 ppm.
-}\label{fig:tserPointingAndFlux}
-\end{figure*}
-
-
-
-\clearpage
-
-\subsection{Random Telegraph Noise and RC pixels}
-Several pixels exhibit RC (exponential) behavior and other exhibit unpredictable jumps in their DC levels.
-The jumps are called Random Telegraph Noise (RTN) and some examples are shown in Figure \ref{fig:RTNandRC}.
-These are rare events (400-1000 pixels out of 4$\times 10^6$) so they are unlikely to end up in a grism or in-focus aperture.
-
-For Weak Lens photometric aperture (such as a 70 pixel radius aperture), there will be of order 2-4 pixels exhibiting RTN.
-The RTN may not be removed by jump detection algorithms if they are similar order of magnitude to the photon noise for a single pixel ($\sim$180 DN).
-If these are not identified, the RTN can contribute $\sim$200 counts in 4$\times 10^7$ or 5 ppm changes.
-
-There are also RC pixels (as shown in Figure \ref{fig:RTNandRC}) that have exponential curves like a resister-capacitor circuit.
-These pixels consistently show RC behavior and are flagged as ``Do-not-use'' for the pipeline so they may be skipped in the aperture summation.
-There are 15 RC pixels in a 20 pixel tall F444W aperture and 31 RC pixels in a 20 pixel tall F322W2 aperture.
-
-\begin{figure*}
-\gridline{\fig{example_rtn.pdf}{0.45\textwidth}{RTN Pixels} 
-\fig{{example_rc.pdf}}{0.45\textwidth}{RC pixels}}
-\caption{Pixels sometimes exhibit unusual behaviors that are not related to counting photon flux.
-Examples are shown for RTN and RC pixels.
-}\label{fig:RTNandRC}
-\end{figure*}
-
-
-\clearpage
-\section{Ground-based Experiments}\label{sec:experiments}
-
-Table \ref{tab:testSummary} contains a summary of the ground-based tests that were performed on NIRCam detectors.
-The flight NIRCam detectors, controllers, electronics, optics and instrument hardware were used in the Cryogenic Vacuum Test 3 (CV3) as well as OTIS (Optical Telescope Element and Integrated Science).
-We also used dewars at the Steward Observatory at the University of Arizona used for time series stability tests.
-The GL dewar experiments used flight-like detectors, but a different controller (Leach).
-The Asic dewar located at Steward Observatory in Tucson, Arizona used the same kind of detectors as NIRCam, the same kind of asic controllers and the same flight software, but no flight-like optics.
-These two different kinds of detector electronics can be compared against each other to help isolate optical-related systematics, detector-related systematics and electronics-related systematics.
-
-The instrument modes tested included mostly imaging with narrowband LEDs, but there was also a test with spectroscopy on a broadband source.
-The one test with a broadband source was an OTIS stability test at NASA Johnson was a grism spectroscopy mode, which illuminated the long wavelength detector with a slitless spectrum covering 2.4 to 4.0~$\mu$m for the F322W2 filter, as seen in Figure \ref{fig:ampOffsetsOtisGrismSlope}.
-The WLP8 imaging tests are where a point source is de-focused by 8 waves with a weak lens (WLP8), as shown in Figure \ref{fig:WLP8PSF}.
-This mode was designed for wavefront sensing, but is also useful for high-precision time series because it spreads the light over many pixels.
-The weak lens produces a point spread function (PSF) that is hexagonal like JWST's mirrors and has a flat-to-flat width of $\sim$108 pixels and a vertex-to-vertex width of $\sim$136 pixels.
-The hexagonal PSF also has a central vertical peak which can be used for aperture centering.
-The tests with the GL and ASIC dewars did not have NIRCam optics and instead were flood illuminated with a light source that had large spatial variations due to a non-uniform source.
- 
-\begin{deluxetable*}{ccCrlccc}[b!]
-\tablecaption{Summary of Ground-Based Tests}\label{tab:testSummary}
-\tabletypesize{\footnotesize}
-%\tablecolumns{7}
-%\tablenum{2}
-\tablewidth{0pt}
-\tablehead{
-\colhead{Name} &
-\colhead{Location} &
-\colhead{Test Year} &
-\colhead{Best Stability} & 
-\colhead{Light Source} & 
-\colhead{Instrument Mode} &
-\colhead{Flight Hardware?}&
-\colhead{Controller} \\
-\colhead{} &
-\colhead{} &
-\colhead{(YYYY)} &
-\colhead{(ppm)} &
-\colhead{} &
-\colhead{} &
-\colhead{} &
-\colhead{}
-}
-\startdata
-%Lockheed CV& Lockheed Martin& 2014??    & \nodata   & Darks         & Long Darks & \nodata \\ 
-%Reset per int test & Lockheed Martin& 2014??    & \nodata   & Darks         & Long Darks & Y \\ 
-CV 3       & NASA Goddard  & 2016       & 500   	& LED           & WLP8 imaging & Y & Asic \\
-OTIS       & NASA Johnson  & 2017       &      	& Continuum     & Darks & Y & Asic\\
-OTIS       & NASA Johnson  & 2017       &   2200    	& Continuum     & Grism spectroscopy & Y & Asic\\
-OTIS       & NASA Johnson  & 2017       &   21,000    	& Continuum     & WLP8 Imaging & Y & Asic\\
-GL dewar   & U of Arizona  & 2015-2016  &       	& LED	        & flood-illuminated imaging & N & Leach\\
-Asic dewar & U of Arizona  & 2017-2019  &       	& LED           & flood-illuminated imaging & N & Asic\\
-\enddata
-\tablecomments{Cryogenic vacuum (CV), Optical Telescope element and Integrated Science (OTIS).}
-\end{deluxetable*}
-
-\clearpage
 \subsection{Long Darks}\label{sec:longDarks}
 
 It is instructive to look at dark frames to isolate the contributions of the read-out electronics, including the side-car asic, and how much they contribute to the error budget.
@@ -1010,7 +588,7 @@ In the latter case, the standard deviation of the time series drops to 6000 DN, 
 The A3 detector used for weak lens photometry has reduced 1/f noise.
 The standard deviation of the raw time series is 15,000 compared with the 22,000 from the A5 (ALONG) detector.
 
-\subsubsection{Mean Row by Amplifier}\label{sec:indAmpAvg}
+\subsection{Mean Row by Amplifier}\label{sec:indAmpAvg}
 A slight modification to the above strategy is to average each amplifier individually.
 This takes care of any differences between amplifiers.
 This individual amplifier dramatically decreases the errors.
@@ -1018,7 +596,7 @@ The standard deviations of the background-subtracted photometry range from 2,540
 Therefore, this simple approach can dramatically decrease the 1/f noise to below the photon limit.
 This is possible for Weak Lens photometry but not grism spectroscopy when dispersed parallel to detector rows (the fast-read direction).
 
-\subsubsection{Smoothed Kernel Subtraction}\label{sec:smoothKernelSub}
+\subsection{Smoothed Kernel Subtraction}\label{sec:smoothKernelSub}
 
 We also consider more effective ways to reduce read noise than the median row subtraction discussed in Section \ref{sec:longDarks}.
 We start by applying a smoothing kernel to each group (1 read for RAPID mode) up the ramp of the raw data.
@@ -1056,7 +634,7 @@ This is still larger than the 1,300 DN expectation for uncorrelated read noise, 
 
 \textcolor{red}{\bf Continue Here!}
 
-\subsubsection{Reference Channel Subtraction}
+\subsection{Reference Channel Subtraction}
 We note that the 4 channels can sometimes exhibit the same 1/f correlation behavior, as shown in Figure \ref{fig:darkPixelTimeSeries}.
 Another option to remove 1/f noise is to subtract the illuminated amplifier with a target in it by un-illuminated channels.
 We attempt to subtract an amplifier 0's time series from all amplifiers.
@@ -1084,7 +662,7 @@ The right panel shows the periodogram of each amplifier's time series over the f
 \end{figure*}
 
 
-\subsubsection{PCA Correction}
+\subsection{PCA Correction}
 Another approach to treating the 1/f noise is dimensionality reduction with Principal Component Analysis.
 Here, we assume that the counts for each pixel along a column is a random variable that can be correlated with pixels in other columns.
 Each row represents a different noise iteration.
@@ -1140,7 +718,7 @@ The amplifier boundaries are demarcated by solid vertical lines.
 
 \clearpage
 
-\subsubsection{Grism Aperture}
+\subsection{Grism Aperture}
 The NIRCam grism time series are particularly susceptible to 1/f noise because the dispersion direction is parallel to the detector's fast-read direction.
 This is visible in Figure \ref{fig:longDarkGrism} where the grism apertures (in red) are parallel to the 1/f noise correlations.
 The background subtraction along the spatial direction (vertically) will efficiently remove pre-amplifier offsets from frame to frame and amplifier to amplifier.
@@ -1194,7 +772,7 @@ For a one pixel wide aperture, the measured read noise is only 230 ppm.
 Of course such small apertures will be subject to other losses by missing so much of the PSF and the photon noise will be a larger fraction of the flux.
 Therefore, a weighting scheme expanded from optimal extraction \citep{horne1986optimalE} is preferred.
 
-\subsubsection{Optimally Co-Variance Weighted Flux}\label{sec:optimalCovWeights}
+\subsection{Optimally Co-Variance Weighted Flux}\label{sec:optimalCovWeights}
 
 Here, we provide a modification to the optimal extraction formula from \citet{horne1986optimalE}, that uses the covariance matrix of correlated pixels.
 The goal is to find a scheme that estimates the total flux by summing the value in each pixel $j$.
@@ -1261,7 +839,7 @@ The variance in the flux is
 %Thus, profile weighting still does not reduce the standard deviation over an extraction aperture that is just 1 pixel wide at the peak grism flux.
 %We show the real covariance matrix in Section \ref{sec:empCovarianceMatrix}.
 
-\subsubsection{Empirical Covariance Matrix}\label{sec:empCovarianceMatrix}
+\subsection{Empirical Covariance Matrix}\label{sec:empCovarianceMatrix}
 The ideal weighting of the spectrum from Equation \ref{eq:covarianceweights} depends on the covariance matrix $C_{ij}$.
 We use CDS (correlated double sampling) read pairs of OTIS long dark data (108 frames) with reference pixel corrections to estimate $C_{ij}$.
 We consider a wavelength bin that is 100 pixels in the dispersion direction (0.1$\mu$m) and 14 spatial spatial pixels.
@@ -1324,7 +902,7 @@ Therefore, we hold $P_j$ constant along the time series with a value saved from 
 Alternatively, $P_j$ could be calculated from a PSF library or theoretically from \texttt{WebbPSF} \citep{perrin2014webbpsf}.
 
 %% See the notebooks wlp8_psf_image.ipynb and noise_sources_wlp8.ipynb for calculations
-\subsubsection{The impact of correlated read noise on time series}
+\subsection{The impact of correlated read noise on time series}
 We consider here some example science impacts of correlated read noise in these photometric apertures.
 We will evaluate the performance of a WEAK LENS +8 mode photometric time series, as will be common with NIRCam grism time series observations.
 For a pessimistic scenario, we assume a 15,000 DN read noise contributes to every pair of reads for the 70 pixel radius aperture (and 75 to 100 pixel background subtraction annulus).
@@ -1356,7 +934,7 @@ Fortunately, this is now a small fraction of the photon uncertainty of 9,100 DN 
 
 \textcolor{red}{\bf Include more calculations on how the individual frame read noise would impact many frames in a time series of a bright target vs a faint target.}
 
-\subsubsection{Impact to Grism Time series}
+\subsection{Impact to Grism Time series}
 We consider a 0.17$\mu$m-wide wavelength bin and 20 pixel aperture diameter as a test case for how badly it will impact spectroscopic features that are 0.17$\mu$m wide.
 In this case, we assume row-by-row subtraction is performed and that the CDS noise from the OTIS ground-based test is representative of flight.
 Then, the equivalent grism aperture noise to equation \ref{eq:bestRNCorrection} is
@@ -1365,445 +943,339 @@ RN_{grism,0.17\mu\mathrm{m}} = \frac{5,130 DN}{ \sqrt{N_{frames}}}.
 \end{equation}
 For the grism aperture
 
-\subsection{Goddard Cryogenic Vacuum (CV) Stability Tests}
+\clearpage
+\section{Fringing}
 
-During the Cyrogenic Vacuum Test 3, the Integrated Science Instrument Module (ISIM) was placed in a vacuum chamber with the Optical telescope element simulator (OSIM).
-The ISIM has all the instruments with their internal optics and detectors but no telescope mirrors.
-The OSIM simulates the PSF expected when a star or other point source illuminates the JWST instruments.
-The point spread functions from CV3 most closely resembled the JWST flight point spread function and WLP8 defocused image of all ground based tests discussed in this work.
-Although the light curves from the CV3 stability tests were not able to achieve photon-limited performance to study the precision of transit and eclipse spectroscopy, there were some lessons learned from this data.
+The thin layer of NIRCam's HgCdTe detector can result in an interference pattern much like thin film interference on bubbles.
+Fringing will be less noticeable when many wavelengths are mixed together, but with grism spectra where the wavelengths are separated, the interference effects are more pronounced.
+We investigate whether this can manifest itself on the spectrum with the NIRCam grism by looking for periodic signatures that vary in frequency as a function of wavelength.
 
-\subsubsection{Comparison of Subarray and Full Frame Stability Tests}
-
-CV3 included a series of exposures about 16 hours with an LED lamp in imaging mode to test the fundamental photometric performance.
-The LED was a narrowband source at 1.55 $\mu$m, which was used in imaging mode since this would result in a narrow-lined spectrum.
-While the spectroscopic modes are expected to be the most scientifically interesting modes for studying exoplanet atmospheres, the broadband lamps needed to produce a spectrum tend to be less stable than LEDs.
-Therefore, the test was designed with an LED with the hope of measuring the precision possible with the NIRCam optics and detector.
-
-As with the spatial scanning mode on HST \citep[e.g.][]{mccullough2012spatialScan,deming13}, spreading the light of a source over many pixels can improve the precision of spectroscopy.
-This is also accomplished by ground-based observatories by either de-focusing the telescope \citep{southworth2009defocusing} or by employing a beam-shaping diffuser \citep{stefansson2017diffusers}.
-By spreading the light source over many pixels, the light curve becomes less sensitive to flat fielding or intra-pixel sensitivity errors with telescope pointing jitter or seeing variations during an observation.
-Similarly, NIRCam time series observations can employ a weak lens to defocus a star's light.
-Figure \ref{fig:WLP8PSF} show the PSF of the +8 wave defocused images during the CV3 stability tests.
-
-We applied the ramps-to-slopes pipeline \texttt{nchdas} to do reference pixel correction, apply a bad pixel mask and calculate slopes or differences of the reads.
-The reference pixel correction uses the top/bottom pixels to remove pre-amp resets and side reference pixels to reduce the 1/f noise.
-The hexagonal PSF is summed with circular aperture with a radius of 70 pixels and a background annulus spanning from 75 to 100 pixels using the \texttt{photutils} package \citep{bradley2016photutilsv0p3}.
-The central peak may used to find a centroid of the star and center the circular aperture.
-
-\begin{figure}[!hbtp]
-\centering
-\includegraphics[width=.49\columnwidth]{wlp8_psf.pdf}
-\caption{Weak Lens +8 PSF during CV3 testing.
-The central peak is used for centroiding, while the entire PSF is used for aperture photometry.
-A 70 pixel radius aperture (shown here is a black circle) is used for the source aperture.}\label{fig:WLP8PSF}
-\end{figure}
-
-The LED lamp was coupled to optical fibers to illuminate two separate detectors simultaneously with the intention of having two independent measurements to compare.
-Unfortunately, vibrations and jitter in the optical setup affect the relative flux in the two fibers.
-The coupling mechanism into the fibers is sensitive to the lamp position, so the flux from the two detectors is highly anti-correlated, as shown in Figure \ref{fig:CV3longTserAB}.
-To redice this fiber coupling effect, we average the flux from the two detectors for the rest of this discussion.
-This reduces the standard deviation of the time series to 500-1500 ppm.
-
-\begin{figure}[!hbtp]
-\centering
-\includegraphics[width=.39\columnwidth]{cv3_A_vs_B_all.pdf}
-\caption{The light from an LED lamp is split into two optical fibers, which are highly anti-correlated likely because vibrations move the lamp relative to the fibers to couple one fiber better than the other.
-Here, the time series fit to a second order polynomial in time to remove long term trends and then the aperture flux for two detectors' fluxes are plotted against each other.
-For the discussion of CV3 tests forward, we average the two detectors (A1 and B4) to reduce this effect.}\label{fig:CV3longTserAB}
-\end{figure}
-
-A series of detector stability tests was performed using this +8 wave weak lens and 1.55 $\mu$m LED in a few different modes.
-A time series of all possible modes is shown in Figure \ref{fig:CV3longTser}.
-The full frame modes (FULL1 through FULL6) used 2 samples of the ramp for integration times of 21.5 seconds whereas the subarrays were tuned to have a similar integration time (21.3 sec for 20 Groups of a 320$\times$320 subarray and 25.1 seconds for 6 groups of a 640$\times$640 subarray).
-This ensured that during these 4 different types of subarray/full frame window sizes, the well depths achieved were similar.
-However, the groups are fit to a line for each pixel, so the useful portion of the ramp is the time between the last and first read or 20.2 seconds for the 320$\times$320 subarray versus 10.7 seconds for the FULL1 through FULL6 tests.
-
-It is apparent from Figure \ref{fig:CV3longTser} that the WLP8SUB test with a 320$\times$320 subarray and 20 groups of the ramp has smaller scatter on short timescales than the FULL1 through FULL6 tests.
-After removing a linear fit to the time series (to account for long term trends in the lamp), the standard deviation of the WLP8SUB data is 500 ppm whereas the FULL tests range from 1020 to 1540 ppm.
-For the FULL 2048$\times$2048 pixel integrations with 2 groups up the ramp, the count rate of photons is calculated in each pixel by subtracting the two groups (ie two reads for this RAPID mode) from each other and dividing by the group time (time between these two reads for this RAPID mode).
-For the WLP8SUB mode, a linear least squares fit is performed to the groups as a function of time and the slope of this line is the count rate on a pixel.
-The large number of groups used to fit this line ensures that the read noise is reduced as compared to the FULL 2 group tests by $2/\sqrt{N_G}$, where $N_G$ is the number of groups.
+Figure \ref{fig:cv3ExtractedSpectrum} shows an extracted spectrum from Cryogenic Vacuum 3 testing where a broadband point source is dispersed by the grism.
+The slope image is calculated from the raw ramp using the internal NIRCam ramps-to-slopes pipeline \texttt{nchdas}.
+The background is subtracted with a 2nd order polynomial fit and the flux is extracted with an optimally weighted summation \citep[e.g.][]{horne1986optimalE}.
+The spectrum is normalized by a 3rd order spline fit with 400 knots to remove the broad shape of the spectrum and the throughput curves.
+The resulting spectrum shows high frequency ($\sim$0.2 px$^{-1}$ to $\sim$0.5 px$^{-1}$) variations far in excess of the photon and read noise.
+These oscillations increase in frequency at longer wavelengths (X pixels).
+The variations have peak-to-valley amplitudes of about 8\%.
+However, we expect that the fringing structure will hold relatively constant during time due to the temperature stability of the instrument.
 
 
 \begin{figure}[!hbtp]
 \centering
-\includegraphics[width=.79\columnwidth]{plot_mmm.pdf}
-\caption{Time Series plot through the CV3 photometric stability campaign.
-All test shown above were using the Weak Lens +8 mode, with a PSF as shown in Figure \ref{fig:WLP8PSF}.
-13 tests (FULL1 through FULL6) are all in full frame mode, while SUB used a 320$\times$320 subarray and SUB640 used a 640$\times$640 subarray.
-The WLP8SUB showed smaller standard deviation that the full frame tests, when the linear trend is removed.}\label{fig:CV3longTser}
+\includegraphics[width=.99\columnwidth]{fringing_grism_cv3.pdf}
+\caption{A CV3 grism spectrum over the time series grism test shows evidence for fringing and where the oscillations exceed the photon and read noise (green point).
+An illustrative sinusoidal function is plotted for comparison to better see how the frequencies change as a function of wavelength (X pixel).
+}\label{fig:CV3GrismSpecFringing}
 \end{figure}
 
-We consider two explanations for why the WLP8SUB mode shows less scatter than the FULL modes, 
-\begin{enumerate}[noitemsep]
-	\item The reduction of read noise improves the stability of the signal and\label{item:readNReasonCV3subFull}
-	\item That the lamp is variable on short time scales of a frame (10.74 seconds) and sampling.\label{item:lampReasonCV3subFull}
+\clearpage
+\section{Subpixel Crosshatching}
+
+\subsubsection{Subpixel Crosshatching Characterization}
+The flat field of the ALONG detector, which is used for NIRCam grism series, has a pronounced crosshatch pattern visible in Figure \ref{fig:crossHatchA5}.
+The patterns are located at 23.1$\degree$ , 90.9$\degree$, and 158.6 $\degree$ counter-clockwise from the $+$X direction of the detector.
+The angle between these lines are 67.8$\degree$, 67.7$\degree$ and 44.5$\degree$.
+These angles and patterns can be analyzed with a 2D power spectrum as shown in Figure \ref{fig:crossHatchA5}.
+
+The angles of the crosshatch patterns are determined by the crystal pattern of HgCdTe.
+HgCdTe has a zincblende structure with tetrahedral bond angles where each Hg or Cd atom is surrounded by 4 Te atoms \citep{gemain2012mercVacanciesHgCdTe}.
+HgCdTe detectors are manufactured using molecular beam epitaxy upon a substrate, a process which can result in topological defects with peak to valley amplitudes of 5-20 nm in height variations \citep{chang2008surfaceMorphologyHgCdTe}.
+The surface morphology of the HgCdTe crystal shows that the crosshatch patterns are are oriented along the intersection of the (211) growth plane of the crystal and the 8 HgCdTe slip planes.
+
+The relative angles of the HgCdTe slip planes and (211) growth plane are 44.42$\degree$, 67.79$\degree$ and 67.79$\degree$ \citep{chang2008surfaceMorphologyHgCdTe}, very close to the observed crosshatch angles.
+A projection of zincblende structure is shown in Figure \ref{fig:crossHatchA5} relative to the observed crosshatch patterns.
+The similarity between the crosshatch patterns in the flat field and the topological variations observed in \citet{chang2008surfaceMorphologyHgCdTe} leads to the likely conclusion that the surface variations lead to quantum efficiency variations.
+Thus, the crosshatch pattern is mostly likely related to the crystal lattice structure of the HgCdTe substrate and not the pixel circuitry.
+
+The crosshatch structure of the detectors extends down to the subpixel level, so it will not be fully corrected with a flat field division.
+This sub-pixel structure has been imaged with microscopy on a Euclid HgCdTe detector \citep{shapiro2018crosshatch}.
+Atomic force microscopy shows topological features that are approximately 1.2~$\mu$m in width \citep{chang2008surfaceMorphologyHgCdTe} compared to the 18~$\mu$m pixel sizes.
+The width of the structures can also be estimated from the behavior for crosshatch lines as they cross pixel boundaries \citep{ninan2019crosshatchHPF}.
+We estimate that the crosshatch pattern oriented at 90.9$\degree$ crosses 1 horizontal pixel for every 64 vertical pixels.
+While crossing the boundary, there are $\approx 38$ rows where the crosshatch pattern spans more than 2 pixels.
+If the crosshatch pattern has a tophat response function, then these 38 rows where the pattern spans two pixels imply a tophat full width of 0.6 pixels or a physical width of 10.8~$\mu$m for an 18~$\mu$m pixel pitch.
+This is more than twice the estimate from \citet{ninan2019crosshatchHPF} for an HgCdTe used on the Habitable Planet Finder.
+We expect that the crosshatch pattern's width varies among detectors and that a tophat function is a poor approximation of the actual subpixel response.
+Within NIRCam detectors, there are large variations in the strength and orientation of crosshatch features.
+
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.49\columnwidth]{crosshatch_zoom.pdf}
+\includegraphics[width=.49\columnwidth]{crosshatch_2d_power.pdf}
+\includegraphics[width=.3\columnwidth]{tetrahedral_lattice_projection.png}
+\caption{
+The A5 detector's flat field has a pronounced crosshatch pattern at 23.1$\degree$ , 90.9$\degree$, and 158.6 $\degree$ CCW from the positive X direction.
+The crosshatch pattern is visible in a zoom-in of the pixel flat field (top left).
+The 2D power spectrum of the flat field (top right) shows a continuum of frequencies aligned with the three crosshatch angles.
+Note the lines in frequency plane are perpendicular to the crosshatch directions in the image plane.
+These three relative crosshatch angles (67.8$\degree$, 67.7$\degree$ and 44.5$\degree$) are similar to a projection of a tetrahedral (zincblende) lattice structure of HgCdTe (bottom, 67.8$\degree$, 67.8$\degree$, 44.4$\degree$).
+}\label{fig:crossHatchA5}
+\end{figure}
+
+The crosshatch pattern is wavelength dependent, as seen in Figure \ref{fig:crossHatchWavelengthDep}, where the throughput variations are the largest for short wavelengths (resolving crystal structures) and smallest for the long wavelengths.
+This is visible both in the throughput cross section of the flat field and the Fourier amplitude of the crosshatch as a function of wavelength.
+We find a steeper wavelength dependence to the crosshatch pattern near 0.9$\degree$ from horizontal in the frequency domain or 0.9$\degree$ from vertical in the length domain.
+%We also fit the crosshatch pattern.
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.49\columnwidth]{cross_sec_of_crosshatch.pdf}
+\includegraphics[width=.49\columnwidth]{fourier_power_from_fit.pdf}
+\caption{
+The crosshatch pattern changes as a function of wavelength, possibly because the shorter wavelengths resolve the structure better.
+The shorter wavelengths have deeper crosshatch troughs (left) and higher Fourier amplitudes (right).
+}\label{fig:crossHatchWavelengthDep}
+\end{figure}
+
+
+\subsection{Crosshatch Pattern Modeling}
+We model the crosshatch pattern in the Fourier space because it has a smoother pattern as a function of spatial frequency than in spatial coordinates as seen in Figure \ref{fig:crossHatchA5}.
+We divide the 2D Fourier power spectral density by the number of pixels in an input image.
+This was experimentally determined to give a power spectral density that does not change with the dimensions of the input image.
+\textcolor{red}{Can we justify this more? I thought it would be pixels$^2$}
+
+We model the two dimensional Fourier power spectral density $f(k_{x,i}',k_{y,i}')$ for one angle $\theta_i$ as
+\begin{equation}\label{eq:analyticPSDradial}
+f(k_{x,i}',k_{y,i}', a_i, b,c) = a_i \exp{\left(- |k_{x,i}'| / b \right)} \left( \frac{1}{(0.5 c)^2 + k_y'^2} \right),
+\end{equation}
+where $k_x'$ and $k_y'$ are rotated frequency coordinates in the parallel and perpendicular directions, $a$ is the amplitude, $b$ is the parallel exponential constant and $c$ is the Lorentzian full width at half maximum of the perpendicular dependence.
+For each of the three angles, there is a set of rotated coordinates centered at $(k_{x,0},k_{y,0})$= (0,0) following:
+\begin{equation}
+k_x'(\theta_i) = k_x \cos{\theta_i} + k_y \sin{\theta_i}
+\end{equation}
+and
+\begin{equation}
+k_y'(\theta_i) = -k_x  \sin{\theta_i} + k_y \cos{\theta_i}.
+\end{equation}
+We include three angles so that the total power spectral density is
+\begin{equation}
+f(k_x,k_y) = \sum_{i=1}^{i=3} f_i(k_{x,i}'(\theta_i),k_{y,i}'(\theta_i),a_i,b,c) + d \exp{\left(-k_r/e_b\right)},
+\end{equation}
+
+This model has 8 free parameters: three angles ($\theta_i$, three amplitudes ($a_i$), a joint parallel exponential constant ($b$) and joint Lorentzian width ($c$).
+Finally, we include an exponential term that fits the broad azimuthally symmetric background to all the power spectra,
+where $d$ is the amplitude of the radial ``background'', $k_r= \sqrt{k_x^2+k_y^2}$ is the radial frequency and $e_b$ is the radial background exponential constant.
+We only fit the region of the power spectral density above frequencies of 0.05 px$^{-1}$ to focus on the high frequency component of the flat field where the crosshatch is most prevalent.
+
+For the F300M filter and ALONG detector, we find 
+for $\theta_1 = 0.906 \pm 0.001 \degree, \theta_2 = 68.605 \pm 0.001 \degree, \theta_3 = 113.075 \pm 0.001, a_1 = 2.774 \pm 0.002 \times 10^{-7}, a_2 = 1.569 \pm 0.002 \times 10^{-7}, a_3 = 1.744 \pm 0.002 \times 10^{-7}, b=0.345 \pm 0.0005 $ px$^{-1}$, $c=2.05 \pm 0.07 \times 10^{-2}$ px$^{-1}$, $d=6.78 \pm 0.01 10^{-3}$ and $e_b=0.26 \pm 0.01$ px$^{-1}$.
+In other words, the separations between the vectors are $67.699 \degree, 67.831 \degree$, and $44.470 \degree$.
+The uncertainties were simply derived from the diagonals of the covariance matrix and likely are underestimated.
+
+NIRCam's 10 SCA's have very similar crosshatch angles with separations of 44.5 $\degree$ and 67.7 to 67.8 $\degree$.
+They tend to have one primary crosshatch axis oriented either along the X pixels or the Y pixels, with two flanking axes at $\sim 67.7 \degree$ to either side.
+The long wavelength arrays have a more pronounced crosshatch than the short wavelength arrays.
+The NRCB4 array's primary crosshatch direction is most closely aligned with a pixel axis (the Y direction) than any SCA.
+Figure \ref{fig:crosshatchModelGallery} shows the best-fit crosshatch 2D power spectra.
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.99\columnwidth]{psd_models_gallery.pdf}
+\caption{
+Best-fit power spectra of all the NIRCam detectors show that the long wavelength detectors A5 and B5 show the most pronounced crosshatch patterns.
+The primary crosshatch tends to be aligned closely, but not exactly, with either the X or Y axis.
+The images have all been normalized to the same scale to show the relative crosshatch amplitudes of different detectors.
+}\label{fig:crosshatchModelGallery}
+\end{figure}
+
+\clearpage
+\subsection{Position of SubGrism Array}
+
+The crosshatch pattern varies in amplitude and angular dependence from one physical location on the detector to another.
+The ALONG detector has more pronounced crosshatching toward the middle of the detector that falls off toward the perimeter.
+On the other hand, the BLONG detector has more pronounced crosshatching towards the boundary.
+We fit the crosshatch pattern to three regions of the ALONG detector, which is the one used for the NIRCam grism time series mode:
+\begin{enumerate}
+	\item The 2048$\times$64 SUBGRISM position at the bottom of the array where the bottom left corner is (4,5) \label{subgrism64pos}
+	\item A 2048$\times$64 theoretical subarray at the top of the ALONG detector where the bottom left corner is (4,1984)
+	\item A 2048$\times$64 cutout of the full frame detector that is centered on the grism time series field point.
 \end{enumerate}
-As listed in Table \ref{tab:noiseSummary1overf}, the theoretical uncorrelated read noise for double-correlated samples (CDS) is about 33 ppm.
-However, the dark frame tests in Section \ref{sec:longDarks} show that 1/f noise significantly increases this value.
-When reference pixel corrections are applied to the data and a 70 pixel source radius is used, the measured CDS read noise from the dark test is 280 ppm for the long wavelength detector.
-Due to the source lamp setup discussed in Figure \ref{fig:CV3longTserAB}, we average the flux from detector A1 and B4, which lowers the read noise by $\sqrt{2}$  to 200 ppm.
-As a check, we perform aperture photometry on an un-illuminated regions of the time series stability tests and average the results of the two detectors.
-We find a standard deviation of 1100 to 1490 e$^-$/s or 150 ppm to 200 ppm of the 7.5$\times 10^6 e^-$/s flux, likely due to slight differences in the 1/f noise within the exposures.
-So, the measured standard deviation of ~1000 ppm during the full-frame tests is due largely to lamp variations and not read noise alone.
 
+The three subarrays considered are shown in Figure \ref{fig:subpixScanSimulation}.
+We exclude reference pixels (which form a 4 pixel wide boundary around the detector) and an additional row on the bottom and top of the array because these illuminated rows are outliers in the flat field.
+The first position is nearly the same as the SUBGRISM64 subarray position in the grism time series mode, except that the SUBGRISM64 includes the first 5 rows which are excluded here from the crosshatch analysis.
+The field point used for the SUBGRISM64 mode is expected to be the same one as will be used for the SUBGRISM128 and SUBGRISM256 subarrays.
+The position at the top of the ALONG detector has the smallest amplitude of crosshatch pattern in all three directions.
+The best-fit amplitudes are used as input to the jitter simulations in Section \ref{sec:CrosshatchSim}.
+We find that the maximum flux change for a 0.1 pixel shift is 118 ppm for the nominal grism position, 108 ppm for the top of the array and 153 ppm at the full frame grism position.
+\textcolor{red}{\textbf{Update this for latest full frame grism field point}}
 
-The WLP8SUB integrations had 20 groups, so the measured read noise should be 280 ppm $\times \sqrt{2/20}$= 89 ppm.
-There is no un-illuminated region of the 320$\times$320 subarray that is as big as the source aperture so there is not empirical check on this 89 ppm estimate.
-The difference of 83 ppm between the measured full frame read noise and the calculated subarray is not enough to explain the full difference in precision between the two tests.
-Thus, we rule out \ref{item:readNReasonCV3subFull} as the main noise source.
-Instead, we conclude that the lamp has significant short-timescale variability that the faster samples used on the SUB320 test can average over.
-%The take-away from the comparison between subarrays is that one can reduce the read noise and short timescale variability with more samples up the ramp and a smaller subarray.
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=0.99\columnwidth]{subg_pos_topGrism64.pdf}\\
+\includegraphics[width=0.99\columnwidth]{subg_pos_fullfGrismRegion.pdf}\\
+\includegraphics[width=0.99\columnwidth]{subg_pos_subgrism64.pdf}\\
+\vspace{0.2in}
+\includegraphics[width=0.99\columnwidth]{subg_pos_topGrism64_psd.pdf}\\
+\includegraphics[width=0.99\columnwidth]{subg_pos_fullfGrismRegion_psd.pdf}\\
+\includegraphics[width=0.99\columnwidth]{subg_pos_subgrism64_psd.pdf}\\
+\caption{
+The top of the array has the smallest level of crosshatching and the middle has the largest.
+This is visible in the flat field images (top three panels) and their power spectral density functions (bottom three panels) for three different sections of the A5 detector: a theoretical ``aperture'' position at the top of the array (first plot from top), the full frame position near Y=512 (second plot from top) and the nominal SUBGRISM64 at the bottom of the array (third plot from top).
+The bottom left corner for each subarray is listed in parentheses in the title of the flat field plot and the best-fit amplitudes are listed in the title of the power spectral density plot.
+ }\label{fig:subpixScanSimulation}
+\end{figure}
 
-\subsubsection{Row-by-row Background Subtraction}
+\subsection{Subpixel Crosshatching Calculation}\label{sec:CrosshatchSim}
 
-Even though we rule out read noise as the dominant noise source, we investigate ways to reduce the fractional contribution of read noise.
-If we use a row-by-row subtraction, as discussed in Section \ref{sec:indAmpAvg}, the read noise can be reduced.
-We use a procedure that reduces the 1/f electronic noise.
-First, we find the robust mean flux for each row of the background annulus with radii of 95 and 195 pixels.
-We then, subtract this value from the entire row of the image and perform aperture photometry on the residual image surrounding the source with a circular aperture of 70 pixels.
-This procedure reduces the measured read noise on a dark (un-illuminated) region to 60 to 100 ppm.
+The subpixel crosshatch pattern can potentially introduce time-variable noise as the point spread function drifts with telescope pointing drifts, long timescale jitter.
+NIRCam observations are expected to have a root-mean-square deviation of 6.0 mas in each axis when measured in 15 second intervals over a 10,000 second observation.\footnote{See \url{https://jwst-docs.stsci.edu/display/JTI/JWST+Pointing+Performance\#JWSTPointingPerformance-Pointing\_stabilityPointingstability}}
 
-\subsubsection{Best Pipeline Practices from CV3 Tests}\label{sec:CV3Lessons}
-
-\begin{figure*}
-\gridline{\fig{ES-WLP8SUB_pipeline_parameters.pdf}{0.39\textwidth}{SUB320 Time Series}
-\fig{{ES-FULL4_pipeline_parameters.pdf}}{0.39\textwidth}{FULL4 Time Series}}
-\caption{Flat fielding, linearity corrections and intrapixel capacitance corrections have a relatively small impact on the time series precisions measured during the CV3 test.
-Each table lists the measured noise (in ppm) when we turn on/off IPC correction (vertical direction), flat fielding (horizontal direction) and the linearity correction (diagonal direction).
-The IPC and flat fielding corrections are negligible.
-Above 50\% well depth, the HgCdTe detectors become less sensitive to photons, so applying the linearity correction naturally increases the apparent noise.
-}\label{fig:CV3pipeParamsWLP8}
-\end{figure*}
-
-We investigated best practices for the pipeline and analysis by running the raw data through the pipeline and sequentially adding and subtracting steps that go into producing light curves.
-We experimented with the methodology for turning raw detector reads up the ramp into count rates on the detector, the intrapixel capacitance (IPC) correction, flat fielding, reference pixel correction and detector non-linearity.
-After the calibrated images are created, we experimented with different types of aperture photometry including different geometries, background calculations and aperture sizes.
-
-We find that the intrapixel capacitance (IPC) correction, flat fielding and linearity correction have relatively small impacts on photometric precision.
-In Figure \ref{fig:CV3pipeParamsWLP8} we show the standard deviation of the flux after averaging the A1 and B4 detectors and removing a linear trend.
-We quote standard deviations for two example tests: SUB320 and FULL4.
-The IPC corrections matter less than 0.01 ppm, because the deconvolution kernel conserves flux.
-So long as the aperture is significantly wider than the 3$\times$3 pixel kernel, the flux in an aperture should be constant.
-The flat fielding correction has less than a 2 ppm impact to the standard deviation because the image motion is at the sub-pixel level.
-
-The linearity correction does consistently increase the signal to noise by 7 to 23 ppm but this is a natural consequence of the np photodiode in our detectors.
-This is because the photodiode becomes decreasingly less sensitive to photons as it the well capacity is approached.
-Note that at the extreme of saturation, the photodiode no longer senses new photons so you would measure a standard deviation of 0 ppm.
-Therefore, the np photodiode naturally decreases the measured standard deviation of flux that will appear larger with a non-linearity correction.
-
-The weak lens PSF illuminates the pixels to 15,000 to 30,000 DN or 25-50\% well depth and the non-linearity for this well depth is 0.5 to 2\%.
-This means that the measured standard deviation for linearized data should be about 1\% larger than for raw data, similar to the measurements in Figure \ref{fig:CV3pipeParamsWLP8}.
-We therefore conclude that the non-linearity correction makes a small difference to the final derived precision.
-
-After experimenting with these configurations, we find the following pipeline steps are important:
+We simulate the effect of this jitter on NIRCam time series observations with the following steps:
 \begin{itemize}
-	\item Fitting a line up the ramp gives superior results to subtracting the last and first pairs of read. This is  expected because more ramps reduce the 1/f and read noise, but the disparity (500 ppm versus 1200 ppm) is too large to be due to read noise alone.
-	\item Centering the aperture with the central spot inside the hexagon is important to conserve the flux within the aperture
-	\item Row-by-row subtraction (along the detector's fast-read direction) gives superior background subtraction to traditional aperture photometry (using the mean or robust average value in a background annulus) because it reduces the read noise.
-	\item Aperture sizes for the source at ~70 pixels, outside the hexagon, gave the best precisions
+	\item Fit the existing flat field to a crosshatch model in the Fourier domain
+	\item Extrapolate the crosshatch model to higher frequencies (30 px$^{-1}$) to estimate the sub-pixel structure
+	\item Simulate an over-sampled PSF using \texttt{webbpsf} \citep{perrin2014webbpsf}
+	\item Multiply the PSF by the simulated flat field
+	\item Shift the PSF along the X and Y directions up to a magnitude of 6 mas
+	\item Bin the simulated images into the native pixel size
+	\item Divide by the pixel-to-pixel flat field
+	\item Measure the relative flux with a photometric aperture
 \end{itemize}
 
-We also found reduction steps that had very little impact on the final photometric precision including
-\begin{itemize}
-	\item IPC corrections ($\lesssim 0.01$ ppm)
-	\item Flat-fielding ($\lesssim 2$ ppm)
-\end{itemize}
-
-\clearpage
-\subsection{OTIS Tests}
-
-A series of NIRCam stability tests were carried out while the entire JWST telescope system was placed in a tall vacuum chamber at NASA Johnson.
-However, there is no feasible way to place a point source lamp far enough away to simulate the imaging of astrophysical objects onto a JWST instrument, so an alternate lamp setup is used.
-During these tests, there were two configurations 1) the ``half pass" tests where lamp sources within the optical system and 2) ``pass and a half" tests where the a lamp source within the optical system bounces light off the secondary, primary, flat mirrors mounted on the chamber's ceiling and then through the entire telescope and instrument chain to the detectors.
-
-\subsubsection{Pass and a Half Grism Time Series Test - Photometry}
-The OTIS testing included a time series mode similar to the grism time series template used in orbit for transiting planets.
-Figure \ref{fig:otisPSFs} shows the point spread functions for the OTIS tests that simultaneously illuminated the short wavelength and long wavelength channels.
-The ``O9'' supercontinuum illuminated the detector over a wide wavelength range from 2.5 to 4.1$\mu$m.
-A small fraction of the light is emitted at wavelengths shorter than 2.5 $\mu$m, which is sufficient to illuminate the short wavelength detector to peak counts of $\sim 260$DN per exposure.
-Meanwhile, the peak of the grism is $\sim$ 26,000 DN.
-This lamp configuration was a pass and a half test, which suffered from the vibrations and oscillations of the suspension system, which can be perturbed by motors such as vacuum pumps.
-The telescope is suspended vertically and can potentially swing under these vibrations.
-
-The point spread function through the weak lens and optical setup create a very unusual point spread function for the short wavelength channel, shown in Figure \ref{fig:otisPSFs} that has multiple clumps of emission.
-We perform aperture photometry on a knot of emission at (1090 px, 230 px) for the short wavelength detector.
-This knot is concentrated enough to fit with a 2D Gaussian and centroid this Gaussian to ~0.2 pixels, which can be used to track the motions of the PSF due to the position oscillations.
-For the long wavelength detector, we initially extract a box aperture to create a broadband light curve.
 
 
-\begin{figure*}
-\gridline{\fig{wlp8_otis_psf.pdf}{0.7\textwidth}{WLP8 Image} }
-\gridline{\fig{{grism_otis_psf.pdf}}{0.7\textwidth}{Grism Image}}
-\caption{Median images of the short wavelength (SW) weak lens mode and long wavelength (LW) grism spectroscopy that were used simultaneously in a grism time series stability test.
-Due to the OTIS optics setup, the short wavelength WLP8 image does not nearly represent the hexagonal PSF from CV3 (Figure \ref{fig:WLP8PSF}) or flight.
-We perform photometry on a single knot of emission as highlighted as the blue circular aperture.
-For the grism time series broadband test, we use a rectangular aperture and a vertically offset background box.
-}\label{fig:otisPSFs}
-\end{figure*}
-
-\begin{figure*}
-%\gridline{\fig{tser_LW_OTIS.pdf}{0.99\textwidth}{WLP8 Image} }
-\gridline{\fig{tser_LWSW_OTIS.pdf}{0.6\textwidth}{Grism Time Series}}
-\caption{Time series of the simultaneous SW/LW Time Series Stability test.
-The image motion in this test due to vibrations and oscillations is two orders of magnitude larger than expeced in flight.
-The complicated PSF and low signal on the short wavelength channel compromise its sensitivity whereas the long wavelength broadband flux is dominated by lamp instability.
-}\label{fig:otisLWSWtser}
-\end{figure*}
-
-
-The locations of the subarrays have ROWCORNER=431.
-This means there are not top or bottom reference pixels.
-If we use a horizontally-displaced background region, the pre-amp offsets will not be properly subtracted.
-We therefore subtract the median from each column and then each row (not including the grism aperture).
-We subtract the median of each column first to remove the amplifier offsets and then the median of each row second to reduce the 1/f noise.
-Figure \ref{fig:otisLWcolrowSub} shows the dramatic effect of subtracting the columns and rows from each aperture.
-
-\begin{figure*}
-%\gridline{\fig{tser_LW_OTIS.pdf}{0.99\textwidth}{WLP8 Image} }
-\gridline{\fig{raw_tser_LWgrisMPPVertBackbox_otisSWLWsimult.pdf}{0.49\textwidth}{Slope Images}
-\fig{raw_tser_LWgrisMMMRowColSubVertBackbox_otisSWLWsimult.pdf}{0.49\textwidth}{Column-by-column and row-by-row subtraction}}
-\caption{The grism time series contains correlated read noise due to pre-amplifier offsets over each amplifier and 1/f noise in the horizontal (fast read) direction.
-Row-by-row-subtraction dramatically decreases the noise due to 1/f noise while column-by-column subtraction dramatically decreases the pre-amplifier offset noise.
-}\label{fig:otisLWcolrowSub}
-\end{figure*}
-
-\subsubsection{Pass and a Half Grism Time Series Test - Spectroscopy}
-
-\begin{figure*}
-\gridline{\fig{comparison_spec_otis_flat_vs_no_flat.pdf}{0.55\textwidth}{}}
-\caption{Flat fielding has a pronounced effect of reducing the crosshatch pattern in the spectrum.
-There are small offsets in the flux os the spectrum also because of the flat field.
-}\label{fig:otisLWflatVsNoFlat}
-\end{figure*}
-
-
-\begin{figure*}
-%\gridline{\fig{tser_LW_OTIS.pdf}{0.99\textwidth}{WLP8 Image} }
-\gridline{\fig{o9LEDwf322w2Flat_dyn_spec_NRCN83-256-O9LW}{0.49\textwidth}{Dynamic Spectrum}
-\fig{o9LEDwf322w2Flat_dyn_spec_NRCN83-256-O9LW_aligned}{0.49\textwidth}{Dynamic Spectrum with Alignment}}
-\caption{The dynamic spectrum of the grism along shows large artifacts due to motion of the source (broad horizontal stripes).
-These are dramatically reduced when using cross correlation
-}\label{fig:otisLWdynSpec}
-\end{figure*}
-
-%\begin{figure*}
-%\fig{o9LEDwFlat_bb_series_NRCN83-256-O9LW.pdf}{0.41\textwidth}{Broadband Time Series}
-%\end{figure*}
-
-We also analyze the spectroscopic time series for the OTIS grism time series.
-The extracted spectrum and dynamic spectrum (how each wavelength varies in time) can be seen in Figure \ref{fig:otisLWdynSpec}.
-Flat fielding is important for removing the imprint of the crosshatch pattern, as visible in Figure \ref{fig:otisLWflatVsNoFlat}.
-
-The wavelength-binned time series shows dramatic variations (shown in Figure \ref{fig:otisWavebinTSeries}) due to the shifts in the dispersion direction.
-
-\begin{figure*}
-\gridline{\fig{wavebin_tser_o9LEDwFlat_NRCN83-256-O9LW.pdf}{0.49\textwidth}{Time Series without Alignment}
-\fig{wavebin_tser_o9LEDwf322w2Flat_NRCN83-256-O9LW_aligned.pdf}{0.49\textwidth}{Time Series with Alignment}}
-\caption{The position variations along the dispersion direction cause large fluctuations in the time series.
-These are dramatically reduced when cross-correlating and finding the peak to adjust for wavelength shifts
-}\label{fig:otisWavebinTSeries}
-\end{figure*}
-
-\clearpage
-\subsection{Using SW centroid for LW grism}
-
-We attempt to use the centroids form the SW imaging as input for a broadband grism aperture.
-This potentially provides a way to input centroid information without cross-correlating a spectrum.
-However, the SW centroids add more noise to the photometry as seen in Figure \ref{fig:otisLWSWtserShift}.
-
-\begin{figure*}
-%\gridline{\fig{tser_LW_OTIS.pdf}{0.99\textwidth}{WLP8 Image} }
-\gridline{\fig{tser_LWSW_OTIS_w_shift.pdf}{0.6\textwidth}{Grism Time Series}}
-\caption{Same as Figure \ref{fig:otisLWSWtser} but where the SW shifts were applied (with a scaling factor of 0.5) to the long wave.
-The aperture shifting appears to increase the flux errors with centroid shifts.
-}\label{fig:otisLWSWtserShift}
-\end{figure*}
-
-
-\subsection{Differential Spectrum}
-We investigate whether the lamp fluctuations can be removed by dividing by a signal-to-noise-weighted broadband time series.
-\begin{figure*}
-\gridline{\fig{wavebin_tser_o9LEDwf322w2Flat_NRCN83-256-O9LW_differential.pdf}{0.49\textwidth}{Differential Time series}}
-\caption{Differential time series
-}\label{fig:otisLWDiffdynSpec}
-\end{figure*}
-
-\clearpage
-
-\subsubsection{Half Pass Subarray Size Tests}
-
-As with the CV3 tests in Section \ref{sec:CV3Lessons} and Figure \ref{fig:CV3longTser}, we found the highest precision lightcurves when using subarray read configurations.
-Figure \ref{fig:OTISsubarrays} shows the many subarrays explored in a set of time series.
-As the number of reads up the ramp becomes larger and larger, the standard deviation increases.
-This would be expected if the read noise contributed significantly to the standard deviation so that ramp fitting decreases the read noise.
-The perplexing thing is, though, that this is even true if we throw away all the intermediate reads.
-That is, with all readout modes, count rate (ie. slope image is approximated by the last subtracted by the first read.
-Here the number of reads in between these is irrelevant.
-A possible way to explain the superior standard deviation for the smallest 2048$\times$64 subarray is not that more reads increase precision on the slopes but rather the small subarray has a smaller contribution from spatially correlated noise.
-When larger frames are read out, for example, the 1/f noise becomes increasingly uncorrelated from read to read.\textcolor{red}{Wrote this when very tired. Is this correct and logical?}
-
-Note that the integration times are different for these 4 tests. They are 39.9, 39.9, 32.3, 31.8 and 32.2 for the 64-STRIPE, 128-STRIPE, 256-STRIPE, 256-WIND and FULLFRAME respectively. Perhaps the lamp has oscillations on a timescale that are averaged out efficiently at 39.9 seconds but not 32.3 seconds?
+We take the exponential model with best-fit parameters for the F300M filter and extend the exponential function out to an oversampling factor of 60 times the LW pixels.
+We evaluate equation \ref{eq:analyticPSDradial} for frequencies in the oversampled image from 0 px$^{-1}$ to 30 px$^{-1}$ and multiply this by the number of pixels and the square of the oversampling factor (ie. $60^2$) to convert from the scale-invariant Power Spectral Density to the simulated PSD.
+We then assign random phases uniformly from 0 to 2$\pi$ for the complex Fourier plane because the original image's complex phase distribution is similar to uniform.
+Finally, we take the real part of the inverse Fourier transform to create an oversampled image, as shown in \ref{fig:crossHatchSimPSF}.
+For comparison to the original flat in Figure \ref{fig:crossHatchA5}, we binned to the oversampled flat field to the native LW pixel (1.0 native pixels=60.0 oversampled pixels $\approx$0.063 \arcsec).
+This simulated pixel flat field with dimensions of 26 by 26 LW pixels has a peak of 1.15 to trough of 0.90 with a robust standard deviation of 0.05.
+For comparison, the middle of the original F300M flat for the ALONG detector has a robust standard deviation 0.06.
 
 \begin{figure}[!hbtp]
 \centering
-\includegraphics[width=.5\columnwidth]{subarray_config_tser.pdf}
-\caption{A variety of subarrays in the OTIS stability tests were read out with similar integration times (32 to 39 seconds) to compare relative precision of the read modes. 
-The time series are ordered vertically in increasing frame duration (and decreasing number of groups up the ramp) toward the bottom.
-With this very crude box extraction (and no background subtraction), the standard deviation decreases as the number of groups up the ramp becomes more numerous.
-This is likely related to correlated 1/f noise in the horizontal direction that is averaged out by more reads up the ramp.}\label{fig:OTISsubarrays}
+\includegraphics[width=.32\columnwidth]{sim_flat_Oversampled_plot.pdf}
+\includegraphics[width=.32\columnwidth]{sim_flat_Pixel_plot.pdf}
+\includegraphics[width=.32\columnwidth]{psf_with_phot_ap_with_crosshatch.pdf}
+\caption{
+The steps of the sub-pixel crosshatch photometry simulation are shown here.
+We simulate an over-sampled flat (left) by extrapolating the power spectrum to frequencies above the pixel sampling level.
+This simulated flat is binned to the native pixel resolution to produce a pixel flat field (middle) that would be used by a standard pipeline that has no sub-pixel corrections.
+A \texttt{WebbPSF} point spread function is created at the oversampled resolution, multiplied by the oversampled flat field and then binned to native resolution (right).
+Finally, the simulated image is divided by the pixel flat field as would be performed in a standard pipeline reduction.
+The simulated PSF shows the source and background apertures used in the simulation, which are centered on the PSF.
+}\label{fig:crossHatchSimPSF}
 \end{figure}
+
+We next calculate a point spread function using \texttt{webbpsf} \citep{perrin2014webbpsf}, oversampled by a factor of 60.
+\texttt{webbpsf} includes an optional blurring due to high frequency pointing jitter.
+We set this Gaussian blurring parameter to 1 mas to simulate a worst-case scenario where the pointing drift is dominated by long-timescale behavior with minimal high frequency jitter.
+We multiply the oversampled \texttt{webbpsf} source by the simulated oversampled flat and bin this to native pixel resolution to create a simulated observation as shown in Figure \ref{fig:crossHatchSimPSF}.
+This simulated observation is divided by the binned simulated flat as would be done by a standard pipeline's flat field correction.
+
+We repeat the last steps of the observation simulation by shifting the over-sampled PSF by sub-pixel amounts.
+The subpixel shifts of the over-sampled PSF are performed with \texttt{scipy.ndimage.shift}.
+For each shifted PSF, we multiply this by the subpixel crosshatch pattern and bin the result.
+These simulated operations represent pointing drift on the subpixel scale.
+
+We calculate aperture photometry with a circular aperture with a radius of 7 pixels and a background annulus from 7 to 10 pixels on each of the observations.
+The aperture is re-centered by the same position as the shift direction.
+For each sub-pixel pointing drift, the aperture sum is subtracted by the background flux average per pixel multiplied by the pixel area of the source aperture.
+While the simulations here include no background flux, we use the background subtraction to simulate the operations applied by a photometry pipeline.
+The differential flux between the centered PSF and the shifted one is shown in Figure \ref{fig:subpixScanSimulation}.
+
 
 \begin{figure}[!hbtp]
 \centering
-\includegraphics[width=.5\columnwidth]{fullframe_background_sub_compare_tser_tools.pdf}
-\caption{An experiment with circular background-subtracted photometry shows dramatically improved precisions over raw aperture sums in Figure \ref{fig:OTISsubarrays}.
-Additionally, a median subtraction of all background pixels per row improves the precision.}\label{fig:OTISSubConfigCircularAp}
+\includegraphics[width=.49\columnwidth]{scan_F300M_x_short_scan.pdf}
+\includegraphics[width=.49\columnwidth]{scan_F300M_y_short_scan.pdf}
+\caption{
+The simulated subpixel crosshatch pattern from Figure \ref{fig:crossHatchSimPSF} for the F300M filter will cause spurious flux changes with small pointing drifts.
+Here we show scans in the X direction and Y direction from the center of the image and a subpixel scale.
+The amplitude of these scans is 6.3 mas for the $\sim$63 mas/px plate scale of the LW detector.
+These are correctable with smooth functions such as polynomials.
+}\label{fig:subpixScanSimulation}
 \end{figure}
 
-\begin{figure}[!hbtp]
-\centering
-\includegraphics[width=0.48\columnwidth]{apertures_for_NRCN83-128-STRIPE-72.pdf}
-\includegraphics[width=0.48\columnwidth]{apertures_for_NRCN83-256-STRIPE-72.pdf}
-\includegraphics[width=.48\columnwidth]{subarray_config_tser_backsub_rect.pdf}
-\caption{Subarray configuration test during OTIS. The position of the background subtraction box has a dramatic effect on the precision of the time series.
-This is due to correlated 1/f noise along the horizontal fast-read direction.
-If the background subtraction box is on an adjacent amplifier, it captures a very different 1/f noise behavior than if it is on a shared amplifier.
-The amplifier boundary is shown as a vertical blue dashed line.
-\textcolor{red}{To do: understand better why the vertically offset box is better? Also, show the aperture as a separate figure.}
-\textcolor{blue}{Now I understand it as coming from which amplifier the background box is on.}}\label{fig:OTISRectBacksub}
-\end{figure}
+The subpixel crosshatch structure does indeed create flux variations with image motion as shown in Figure \ref{fig:subpixScanSimulation}.
+The amplitude of the flux changes is potentially up to 150 ppm.
+This is significant when compared to atmospheric features of giant planets ($\lesssim$ 100 ppm) or the transit depth of an Earth-like planet transiting a sun-like star ($\lesssim$ 80 ppm).
 
-\clearpage
-\subsection{GL Dewar Tests}
-\begin{figure*}
-\gridline{\fig{ap_labels_S02illum_GLrun104.pdf}{0.32\textwidth}{Apertures}
-		\fig{raw_tser_phot_S02illum1miAll_GLrun104.pdf}{0.32\textwidth}{Raw time series}
-		\fig{refcor_phot_S02illum1miAll_GLrun104.pdf}{0.32\textwidth}{Ratio Time Series}}
-\caption{Two photometric apertures are placed on the subarray, where they both see common-mode variations in the lamp.
-The ratio of the time series of each aperture shows a handful of integrations at the beginning that stand out, which quickly stabilize to the 240 ppm level.
-}\label{fig:GLtSeries}
-\end{figure*}
+Fortunately, the subpixel crosshatch systematic is a smooth function of pointing drift, shown in Figure \ref{fig:subpixScanSimulation}.
+A polynomial function can be fit to this subpixel dependence then the centroid of each integration can be inserted as an argument to the function to provide a correction as a function of time.
+Alternatively, a Gaussian process regression could be applied.
+Centroiding is possible in imaging and spectroscopic modes using PSF fitting or cross-correlation.
+When the LW grism time series mode is enabled, SW imaging data will automatically be collected simultaneously enabling the SW centroids to be used to track the motion of the dispersed grism image.
+Furthermore, the pixels for time series modes can be characterized in detail because the will be re-used for all time series observations in a given mode.
+Target acquisition is expected to achieve centroiding accuracy $\lesssim$ 10 mas ($\lesssim 6$ mas) for unsaturated target acquisition.\footnote{https://jwst-docs.stsci.edu/display/JTI/NIRCam+Time-Series+Imaging+Target+Acquisition}
+This ensures that time series observations will reliably return to the same location within the same set of pixels with every visit.
 
-The GL dewar, located at the University of Arizona, is a laboratory setup for assessing NIRCam flight and spare detectors.
-The key difference with the Asic dewar discussed below is that the detector readout electronics are completely different, using a Leach system that is operated outside of the dewar as opposed to the Asic, which is lives right next to the detectors at cryogenic temperatures.
-Comparing the GL dewar results to the asic dewar can be helpful in isolating the source of noise sources in the NIRCam system.
-If the GL dewar and asic dewar share the same types of correlated noise sources, these can be attributed to the detectors.
-If the asic dewar introduces or eliminates some correlated noise sources, these can be attributed to the readout electronics.
+\subsection{Time Series Simulation}
+The JWST fine steering mirror (FSM) is designed to correct any telescope pointing errors that are not full corrected by the reaction wheels.
+The JWST attitude control system team provided a simulation of the expected pointing performance shown in Figure \ref{fig:tserPointingFull}.
 
-For the GL dewar, an LED illumination source flood-illuminates the detectors and the arrays are read out in subarray mode to create time series.
-Figure \ref{fig:GLtSeries} shows the detector subarray illumination as well as two apertures that were used for time series photometry.
-The first handful of frames show an initial ``warmup" period lasting about 9 seconds.
-This quickly stabilizes to a 1200 ppm standard deviation likely dominated by lamp variations.
-If one divides the two apertures by each other, the resulting time series is very flat and stable to within 260 ppm.
-As with the Asic dewar, we find very good performance when comparing two apertures within the same detector.
-This can be the result of common-mode systematic errors that divide out, so it is also important to check the time series against an independent detector.
+The dominant variations in the pointing in the simulation from Figure \ref{fig:tserPointingFull} are High Gain Antenna (HGA) moves.
+These are moves are designed to keep the antenna pointing at ground-based antennas for telemetry or data download.
+Fortunately, the errors due to HGA moves damp quickly on $\lesssim$ 1 minute e-folding timescales, as show in Figure \ref{fig:tserPointingZoom}.
+This means that for 1 minute integrations, only about 1\% of integrations will be affected by HGA moves and the data for these moves could be discarded.
+Other pointing errors can be caused by reaction wheel jitter, the MIRI cryocooler and fuel slosh in the fuel tanks.
+The effect of the reaction wheels and MIRI cryocooler will be to blur the PSF over an integration since they are higher frequency $\gtrsim 1$ Hz.
+Fuel slosh happens at the beginning of a visit after the telescope is slewed, but will dampen quickly on 100 second timescales.
+Therefore, the largest contributor to pointing variations will likely be HGA moves and thermal inter-boresight motion.
+
+\textcolor{red}{Once, we have thermal inter-boresight motion, show how this affects pointing/flux}
 
 \begin{figure*}
-\gridline{\fig{ap_labels_S02illum1miAllBacksub_GLrun104.pdf}{0.32\textwidth}{Apertures}
-		\fig{raw_tser_phot_S02illum1miAllBacksub_GLrun104.pdf}{0.32\textwidth}{Raw time series}
-		\fig{refcor_phot_S02illum1miAllBacksub_GLrun104.pdf}{0.32\textwidth}{Ratio Time Series}}
-\caption{We repeat the time series as Figure \ref{fig:GLtSeries} but add a vertically displaced background subtraction box to each aperture.
-The background boxes reduce the ``ramp-up'' effect and longer timescale variations of the detector.
-The ratio of the time series of each aperture has a larger scatter larger than Figure \ref{fig:GLtSeries} because subtracting the background adds to the 1/f noise (correlated along the horizontal direction) rather than reducing the 1/f noise.
-}\label{fig:GLtSeriesBacksub}
-\end{figure*}
-
-We also introduce a background aperture, shown in Figure \ref{fig:GLtSeriesBacksub} to remove background variations and any amplifier offsets that could affect the flux.
-The resulting time series has a smaller amplitude ``warmup'' and smaller oscillations than Figure \ref{fig:GLtSeries}.
-When we divide the background-subtracted flux for each aperture by the other to make a ratio time series, the resulting noise is higher than in Figure \ref{fig:GLtSeries}.
-This indicates that the background subtraction step introduces more noise than it removes when comparing the differential flux between the two apertures.
-We suspect that 1/f noise in the background aperture causes this increase.
-To conclude, background subtraction improves the absolute flux stability but worsens the differential flux across the apertures.
-When observing an exoplanet time series, for example, scientists may wish to use one reduction technique for the absolute time series to derive the planet orbital parameters, say.
-Then, when analyzing the spectrum, they may wish to use an alternate technique to assess the differential flux from one wavelength to another.
-
-\subsubsection{Across Detectors}
-We also examine the time series across detectors from ``Run104'' to test whether there are systematics unique to each detector/readout electronics.
-We compare aperture photometry on the S02 versus S03 detector with background subtraction.
-The resulting time series are shown in Figure \ref{fig:GLtSeriesAcrossDetectors}.
-We an Allan variance diagram to show how well the flux scales like $\sqrt{N}$ statistics for $N$ integrations.
-The curves track the expected $\sqrt{N}$ behavior but lie well above the theoretical read and photon noise limit.
-This is likely because the 1/f noise is highly correlated within the aperture whereas the theoretical and photon noise limit assumes that the noise in each pixel is independent.
-We do not quire reach the noise levels interesting to the exoplanet noise regime (30-100 ppm).
-
-\begin{figure*}
-\gridline{\fig{raw_tser_crossDetectorS02Backsub_GLrun104.pdf}{0.48\textwidth}{Time series for S02 detector}
-		\fig{raw_tser_crossDetectorS03Backsub_GLrun104.pdf}{0.48\textwidth}{Time series for S03 detector}}
-		\fig{allan_var_removelinear_True_gl_across_detectors.pdf}{0.48\textwidth}{Allan variance diagram for the ratio of the S02 to S03 background-subtracted detector fluxes}
-\caption{Time series for background-subtracted rectangular photometry on the S02 and S03 detectors.
-The ratio of the two detectors' fluxes, after background subtraction, scales like $\sqrt{N}$ statistics down to the 200 ppm level, but how it works below the 100 ppm is not measurable with this test.}\label{fig:GLtSeriesAcrossDetectors}
+\gridline{\fig{histos_v2_v3.pdf}{0.45\textwidth}{Pointing Histograms} 
+\fig{tser_v2_v3_zoom_none.pdf}{0.45\textwidth}{Pointing Time Series} }
+\caption{The typical pointing stability is expected to be extremely stable to within a standard deviation of 2.4 mas (0.04 long wavelength pixels).
+This pointing model only shows the line of sight variations, not including thermal distortions or the high frequency ($>$1 Hz) jitter.
+}\label{fig:tserPointingFull}
 \end{figure*}
 
 \begin{figure*}
-\gridline{\fig{all_var_gl_dewar_run112_sub4_hi4_side_backsub_removelinear_True_3.pdf}{0.48\textwidth}{Allan Variance}}
-\caption{The same test as Figure \ref{fig:GLtSeriesAcrossDetectors} shows {\bf dramatically} smaller noise if (1) the aperture size is increased and (2) a horizontally displaced aperture is used to reduce 1/f noise.}\label{fig:GLtSeriesRun112}
+\gridline{\fig{tser_v2_v3_zoom_1.pdf}{0.45\textwidth}{Pointing Series Zoom 1} 
+\fig{tser_v2_v3_zoom_2.pdf}{0.45\textwidth}{Pointing Series Zoom 2} }
+\caption{Occasional pointing errors are expected to be quickly corrected by the fine steering mirror.
+}\label{fig:tserPointingZoom}
 \end{figure*}
+
+We simulate the change in flux as a function of position using our oversampled flat field, as in Figure \ref{fig:subpixScanSimulation}.
+First, we bin the sub-pixel jitter time series into 1 minute time bins to represent 1 minute integrations, as shown in Figure \ref{fig:tserPointingAndFlux}.
+We then use the positions to shift the PSF on the oversampled flat field as listed at the beginning of this section.
+The resulting flux variations are very small compared to factors like the 1/f noise.
+The standard deviation of the time series due to small line-of-sight telescope jitter on top of the subpixel crosshatching pattern is only 6 ppm.
+Therefore, the line-of-sight subpixel jitter is expected to have a small affect on NIRCam stability.
+Furthermore, centroid motion measurements can be used to correct the flux variations due to subpixel jitter with a polynomial or Gaussian process regression.
+
+\begin{figure*}
+\gridline{\fig{subpx_jitter_sim.pdf}{0.7\textwidth}{}}
+\caption{The pointing time series from Figure \ref{fig:tserPointingFull} is binned into a 1 minute cadence and used as an input shifts to the crosshatch model.
+The very precise pointing expected by JWST will produce very small flux variations on the crosshatch pattern with an expected standard deviation of only 6 ppm.
+}\label{fig:tserPointingAndFlux}
+\end{figure*}
+
+
 
 \clearpage
 
-\subsection{Run 112 - Subarray 4}
-We also investigate a slightly longer time series for GL dewar which approaches the timescales of interest to exoplanet transit lightcurves.
-Figure \ref{fig:GLtSeriesRun112} shows the flux ratio between detectors S01 and S02 for the Run 112 Subarray 4 ``Hi4'' test.
-The Allan variance plot again scales like the $\sqrt{N}$ statistics but above the theoretical noise limit.
+\section{Random Telegraph Noise and RC pixels}
+Several pixels exhibit RC (exponential) behavior and other exhibit unpredictable jumps in their DC levels.
+The jumps are called Random Telegraph Noise (RTN) and some examples are shown in Figure \ref{fig:RTNandRC}.
+These are rare events (400-1000 pixels out of 4$\times 10^6$) so they are unlikely to end up in a grism or in-focus aperture.
+
+For Weak Lens photometric aperture (such as a 70 pixel radius aperture), there will be of order 2-4 pixels exhibiting RTN.
+The RTN may not be removed by jump detection algorithms if they are similar order of magnitude to the photon noise for a single pixel ($\sim$180 DN).
+If these are not identified, the RTN can contribute $\sim$200 counts in 4$\times 10^7$ or 5 ppm changes.
+
+There are also RC pixels (as shown in Figure \ref{fig:RTNandRC}) that have exponential curves like a resister-capacitor circuit.
+These pixels consistently show RC behavior and are flagged as ``Do-not-use'' for the pipeline so they may be skipped in the aperture summation.
+There are 15 RC pixels in a 20 pixel tall F444W aperture and 31 RC pixels in a 20 pixel tall F322W2 aperture.
 
 \begin{figure*}
-\gridline{\fig{azlab_ratio_tser_gldewar_run112_sub4_hi4_no_backsub.pdf}{0.48\textwidth}{Time series for S01 / S02 Ratio No Background Sub}
-\fig{azlab_ratio_tser_gldewar_run112_sub4_hi4.pdf}{0.48\textwidth}{Time series for S01 / S02 Ratio With Background Sub}}
-\caption{Time series for rectangular photometry on the S01 and S02 detectors as well as background-subtracted Rectangular photometry}\label{fig:GLtSeriesRun112}
+\gridline{\fig{example_rtn.pdf}{0.45\textwidth}{RTN Pixels} 
+\fig{{example_rc.pdf}}{0.45\textwidth}{RC pixels}}
+\caption{Pixels sometimes exhibit unusual behaviors that are not related to counting photon flux.
+Examples are shown for RTN and RC pixels.
+}\label{fig:RTNandRC}
 \end{figure*}
 
-\begin{figure*}
-\gridline{\fig{all_var_gl_dewar_run112_sub4_hi4_no_backsub_removelinear_False_2.pdf}{0.48\textwidth}{Allan variance diagram no background subtraction}
-\fig{all_var_gl_dewar_run112_sub4_hi4_with_backsub_removelinear_False_2.pdf}{0.48\textwidth}{Allan variance diagram with background subtraction}}
-\caption{Allans variance for background-subtracted rectangular photometry on the S02 and S03 detectors.
-The ratio of the two detectors' fluxes, after background subtraction, scales like $\sqrt{N}$ statistics down to the 200 ppm level, but how it works on longer timescales is not yet known.}\label{fig:GLAllanVarianceAcrossDetectors}
-\end{figure*}
-
-\subsection{Run 112 - Subarray 6}
-Subarray 6 had higher lamp current and thus higher counts and lower photon noise, which approaches the exoplanet atmospheric feature regime (30-100 ppm).
-In this test, we take the ratio of flux on one detector to the other.
-This removes the lamp variations but allows the 
-
-
-It was also important to take the ratio of S01 to S03, because this pair of detectors track each other much better than the S01 /S02.
-This is surprising given that S01 is a short wavelength cutoff detector, S02 is a short wavelength cutoff detector and SO3 is a long wavelength cutoff detector.
-Furthermore, the S01 and S02 detectors are powered by a different pair of cards than the S03 detector.
-
-
-\begin{figure*}
-\gridline{\fig{azlab_ratio_tser_gldewar_run112_sub6_hi4_no_backsub_biggerAp.pdf}{0.48\textwidth}{Time series for S01 / S03 Ratio No Background Sub}
-\fig{azlab_ratio_tser_gldewar_run112_sub6_hi4_side_backsub_biggerAp.pdf}{0.48\textwidth}{Time series for S01 / S03 Ratio With {\it Side} Background Sub}}
-\caption{Time series for rectangular photometry on the S01 and S03 detectors as well as side background-subtracted Rectangular photometry.
-The background aperture was placed on the side reference pixels to reduce 1/f noise.}\label{fig:GLtSeriesRun112sub6}
-\end{figure*}
-
-\begin{figure*}
-\gridline{\fig{all_var_azlab06_sub320_multi_exp_baseline_487_489_removelinear_True_489.pdf}{0.48\textwidth}{Allan variance for AZLab06 Long 320 Multi-Exposure Baseline}
-\fig{all_var_gl_dewar_run112_sub6_hi4_side_backsub_removelinear_True_3_det_1_3.pdf}{0.48\textwidth}{Allan variance diagram for GL Dewar Run 112 Sub 6}}
-\caption{Allan variance for background-subtracted rectangular photometry on the Asic Dewar versus the GL dewar.
-Both tests use $320 \times 320$ subarrays, horizontally-displaced background apertures to remove 1/f noise and divide the two best-matched detectors.
-For the GL dewar, the ratio of the two detectors' fluxes (after background subtraction) scales like $\sqrt{N}$ statistics down to the $\sim$60 ppm level where it begins to peel away from the $\sqrt{N}$ curve (green line).}\label{fig:GLAllanVarianceAcrossDetectorsSub6}
-\end{figure*}
 
 \clearpage
-\subsection{Asic Dewar Tests}
-We performed a variety of stability tests using a dewar with the same type of detectors, readout electronics and temperature control as the in-flight parts.
-The detectors and asic controllers are devices that did not fully meet the flight requirements for NIRCam, but in many cases are close or above requirements.
-The detectors are illuminated by short wavelength LEDs (1.6 to 1.8~$\mu$m) or long wavelength (3.0 to 3.6~$\mu$m) LEDs.
-The LEDS are type LMS17LED-R and LMS34LED-R from Electro Optical Components, Inc.
 
-The dewar has limited space for optical illumination so the LEDs' light is bounced off a convex mirror and painted aluminum surface before reaching the detectors.
-The convex mirror, its support structure and a black mask at the edges of the detectors all produce a shadows on some pixels of the detector.
-The illuminated portions of the detector are used for aperture extractions while the shadows are used for background subtraction apertures.
-
-No LEDs used in ground-based tests were as stable as the desired precisions relevant to exoplanet targets (sub 30 ppm), so multiple arrays are used to correct for lamp variations during illuminated stability tests.
-The best absolute stability of an LED measured on a detector was 0.05\% ppm over 2 hours.
-More typically, the variations were 1\%, although the current measured with a multimeter was stable to 0.1\%.
-A ratio time series is constructed by dividing the time series derived from one detector to another time series from a different detector.
-
-\subsubsection{Persistence}\label{sec:persistence}
+\subsection{Persistence}\label{sec:persistence}
 HST shows noticeable ramps with each HST orbit due to detector charge trapping \citep{zhou2017chargeTrap}.
 Lamp sources in our laboratory tests typically have a warm up period lasting several tens of minutes, which makes it difficult to observe this same effect the detector ramps.
 However, the charge trap release time is expected to the same when illuminated as compared to when turning the lamp off.
@@ -1826,147 +1298,7 @@ The characteristic timescale for charge trapping is 12 seconds.}\label{fig:persi
 \end{figure*}
 
 
-\clearpage
-\subsubsection{Reference pixels versus background subtraction}
-One important question that can affect the placement of subarrays is whether background subtraction effectively achieves the same result as with reference pixel correction.
-This is tested in Figure \ref{fig:BackgVsRefpix}.
-In this case, the background aperture is displaced horizontally from the source aperture and within the same amplifier to best reduce 1/f noise and pre-amplifier offsets.
-
-
-\begin{figure*}
-{\gridline{\fig{azlab_ratio_tser_rpi_vs_rpf_no_bsub_no_refpix_rpf256_no_bsub_no_refpx_both_NRCBSELINE0P9MA.pdf}{0.33\textwidth}{Refpix=False, Bsub=False, 4968 ppm}
-\fig{azlab_ratio_tser_rpi_vs_rpf_nobacksub_rpf256_no_backsub_both_NRCBSELINE0P9MA.pdf}{0.33\textwidth}{Refpix=True, Bsub=False, 221 ppm}}}
-{\gridline{\fig{azlab_ratio_tser_rpi_vs_rpf_with_bsub_no_refpix_rpf256_with_bsub_no_refpx_both_NRCBSELINE0P9MA.pdf}{0.33\textwidth}{Refpix=False, Bsub=True, 198.2 ppm}
-\fig{azlab_ratio_tser_baseline.pdf}{0.33\textwidth}{Refpix =True, Bsub=True, 197.1 ppm}}}
-{\gridline{\fig{azlab_ratio_tser_baseline_bsub_by_frame}{0.33\textwidth}{Refpix=False, Bsub=Frame By Frame, 197.5 ppm}}}
-\caption{The time series of the flux ratio between two detectors shows that background subtraction achieves most of the value (within 1 ppm) of reference pixel correction to remove pre-amplifier offsets and 1/f noise.
-Furthermore, the background subtraction can be performed on the slope images rather than on a frame-by-frame basis, to get within 0.4 ppm of the value using reference pixels.
-}\label{fig:BackgVsRefpix}
-\end{figure*}
-
-\clearpage
-\subsubsection{Pre-Amplifier Reset Test}
-We also explored the difference between resets per frame versus resets per integrations as discussed in Section \ref{sec:preAmp}.
-We used a stripe mode 2048x256 with reference pixels on the bottom and sides.
-
-Each pre-amplifier is reset once per frame by the current flight parameters.
-This causes amplifier offsets because each amplifier is reset to a different value with some noise, as visible in Figure \ref{fig:RPFrefpix}.
-The pre-amplifier resets, however, can be largely corrected for by reference pixels or background subtraction.
-Figure \ref{fig:RPFrefpix} also shows a corrected image where the top reference pixels (a 512 pixel wide 4 pixel tall region per amplifier) is used to subtract the amplifier offsets.
-
-\begin{figure*}
-{\gridline{\fig{rpf_vs_rpi_old_cds_no_refpix.pdf}{0.8\textwidth}{No Reference Pixels RPF}}}
-{\gridline{\fig{rpf_vs_rpi_new_cds_with_refpix.pdf}{0.8\textwidth}{Reference Pixel RPF}}}
-\caption{Reset per frame with reference pixel correction.}\label{fig:RPFrefpix}
-\end{figure*}
-
-As a further demonstration that reference pixels can subtract amplifier offsets or background subtraction, we show time series for tests with a reset per frame and a reset per integration in Figure \ref{fig:RPFvsRPItseries}.
-The resets-per-frame have similar noise to the resets-per-integration on short timescales.
-For the 2048x256 subarray, the standard deviation were 197 ppm and 183 ppm for RPF and RPI respectively.
-For the 2048x64 subarray, the standard deviations were 327 ppm and 180 ppm for RPF and RPI respectively.
-The difference between these is dominated by the slope through the test.
-We suspect the flatter slow during RPI is a coincidence because the the resets within an integration (less than one minute) are unlikely to propagate a gradual slope over several hours.
-
-
-\begin{figure*}
-{\gridline{\fig{azlab_ratio_tser_rpi_vs_rpf_no_bsub_no_refpix_rpf256_no_bsub_no_refpx_both_NRCBSELINE0P9MA.pdf}{0.33\textwidth}{Reset-per-frame, 2048x256}
-\fig{azlab_ratio_tser_rpi_vs_rpf_no_bsub_no_refpix_rpi256_no_bsub_no_refpx_both_NRCRPIBSELINE0P9MA.pdf}{0.33\textwidth}{Reset-per-integration, 2048x256}}}
-{\gridline{\fig{azlab_ratio_tser_rpi_vs_rpf_no_bsub_no_refpix_rpf064_no_bsub_no_refpx_both_NRC64STRIPE1P5MA.pdf}{0.33\textwidth}{Reset-per-frame, 2048x64}
-\fig{azlab_ratio_tser_rpi_vs_rpf_no_bsub_no_refpix_rpi064_no_bsub_no_refpx_both_NRCRPI64STRIPE1P5MA.pdf}{0.33\textwidth}{Reset-per-integration, 2048x64}}}
-\caption{Reset per integration versus reset per frame where no reference pixel correction and no background subtraction have been applied.}\label{fig:RPFvsRPItseries}
-\end{figure*}
-
-\begin{figure*}
-{\gridline{\fig{azlab_ratio_tser_baseline.pdf}{0.33\textwidth}{Reset-per-frame, 2048x256}
-\fig{azlab_ratio_tser_RPI.pdf}{0.33\textwidth}{Reset-per-integration, 2048x256}}}
-{\gridline{\fig{azlab_ratio_tser_stripe64_1p5_mA_rpt2.pdf}{0.33\textwidth}{Reset-per-frame, 2048x64}
-\fig{azlab_ratio_tser_stripe64_1p5_mA_rpt3rpi.pdf}{0.33\textwidth}{Reset-per-integration, 2048x64}}}
-\caption{Reset per integration versus reset per frame where both reference pixel correction and background subtraction have been applied.}\label{fig:RPFvsRPItseries}
-\end{figure*}
-
-We also repeat the long baseline test with a 2048x256 subarray and 8 groups up the ramp but this time with no illumination.
-This allows us to compare the noise in e-/px when illuminated versus the noise in e-/px.
-If these two values are the same, this indicates that electronic noise enters both detectors and limits photometry precision in ppm.
-We find instead that the illuminated data has a much higher standard deviation (9 e$^-$/px, compared to the theoretical 1.8 e$^-$/px averaged over the aperture).
-The dark time series had a standard deviation of 1.9 e$^-$/px compared to the theoretical (uncorrelated) 0.2 e$^-$/px averaged over the aperture.
-
-\clearpage
-
-\subsubsection{Stripe versus Window Mode}
-JWST users may select between two types of subarrays within NIRCam grism time series.
-This is specified with the Astronomy Proposal Tools (APT) software in the ``NIRCam Grism Time Series'' template with ``No. of Output Channels".
-When the output channels are set to 4 (stripe mode), the frame time is approximately four times faster than 1 output channel (window mode).
-The exact timing is slightly different than a factor of 4 due to overheads.
-The advantage of stripe mode is that it allows more samples up the ramp in an integration and also shorter minimum integration times to enable observations of brighter sources.
-The stripe mode uses four different amplifiers, which could potentially lead to differences between the 4 regions each 512 pixels wide.
-The stripe mode is the same as standard full frame imaging when the height of the stripe is 2048 pixels tall.
-
-Figure \ref{fig:stripeVsWindowAZlab04} shows the time series for a stripe versus window mode test.
-In both cases the subarray is SUBGRISM256, which is 2048 pixels wide and 256 pixels tall.
-The subarray is placed at the top of the detector where 4 rows of reference pixels are accessible.
-In each case, these are the ratios of time series between two Long wavelength detectors derived from aperture photometry with background subtraction.
-
-\begin{figure*}
-{\gridline{\fig{azlab_ratio_tser_baseline.pdf}{0.49\textwidth}{Stripe Mode Time Series}
-\fig{azlab_ratio_tser_window.pdf}{0.49\textwidth}{Window Mode Time series}}}
-\caption{Stripe mode (4 output amplifiers) gives better precision than window mode (one amplifier), but the overall trends are similar.
-}\label{fig:stripeVsWindowAZlab04}
-\end{figure*}
-
-The window mode does have the benefit of only using one amplifier.
-This means that 1/f noise can be subtracted along rows whereas in stripe mode, 1/f noise has to be subtracted an an amplifier by amplifier basis (within 512 wide amplifier regions).
-The trade-off is that there are 4 times fewer frames per second.
-We assess the relative value of the 1/f correction versus different reads by placing the source aperture horizontally more than 512 pixels from the background aperture.
-For stripe mode, this means that the apertures are on different amplifiers.
-For window mode, this means the apertures are on the same amplifier.
-
-\begin{figure}[!hbtp]
-\centering
-\includegraphics[width=0.7\columnwidth]{darkwindow_img.pdf}
-\includegraphics[width=.7\columnwidth]{darkstripe_img.pdf}
-\caption{The noise characteristics and tradeoffs of stripe (4 amplifier outputs) versus window (1 amplifier output) are visible in this dark integration.
-The stripe mode has 8 groups while the window has 2 groups for the same integration time.
-The increased number of groups allows for averaging dark frames but the individual amplifiers can have their own 1/f noise characteristics that will not be subtracted by reference pixels on the leftmost and rightmost amplifiers.}\label{fig:darkWindowVsDarkStripe}
-\end{figure}
-
-
-\begin{figure*}
-{\gridline{\fig{azlab_ratio_tser_larger_backsep_stripe.pdf}{0.49\textwidth}{Stripe Mode Time Series, 379 ppm}
-\fig{azlab_ratio_tser_larger_backsep_window.pdf}{0.49\textwidth}{Window Mode Time series, 339 ppm}}}
-\caption{When the background aperture is displaced by more than 512 pixels from the source aperture, window mode becomes slightly preferable.
-}\label{fig:stripeVsWindowAZlab04LargerBacksep}
-\end{figure*}
-
-
-\clearpage
-\subsubsection{Subarray Size Comparisons}
-NIRCam grism time series users can choose between full frame, SUBGRISM256, SUBGRISM128 and SUBGRISM64 subarray sizes, which are 2048, 256, 128 and 64 pixels tall and 2048 pixels wide.
-The taller subarrays have the advantage of more background pixels (or a reference star) to use in analysis.
-The taller subarrays also are needed to fit the short wavelength WEAK LENS +8 PSF observed simultaneously with the long wavelength grism.
-Otherwise, the WEAK LENS +4 PSF must be observed or a fraction of the WEAK LENS +8 PSF used.
-The shorter subarrays have the advantage of faster frame times, permitting observations of brighter stars or more samples up the ramp than taller subarrays.
-We used the same lamp LED current for the SUBGRISM256, SUBGRISM128 and SUBGRISM64 subarrays and tuned the integration times to be similar by setting the number of RAPID groups as 8, 16 and 32 for the three subarrays respectively.
-The resulting integration times are 10.8995, 10.8155 and 10.7735 seconds respectively.
-No clear trend is seen in the time series shown in Figure \ref{fig:subarraySizes}.
-In this example, the background aperture was always parallel to the source aperture to best remove 1/f noise.
-\textbf{\textcolor{red}{Show what happens if the background aperture and source apertures are on different amplifiers and/or if they are vertical with respect to the source aperture}}
-
-\begin{figure*}
-{\gridline{\fig{azlab_ratio_tser_baseline.pdf}{0.33\textwidth}{SUBGRISM256}
-\fig{azlab_ratio_tser_stripe128.pdf}{0.33\textwidth}{SUBGRISM128}
-\fig{azlab_ratio_tser_stripe64.pdf}{0.33\textwidth}{SUBGRISM64}}}
-{\gridline{\fig{azlab_ratio_tser_subarraySize_256.pdf}{0.33\textwidth}{SUBGRISM256}
-\fig{azlab_ratio_tser_subarraySize_128.pdf}{0.33\textwidth}{SUBGRISM128}
-\fig{azlab_ratio_tser_subarraySize_064.pdf}{0.33\textwidth}{SUBGRISM64}}}
-\caption{The subarray size tests show very similar precision levels with a background aperture horizontally displayed from the source aperture (top row).
-If no background subtraction is done, paradoxically, the tallest subgrism (fewest groups) is the most stable. \textbf{\textcolor{red}{How does this make sense? Did I possibly change how the side reference pix correction was done between the 3 tests? Changed from the FFT-based method to savgol on Fri Jul 12 22:04:54 2019. 
-Processed the files on Jul 10 18:06. Indeed, they were processed slightly differently, but the smoothing method matters very little.
-Karl very astutely points out that the 2048x256 has reference pixels on the top but the 2048x128 and 2048x64 do NOT have reference pixels at the top, so pre-amp reset issues are very likely.} }}\label{fig:subarraySizes}
-\end{figure*}
-
-
-
-\subsubsection{Persistence with Long and Short Illumination}
+\subsection{Persistence with Long and Short Illumination}
 We estimate the persistence level by illuminating the detectors to $\sim$80\% well depth for either 30 seconds or 30 minutes and observe the slopes after the LED is turned off.
 We find a that the slopes rapidly the noise levels ($<$ 10 e$^-$/s) in less than 10 seconds, as shown in Figure \ref{fig:persistenceAZlab04}.
 This is similar to the measurements in \citet{leisenring2016persistence}, who find that the persistence rate after saturating the detectors and turning off the lamp is 0.5 DN/sec to 15 DN/sec or 0.28$e^-$ to 6.8$e^-$ at the 30 second mark, depending on the detector.
@@ -1981,398 +1313,12 @@ The data are binned to show that there is no detectable persistence on 3000 seco
 An arbitrary offset of 4$e^-$/s is added on the short timescale plot to keep the values positive and possible to plot on a log scale.}\label{fig:persistenceAZlab04}
 \end{figure*}
 
-\clearpage
-\subsubsection{Multiple apertures within a detector}
-\begin{figure*}
-{\gridline{\fig{ap_labels_azlab04LED1p5mAStripe64n487Rpt2TwoAp_NRC64STRIPE1P5MA.pdf}{0.99\textwidth}{}}}
-{\gridline{\fig{ap_labels_azlab04LED1p5mAStripe64n489Rpt2TwoAp_NRC64STRIPE1P5MA.pdf}{0.99\textwidth}{Apertures}}}
-{\gridline{\fig{individual_phot_azlab04LED1p5mAStripe64n489Rpt2TwoAp_NRC64STRIPE1P5MA.pdf}{0.49\textwidth}{Time Series of Apertures}}}
-\caption{Time series for 2 apertures on each detector.}\label{fig:twoApPerDetector}
-\end{figure*}
-
-\begin{figure*}
-{\gridline{\fig{ap_labels_azlab04LED1p5mAStripe64ManyApn487Rpt2_NRC64STRIPE1P5MA.pdf}{0.7\textwidth}{}}}
-{\gridline{\fig{ap_labels_azlab04LED1p5mAStripe64ManyApn489Rpt2_NRC64STRIPE1P5MA.pdf}{0.7\textwidth}{Apertures}}}
-{\gridline{\fig{phot_azlab04LED1p5mAStripe64ManyApn_bothDetectors_Rpt2_NRC64STRIPE1P5MA_bin.pdf}{0.7\textwidth}{Time Series of Apertures}}}
-\caption{Time series for many apertures on each detector, binned into 70 equal time bins.}\label{fig:manyApPerDetector}
-\end{figure*}
-
-\begin{figure*}
-{\gridline{\fig{ap_labels_AZlab05baseline_multiAps_6p0mA_NRCBSELINE6P0MA.pdf}{0.7\textwidth}{Apertures on Detector 489}}}
-{\gridline{\fig{raw_tser_AZlab05baseline_multiAps_6p0mA_NRCBSELINE6P0MA.pdf}{0.7\textwidth}{Time series for each aperture}}}
-\caption{Time series for many apertures on the 489 detector after row-by-row and column-by-column background subtraction.
-Each amplifier has its own 1/f noise character, but the lamp variations measured on this detector move in concert across all detectors.}\label{fig:manyApOn489}
-\end{figure*}
-
-
-
-\clearpage
-\subsubsection{Dark Baseline Test}\label{sec:darkBaseline}
-In Figure \ref{fig:darkBaselineAllan}, we show that the noise in a series of dark integrations averages with the square root of the number of integrations.
-While 1/f is highly correlated within an aperture and results in a large value of noise per integration, the integrations are all statistically independent. Threfore, on 10 minute long timescales, the total noise of the readout electronics including 1/f and dark current in the aperture drops to 10 ppm.
-
-\begin{figure*}[!hbtp]
-\centering
-\includegraphics[width=.4\columnwidth]{allan_var_removelinear_False_darkBaseline.pdf}
-\caption{The noise in a dark exposure scales with 1/$\sqrt{N}$ for $N$ exposures, as would be expected for white noise.
-Here, we have assumed an illumination of 3.7$\times10^8$ DN to convert the noise in DN to a relevant ppm for illuminated data.
-While 1/f noise substantially increases the noise over the assumption that each \textit{pixel's} read noise is statistically independent, each \textit{integration} is statistically independent when examining this dark (un-illuminated) data.
-}\label{fig:darkBaselineAllan}
-\end{figure*}
-
-\clearpage
-\subsubsection{Co-added Versus Un-coadded data}\label{sec:coadds}
-In Figure \ref{fig:coaddedData}, we compare data that was taken in READ mode.
-In this case, there were 1000 integrations with a 2048x256 stripe illuminated with the lamp on all four detectors.
-In the case of NFRAME=4, the data are co-added with bit-shift operations whereas for NFRAME=1, all data is used.
-There are 2 groups with NFRAME=4 and 8 groups with NFRAME=1.
-The primary difference between the two are
-\begin{itemize}
-\item the reference pixel correction is performed on frame-by-frame basis for NFRAME=1 and on a co-added group of 4 for NFRAME=4
-\item the slope is calculated with all 8 groups
-\end{itemize}.
-This differences did not have a large overall impact on stability of the lightcurves.
-
-\begin{figure*}
-{\gridline{\fig{azlab_ratio_tser_azlab06_baseline3}{0.47\textwidth}{RAPID mode with NFRAME=1}
-\fig{azlab_ratio_tser_azlab06_nint4.pdf}{0.47\textwidth}{Co-added with NFRAME=4}}}
-\caption{Co-added with NFRAME=4 versus 8 groups RAPID data.
-Using reference pixel subtraction on the individual reads in RAPID mode does not substantially improve the ratio time series of the two detectors as compared with co-added data where reference pixel correction was applied to the group (which is an average of the 4 frames).}\label{fig:coaddedData}
-\end{figure*}
-
-
-\clearpage
-\subsubsection{Reference pixel time series}
-\begin{figure*}
-{\gridline{\fig{azstab_1p5mA_repeat_2_refpix}{0.99\textwidth}{}}}
-\caption{Reference pixels cannot easily explain the trends between detectors.}\label{fig:refpixTSeries}
-\end{figure*}
-
-\begin{figure*}
-{\gridline{\fig{all_variance_removelinear_False_487.pdf}{0.45\textwidth}{Allan Variance from Raw Series}
-\fig{all_variance_removelinear_True_487.pdf}{0.45\textwidth}{Allan Variance with Linear Detrending}}}
-{\gridline{\fig{apratio_phot_azlab04LED1p5mAStripe64n489Rpt2TwoAp_NRC64STRIPE1P5MA}{0.7\textwidth}{Time Series of Apertures}}}
-\caption{Time series for the ratio of two apertures within a detector.}\label{fig:allanVarianceWithinDetector}
-\end{figure*}
-
-We also show a time series immediately after where the lamp was turned on in Figure \ref{fig:indTSeriesAfterLamp}.
-Unlike with HST, there is no clear ramp-up behavior.
-
-\begin{figure*}
-{\gridline{\fig{individual_stripe64_1p5_mA_rpt2.pdf}{0.99\textwidth}{}}}
-\caption{Time series immediately after a lamp is turned on.}\label{fig:indTSeriesAfterLamp}
-\end{figure*}
-
-
-\clearpage
-\subsection{Temperature Changes}
-\subsubsection{FPA temperature change}
-We purposely adjusted the focal plane array temperature set point mid-way through a long exposure to test how the detectors' temperatures will affect their response to light.
-As can be seen in Figure \ref{fig:indTSeriesAfterLamp} (bottom panel) the Lakeshore temperature controlling a baseplate where the largest thermal mass sits is constant to within 3 mK.
-The FPA temperature is adjusted upward by 300 mK about 75 minutes into the test and held at this higher value.
-The change in temperature results in a 0.1\% increase in flux (ie. 1000 ppm).
-In terms of slopes, this resulted in a change of 2.3 DN/s/px for detector 487 and 3.6 DN/s/px for detector 489.
-For the integration times of 10.77 seconds, this amounts to 25 to 39 DN accumulated within an integration.
-This is lower than the value of 80 DN for a 100 mK change in \citet{hall2005jwstArrays}, likely because it is calculated over the slope of an image rather than the absolute counts.
-
-The reaction to FPA changes in temperature is likely a fractional effect rather than an absolute number of DN.
-This is because both detectors change by about 0.10\% even though their relative peak counts were 25,000 DN/px and 39,000 DN/px for detectors 487 and 489.
-
-In flight, the FPA is expected to be stable to about 1 mK.
-If we take the observed flux change (1000 ppm per 300 mK), the fractional change will be about 3 ppm. We therefore expect detector temperature fluctuations to be a relatively small part of the time series error budget.
-
-\begin{figure*}
-{\gridline{\fig{individual_azlab05_baseline_tchange.pdf}{0.99\textwidth}{}}}
-\caption{Time series during an adjustment to the FPA set point.}\label{fig:indTSeriesAfterLamp}
-\end{figure*}
-
-\subsubsection{Lakeshore Temperature Change}
-
-\begin{figure*}
-{\gridline{\fig{individual_azlab06_sub320_lakeshore_to_39p7.pdf}{0.99\textwidth}{}}}
-\caption{Time series during an adjustment to the Lakeshore set point.}\label{fig:indTSeriesLakeshore39p7}
-\end{figure*}
-
-\subsubsection{FPA Temperature Oscillations}
-When the temperature control loop on the FPA is working improperly, there can be oscillations in the FPA temperature, as shown in Figure \ref{fig:indTSeriesTMCoscillations}.
-In this example, the oscillations happen at a period of 19.3 minutes.
-The LED fluctuations are signfiicantly longer with a period of $\sim$100 to $\sim$125 minutes.
-
-\begin{figure*}
-{\gridline{\fig{individual_azlab06_sub320_tmc_oscillations.pdf}{0.99\textwidth}{}}}
-\caption{Time series during a $\sim$ 20 minute oscillation in the TMC temperature.}\label{fig:indTSeriesTMCoscillations}
-\end{figure*}
-
-\clearpage
-\subsubsection{Box Temperature}
-The box temperature leads the flux variations by 4.9 minutes, likely due to the thermal delay between the box and the LED mounted to the box.
-
-\begin{figure*}
-{\gridline{\fig{azlab08_sub320_multiexp_temp_correlation.pdf}{0.48\textwidth}{Sub 320 Multi-exposure test}
-\fig{azlab08_sub320_lakeshore_tchange_temp_correlation.pdf}{0.48\textwidth}{Lakeshore Temp Change}}}
-\caption{Two separate time series show the same correlation with Box Temperature after removing the 4.9 hour time offset}\label{fig:LEDTcorrelation}
-\end{figure*}
-
-\begin{figure*}
-{\gridline{\fig{azlab08_sub320_multiexp_corrected.pdf}{0.48\textwidth}{Sub 320 Multi-exposure test}
-\fig{azlab08_sub320_lakeshore_tchange_corrected.pdf}{0.48\textwidth}{Lakeshore Temp Change}}}\label{fig:LEDTcorrection}
-\caption{After removing the 4.9 hour time offset and a linear trend with temperature, the fluctuations are greatly reduced.}
-\end{figure*}
-
-\subsubsection{Detector Temperature}
-
-
-
-\begin{figure*}
-{\gridline{\fig{individual_azlab08_sub320_multi_exp_fpat_dt.pdf}{0.98\textwidth}{}}}
-\caption{A small change of the FPA temperatures is inserted without heating up the box.
-The FPA temperature clearly correlates with flux, but has a different scaling with each detector.}\label{fig:fpaTChangeSmall}
-\end{figure*}
-
-
-\clearpage
-\subsection{Reference Pixels versus No Reference Pixels}
-One question to answer is, can background subtraction subtract off noise just as well as reference pixels?
-We compare time series on source boxes subtracted by a background box on data that has been reference pixel subtracted and data that has not been reference pixel subtracted.
-As before, the background boxes are offset horizontally from the source boxes to best capture 1/f noise.
-For the baseline test, with a 2048x256 subarray, the standard deviation was 197.11 ppm with reference pixel correction.
-Repeating the experiment with no reference pixel correction, the standard deviation was 198.19 ppm.
-This test indicates that horizontally displaced background box is sufficient in removing pre-amp offsets and 1/f noise from the source aperture.
-However, for some cases (like NIRCam grism time series), the background subtraction will be done vertically and so side reference pixels will be desired.
-
-If no top reference pixels are available (such as in the 2048x64 subarray test), and only side reference pixels are available, the benefits are even smaller.
-For the 2048x64 1.5 mA test with reset-per-frame, the standard deviation was 326.9 ppm with reference pixel correction and 327.2 ppm without reference pixel correction.
-
-If the background subtraction apertures have a vertical displacement from the source, then 1/f noise becomes a more significant contributor to the errors.
-This is where side reference pixel subtraction becomes a more valuable correction.
-Figure \ref{fig:RefpixWithVertOffsetBackground} shows the time series with and without reference pixel correction if the background aperture is vertically offset from the source aperture.
-
-\begin{figure*}
-\gridline{\fig{ap_labels_azlab04_rpf256_voffset_bsub_with_refpx487_NRCBSELINE0P9MA.pdf}{0.7\textwidth}{}}
-\gridline{\fig{ap_labels_azlab04_rpf256_voffset_bsub_with_refpx489_NRCBSELINE0P9MA.pdf}{0.7\textwidth}{Apertures for 2048x256 stripe}}
-{\gridline{\fig{azlab_ratio_tser_voffset_background_phot_azlab04_rpf256_voffset_bsub_with_refpx_NRCBSELINE0P9MA.pdf}{0.33\textwidth}{Ref Pixel-Corrected, 2048x256}
-\fig{azlab_ratio_tser_voffset_background_phot_azlab04_rpf256_voffset_bsub_no_refpx_NRCBSELINE0P9MA.pdf}{0.33\textwidth}{No Ref Pixels Used, 2048x256}}}
-{\gridline{\fig{azlab_ratio_tser_voffset_background_phot_azlab04_rpf064_voffset_bsub_with_refpx_NRC64STRIPE1P5MA.pdf}{0.33\textwidth}{Ref Pixel-Corrected, 2048x64}
-\fig{azlab_ratio_tser_voffset_background_phot_azlab04_rpf064_voffset_bsub_no_refpx_NRC64STRIPE1P5MA.pdf}{0.33\textwidth}{No Ref Pixels Used, 2048x64}}}
-\caption{If a background aperture is vertically displaced from the source aperture, the reference pixels are important in reducing 1/f noise.}\label{fig:RefpixWithVertOffsetBackground}
-\end{figure*}
-
-\clearpage
-\subsection{320 Subarray test}
-We also explored the stability of a $320 \times 320$ subarray.
-The subarray was placed at a strategic location on each detector to allow horizontally-displaced background aperture as shown in Figure \ref{fig:sub320AperturesAZlab06}.
-
-Surprisingly, the subarray mode had considerably higher scatter from integration to integration than stripe mode.
-They both had 1000 integrations, a 6.0 mA LED current and similar aperture widths.
-The subarray mode had 10 groups versus 8 groups with the stripe mode.
-The subarray was $320 \times 320$ with one amplifier output whereas the stripe mode was $2048 \times 256$ with 4 amplifier outputs.
-
-The subarray time series is very sensitive to the fast-frame resets where the entire array is quickly reset at the beginning of an integration.
-These resets are needed to ensure that pixels outside a subarray don't overfill their well capacity and leak into the subarray.
-When NFF=512, the fast-frame resets are cycled through 4 different sections of the detector.
-This results in a cycling pattern with a period of 4 integrations shown in Figure \ref{fig:sub320vsStripeBaseline2}.
-When NFF=2048, there is no cycling pattern shown in Figure \ref{fig:sub320NFF512vs2048}.
-
-\begin{figure*}
-\gridline{
-\fig{ap_labels_azlab06sub320Baseline487_NRCSUB320LED6P0MA.pdf}{0.3\textwidth}{Detector 487}\\
-\fig{ap_labels_azlab06sub320Baseline488_NRCSUB320LED6P0MA.pdf}{0.3\textwidth}{Detector 488}
-}
-\gridline{
-\fig{ap_labels_azlab06sub320Baseline489_NRCSUB320LED6P0MA.pdf}{0.3\textwidth}{Detector 489}\\
-\fig{ap_labels_azlab06sub320Baseline490_NRCSUB320LED6P0MA.pdf}{0.3\textwidth}{Detector 490}
-}
-\caption{Source apertures (labeled ``0'') and horizontally-displaced background apertures for the AZLab 06 test with a $320 \times 320$ subarray test.}\label{fig:sub320AperturesAZlab06}
-\end{figure*}
-
-
-\begin{figure*}
-\gridline{
-\fig{individual_azlab06_baseline3.pdf}{0.49\textwidth}{Stripe Baseline $2048 \times 256$}\\
-\fig{individual_azlab06_sub320_6p0mA}{0.49\textwidth}{Subarray Baseline $320 \times 320$}
-}
-\gridline{
-\fig{individual_azlab06_sub320_6p0mA_t100_110.pdf}{0.49\textwidth}{5-15 min Zoom $320 \times 320$}\\
-\fig{individual_azlab06_sub320_6p0mA_t005_t015.pdf}{0.49\textwidth}{100-110 min Zoom $320 \times 320$}
-}
-\caption{The time series of the AZLab 06 $320 \times 320$ subarray shows considerably higher oscillations than the stripe mode.
-A zoom-in on the $320 \times 320$ subarray time series shows that it exhibits oscillations every 4 integrations.
-NGROUP=10, NINT=1000.
-}\label{fig:sub320vsStripeBaseline2}
-\end{figure*}
-
-\begin{figure*}
-\gridline{
-\fig{individual_azlab06_sub320_9p0mA}{0.49\textwidth}{5-8 min Zoom $320 \times 320$ NGROUP=2}
-}
-\caption{The time series of the AZLab 06 $320 \times 320$ subarray still has oscillations every 4 integrations with NGROUP=2, NINT=3600.
-}\label{fig:sub320vsStripeBaseline2}
-\end{figure*}
-
-\begin{figure*}
-\gridline{
-\fig{individual_azlab06_sub320_6p0mA_t005_t015.pdf}{0.49\textwidth}{5-15 min Zoom $320 \times 320$ with NFF=512}\\
-\fig{individual_azlab06_sub320_nff2048_t005_t015.pdf}{0.49\textwidth}{5-15 min Zoom $320 \times 320$ with NFF=2048}
-}
-\caption{The time series of the AZLab 06 $320 \times 320$ subarray is very sensitive tot he fast frame resets.
-When NFF=512, the fast frame resets cycle through the $320 \times 320$ subarray every 4 integrations, resulting in a 4-integration cycle.
-When NFF=2048, there is no long a 4-integration long pattern.
-}\label{fig:sub320NFF512vs2048}
-\end{figure*}
-
-\clearpage
-
-\subsection{Asic Voltages}
-\begin{figure*}
-\gridline{
-\fig{individual_azlab07_baseline2_487_and_490_binned.pdf}{0.89\textwidth}{Asic Voltages and Detector fluxes on 487 and 489}\\
-}
-\caption{Asic voltages do not show obvious strong correlations with flux. There's a slight correlation with VRST\_V.
-}\label{fig:asicVoltageAndFlux}
-\end{figure*}
-
-\clearpage
-
-\subsection{Idle versus exposing residuals}
-The current loads on the asics are different when they are in idle mode (resetting and not collecting data) versus exposing (collecting reads up the ramps).
-We induced a higher load on detector 487 on purpose by running a $\sim$ 3 hour exposure while the remaining detectors ran in idle mode.
-We then started an exposure with all 4 detectors to see if detector 487 exhibited a different time series than the remaining 3 detectors.
-The result shown in Figure \ref{fig:idleVersusExposing320}.
-\begin{figure*}
-\gridline{
-\fig{individual_azlab06_sub320_idle_vs_exp.pdf}{0.49\textwidth}{Data collection versus idle reset}
-}
-\caption{The time series of the AZLab 06 $320 \times 320$ subarrays on all four detectors look the same for the first hour even though detector 487 had a higher current draw 3 hours preceding the exposure because it had a higher current draw.}\label{fig:idleVersusExposing320}
-\end{figure*}
-
-\clearpage
-
-\subsection{Illumination Variations}
-
-The illumination pattern varies slightly over the course of the AZLab 06 baseline stability test.
-The illumination changes are small enough that large amounts of averaging are needed to view it.
-We first create a ``flat-field'' image by averaging all illuminated data (images 24 through 1000) during the AZLab 06 baseline test.
-We then create an ``average1'' image toward the early parts of the lightcurve (images 24-165) where the flux is lower.
-We create an ``average2'' image at late parts of the lightcurve (images 700-1000) where the flux is higher.
-Both of the ``average'' and ``average2'' images are divided by the ``flat field'' to reveal subtle changes in illumination.
-Finally, a crosscut along the X direction is plotted while averaging 126 pixels in the vertical direction.
-The results is that the illumination pattern is not constant in time, with a subtle band centered near X$\approx$ 730 pixels on Detector 488 that varies in amplitude.
-
-
-
-\begin{figure*}
-\gridline{\fig{azlab06_illum_baseline_plot_region_487.pdf}{0.49\textwidth}{Region over which the pixels are averaged and plotted}
-\fig{azlab06_illum_baseline_plot_region_488.pdf}{0.49\textwidth}{Region over which the pixels are averaged and plotted}}
-\gridline{\fig{azlab06_illum_baseline_slope_flat_fielded_profile_plot_487.pdf}{0.49\textwidth}{Flat-fielded count rates during the early and late parts of the baseline test (488)}
-\fig{azlab06_illum_baseline_slope_flat_fielded_profile_plot_488.pdf}{0.49\textwidth}{Flat-fielded count rates during the early and late parts of the baseline test (490)}}
-\caption{There are subtle illumination pattern changes visible when average large chunks of data during the baseline test.
-There is a vertical band of illumination that changes from the early versus late parts of the time series.}\label{fig:baselineIllumChange487-488}
-\end{figure*}
-
-
-\begin{figure*}
-\gridline{\fig{azlab06_illum_baseline_plot_region_489.pdf}{0.49\textwidth}{Region over which the pixels are averaged and plotted}
-\fig{azlab06_illum_baseline_plot_region_490.pdf}{0.49\textwidth}{Region over which the pixels are averaged and plotted}}
-\gridline{\fig{azlab06_illum_baseline_slope_flat_fielded_profile_plot_489.pdf}{0.49\textwidth}{Flat-fielded count rates during the early and late parts of the baseline test (488)}
-\fig{azlab06_illum_baseline_slope_flat_fielded_profile_plot_490.pdf}{0.49\textwidth}{Flat-fielded count rates during the early and late parts of the baseline test (490)}}
-\caption{There are subtle illumination pattern changes visible when average large chunks of data during the baseline test.
-There is a vertical band of illumination that changes from the early versus late parts of the time series.}\label{fig:baselineIllumChange489-490}
-\end{figure*}
-
-We also examine the slope and intercept of the illumination as a function of time.
-We applying the following processing steps:
-\begin{enumerate}
-	\item Apply side and top reference pixels to all frames
-	\item	Calculate slope images from ramp images using \texttt{ncdas}
-	\item Subtract 1/f noise with a row-by-row subtraction by the average of un-illuminated pixels
-	\item Calculate an average flat field over the entire time series of illuminated ata
-	\item Divide each image by the flat field
-	\item Collapse the illuminated region along the Y direction to make an illumination profile
-	\item Fit the illumination profile to a line and save the slope and intercept
-\end{enumerate}
-Figure \ref{fig:illumGradientChangeOverTime} shows the slope and intercept calculated for the illumination profile over time.
-It is clear that there is a gradient in the image that also correlates with the flux.
-This may explain detector 490's different behavior over time.
-
-\begin{figure*}
-\gridline{
-\fig{illum_slope_and_intercept_487.pdf}{0.49\textwidth}{Illumination Gradient Change over Time on 487}
-\fig{illum_slope_and_intercept_489.pdf}{0.49\textwidth}{Illumination Gradient Change over Time on 489}
-}
-\caption{The illumination gradient changes as a function of time for the AZlab06 baseline test detectors on detectors 487 and 489.
-The illumination gradient explains some but not all of the correlated noise when dividing detector 487 by 489.}\label{fig:illumGradientChangeOverTime}
-\end{figure*}
-
-\begin{figure*}
-\gridline{
-\fig{ratio_for_AZLab06_Baseline_487.pdf}{0.49\textwidth}{Ratio of the best fit line intercepts of 487 and 489}
-\fig{allan_variance_for_AZLab06_Baseline_487_intercepts}{0.49\textwidth}{Allan variance of the ratio line series}
-}
-\caption{We can take the line intercept from Figure \ref{fig:illumGradientChangeOverTime} to calculate the flux.
-This averages like $\sqrt{N}$ statistics.
-}\label{fig:illumGradientChangeOverTime}
-\end{figure*}
-
-Given how well the Line Intercept ratio between detectors 487 and 489 averages like $\sqrt{N}$ statistics in Figure \ref{fig:illumGradientChangeOverTime}, we look at the multi-exposure test to examine longer baselines.
-
-\begin{figure*}
-\gridline{\fig{ratio_for_AZLab06_Multi-Exposure_Baseline_487.pdf}{0.49\textwidth}{Ratio of the best fit line intercepts of 487 and 489 over the long multi-exposure test}}
-\gridline{
-\fig{allan_variance_for_AZLab06_Multi-Exposure_Baseline_487_intercepts.pdf}{0.49\textwidth}{Allan variance of the 487/489 ratio from the best-fit slope intercept}
-\fig{all_var_azlab06_sub320_multi_exp_487_489_removelinear_True_489.pdf}{0.49\textwidth}{Allan variance of the 487/489 ratio from Aperture Photometry}
-}
-\caption{We repeat the experiment from Figure \ref{fig:illumGradientChangeOverTime} but this time over a long multi-exposure test. The line-fit method achieves worse results on short timescales but better results on long timescales.}\label{fig:illumGradientChangeOverTimeMultiExpBaseline}
-\end{figure*}
-
-
-\clearpage
-
-\subsection{Long multi-exposure Test}
-A long multi-exposure time series shows the noise properties on timescales up to a few hours.
-This long series also enables a clearer trending with temperature and flux.
-
-The measured fluxes are highly correlated with the TMC current.
-
-\begin{figure*}
-{\gridline{\fig{individual_azlab06_sub320_multi_exp.pdf}{0.48\textwidth}{AZLab06 Long Multi-Exposure Time series}
-\fig{all_var_azlab06_sub320_multi_exp_487_489_removelinear_True_489.pdf}{0.48\textwidth}{AZLab06 Allan variance for Multi-exp Series}}}
-\fig{individual_azlab06_sub320_multi_exp_w_temp}{0.48\textwidth}{Multi-Exposure Time series with temperature data}
-\caption{We strung together 4 long exposures to create an extended time series.
-There are no obvious transients or exponentials at the exposure boundaries, which are marked as vertical blue lines.
-As with previous tests, the standard deviation of the flux ratio between two detectors (487 and 489) is well above the photon and read noise value and furthermore doesn't scale with the $\sqrt{N}$ for $N$ points in a bin.
-}\label{fig:AZlab06LongMultiExp}
-\end{figure*}
-
-
-
-
-\clearpage
-\subsection{Noise floor}
-
-Allan variance plots indicate that there is a noise floor across detectors of about 50-60 ppm as shown in Figure \ref{fig:allanVarianceAZ04AZ05}.
-
-\begin{figure*}
-{\gridline{\fig{allan_var_removelinear_True_azlab05baseline.pdf}{0.48\textwidth}{AZLab05 Allan variance}
-\fig{allan_var_removelinear_True_azlab06lamp_warm.pdf}{0.48\textwidth}{AZLab06 Allan variance}}}
-\caption{Allan variance across two detectors in the AZ Lab stability tests.}\label{fig:allanVarianceAZ04AZ05}
-\end{figure*}
-
-
-%% If you wish to include an acknowledgments section in your paper,
-%% separate it off from the body of the text using the \acknowledgments
-%% command.
-\acknowledgments
-
-\clearpage
-\section{Expected In-Flight Performance with JWST}
 
 \section{Conclusions}
 The NIRCam instrument will be a valuable tool to characterize the atmospheres of exoplanets with its grism time series mode.
 This mode can be used on some of the brightest valuable exoplanet host stars without saturation and also offers a fine pixel sampling at near-Nyquist to Nyquist sampling depending on the wavelength.
 In order to reap the benefits of NIRCam's grism time series mode, however, it is critical to understand the various systematic error sources and noise floors that will impact the science of transiting planets.
 
-We evaluate results of ground-based tests of the NIRCam instrument for exoplanet time series.
-These tests include a variety of optical setups from the full telescope structure and flight components to small lab dewar tests with flight-like components and flight-like electronics.
 We evaluate the largest sources of noise that add to JWST's error budget and list them below.
 
 \begin{itemize}
@@ -2395,6 +1341,10 @@ We evaluate the largest sources of noise that add to JWST's error budget and lis
 	Long timescale traps contribute less then 1e-/DN/px so they are less problematic.
 \end{itemize}
 
+%% If you wish to include an acknowledgments section in your paper,
+%% separate it off from the body of the text using the \acknowledgments
+%% command.
+\acknowledgments
 
 \section*{acknowledgements}
 MCMC fitting makes use of \texttt{emcee} \citep{foreman-mackey2013emcee} and the covariance plot was made with \texttt{corner.py} \citep{foremanCorner}.

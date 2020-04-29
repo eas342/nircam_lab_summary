@@ -249,7 +249,7 @@ Moffett Field, CA 94035, USA}
 
 \author{Peiman Maghami?}
 
-\author{Michael McElwain}
+\author{Michael McElwain?}
 
 \author{Marcia Rieke}
 \affiliation{Steward Observatory \\
@@ -889,7 +889,7 @@ We perform sum extraction over a 15 spatial pixels and then combine together 170
 The standard deviation of sum extraction is 3,860 DN, which is 2.7$\times$ the read noise, as shown in Table \ref{tab:noiseSummary1overf}.
 The standard deviation of the extracted flux drops to 3,060 DN if optimal extraction is used.
 
-We use Equation \ref{eq:covarianceweights}, to further beat down the read noise.
+We use Equation \ref{eq:covarianceweights}, to further reduce the read noise.
 For the covariance weights, we assume constant off-diagonal weights of 15 (e$^-)^2$ and do not include the spectral covariance.
 The resulting standard deviation of 850 DN is now 60\% of the photon noise.
 Thus, we recommend optimal covariance weighting when extracting grism time series.
@@ -1194,7 +1194,7 @@ The amplitude of the flux changes is potentially up to 150 ppm.
 This is significant when compared to atmospheric features of giant planets ($\lesssim$ 100 ppm) or the transit depth of an Earth-like planet transiting a sun-like star ($\lesssim$ 80 ppm).
 
 Fortunately, the subpixel crosshatch systematic is a smooth function of pointing drift, shown in Figure \ref{fig:subpixScanSimulation}.
-A polynomial function can be fit to this subpixel dependence then the centroid of each integration can be inserted as an argument to the function to provide a correction as a function of time.
+A polynomial function can be fit to this subpixel dependence and then the centroid of each integration can be inserted as an argument to the function to provide a correction as a function of time.
 Alternatively, a Gaussian process regression could be applied.
 Centroiding is possible in imaging and spectroscopic modes using PSF fitting or cross-correlation.
 When the LW grism time series mode is enabled, SW imaging data will automatically be collected simultaneously enabling the SW centroids to be used to track the motion of the dispersed grism image.
@@ -1222,6 +1222,7 @@ Therefore, the largest contributor to pointing variations will likely be HGA mov
 \fig{tser_v2_v3_zoom_none.pdf}{0.45\textwidth}{Pointing Time Series} }
 \caption{The typical pointing stability is expected to be extremely stable to within a standard deviation of 2.4 mas (0.04 long wavelength pixels).
 This pointing model only shows the line of sight variations, not including thermal distortions or the high frequency ($>$1 Hz) jitter.
+The V2 and V3 are the observatory axes perpendicular to the telescope boresight axes.
 }\label{fig:tserPointingFull}
 \end{figure*}
 
@@ -1243,7 +1244,7 @@ Furthermore, centroid motion measurements can be used to correct the flux variat
 \begin{figure*}
 \gridline{\fig{subpx_jitter_sim.pdf}{0.7\textwidth}{}}
 \caption{The pointing time series from Figure \ref{fig:tserPointingFull} is binned into a 1 minute cadence and used as an input shifts to the crosshatch model.
-The very precise pointing expected by JWST will produce very small flux variations on the crosshatch pattern with an expected standard deviation of only 6 ppm.
+The very precise pointing expected by JWST will produce very small flux variations (``rel flux'' axis) on the crosshatch pattern with an expected standard deviation of only 6 ppm.
 }\label{fig:tserPointingAndFlux}
 \end{figure*}
 
@@ -1273,9 +1274,8 @@ Examples are shown for RTN and RC pixels.
 \end{figure*}
 
 
-\clearpage
 
-\subsection{Persistence}\label{sec:persistence}
+\section{Persistence}\label{sec:persistence}
 HST shows noticeable ramps with each HST orbit due to detector charge trapping \citep{zhou2017chargeTrap}.
 Lamp sources in our laboratory tests typically have a warm up period lasting several tens of minutes, which makes it difficult to observe this same effect the detector ramps.
 However, the charge trap release time is expected to the same when illuminated as compared to when turning the lamp off.
@@ -1324,10 +1324,11 @@ We evaluate the largest sources of noise that add to JWST's error budget and lis
 \begin{itemize}
 	\item \textbf{1/f Noise:} This is a major contributor to the noise.
 	It is important to subtract along the fast-read (horizontal) direction to reduce the correlated noise.
-	Fortunately, 1/f noise appears to average like $1/\sqrt{N_{int}} $ from integration to integration.
+	Fortunately, 1/f noise averages like $1/\sqrt{N_{int}} $ from integration to integration.
 	We found efficient reductions in 1/f noise by subtracting the median value from each row in each amplifier.
 	This will be possible for imaging time series but not grism spectroscopy, where one must use the outer background regions in the spectral dispersion direction to reduce 1/f noise.
-	For detector read modes and the long wavelength grism with a small number of groups up the ramp ($<6$ for the short wave weak lens mode), the 1/f noise will be larger than the photon noise.
+	For detector read modes and the long wavelength grism with a small number of groups up the ramp ($<6$ for the short wave weak lens mode), the 1/f noise will be larger than the photon noise using sum extraction.
+	A covariance weighting scheme described in Section \ref{sec:optimalCovWeights} will significantly lower the read noise
 	\item \textbf{Subpixel Sensitivity:} The NIRCam detectors all exhibit some degree of crosshatching patterns along crystallographic planes of HgCdTe.
 	Crosshatching structures extend down to the subpixel level where they will not be corrected for in standard flat fielding procedures, especially at the wavelengths that are below Nyquist sampling ($< 3.7\mu$m for the long wavelength and ($1.8\mu$m for the short wavelength).
 	The ALONG detector (used for grism time series) experiences the most pronounced crosshatching amplitudes.
@@ -1392,7 +1393,7 @@ The resulting voltage difference is called the contact potential.
 In the region where electrons have completed the valence shells in the P-type material and holes in the N-type material, the valence shells are complete.
 This region spanning across the two semiconductor materials is called the depletion region (pictured in Figure \ref{fig:npSchematic}), because it contains no mobile charge carriers.
 The positive net charge on the N-type material and negative charge in the P-type material causes a voltage (potential) difference across the detector.
-It should be noted that the ``depletion region'' is depleted in {\it mobile charge carriers}, but is {\it not} depleted in net charge because has a net positive charge in the N-type depletion region and negative charge in the P-type depletion region.
+It should be noted that the ``depletion region'' is depleted in {\it mobile charge carriers}, but is {\it not} depleted in net charge because it has a net positive charge in the N-type depletion region and negative charge in the P-type depletion region.
 
 The NP junction in Figure \ref{fig:npSchematic} is ``reverse-biased'' with a positive potential on the N-type material and negative potential on the P-type.
 The positive potential on the N-type material attracts the negative charge carriers (electrons) whereas the negative potential on the P-type material attracts the  positive charge carriers (holes).
@@ -1427,7 +1428,7 @@ This readout circuitry allows the signal to be measured non-destructively up the
 A sensitive amplifier converts the measured voltage potential (as compared with the bias level after reset) into a signal.
 The electronic circuit that digitizes the voltages is tuned to ensure the 16 bits (65,536 possible Data Numbers) measure the voltage across the NP junction from the value just after reset (before photons are detected) to the saturation voltage where the maximum number of photons are collected and no more electron-hole pairs can be produced in the depletion region.
 The minimum voltage is several thousands of counts above zero to ensure that fluctuations in the bias signal do not go below 0.
-The 65,536 DN level is tuned to be just above the HgCdTe full well capacity to measure full saturation of a pixel.
+The 65,536 DN level is tuned to be just above the HgCdTe full well capacity to measure full well capacity of a pixel.
 
 
 

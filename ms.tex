@@ -312,6 +312,7 @@ Here, we provide the lessons learned from ground-based characterization of the N
 We summarize the lessons learned from tests at NASA Goddard, NASA Johnson and the University of Arizona detector lab.
 Correlated electronic noise (1/f noise) in the detectors can limit the sensitivity of grism time series for a given frame (300 ppm to 1000 ppm depending on the extraction method), but will average down like $\sqrt{N}$ for $N$ frames.
 Care should be taken to include as many frames as possible per visit to reduce this 1/f noise source: thus, we recommend the smallest detector subarray sizes one can tolerate, 4 output channels and readout modes that minimize skipped frames (RAPID or BRIGHT2).
+We also describe a covariance weighting scheme that can significantly lower the contributions from 1/f noise.
 Pointing jitter and high gain antenna moves on top of the detectors' subpixel crosshatch patterns will produce relatively small variations $\lesssim 10$ ppm, before they are corrected.
 In contrast to the HST WFC3 detectors, persistence due to charge trapping will have a negligible effect on time series.
 Future performance tests during commissioning and the early release science will still be needed to assess the noise floor on stars, which are more stable than the available LED lamps used in lab-based tests.

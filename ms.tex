@@ -489,6 +489,8 @@ A standard long dark exposure used for detector characterization is a single int
 The detectors are read in full frame mode so that each frame is 10.73677 sec in duration with 4 output amplifiers in use, thus the total time for the exposure is 19.3 min.
 We use one of these long dark integrations to create simulated time series as if it were observing many consecutive integrations in full frame mode.
 The long darks are broken into 54 sequential pairs of images that are subtracted from each other (integration 1 minus integration 0, 3 minus 2, 5 minus 4 etc. in a zero-based counting scheme).
+We also re-label the times to include the reset time that would normally occur after each integration, so the 
+
 Figure \ref{fig:longDarkPhot} shows an example dark read pair from frame 55 minus frame 54.
 In the raw data, there are 4 prominent vertical stripes that are 512 pixels wide and 2048 pixels tall due to offsets in the read-out amplifiers.
 These amplifier offsets are caused by drifts in the reference voltage that are reset once per frame and vary from amplifier to amplifier.
@@ -648,18 +650,6 @@ This more realistic kernel results in higher noise because of its larger window 
 The resulting time series has a standard deviation of 2800 DN to 3700 ppm.
 This is still larger than the 1,300 DN expectation for uncorrelated read noise, but is below the ideal photon noise limit when integrations reach 60\% well depth.
 
-\subsubsection{Reference Channel Subtraction}
-We note that the 4 channels can sometimes exhibit the same 1/f correlation behavior, as shown in Figure \ref{fig:darkPixelTimeSeries}.
-Another option to remove 1/f noise is to subtract the illuminated amplifier with a target in it by un-illuminated channels.
-We subtract an amplifier 0's time series from all amplifiers.
-Of course, this means that this amplifier is perfectly subtracted and no noise or signal remains in this 1/4 of the image.
-The subtraction step should increase the read noise on an individual pixel by $\sim \sqrt{2}$ because the errors from the subtracted pixel should add in quadrature to the original pixels.
-This increase in read noise on a per-pixel level might be acceptable if it decreases the correlated errors along the rows.
-On the other hand, if the each amplifier exhibits its own individual correlated noise behavior, the reference amplifier will fail to subtract out all correlated noise and may introduce more noise.
-
-The net effect of this method is to increase the noise over a row-by-row median subtraction.
-The standard deviations in the time series range from 8,500 DN to 10,800 DN for this reference amplifier method as opposed to the 5,500 DN to 6,600 DN for a row-by-row median.
-This means the the correlations within an amplifier are not efficiently subtracted and may be propagated to the remaining amplifiers.
 
 \begin{figure*}[!hbtp]
 \centering
@@ -674,19 +664,46 @@ The right panel shows another part of the time series where Amplifiers 1 and 2 h
 }\label{fig:darkPixelTimeSeries}
 \end{figure*}
 
+\subsubsection{Reference Channel Subtraction}
+We note that the 4 channels can sometimes exhibit the same 1/f correlation behavior, as shown in Figure \ref{fig:darkPixelTimeSeries}.
+Another option to remove 1/f noise is to subtract the illuminated amplifier with a target in it by un-illuminated channels.
+We subtract an amplifier 0's time series from all amplifiers.
+Of course, this means that this amplifier is perfectly subtracted and no noise or signal remains in this 1/4 of the image.
+The subtraction step should increase the read noise on an individual pixel by $\sim \sqrt{2}$ because the errors from the subtracted pixel should add in quadrature to the original pixels.
+This increase in read noise on a per-pixel level might be acceptable if it decreases the correlated errors along the rows.
+On the other hand, if the each amplifier exhibits its own individual correlated noise behavior, the reference amplifier will fail to subtract out all correlated noise and may introduce more noise.
+
+The net effect of this method is to increase the noise over a row-by-row median subtraction.
+The standard deviations in the time series range from 8,500 DN to 10,800 DN for this reference amplifier method as opposed to the 5,500 DN to 6,600 DN for a row-by-row median.
+This means the the correlations within an amplifier are not efficiently subtracted and may be propagated to the remaining amplifiers.
+
 
 \subsubsection{PCA Correction}
+
+\begin{figure*}[!hbtp]
+\centering
+\includegraphics[width=.4\columnwidth]{pca_dark_amp_all_extra_bias_sub_grp_54.pdf}
+\includegraphics[width=.4\columnwidth]{pca_dark_amp_all_extra_bias_sub_grp_55.pdf}
+\caption{The first 10 principal component eigenvectors identified from group 54 (left) and group 55 (right).
+Pre-amplifier reset values are seen in the first principal component, and change from one group (one read in RAPID) to another.
+These are residual values not fully subtracted by reference pixels.
+The principal components generally increase in frequency with principal component number.
+In other words, the highest frequency principal components explain the least amount of the variance as would be expected for 1/f noise.
+}\label{fig:pcaEigenvectors}
+\end{figure*}
+
 Another approach to treating the 1/f noise is dimensionality reduction with Principal Component Analysis.
 Here, we assume that the counts for each pixel along a column is a random variable that can be correlated with pixels in other columns.
 Each row represents a different noise iteration.
-First, we calculate the mean value of each pixel in the 108 group stack and subtract all groups by this mean image.
+First, we apply reference pixel correction to remove the pre-amplifier resets.
+Next, we calculate the mean value of each pixel in the 108 group stack and subtract all groups by this mean image.
 This removes all bias levels and focuses on the time variability of the pixels.
 Here, we assume the dark current is negligible.
 Next, we mask all bad pixels by setting all pixels with an absolute value larger than 200 DN and replace them with 0 DN to remove bad pixels that can drive the principal components.
 The first 10 principal components are plotted in Figure \ref{fig:pcaEigenvectors} for two example groups (54 and 55).
 
 The first 10 principal components explain 14\% of the total variance in each group up the ramp.
-The principal components from one group to another are different, but the ordering of these components generally follows a pattern of increasing frequency with higher order principal components.
+The principal components from one group to another are different, but the ordering of these components generally follows a pattern of increasing frequency with higher order principal components (smaller eigenvalues).
 This is expected for 1/f noise where the lowest frequencies have most of the power.
 Since the first principal components are different from one group to another, we calculated the principal components for each group independently.
 We then create a noise model image which is the matrix multiplication of the eigenvectors by the principal components for 10 components.
@@ -694,24 +711,14 @@ This model is subtracted from each group to create a 1/f-corrected image.
 
 The PCA subtraction is applied to each group up the ramp and then these groups are subtracted in pairs to create a time series.
 We use 20 principal components as a starting point for this method.
-The final time series has and measured standard deviation of 5,300 to 5,500 DN within the background-subtracted aperture.
+The final time series has a measured standard deviation of 5,300 to 5,500 DN within the background-subtracted aperture.
 This is comparable to the row and column subtraction standard deviation of 5,500 to 6,500 DN.
 Adding 10 more principal components for a total of 20 eigenvectors only reduces the time series noise to 5,100 to 5,400 for the 3 apertures.
 
-\begin{figure*}[!hbtp]
-\centering
-\includegraphics[width=.4\columnwidth]{pca_dark_amp_all_extra_bias_sub_grp_54.pdf}
-\includegraphics[width=.4\columnwidth]{pca_dark_amp_all_extra_bias_sub_grp_55.pdf}
-\caption{The first 10 principal component eigenvectors identified from group 54 (left) and group 55 (right).
-The pre-amplifier reset values are seen in the first principal component, and change from one group (one read in RAPID) to another.
-The principal components generally increase in frequency with principal component number.
-In other words, the highest frequency principal components explain the least amount of the variance as would be expected for 1/f noise.
-}\label{fig:pcaEigenvectors}
-\end{figure*}
 
 In another approach, we treat each amplifier separately so that the principal components are calculated independently.
 This approach means that a noise signature in 3 amplifiers but not the fourth does not propagate to fourth amplifier when subtracting the PCA-based model.
-This individual-amplifier essentially has four times the number of degrees of freedom, so we fit with only the first 5 principal components in each amplifier.
+This individual-amplifier model has four times the number of variables as the combined PCA approach, so we fit with only the first 5 principal components in each amplifier.
 The resulting eigenvectors are shown in Figure \ref{fig:pcaEigenvectorsIndAmp}.
 
 If we treat each amplifier separately, the PCA model is more effective in reducing 1/f noise.
@@ -719,7 +726,7 @@ We begin by keeping 5 principal components within each amplifier and subtracting
 The resulting standard deviation of the time series is 2500 to 3820 DN.
 This is improvement is beyond what is possible on a real source because the principal components include pixels over the source aperture.
 To simulate a real photometry scenario, it is necessary to interpolate over the source aperture points as done in Section \ref{sec:smoothKernelSub} for the smoothing kernel.
-However, we stop the PCA at this point because it does not do as well as the simple row-by-row amplifier-by-amplifier subtraction performed in Section \ref{sec:indAmpAvg}.
+However, we stop the PCA at this point because it does not do as well as the simple row-by-row amplifier-by-amplifier mean subtraction performed in Section \ref{sec:indAmpAvg}.
 
 \begin{figure*}[!hbtp]
 \centering
@@ -730,42 +737,6 @@ The amplifier boundaries are demarcated by solid vertical lines.
 }\label{fig:pcaEigenvectorsIndAmp}
 \end{figure*}
 
-\clearpage
-
-\subsection{Grism Aperture}
-The NIRCam grism time series are particularly susceptible to 1/f noise because the dispersion direction is parallel to the detector's fast-read direction.
-This is visible in Figure \ref{fig:longDarkGrism} where the grism apertures (in red) are parallel to the 1/f noise correlations.
-The background subtraction along the spatial direction (vertically) will efficiently remove pre-amplifier offsets from frame to frame and amplifier to amplifier.
-However, there are no side reference pixels or horizontally-offset background regions available on the middle two amplifiers.
-Therefore, the 1/f noise will adversely impact broadband behaviors of the lightcurves, especially on the middle two amplifiers.
-
-We give some illustrative numbers for a 0.165 $\mu$m wide bin of a grism spectrum centered on 3.34 $\mu$m as listed in Table \ref{tab:noiseSummary1overf}.
-Without reference pixel subtraction, the grism apertures have standard deviations of 77,600 DN.
-Reference pixel subtraction drops this value to 9,640 DN and row-by-row subtraction drops it to 3,630 DN.
-For a well depth of 60\%, there are $3.7 \times 10^6$ DN of source counts in the 0.17 $\mu$m bin, which amounts to a photon error of 1,420 DN assuming a gain of 1.84.
-Therefore, 1/f noise can potentially dominate the error budget for broadband grism time series!
-Expressed in ppm, the read noise after processing with row-by-row subtraction is 990 ppm as compared to a photon noise of 95 ppm for a CDS subtraction (2 groups in ramp).
-
-Given the high 1/f read noise, it is important to maximize the number of samples up the ramp.
-The read noise averages down like $\sqrt{N}$ statistics (ie. each read can be assumed independent and identically distributed).
-Therefore, for the example bin size of 0.17~$\mu$m, there should be at least 13 reads to average per integration.
-For RAPID and BRIGHT1 modes, there should therefore be 13 groups and for BRIGHT2, there should be at least 7 groups (of 2 frames each).
-This would make the photon noise about equal to the read noise but ideally the read noise should be a small fraction of the photon noise.
-
-
-The timescale of most interest to studying atmospheres is the transit duration when trying to assess the stability.
-The transit durations for most exoplanets considered is several hours long.
-We therefore quantify error source over 1 hour duration.
-If the smallest stripe subarray 2048$\times$64 is used, frame time is 0.34 seconds.
-For simplicity, assuming a duty cycle of 80\% due to detector resets, there are 8460 frames over which to average read noise.
-Therefore, the final read noise is only expected to be 1.4 ppm over a 1 hour timescale if each frame is statistically independent.
-In section \ref{sec:darkBaseline}, we show from dark frames, that the read noise is statistically independent from integration to integration.
-
-For a concrete example, we consider a primary transit of WASP-80 b observed with the F444W grism time series mode.
-The exposure parameters that give a peak pixel count of 35,000 DN or 40\% well depth are a 2048$\times$256 stripe mode with BRIGHT1 read mode for 12 groups.
-These integrations are 31 seconds in duration.
-Each integration will have a 7.8$\times 10^7$ DN in a broadband aperture, so the photon noise per integration is 6,500 DN or 83 ppm.
-Over 1 hour (111 integrations), the photon noise will be 8 ppm if all integrations are independent.
 
 \begin{figure*}[!hbtp]
 \centering
@@ -779,6 +750,28 @@ Over 1 hour (111 integrations), the photon noise will be 8 ppm if all integratio
 The photometric aperture is made to represent a similar one to the F322W2 grism trace.
 }\label{fig:longDarkGrism}
 \end{figure*}
+
+\subsection{Grism Extraction}
+
+The NIRCam grism time series are particularly susceptible to 1/f noise because the dispersion direction is parallel to the detector's fast-read direction.
+This is visible in Figure \ref{fig:longDarkGrism} where the grism apertures (in red) are parallel to the 1/f noise correlations.
+The background subtraction along the spatial direction (vertically) will efficiently remove pre-amplifier offsets from frame to frame and amplifier to amplifier.
+However, there are no side reference pixels or horizontally-offset background regions available on the middle two amplifiers.
+Therefore, the 1/f noise will adversely impact broadband behaviors of the lightcurves, especially on the middle two amplifiers for the F444W filter (3.9 to 5.0 $\mu$m over $\sim$2100 px) and right three amplifiers for the F322W2 filter (2.4 to 4.0 $\mu$m over $\sim$1600 px).
+
+We give some illustrative numbers for a 0.165 $\mu$m wide bin of a grism spectrum centered on 3.34 $\mu$m as listed in Table \ref{tab:noiseSummary1overf}.
+Without reference pixel subtraction, the grism apertures have standard deviations of 77,600 DN.
+Reference pixel subtraction drops this value to 9,640 DN and row-by-row subtraction drops it to 3,630 DN.
+For a well depth of 60\%, there are $3.7 \times 10^6$ DN of source counts in the 0.17 $\mu$m bin, which amounts to a photon error of 1,420 DN assuming a gain of 1.84.
+Therefore, 1/f noise can potentially dominate the error budget for broadband grism time series.
+Expressed in ppm, the read noise after processing with row-by-row subtraction is 990 ppm as compared to a photon noise of 95 ppm for a CDS subtraction (2 groups in ramp).
+
+Given the high 1/f read noise, it is important to maximize the number of samples up the ramp.
+The read noise averages down like $\sqrt{N}$ statistics (ie. each read can be assumed independent and identically distributed).
+Therefore, for the example bin size of 0.17~$\mu$m, there should be at least 13 reads to average per integration.
+For RAPID and BRIGHT1 modes, there should therefore be 13 groups and for BRIGHT2, there should be at least 7 groups (of 2 frames each).
+This would make the photon noise about equal to the read noise but ideally the read noise should be a small fraction of the photon noise.
+
 
 Given the high level of correlation between pixels, another way to reduce 1/f noise is with a small aperture.
 For example, a 15 pixel wide aperture results in measured read noise of 990 ppm for the same 0.17$\mu$m wide bin centered at 3.34$\mu$m whereas a 3 pixel wide aperture results in a measured read noise of 290 ppm, which is below the expected photon noise.
@@ -852,20 +845,6 @@ The variance in the flux is
 %For the grism aperture experiment, we find that profile weighting gives a measured read noise of 355 ppm.
 %Thus, profile weighting still does not reduce the standard deviation over an extraction aperture that is just 1 pixel wide at the peak grism flux.
 %We show the real covariance matrix in Section \ref{sec:empCovarianceMatrix}.
-
-\subsubsection{Empirical Covariance Matrix}\label{sec:empCovarianceMatrix}
-The ideal weighting of the spectrum from Equation \ref{eq:covarianceweights} depends on the covariance matrix $C_{ij}$.
-We use CDS (correlated double sampling) read pairs of OTIS long dark data (108 frames) with reference pixel corrections to estimate $C_{ij}$.
-We consider a wavelength bin that is 100 pixels in the dispersion direction (0.1$\mu$m) and 14 spatial spatial pixels.
-We also subtract the CDS frames by the median of each row-by-row and the median of each column column-by-column to reduce the amplifier offsets and 1/f noise as done in Figure \ref{fig:longDarkPhot}.
-
-
-Figure \ref{fig:covSpecSpatial} shows the covariance matrix of this wavelength bin, taken from the median covariance matrix of 20 regions of the detector.
-The diagonal elements $\sim 150 (e^-)^2$ are smaller than published NIRCam detector performance tables ($\sigma^2 \approx 13^2 (e^-)^2=169 (e^-)^2$).
-However, if we skip the row-by-row and column-by-column subtraction step, they are consistent with $\sigma^2 \approx 13^2 (e^-)^2=169 (e^-)^2$.
-It is clear that 1/f noise causes covariance most prominently along the spectral direction (the fast-read direction), with a covariance near 20~$(e^-)^2$.
-Surprisingly, there is also a covariance between spatial pixels (the slow read direction) of $\sim$10 $(e^-)^2$.
-
 \begin{figure}[!hbtp]
 \centering
 \includegraphics[width=.6\columnwidth]{spec_spatial_cov.pdf}
@@ -880,6 +859,20 @@ Spatially, the pixels' have a covariance of 20~$(e^-)^2$ and a somewhat smaller 
 \includegraphics[width=.6\columnwidth]{cross_sections_cov.pdf}
 \caption{Average covariance along the spatial and spectral directions for a given pixel spacing.}\label{fig:covSpecSpatialDiff}
 \end{figure}
+
+\subsubsection{Empirical Covariance Matrix}\label{sec:empCovarianceMatrix}
+The ideal weighting of the spectrum from Equation \ref{eq:covarianceweights} depends on the covariance matrix $C_{ij}$.
+We use CDS (correlated double sampling) read pairs of OTIS long dark data (108 frames) with reference pixel corrections to estimate $C_{ij}$.
+We consider a wavelength bin that is 100 pixels in the dispersion direction (0.1$\mu$m) and 14 spatial spatial pixels.
+We also subtract the CDS frames by the median of each row-by-row and the median of each column column-by-column to reduce the amplifier offsets and 1/f noise as done in Figure \ref{fig:longDarkPhot}.
+
+
+Figure \ref{fig:covSpecSpatial} shows the covariance matrix of this wavelength bin, taken from the median covariance matrix of 20 regions of the detector.
+The diagonal elements $\sim 150 (e^-)^2$ are smaller than published NIRCam detector performance tables ($\sigma^2 \approx 13^2 (e^-)^2=169 (e^-)^2$).
+However, if we skip the row-by-row and column-by-column subtraction step, they are consistent with $\sigma^2 \approx 13^2 (e^-)^2=169 (e^-)^2$.
+It is clear that 1/f noise causes covariance most prominently along the spectral direction (the fast-read direction), with a covariance near 20~$(e^-)^2$.
+Surprisingly, there is also a covariance between spatial pixels (the slow read direction) of $\sim$10 $(e^-)^2$.
+
 
 
 
@@ -917,6 +910,22 @@ Alternatively, $P_j$ could be calculated from a PSF library or theoretically fro
 
 %% See the notebooks wlp8_psf_image.ipynb and noise_sources_wlp8.ipynb for calculations
 \subsection{The impact of correlated read noise on time series}
+
+The timescale of most interest to studying atmospheres is the transit duration when trying to assess the stability.
+The transit durations for most exoplanets considered is several hours long.
+We therefore quantify error source over 1 hour duration.
+If the smallest stripe subarray 2048$\times$64 is used, frame time is 0.34 seconds.
+For simplicity, assuming a duty cycle of 80\% due to detector resets, there are 8460 frames over which to average read noise.
+Therefore, the final read noise is only expected to be 1.4 ppm over a 1 hour timescale if each frame is statistically independent.
+%In section \ref{sec:darkBaseline}, we show from dark frames, that the read noise is statistically independent from integration to integration.
+
+For a concrete example, we consider a primary transit of WASP-80 b observed with the F444W grism time series mode.
+The exposure parameters that give a peak pixel count of 35,000 DN or 40\% well depth are a 2048$\times$256 stripe mode with BRIGHT1 read mode for 12 groups.
+These integrations are 31 seconds in duration.
+Each integration will have a 7.8$\times 10^7$ DN in a broadband aperture, so the photon noise per integration is 6,500 DN or 83 ppm.
+Over 1 hour (111 integrations), the photon noise will be 8 ppm if all integrations are independent.
+
+
 We consider here some example science impacts of correlated read noise in these photometric apertures.
 We will evaluate the performance of a WEAK LENS +8 mode photometric time series, as will be common with NIRCam grism time series observations.
 For a pessimistic scenario, we assume a 15,000 DN read noise contributes to every pair of reads for the 70 pixel radius aperture (and 75 to 100 pixel background subtraction annulus).

@@ -740,14 +740,16 @@ The amplifier boundaries are demarcated by solid vertical lines.
 
 \begin{figure*}[!hbtp]
 \centering
-\includegraphics[width=.32\columnwidth]{aps_3_NRCNRCALONG-DARK-72350742131_1_485_SE_2017-08-23T16h49m51_int_015_014.pdf}
-\includegraphics[width=.32\columnwidth]{aps_0_NRCNRCALONG-DARK-72350742131_1_485_SE_2017-08-23T16h49m51_red_int_015_014.pdf}
-\includegraphics[width=.32\columnwidth]{aps_1_NRCNRCALONG-DARK-72350742131_1_485_SE_2017-08-23T16h49m51_red_int_015_014_rowColSub.pdf}
-\includegraphics[width=.32\columnwidth]{long_dark_darkGrismApA5raw.pdf}
-\includegraphics[width=.32\columnwidth]{long_dark_darkGrismApA5red.pdf}
-\includegraphics[width=.32\columnwidth]{long_dark_darkGrismApA5redRowCol.pdf}
-\caption{Time series of a grism photometric broadband aperture during a long dark exposure for detector ALONG=A5. As in \ref{fig:longDarkPhot}, the long dark exposure of 108 frames is used to construct 54 pairs of reads that are subtracted, in analogy with a series of integrations.
-The photometric aperture is made to represent a similar one to the F322W2 grism trace.
+\includegraphics[width=.32\columnwidth]{spec_aps_pairwiseSubNoRed_otisLongDarkSimGrism.pdf}
+\includegraphics[width=.32\columnwidth]{spec_aps_pairwiseSubRed_covWeights_otisLongDarkSimGrism.pdf}
+\includegraphics[width=.32\columnwidth]{spec_aps_pairwiseSub_backsub_otisLongDarkSimGrism.pdf}
+\includegraphics[width=.32\columnwidth]{tser_pairwiseSub_noRed01.pdf}
+\includegraphics[width=.32\columnwidth]{tser_pairwiseSubRed.pdf}
+\includegraphics[width=.32\columnwidth]{tser_pairwiseSubRed_backsub.pdf}
+\caption{The read pairs have significant pre-amp offsets and 1/f noise (left), which are reduced by reference pixels (middle) and column-by-column row-by-row subtraction (right).
+The spectrum (outlined in red aperture box) is dispersed along the fast read (horizontal) direction, so it is particularly susceptible to 1/f noise.
+This is seen in the below each image, which dramatically decreases from 21,900 ppm to 1044 ppm with column-by-column, row-by-row subtraction.
+Here, the simulated grism image for an F322W2 filter covers the rightmost amplifier so only reference pixels and horizontal pixels with X < 300 can be used to reduce the 1/f noise.
 }\label{fig:longDarkGrism}
 \end{figure*}
 

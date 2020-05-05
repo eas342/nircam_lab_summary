@@ -749,7 +749,7 @@ The amplifier boundaries are demarcated by solid vertical lines.
 \caption{The read pairs have significant pre-amp offsets and 1/f noise (left), which are reduced by reference pixels (middle) and column-by-column row-by-row subtraction (right).
 The spectrum (outlined in red aperture box) is dispersed along the fast read (horizontal) direction, so it is particularly susceptible to 1/f noise.
 This is seen in the below each image, which dramatically decreases from 21,900 ppm to 1044 ppm with column-by-column, row-by-row subtraction.
-Here, the simulated grism image for an F322W2 filter covers the rightmost amplifier so only reference pixels and horizontal pixels with X < 300 can be used to reduce the 1/f noise.
+Here, the simulated grism image for an F322W2 filter covers the rightmost amplifier so only reference pixels and horizontal pixels with X $<$ 300 can be used to reduce the 1/f noise.
 }\label{fig:longDarkGrism}
 \end{figure*}
 
@@ -849,16 +849,17 @@ The variance in the flux is
 %We show the real covariance matrix in Section \ref{sec:empCovarianceMatrix}.
 \begin{figure}[!hbtp]
 \centering
-\includegraphics[width=.6\columnwidth]{spec_spatial_cov.pdf}
-\caption{The read noise shows significant correlations between pixels (unlike the traditional assumption that each pixel's noise is statistically independent).
+\includegraphics[width=.49\columnwidth]{spec_spatial_cov.pdf}
+\includegraphics[width=.49\columnwidth]{cross_sections_cov.pdf}
+\caption{Left: The read noise shows significant correlations between pixels (unlike the traditional assumption that each pixel's noise is statistically independent).
 The data was computed from a long dark exposure of 54 read pairs where reference pixel corrections and column-by-column and row-by-row subtractions have been performed.
 The detector's diagonal elements are better than the read noise squared due to the row-by-row and column-by-column subtraction step.
+Right: The spectral (X) and spatial (Y) directions from the matrix are averaged to build up a higher signal to noise covariance profile.
 Spatially, the pixels' have a covariance of 20~$(e^-)^2$ and a somewhat smaller spatial covariance of 10$(e^-)^2$.}\label{fig:covSpecSpatial}
 \end{figure}
 
 \begin{figure}[!hbtp]
 \centering
-\includegraphics[width=.6\columnwidth]{cross_sections_cov.pdf}
 \caption{Average covariance along the spatial and spectral directions for a given pixel spacing.}\label{fig:covSpecSpatialDiff}
 \end{figure}
 
@@ -887,8 +888,9 @@ The optimal weighting scheme also negatively weights some pixels outside the cor
 
 \begin{figure}[!hbtp]
 \centering
-\includegraphics[width=.5\columnwidth]{cov_weighted_weights.pdf}
-\caption{Spectral extraction weights for simple summation, conventional optimal extraction and covariance-weighting.}\label{fig:covWeightedSummation}
+\includegraphics[width=.66\columnwidth]{cov_weighted_weights.pdf}
+\includegraphics[width=.32\columnwidth]{zoom_cov_vs_var_tser.pdf}
+\caption{ {\it Left:} Covariance weighting using the empirical covariance matrix has more severe weighting than simple summation and conventional variance weighting used in optimal extraction. {\it Right:} Covariance weighting will dramatically lower the scatter in the dark frame time series compared to variance weighting.}\label{fig:covWeightedSummation}
 \end{figure}
 
 Optimal covariance weighting significantly lowers the contribution of read noise to the overall error budget.

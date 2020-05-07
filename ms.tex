@@ -86,6 +86,7 @@
 \usepackage{float}
 \usepackage[caption=false]{subfig}
 \usepackage{enumitem}
+\usepackage{amsmath}
 \listfiles
 
 %\usepackage{natbib}
@@ -746,10 +747,10 @@ The amplifier boundaries are demarcated by solid vertical lines.
 \includegraphics[width=.32\columnwidth]{tser_pairwiseSub_noRed01.pdf}
 \includegraphics[width=.32\columnwidth]{tser_pairwiseSubRed.pdf}
 \includegraphics[width=.32\columnwidth]{tser_pairwiseSubRed_backsub.pdf}
-\caption{The read pairs have significant pre-amp offsets and 1/f noise (left), which are reduced by reference pixels (middle) and column-by-column row-by-row subtraction (right).
+\caption{ {\it Top Row:} The read pairs have significant pre-amp offsets and 1/f noise (left), which are reduced by reference pixels (middle) and column-by-column row-by-row subtraction (right).
 The spectrum (outlined in red aperture box) is dispersed along the fast read (horizontal) direction, so it is particularly susceptible to 1/f noise.
-This is seen in the below each image, which dramatically decreases from 21,900 ppm to 1044 ppm with column-by-column, row-by-row subtraction.
-Here, the simulated grism image for an F322W2 filter covers the rightmost amplifier so only reference pixels and horizontal pixels with X $<$ 300 can be used to reduce the 1/f noise.
+{\it Bottom Row:} The standard deviation of the time series dramatically decreases from 21,900 ppm to 2,680 ppm with reference pixels and 1044 ppm with column-by-column, row-by-row subtraction for the 3.34 $\mu$m bin.
+Here, the simulated grism image for an F322W2 filter spans 3 amplifier channels (512 pixels wide) and part of the leftmost amplifer, so only reference pixels and horizontal pixels with X $<$ 300 can be used to reduce the 1/f noise.
 }\label{fig:longDarkGrism}
 \end{figure*}
 
@@ -758,27 +759,25 @@ Here, the simulated grism image for an F322W2 filter covers the rightmost amplif
 The NIRCam grism time series are particularly susceptible to 1/f noise because the dispersion direction is parallel to the detector's fast-read direction.
 This is visible in Figure \ref{fig:longDarkGrism} where the grism apertures (in red) are parallel to the 1/f noise correlations.
 The background subtraction along the spatial direction (vertically) will efficiently remove pre-amplifier offsets from frame to frame and amplifier to amplifier.
-However, there are no side reference pixels or horizontally-offset background regions available on the middle two amplifiers.
-Therefore, the 1/f noise will adversely impact broadband behaviors of the lightcurves, especially on the middle two amplifiers for the F444W filter (3.9 to 5.0 $\mu$m over $\sim$2100 px) and right three amplifiers for the F322W2 filter (2.4 to 4.0 $\mu$m over $\sim$1600 px).
+However, there are only limited background regions along the horizontal direction to use to subtract out 1/f noise.
+This will result in increased noise on the right three amplifiers for the F322W2 filter (2.4 to 4.0 $\mu$m over $\sim$1600 px) and the left two amplifiers for the F444W filter (on the right three amplifiers for the F322W2 filter (2.4 to 4.0 $\mu$m over $\sim$1600 px) and the left two amplifiers for F444W filter (3.9 to 5.0 $\mu$m over $\sim$2100 px).
 
 We give some illustrative numbers for a 0.165 $\mu$m wide bin of a grism spectrum centered on 3.34 $\mu$m as listed in Table \ref{tab:noiseSummary1overf}.
-Without reference pixel subtraction, the grism apertures have standard deviations of 77,600 DN.
-Reference pixel subtraction drops this value to 9,640 DN and row-by-row subtraction drops it to 3,630 DN.
-For a well depth of 60\%, there are $3.7 \times 10^6$ DN of source counts in the 0.17 $\mu$m bin, which amounts to a photon error of 1,420 DN assuming a gain of 1.84.
+Without reference pixel subtraction, the grism apertures have standard deviations of 80,930 DN.
+Reference pixel subtraction drops this value to 9,900 DN and row-by-row subtraction drops it to 3,860 DN.
+For a well depth of 60\%, there are $3.7 \times 10^6$ DN of source counts in the 0.17 $\mu$m bin, which amounts to a photon error of 1,430 DN assuming a gain of 1.8.
 Therefore, 1/f noise can potentially dominate the error budget for broadband grism time series.
-Expressed in ppm, the read noise after processing with row-by-row subtraction is 990 ppm as compared to a photon noise of 95 ppm for a CDS subtraction (2 groups in ramp).
+Expressed in ppm, the read noise after processing with row-by-row subtraction is 1,044 ppm as compared to a photon noise of 390 ppm for a CDS subtraction (2 groups in ramp).
 
 Given the high 1/f read noise, it is important to maximize the number of samples up the ramp.
 The read noise averages down like $\sqrt{N}$ statistics (ie. each read can be assumed independent and identically distributed).
-Therefore, for the example bin size of 0.17~$\mu$m, there should be at least 13 reads to average per integration.
-For RAPID and BRIGHT1 modes, there should therefore be 13 groups and for BRIGHT2, there should be at least 7 groups (of 2 frames each).
+Therefore, for the example bin size of 0.17~$\mu$m, there should be at least 7 reads to average per integration.
+For RAPID and BRIGHT1 modes, there should therefore be 7 groups and for BRIGHT2, there should be at least 4 groups (of 2 frames each).
 This would make the photon noise about equal to the read noise but ideally the read noise should be a small fraction of the photon noise.
 
-
 Given the high level of correlation between pixels, another way to reduce 1/f noise is with a small aperture.
-For example, a 15 pixel wide aperture results in measured read noise of 990 ppm for the same 0.17$\mu$m wide bin centered at 3.34$\mu$m whereas a 3 pixel wide aperture results in a measured read noise of 290 ppm, which is below the expected photon noise.
-For a one pixel wide aperture, the measured read noise is only 230 ppm.
-Of course such small apertures will be subject to other losses by missing so much of the PSF and the photon noise will be a larger fraction of the flux.
+For example, a 13 pixel wide aperture results in measured read noise of 1044 ppm for the same 0.17$\mu$m wide bin centered at 3.34$\mu$m whereas a 3 pixel wide aperture results in a measured read noise of 290 ppm, which is below the expected photon noise.
+However, this will sacrifice photons, so there must be a balance between reducing 1/f noise while capturing as many photons as possible.
 Therefore, a weighting scheme expanded from optimal extraction \citep{horne1986optimalE} is preferred.
 
 \subsubsection{Optimally Co-Variance Weighted Flux}\label{sec:optimalCovWeights}
@@ -787,32 +786,32 @@ Here, we provide a modification to the optimal extraction formula from \citet{ho
 The goal is to find a scheme that estimates the total flux by summing the value in each pixel $j$.
 We start by calculating a profile function $P_j$ that describes the fraction of the total flux in pixel $j$.
 The profile is normalized so that
-\begin{equation}
+\begin{equation*}
 \sum_{j=1}^{m} P_j = 1.
-\end{equation}
+\end{equation*}
 Any pixel is can be used to estimate the total flux $f_i$ by dividing by the profile.
-\begin{equation}
+\begin{equation*}
 f_j = \frac{S_j}{P_j},
-\end{equation}
+\end{equation*}
 where $S_j$ is the background-subtracted flux.
 Therefore, the flux total is a weighted average of each pixel's estimate of the total flux $f_j$.
 The goal becomes a weighting scheme to determine which weights $w_j$ minimize the variance in the total background estimate:
-\begin{equation}
+\begin{equation*}
 f_{opt} = \frac{\sum_{j=1}^{m} w_j \frac{S_j}{P_j}}{\sum_{j=1}^{m} w_j}.
-\end{equation}
+\end{equation*}
 
 If one assumes that all pixels are independent (and have zero correlation), the optimal weights (ones that minimize the variance in $f_{opt}$) are
-\begin{equation}
+\begin{equation}\label{eq:varianceweights}
 w_j = \frac{1}{\mathrm{Var}(\frac{S_j}{P_j})} = \frac{1}{\frac{1}{P_j^2} \mathrm{Var}(S_j)} = \frac{P_j^2}{V_j},
 \end{equation}
 where Var() is the variance or the expectation of the squared deviation from the mean and $V_j =$Var$(S_j$) \citep{horne1986optimalE}.
 Exoplanet observations, where high signal to noise is needed to remove the planet from star signal, are generally in the foreground limit (where the variance is approximately equal to the number of photons).
 In this case, both the profile $P_j$ and variance $V_j$ will be proportional to the number of photons $N_{phot}$, so the pre-multiplier of the flux become
-\begin{equation}
+\begin{equation*}
 \frac{w_j}{P_j} \approx \frac{N_{phot}^2}{N_{phot} N_{phot}} = 1.0.
-\end{equation}
+\end{equation*}
 Therefore, using this traditional formula will provide little difference with straight summation,
-\begin{equation}
+\begin{equation}\label{eq:StraightSummation}
 f_{sum} = \sum_{j=1}^{m} S_j.
 \end{equation} 
 
@@ -832,6 +831,7 @@ The variance in the flux is
 \mathrm{Var}(f_{opt}) = \frac{1}{\sum_{j=1}^m w_j}.
 \end{equation}
 
+In Section \ref{sec:empCovarianceMatrix}, we compare the results of straight summation (Equation \ref{eq:StraightSummation}), variance weighting (Equation \ref{eq:varianceweights}) and covariance weighting (Equation \ref{eq:covarianceweights}).
 %Simply variance weighting the spectra by the read and photon noise does not provide heavy enough weights.
 %If we assume the read noise is perfectly correlated along the spectral direction and uncorrelated along the spatial direction, then equation \ref{eq:covarianceweights} becomes
 %\begin{equation}
@@ -851,23 +851,20 @@ The variance in the flux is
 \centering
 \includegraphics[width=.49\columnwidth]{spec_spatial_cov.pdf}
 \includegraphics[width=.49\columnwidth]{cross_sections_cov.pdf}
-\caption{Left: The read noise shows significant correlations between pixels (unlike the traditional assumption that each pixel's noise is statistically independent).
-The data was computed from a long dark exposure of 54 read pairs where reference pixel corrections and column-by-column and row-by-row subtractions have been performed.
-The detector's diagonal elements are better than the read noise squared due to the row-by-row and column-by-column subtraction step.
-Right: The spectral (X) and spatial (Y) directions from the matrix are averaged to build up a higher signal to noise covariance profile.
+\caption{{\it Left:} The read noise shows significant correlations between pixels (unlike the traditional assumption that each pixel's noise is statistically independent).
+The data was computed from a long dark exposure of 54 read pairs where reference pixel corrections, column-by-column subtraction and row-by-row subtraction have been performed.
+The detector's diagonal elements are slightly below the published detector read noise ($13^2 = 169 (e^-)^2$) due to the row-by-row and column-by-column subtraction step.
+{\it Right:} The spectral (X) and spatial (Y) directions from the matrix are averaged to build up a higher signal to noise covariance profile.
 Spatially, the pixels' have a covariance of 20~$(e^-)^2$ and a somewhat smaller spatial covariance of 10$(e^-)^2$.}\label{fig:covSpecSpatial}
-\end{figure}
-
-\begin{figure}[!hbtp]
-\centering
-\caption{Average covariance along the spatial and spectral directions for a given pixel spacing.}\label{fig:covSpecSpatialDiff}
 \end{figure}
 
 \subsubsection{Empirical Covariance Matrix}\label{sec:empCovarianceMatrix}
 The ideal weighting of the spectrum from Equation \ref{eq:covarianceweights} depends on the covariance matrix $C_{ij}$.
-We use CDS (correlated double sampling) read pairs of OTIS long dark data (108 frames) with reference pixel corrections to estimate $C_{ij}$.
+We use a long dark exposure from the Optical Telescope Element and Integrated Science test performed at NASA Johnson on August 23, 2017 to estimate the read noise in $C_{ij}$.
+We process the data by performing a CDS (correlated double sampling) read pairs of long dark data (108 frames) with reference pixel corrections, column-by-column median subtraction and row-by-row median subtraction.
+These represent the steps that will be performed on grism time series before extraction.
 We consider a wavelength bin that is 100 pixels in the dispersion direction (0.1$\mu$m) and 14 spatial spatial pixels.
-We also subtract the CDS frames by the median of each row-by-row and the median of each column column-by-column to reduce the amplifier offsets and 1/f noise as done in Figure \ref{fig:longDarkPhot}.
+The resulting images are similar to Figure \ref{fig:longDarkPhot} (right).
 
 
 Figure \ref{fig:covSpecSpatial} shows the covariance matrix of this wavelength bin, taken from the median covariance matrix of 20 regions of the detector.
@@ -881,8 +878,10 @@ Surprisingly, there is also a covariance between spatial pixels (the slow read d
 
 The empirical covariance matrix from Figure \ref{fig:covSpecSpatial} is used to estimate the optimal pixel weights using Equation \ref{eq:covarianceweights}.
 We reduce the noise and jaggedness of the empirical covariance matrix in Figure \ref{fig:covSpecSpatial} by averaging the value along the diagonal, across all spectral pixels and across the spatial pixels with the same value of $i -j$.
-The resulting optimal weighting function $w_j/P_j$ is plotted in Figure \ref{fig:covWeightedSummation}.
 Here, the profile is the value from \texttt{pynrc}, which uses \texttt{webbpsf}.
+We assume that the photon and background noise is $\sqrt{N_{phot}}$ and that they are completely uncorrelated from on pixel to next, so the covariance matrix is the sum, in quadrature, of the empirical read noise covariance matrix and a diagonal photon noise matrix.
+
+The resulting optimal weighting function $w_j/P_j$ is plotted in Figure \ref{fig:covWeightedSummation}.
 This optimal weighting significantly increases the contributions from the inner pixels compared to variance weights.
 The optimal weighting scheme also negatively weights some pixels outside the core of the PSF to reduce correlated noise.
 
@@ -894,9 +893,9 @@ The optimal weighting scheme also negatively weights some pixels outside the cor
 \end{figure}
 
 Optimal covariance weighting significantly lowers the contribution of read noise to the overall error budget.
-We test this with a series of grism images with no photon noise added.
-We do background subtraction along the dispersion and spatial directions.
-We perform sum extraction over a 15 spatial pixels and then combine together 170 spectral pixels into a 0.17 $\mu$m wavelength bin.
+We test this with a series of grism images with a constant spectrum of an A0V star added to the CDS read pairs, but do not add photon noise to focus on the read noise contribution.
+We do background subtraction along the dispersion and spatial directions, as would be done in a spectroscopic extraction pipeline.
+We perform sum extraction over a 15 spatial pixels and then combine together 165 spectral pixels into a 0.165 $\mu$m wavelength bin.
 The standard deviation of sum extraction is 3,860 DN, which is 2.7$\times$ the read noise, as shown in Table \ref{tab:noiseSummary1overf}.
 The standard deviation of the extracted flux drops to 3,060 DN if optimal extraction is used.
 

@@ -597,7 +597,7 @@ These large correlations in read noise can be reduced with the side reference pi
 We use the \texttt{ncdhas} pipeline to apply reference pixel correction, which dramatically reduces the amplifier offsets and also reduces 1/f noise correlations along the fast read (X) direction.
 The time series for the 3 apertures considered drops down to 10,000 DN to 11,500 DN (depending on detector), but still falls short of the expectation of 1,310 DN if the read noise is uncorrelated.
 
-\subsection{Row-by-Row Subtraction}\label{sec:photRowByRow}
+\subsubsection{Row-by-Row Subtraction}\label{sec:photRowByRow}
 
 Since these 8 reference pixels in each row are not sufficient to remove all 1/f noise in each row, we perform another correction step:
 We find the median of each group up the ramp along the fast read (X) direction and subtract this from every row.
@@ -607,7 +607,7 @@ In the latter case, the standard deviation of the time series drops to 6000 DN, 
 The A3 detector used for weak lens photometry has reduced 1/f noise.
 %The standard deviation of the raw time series is 15,000 compared with the 22,000 from the A5 (ALONG) detector.
 
-\subsection{Mean Row by Amplifier}\label{sec:indAmpAvg}
+\subsubsection{Mean Row by Amplifier}\label{sec:indAmpAvg}
 A slight modification to the above strategy is to average each amplifier individually.
 This takes care of any differences between amplifiers.
 This individual amplifier dramatically decreases the errors.
@@ -615,7 +615,7 @@ The standard deviations of the background-subtracted photometry range from 2,540
 Therefore, this simple approach can dramatically decrease the 1/f noise to well below the photon limit.
 This is possible for Weak Lens photometry but not grism spectroscopy when dispersed parallel to detector rows (the fast-read direction).
 
-\subsection{Smoothed Kernel Subtraction}\label{sec:smoothKernelSub}
+\subsubsection{Smoothed Kernel Subtraction}\label{sec:smoothKernelSub}
 
 We also consider more sophisticated ways to reduce read noise than the median row subtraction discussed in Section \ref{sec:photRowByRow}.
 We start by applying a smoothing kernel to each group (1 read for RAPID mode) up the ramp of the raw data.
@@ -913,6 +913,18 @@ Alternatively, $P_j$ could be calculated from a PSF library or theoretically fro
 
 %% See the notebooks wlp8_psf_image.ipynb and noise_sources_wlp8.ipynb for calculations
 \subsection{The impact of correlated read noise on time series}
+
+So far, we have discussed the magnitude of correlated read noise on an integration-by-integration basis, but it is also helpful to see its impact on the transit depth or eclipse depth of an exoplanet.
+For context, the features size of atmospheric signatures on archetypical planets are expected to be $\sim$300 ppm for hot Jupiters and Neptunes but only 10 ppm for cool Super-Earths like K2-3 b \citep{greene2016jwst_trans}.
+The 
+ with clouds have molecular features of $\sim$300 ppm, most easily-observable planets, such as hot Jupiters, are expected to have molecular atmospheric features of $\sim$200 to $\sim$500 ppm \citep{schlawin2018JWSTforecasts,greene2016jwst_trans}.
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.59\columnwidth]{generic_src_errors.pdf}
+\caption{Bright sources, where only a handful of groups per integration are possible without saturation, can be dominated by read noise due to correlated errors and small photon noise.
+}\label{fig:genericSourceErrorContrib}
+\end{figure}
 
 The timescale of most interest to studying atmospheres is the transit duration when trying to assess the stability.
 The transit durations for most exoplanets considered is several hours long.

@@ -754,7 +754,7 @@ Here, the simulated grism image for an F322W2 filter spans 3 amplifier channels 
 }\label{fig:longDarkGrism}
 \end{figure*}
 
-\subsection{Grism Extraction}
+\subsection{Grism Extraction}\label{sec:GrismDarkExtraction}
 
 The NIRCam grism time series are particularly susceptible to 1/f noise because the dispersion direction is parallel to the detector's fast-read direction.
 This is visible in Figure \ref{fig:longDarkGrism} where the grism apertures (in red) are parallel to the 1/f noise correlations.
@@ -914,74 +914,43 @@ Alternatively, $P_j$ could be calculated from a PSF library or theoretically fro
 %% See the notebooks wlp8_psf_image.ipynb and noise_sources_wlp8.ipynb for calculations
 \subsection{The impact of correlated read noise on time series}
 
-So far, we have discussed the magnitude of correlated read noise on an integration-by-integration basis, but it is also helpful to see its impact on the transit depth or eclipse depth of an exoplanet.
-For context, the features size of atmospheric signatures on archetypical planets are expected to be $\sim$300 ppm for hot Jupiters and Neptunes but only 10 ppm for cool Super-Earths like K2-3 b \citep{greene2016jwst_trans}.
-The 
- with clouds have molecular features of $\sim$300 ppm, most easily-observable planets, such as hot Jupiters, are expected to have molecular atmospheric features of $\sim$200 to $\sim$500 ppm \citep{schlawin2018JWSTforecasts,greene2016jwst_trans}.
-
 \begin{figure}[!hbtp]
 \centering
-\includegraphics[width=.59\columnwidth]{generic_src_errors.pdf}
-\caption{Bright sources, where only a handful of groups per integration are possible without saturation, can be dominated by read noise due to correlated errors and small photon noise.
+\includegraphics[width=.49\columnwidth]{generic_src_errors.pdf}
+\caption{Bright sources, where only a handful of groups per integration are possible without saturation, can be dominated by read noise if simple sum extraction is used.
+A covariance-weighted extraction can substantially decrease the contribution of correlated read noise to below the photon limit.
+The errors here are for a grism time series wavelength bin that is 0.17$\mu$m wide centered on 3.34 $\mu$m for a G-type host star and a 3 hour transit duration.
 }\label{fig:genericSourceErrorContrib}
 \end{figure}
 
-The timescale of most interest to studying atmospheres is the transit duration when trying to assess the stability.
-The transit durations for most exoplanets considered is several hours long.
-We therefore quantify error source over 1 hour duration.
-If the smallest stripe subarray 2048$\times$64 is used, frame time is 0.34 seconds.
-For simplicity, assuming a duty cycle of 80\% due to detector resets, there are 8460 frames over which to average read noise.
-Therefore, the final read noise is only expected to be 1.4 ppm over a 1 hour timescale if each frame is statistically independent.
-%In section \ref{sec:darkBaseline}, we show from dark frames, that the read noise is statistically independent from integration to integration.
+So far, we have discussed the magnitude of correlated read noise on an integration-by-integration basis, but here we explore how it will impact science.
+We calculate the expected noise in the transit depth or eclipse depth of a generic exoplanet.
+For this calculation, we assume a planet orbits a G-type 5800 K star, has a 3 hour transit duration and is observed with a 2048$\times$256 stripe subarray and is read out in RAPID mode with 1 frame per group and 4 amplifiers (No. of output channels=4).
+We consider a range of $K$ magnitudes from 6 to 11.
+We then calculate the maximum number of groups up the ramp that can be commanded while keeping the peak pixel count below 50\% well depth to safely avoid severe non-linearities.
+From there, we calculate the noise due to photon counting statistics (ie. $\sqrt{N_{phot}}$) and compare it to the read noise.
+As in Section \ref{sec:GrismDarkExtraction}, we focus on a 0.17~$\mu$m wide bin centered at 3.34~$\mu$m
 
-For a concrete example, we consider a primary transit of WASP-80 b observed with the F444W grism time series mode.
-The exposure parameters that give a peak pixel count of 35,000 DN or 40\% well depth are a 2048$\times$256 stripe mode with BRIGHT1 read mode for 12 groups.
-These integrations are 31 seconds in duration.
-Each integration will have a 7.8$\times 10^7$ DN in a broadband aperture, so the photon noise per integration is 6,500 DN or 83 ppm.
-Over 1 hour (111 integrations), the photon noise will be 8 ppm if all integrations are independent.
+Figure \ref{fig:genericSourceErrorContrib} shows the photon noise as a function of $K$ Vega magnitude.
+The photon noise scales as $\sqrt{f}$, where $f$ is the flux because it is in the foreground limit.
+The read noise drops slowly with $K$ magnitude because the time to reset between integrations takes a smaller and smaller fraction of the total exposure as the number of groups per integration grows.
+We show the read noise assuming sum extraction (1044 ppm for CDS integration) and covariance-weighted extraction using Equation \ref{eq:covarianceweights} (230 ppm for CDS integration).
+If a sum extraction is used, the read noise will dominate for $K \lesssim 8.7$.
+However, covariance weights can ensure that photon shot noise is more dominant.
 
-
-We consider here some example science impacts of correlated read noise in these photometric apertures.
-We will evaluate the performance of a WEAK LENS +8 mode photometric time series, as will be common with NIRCam grism time series observations.
-For a pessimistic scenario, we assume a 15,000 DN read noise contributes to every pair of reads for the 70 pixel radius aperture (and 75 to 100 pixel background subtraction annulus).
-If the read noise is tolerable under this scenario, then it should have a minimal impact on photometric time series.
-If it is a problem, we will discuss methods of mitigation such as the row-by-row subtraction above.
-
-We also assume that each read/frame is statistically independent from the other.
-Therefore, the uncorrected read noise per integration is:
-\begin{equation}
-RN_{ap,70,75,100} = \frac{21,200 DN}{ \sqrt{N_{frames}}} \approx \frac{46,000 e^-}{ \sqrt{N_{frames}}},
-\end{equation}
-where $N_{frames}$ is the number of frames in an integration and a gain of 2.17 $e^-$/DN is assumed for the A3 detector.
-If there are 2 frames in an integration, we recover 15,000 DN for the case of a read pair subtraction on the A3 detector.
-\textcolor{red}{\bf Also empirically verify this with a slope fit to multiple images.}
-For an integration that fills to a peak of $\sim$ 60\% well depth or 35,000 DN, the integrated DN counts for a WEAK LENS +8 PSF would be $1.8 \times10^8$ DN, having a photon uncertainty of 9,100 DN or 51 ppm.
-Therefore, the correlated read noise, if left uncorrected, will have a highly significant ($>50\%$) impact on an integration of 5 or fewer frames that fill to 60\% well depth.
-As an example, a $K$=8.5 magnitude star observed in full frame WEAK LENS +8 imaging mode with 6 RAPID groups up the ramp sampling and the F210M filter would have a photon noise equal to the (uncorrected) read noise and fill the detector to 54\% well depth.
-
-We have demonstrated that row-by-row and amplifier-by-amplifier median subtraction can substantially reduce the read noise for a correlated double sample subtraction from 23,500 DN to 2,900 DN.
-Therefore, the corrected read noise per integration should be:
-\begin{equation}\label{eq:bestRNCorrection}
-RN_{ap,70,75,100} = \frac{4,100 DN}{ \sqrt{N_{frames}}}
-\end{equation}
-\textcolor{red}{\bf This is for the ALONG detector.
-Update for the A3 detector}
-For the same $K$=8.5 magnitude star observed in full frame imaging WEAK LENS +8 imaging mode, the read noise per integration should be 1,700 DN.
-Fortunately, this is now a small fraction of the photon uncertainty of 9,100 DN and only amounts to an increase in noise over the 51 ppm photon by 9 ppm per integration.
+Some of the most interesting targets will be nearby bright sources, where the photon noise is small and the feature size is small.
+For context, the features size of atmospheric signatures on archetypical planets are expected to be $\sim$300~ppm for hot Jupiters and Neptunes but only 10 ppm for cool Super-Earths like K2-3 b if they have high metallicity atmospheres \citep{greene2016jwst_trans}.
+Therefore, observations of transiting cool super-Earths will require careful treatment of the correlated read noise, such as the covariance weighting scheme, to achieve the precision needed to probe their atmospheres.
 
 
-\textcolor{red}{\bf Include more calculations on how the individual frame read noise would impact many frames in a time series of a bright target vs a faint target.}
+We note that Figure \ref{fig:genericSourceErrorContrib} shows a somewhat counter-intuitive result: read noise dominates for bright source and becomes less important for faint sources.
+For typical observations, such as faint galaxies or distant stars, the opposite is true: read noise is more of a concern for faint sources than bright ones.
+So why is there a discrepancy?
+The difference in these two science cases is that for exoplanet transit observations, the detector well depth is filled to approximately the same level ($\sim 32,000$ DN or 50\% well depth per pixel) regardless if the system's magnitude is 6 or 11.
+For the bright source with a few groups up the ramp, the read noise will be a larger fraction of 32,000 DN than for a faint source with many groups up the ramp.
+This is different from a faint galaxy in the $K > 20$ range, which will not fill the detector well.
+For a fixed exposure time, a $K=25$ and $K=20$ galaxies would be observed with approximately the same number of groups per integration so the read noise in DN from each source in an integration would be approximately the same whereas the number of DN from the source per integration would be 100 times larger for the $K=20$ galaxy.
 
-\subsubsection{Impact to Grism Time series}
-We consider a 0.17$\mu$m-wide wavelength bin and 20 pixel aperture diameter as a test case for how badly it will impact spectroscopic features that are 0.17$\mu$m wide.
-In this case, we assume row-by-row subtraction is performed and that the CDS noise from the OTIS ground-based test is representative of flight.
-Then, the equivalent grism aperture noise to equation \ref{eq:bestRNCorrection} is
-\begin{equation}
-RN_{grism,0.17\mu\mathrm{m}} = \frac{5,130 DN}{ \sqrt{N_{frames}}}.
-\end{equation}
-For the grism aperture
-
-\clearpage
 \section{Fringing}
 
 The thin layer of NIRCam's HgCdTe detector can result in an interference pattern much like thin film interference on bubbles.
@@ -1015,6 +984,21 @@ The patterns are located at 23.1$\degree$ , 90.9$\degree$, and 158.6 $\degree$ c
 The angle between these lines are 67.8$\degree$, 67.7$\degree$ and 44.5$\degree$.
 These angles and patterns can be analyzed with a 2D power spectrum as shown in Figure \ref{fig:crossHatchA5}.
 
+
+\begin{figure}[!hbtp]
+\centering
+\includegraphics[width=.49\columnwidth]{crosshatch_zoom.pdf}
+\includegraphics[width=.49\columnwidth]{crosshatch_2d_power.pdf}
+\includegraphics[width=.3\columnwidth]{tetrahedral_lattice_projection.png}
+\caption{
+The A5 detector's flat field has a pronounced crosshatch pattern at 23.1$\degree$ , 90.9$\degree$, and 158.6 $\degree$ CCW from the positive X direction.
+The crosshatch pattern is visible in a zoom-in of the pixel flat field (top left).
+The 2D power spectrum of the flat field (top right) shows a continuum of frequencies aligned with the three crosshatch angles.
+Note the lines in frequency plane are perpendicular to the crosshatch directions in the image plane.
+These three relative crosshatch angles (67.8$\degree$, 67.7$\degree$ and 44.5$\degree$) are similar to a projection of a tetrahedral (zincblende) lattice structure of HgCdTe (bottom, 67.8$\degree$, 67.8$\degree$, 44.4$\degree$).
+}\label{fig:crossHatchA5}
+\end{figure}
+
 The angles of the crosshatch patterns are determined by the crystal pattern of HgCdTe.
 HgCdTe has a zincblende structure with tetrahedral bond angles where each Hg or Cd atom is surrounded by 4 Te atoms \citep{gemain2012mercVacanciesHgCdTe}.
 HgCdTe detectors are manufactured using molecular beam epitaxy upon a substrate, a process which can result in topological defects with peak to valley amplitudes of 5-20 nm in height variations \citep{chang2008surfaceMorphologyHgCdTe}.
@@ -1035,21 +1019,6 @@ If the crosshatch pattern has a tophat response function, then these 38 rows whe
 This is more than twice the estimate from \citet{ninan2019crosshatchHPF} for an HgCdTe used on the Habitable Planet Finder.
 We expect that the crosshatch pattern's width varies among detectors and that a tophat function is a poor approximation of the actual subpixel response.
 Within NIRCam detectors, there are large variations in the strength and orientation of crosshatch features.
-
-
-\begin{figure}[!hbtp]
-\centering
-\includegraphics[width=.49\columnwidth]{crosshatch_zoom.pdf}
-\includegraphics[width=.49\columnwidth]{crosshatch_2d_power.pdf}
-\includegraphics[width=.3\columnwidth]{tetrahedral_lattice_projection.png}
-\caption{
-The A5 detector's flat field has a pronounced crosshatch pattern at 23.1$\degree$ , 90.9$\degree$, and 158.6 $\degree$ CCW from the positive X direction.
-The crosshatch pattern is visible in a zoom-in of the pixel flat field (top left).
-The 2D power spectrum of the flat field (top right) shows a continuum of frequencies aligned with the three crosshatch angles.
-Note the lines in frequency plane are perpendicular to the crosshatch directions in the image plane.
-These three relative crosshatch angles (67.8$\degree$, 67.7$\degree$ and 44.5$\degree$) are similar to a projection of a tetrahedral (zincblende) lattice structure of HgCdTe (bottom, 67.8$\degree$, 67.8$\degree$, 44.4$\degree$).
-}\label{fig:crossHatchA5}
-\end{figure}
 
 The crosshatch pattern is wavelength dependent, as seen in Figure \ref{fig:crossHatchWavelengthDep}, where the throughput variations are the largest for short wavelengths (resolving crystal structures) and smallest for the long wavelengths.
 This is visible both in the throughput cross section of the flat field and the Fourier amplitude of the crosshatch as a function of wavelength.

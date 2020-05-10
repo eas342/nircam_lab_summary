@@ -23,7 +23,7 @@
 %%
 %%
 %% using aastex version 6.2
-\documentclass{aastex62}
+\documentclass[]{aastex62}
 
 %% The default is a single spaced, 10 point font, single spaced article.
 %% There are 5 other style options available via an optional argument. They
@@ -403,13 +403,13 @@ Fortunately, the pixels within an amplifier move together, so reference pixel su
 %This is helpful in keeping the detector counts below the 65,536 DN saturation limit and thus pre-amp resets permit a larger usable well depth over the counts from 0 to 65,536 DN.
 %Without pre-amp resets, the counts in a detector could potentially drift towards by thousands of DN and shrink the usable well depth.
 
-\begin{figure}[!hbtp]
+\begin{figure*}[!hbtp]
 \centering
 \includegraphics[width=.49\columnwidth]{allamps.pdf}
 \includegraphics[width=.49\columnwidth]{allamps_long_dark.pdf}
 \caption{Reference pixel time series for a two frame integration (Left) and a long dark integration of 108 frames (Right). Each of the plots show that the pre-amplifier resets between frames in an integration cause discontinuities in the reference signal. Amplifiers 1 and 4 track the time all through a frame with the side reference pixels, whereas amplifiers 2 and 3 in the middle only contain information on the bottom and top reference pixels at the beginning and ending of a frame.
 The long dark exposure example of 108 integrations shows the behavior over long timescales.}\label{fig:ampResetDark}
-\end{figure}
+\end{figure*}
 
 \subsection{Amplifier Boundary Discontinuities}
 
@@ -429,7 +429,7 @@ Here, we find the average of all pixels from Y=0 to 15 and Y=190 to 256 in each 
 This is repeated for all columns.
 This background subtraction method will efficiently remove the pre-amplifier offsets to the level where amplifier discontinuities become smaller than the combined read and photon noise in the image.
 
-\begin{figure}[!hbtp]
+\begin{figure*}[!hbtp]
 \centering
 \includegraphics[width=.79\columnwidth]{amplifier_offsets_in_otis_lw_grism.pdf}
 \caption{An example slope image from the LW OTIS Stability test.
@@ -438,10 +438,8 @@ This background subtraction method will efficiently remove the pre-amplifier off
 {\it Third Panel:} Reference pixel correction using the 4 non-illuminated pixels in each column significantly reduces offsets between amplifiers, but introduces read noise to each column.
 {\it Fourth Panel:} Background subtraction with the mean value of the pixels below Y=15 and above Y=190 eliminates offsets between amplifiers without introducing any substantial new noise source.
 }\label{fig:ampOffsetsOtisGrismSlope}
-\end{figure}
+\end{figure*}
 
-
-\clearpage
 \section{1/f Noise}
 The readout circuitry for NIRCam and other JWST NIR instruments introduces correlated noise from pixel-to-pixel.
 This is visible when examining the time series of pixels as they are read out within a frame in the order they are addressed.\footnote{See a diagram of the readout directions at \url{https://jwst-docs.stsci.edu/near-infrared-camera/nircam-instrumentation/nircam-detector-overview/nircam-detector-readout}}
@@ -948,7 +946,7 @@ For typical observations, such as faint galaxies or distant stars, the opposite 
 So why is there a discrepancy?
 The difference in these two science cases is that for exoplanet transit observations, the detector well depth is filled to approximately the same level ($\sim 32,000$ DN or 50\% well depth per pixel) regardless if the system's magnitude is 6 or 11.
 For the bright source with a few groups up the ramp, the read noise will be a larger fraction of 32,000 DN than for a faint source with many groups up the ramp.
-This is different from a faint galaxy in the $K > 20$ range, which will not fill the detector well.
+This is different from a faint galaxy in the $K > 22$ range, which will not fill the detector well.
 For a fixed exposure time, a $K=25$ and $K=20$ galaxies would be observed with approximately the same number of groups per integration so the read noise in DN from each source in an integration would be approximately the same whereas the number of DN from the source per integration would be 100 times larger for the $K=20$ galaxy.
 
 \section{Fringing}
@@ -957,25 +955,30 @@ The thin layer of NIRCam's HgCdTe detector can result in an interference pattern
 Fringing will be less noticeable when many wavelengths are mixed together, but with grism spectra where the wavelengths are separated, the interference effects are more pronounced.
 We investigate whether this can manifest itself on the spectrum with the NIRCam grism by looking for periodic signatures that vary in frequency as a function of wavelength.
 
-Figure \ref{fig:cv3ExtractedSpectrum} shows an extracted spectrum from Cryogenic Vacuum 3 testing where a broadband point source is dispersed by the grism.
-The slope image is calculated from the raw ramp using the internal NIRCam ramps-to-slopes pipeline \texttt{nchdas}.
-The background is subtracted with a 2nd order polynomial fit and the flux is extracted with an optimally weighted summation \citep[e.g.][]{horne1986optimalE}.
-The spectrum is normalized by a 3rd order spline fit with 400 knots to remove the broad shape of the spectrum and the throughput curves.
-The resulting spectrum shows high frequency ($\sim$0.2 px$^{-1}$ to $\sim$0.5 px$^{-1}$) variations far in excess of the photon and read noise.
-These oscillations increase in frequency at longer wavelengths (X pixels).
-The variations have peak-to-valley amplitudes of about 8\%.
-However, we expect that the fringing structure will hold relatively constant during time due to the temperature stability of the instrument.
-
-
-\begin{figure}[!hbtp]
+\begin{figure*}[!hbtp]
 \centering
 \includegraphics[width=.99\columnwidth]{fringing_grism_cv3.pdf}
 \caption{A CV3 grism spectrum over the time series grism test shows evidence for fringing and where the oscillations exceed the photon and read noise (green point).
 An illustrative sinusoidal function is plotted for comparison to better see how the frequencies change as a function of wavelength (X pixel).
 }\label{fig:CV3GrismSpecFringing}
-\end{figure}
+\end{figure*}
 
-\clearpage
+Figure \ref{fig:cv3ExtractedSpectrum} shows an extracted spectrum from Cryogenic Vacuum 3 testing at NASA Goddard where a broadband point source is dispersed by the grism.
+The slope image is calculated from the raw ramp using the internal NIRCam ramps-to-slopes pipeline \texttt{ncdhas}.
+The background is subtracted with a 2nd order polynomial fit and the flux is extracted with a variance-weighted summation \citep[e.g.][]{horne1986optimalE}.
+The spectrum is normalized by a 3rd order spline fit with 400 knots to remove the broad shape of the spectrum and the throughput curves.
+The resulting spectrum shows high frequency ($\sim$0.2 px$^{-1}$ to $\sim$0.5 px$^{-1}$) variations far in excess of the photon and read noise.
+These oscillations increase in frequency at longer wavelengths (X pixels).
+The variations have peak-to-valley amplitudes of about 8\%.
+Figure \ref{fig:cv3ExtractedSpectrum} also shows an illustrative fringing model that increases in frequency as the wavelength decreases.
+
+The fringing pattern is clearly visible in the grism spectrum, so it will be imprinted on all grism spectra.
+However, this fringing pattern should be a function of the detector thickness and should remain constant for a fixed position in the detector.
+The grism time series observations will be performed with target acquisition to reliably centroid on the source to better than 0.15 long wavelength pixels.
+We therefore expect that the fringing pattern will be repeatable from one observation to the next.
+For use in stellar characterization, however, it may be helpful to divide this fringing pattern out from a correction function made from a standard star.
+
+
 \section{Subpixel Crosshatching}
 
 \subsubsection{Subpixel Crosshatching Characterization}
@@ -1017,10 +1020,10 @@ We estimate that the crosshatch pattern oriented at 90.9$\degree$ crosses 1 hori
 While crossing the boundary, there are $\approx 38$ rows where the crosshatch pattern spans more than 2 pixels.
 If the crosshatch pattern has a tophat response function, then these 38 rows where the pattern spans two pixels imply a tophat full width of 0.6 pixels or a physical width of 10.8~$\mu$m for an 18~$\mu$m pixel pitch.
 This is more than twice the estimate from \citet{ninan2019crosshatchHPF} for an HgCdTe used on the Habitable Planet Finder.
-We expect that the crosshatch pattern's width varies among detectors and that a tophat function is a poor approximation of the actual subpixel response.
+We expect that the crosshatch pattern's width varies among detectors or that a tophat function is a poor approximation of the actual subpixel response.
 Within NIRCam detectors, there are large variations in the strength and orientation of crosshatch features.
 
-The crosshatch pattern is wavelength dependent, as seen in Figure \ref{fig:crossHatchWavelengthDep}, where the throughput variations are the largest for short wavelengths (resolving crystal structures) and smallest for the long wavelengths.
+The crosshatch pattern is wavelength dependent, as seen in Figure \ref{fig:crossHatchWavelengthDep}, where the throughput variations are the largest for short wavelengths (better resolving crystal structures) and smallest for the long wavelengths.
 This is visible both in the throughput cross section of the flat field and the Fourier amplitude of the crosshatch as a function of wavelength.
 We find a steeper wavelength dependence to the crosshatch pattern near 0.9$\degree$ from horizontal in the frequency domain or 0.9$\degree$ from vertical in the length domain.
 %We also fit the crosshatch pattern.
@@ -1068,13 +1071,7 @@ We only fit the region of the power spectral density above frequencies of 0.05 p
 For the F300M filter and ALONG detector, we find 
 for $\theta_1 = 0.906 \pm 0.001 \degree, \theta_2 = 68.605 \pm 0.001 \degree, \theta_3 = 113.075 \pm 0.001, a_1 = 2.774 \pm 0.002 \times 10^{-7}, a_2 = 1.569 \pm 0.002 \times 10^{-7}, a_3 = 1.744 \pm 0.002 \times 10^{-7}, b=0.345 \pm 0.0005 $ px$^{-1}$, $c=2.05 \pm 0.07 \times 10^{-2}$ px$^{-1}$, $d=6.78 \pm 0.01 10^{-3}$ and $e_b=0.26 \pm 0.01$ px$^{-1}$.
 In other words, the separations between the vectors are $67.699 \degree, 67.831 \degree$, and $44.470 \degree$.
-The uncertainties were simply derived from the diagonals of the covariance matrix and likely are underestimated.
-
-NIRCam's 10 SCA's have very similar crosshatch angles with separations of 44.5 $\degree$ and 67.7 to 67.8 $\degree$.
-They tend to have one primary crosshatch axis oriented either along the X pixels or the Y pixels, with two flanking axes at $\sim 67.7 \degree$ to either side.
-The long wavelength arrays have a more pronounced crosshatch than the short wavelength arrays.
-The NRCB4 array's primary crosshatch direction is most closely aligned with a pixel axis (the Y direction) than any SCA.
-Figure \ref{fig:crosshatchModelGallery} shows the best-fit crosshatch 2D power spectra.
+The uncertainties were simply derived from the diagonals of the covariance matrix and may be underestimated.
 
 \begin{figure}[!hbtp]
 \centering
@@ -1086,7 +1083,13 @@ The images have all been normalized to the same scale to show the relative cross
 }\label{fig:crosshatchModelGallery}
 \end{figure}
 
-\clearpage
+NIRCam's 10 SCA's have very similar crosshatch angles with separations of 44.5 $\degree$ and 67.7 to 67.8 $\degree$ as seen in Figure \ref{fig:crosshatchModelGallery}.
+They all have one primary crosshatch axis oriented either along the X pixels or the Y pixels, with two flanking axes at $\sim 67.7 \degree$ to either side.
+The long wavelength arrays have a more pronounced crosshatch than the short wavelength arrays.
+The NRCB4 array's primary crosshatch direction is most closely aligned with a pixel axis (the Y direction) than any SCA.
+Figure \ref{fig:crosshatchModelGallery} shows the best-fit crosshatch 2D power spectra.
+
+
 \subsection{Position of SubGrism Array}
 
 The crosshatch pattern varies in amplitude and angular dependence from one physical location on the detector to another.
@@ -1098,15 +1101,6 @@ We fit the crosshatch pattern to three regions of the ALONG detector, which is t
 	\item A 2048$\times$64 theoretical subarray at the top of the ALONG detector where the bottom left corner is (4,1984)
 	\item A 2048$\times$64 cutout of the full frame detector that is centered on the grism time series field point.
 \end{enumerate}
-
-The three subarrays considered are shown in Figure \ref{fig:subpixScanSimulation}.
-We exclude reference pixels (which form a 4 pixel wide boundary around the detector) and an additional row on the bottom and top of the array because these illuminated rows are outliers in the flat field.
-The first position is nearly the same as the SUBGRISM64 subarray position in the grism time series mode, except that the SUBGRISM64 includes the first 5 rows which are excluded here from the crosshatch analysis.
-The field point used for the SUBGRISM64 mode is expected to be the same one as will be used for the SUBGRISM128 and SUBGRISM256 subarrays.
-The position at the top of the ALONG detector has the smallest amplitude of crosshatch pattern in all three directions.
-The best-fit amplitudes are used as input to the jitter simulations in Section \ref{sec:CrosshatchSim}.
-We find that the maximum flux change for a 0.1 pixel shift is 118 ppm for the nominal grism position, 108 ppm for the top of the array and 153 ppm at the full frame grism position.
-\textcolor{red}{\textbf{Update this for latest full frame grism field point}}
 
 \begin{figure}[!hbtp]
 \centering
@@ -1123,6 +1117,14 @@ This is visible in the flat field images (top three panels) and their power spec
 The bottom left corner for each subarray is listed in parentheses in the title of the flat field plot and the best-fit amplitudes are listed in the title of the power spectral density plot.
  }\label{fig:subpixScanSimulation}
 \end{figure}
+
+The three subarrays considered are shown in Figure \ref{fig:subpixScanSimulation}.
+We exclude reference pixels (which form a 4 pixel wide boundary around the detector) and an additional row on the bottom and top of the array because these illuminated rows are outliers in the flat field.
+The first position is nearly the same as the SUBGRISM64 subarray position in the grism time series mode, except that the SUBGRISM64 includes the first 5 rows which are excluded here from the crosshatch analysis.
+The field point used for the SUBGRISM64 mode is expected to be the same one as will be used for the SUBGRISM128 and SUBGRISM256 subarrays.
+The position at the top of the ALONG detector has the smallest amplitude of crosshatch pattern in all three directions.
+The best-fit amplitudes are used as input to the jitter simulations in Section \ref{sec:CrosshatchSim}.
+We find that the maximum flux change for a 0.1 pixel shift is 118 ppm for the nominal grism position, 108 ppm for the top of the array and 153 ppm at the full frame grism position.
 
 \subsection{Subpixel Crosshatching Calculation}\label{sec:CrosshatchSim}
 

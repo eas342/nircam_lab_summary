@@ -228,12 +228,12 @@
 933 North Cherry Avenue \\
 Tucson, AZ 85721, USA}
 
-\author{Karl Misselt?}
+\author{Jarron Leisenring?}
 \affiliation{Steward Observatory \\
 933 North Cherry Avenue \\
 Tucson, AZ 85721, USA}
 
-\author{Jarron Leisenring?}
+\author{Karl Misselt?}
 \affiliation{Steward Observatory \\
 933 North Cherry Avenue \\
 Tucson, AZ 85721, USA}
@@ -1039,7 +1039,7 @@ The shorter wavelengths have deeper crosshatch troughs (left) and higher Fourier
 \end{figure}
 
 
-\subsection{Crosshatch Pattern Modeling}
+\subsection{Crosshatch Pattern Modeling}\label{sec:crosshatchModeling}
 We model the crosshatch pattern in the Fourier space because it has a smoother pattern as a function of spatial frequency than in spatial coordinates as seen in Figure \ref{fig:crossHatchA5}.
 We divide the 2D Fourier power spectral density by the number of pixels in an input image.
 This was experimentally determined to give a power spectral density that does not change with the dimensions of the input image.
@@ -1059,7 +1059,7 @@ and
 k_y'(\theta_i) = -k_x  \sin{\theta_i} + k_y \cos{\theta_i}.
 \end{equation}
 We include three angles so that the total power spectral density is
-\begin{equation}
+\begin{equation}\label{eq:fullPSDmodel}
 f(k_x,k_y) = \sum_{i=1}^{i=3} f_i(k_{x,i}'(\theta_i),k_{y,i}'(\theta_i),a_i,b,c) + d \exp{\left(-k_r/e_b\right)},
 \end{equation}
 
@@ -1132,20 +1132,18 @@ The subpixel crosshatch pattern can potentially introduce time-variable noise as
 NIRCam observations are expected to have a root-mean-square deviation of 6.0 mas in each axis when measured in 15 second intervals over a 10,000 second observation.\footnote{See \url{https://jwst-docs.stsci.edu/display/JTI/JWST+Pointing+Performance\#JWSTPointingPerformance-Pointing\_stabilityPointingstability}}
 
 We simulate the effect of this jitter on NIRCam time series observations with the following steps:
-\begin{itemize}
+\begin{enumerate}
 	\item Fit the existing flat field to a crosshatch model in the Fourier domain
 	\item Extrapolate the crosshatch model to higher frequencies (30 px$^{-1}$) to estimate the sub-pixel structure
 	\item Simulate an over-sampled PSF using \texttt{webbpsf} \citep{perrin2014webbpsf}
+	\item Shift the PSF along the X and Y directions (as much as 6 mas) \label{it:xHatchShiftPSF}
 	\item Multiply the PSF by the simulated flat field
-	\item Shift the PSF along the X and Y directions up to a magnitude of 6 mas
 	\item Bin the simulated images into the native pixel size
-	\item Divide by the pixel-to-pixel flat field
-	\item Measure the relative flux with a photometric aperture
-\end{itemize}
+	\item Divide by the pixel-to-pixel flat field (as would be done in pipeline)
+	\item Measure the relative flux with a photometric aperture with the same shift applied \label{it:xHatchApPhot}
+\end{enumerate}
 
-
-
-We take the exponential model with best-fit parameters for the F300M filter and extend the exponential function out to an oversampling factor of 60 times the LW pixels.
+As discussed, in Section \ref{sec:crosshatchModeling}, we fit equation \ref{eq:fullPSDmodel} to the measured power spectral density of the F300M filter for the frequencies above 0.05 px$^{-1}$.
 We evaluate equation \ref{eq:analyticPSDradial} for frequencies in the oversampled image from 0 px$^{-1}$ to 30 px$^{-1}$ and multiply this by the number of pixels and the square of the oversampling factor (ie. $60^2$) to convert from the scale-invariant Power Spectral Density to the simulated PSD.
 We then assign random phases uniformly from 0 to 2$\pi$ for the complex Fourier plane because the original image's complex phase distribution is similar to uniform.
 Finally, we take the real part of the inverse Fourier transform to create an oversampled image, as shown in \ref{fig:crossHatchSimPSF}.
@@ -1174,7 +1172,7 @@ We set this Gaussian blurring parameter to 1 mas to simulate a worst-case scenar
 We multiply the oversampled \texttt{webbpsf} source by the simulated oversampled flat and bin this to native pixel resolution to create a simulated observation as shown in Figure \ref{fig:crossHatchSimPSF}.
 This simulated observation is divided by the binned simulated flat as would be done by a standard pipeline's flat field correction.
 
-We repeat the last steps of the observation simulation by shifting the over-sampled PSF by sub-pixel amounts.
+We repeat steps \ref{it:xHatchShiftPSF} through \ref{it:xHatchApPhot} of the observation simulation by shifting the over-sampled PSF by sub-pixel amounts.
 The subpixel shifts of the over-sampled PSF are performed with \texttt{scipy.ndimage.shift}.
 For each shifted PSF, we multiply this by the subpixel crosshatch pattern and bin the result.
 These simulated operations represent pointing drift on the subpixel scale.
@@ -1183,6 +1181,7 @@ We calculate aperture photometry with a circular aperture with a radius of 7 pix
 The aperture is re-centered by the same position as the shift direction.
 For each sub-pixel pointing drift, the aperture sum is subtracted by the background flux average per pixel multiplied by the pixel area of the source aperture.
 While the simulations here include no background flux, we use the background subtraction to simulate the operations applied by a photometry pipeline.
+These are also expected to be similar to a spectroscopic pipeline for a narrow spectral region or spectral line.
 The differential flux between the centered PSF and the shifted one is shown in Figure \ref{fig:subpixScanSimulation}.
 
 
@@ -1207,8 +1206,8 @@ A polynomial function can be fit to this subpixel dependence and then the centro
 Alternatively, a Gaussian process regression could be applied.
 Centroiding is possible in imaging and spectroscopic modes using PSF fitting or cross-correlation.
 When the LW grism time series mode is enabled, SW imaging data will automatically be collected simultaneously enabling the SW centroids to be used to track the motion of the dispersed grism image.
-Furthermore, the pixels for time series modes can be characterized in detail because the will be re-used for all time series observations in a given mode.
-Target acquisition is expected to achieve centroiding accuracy $\lesssim$ 10 mas ($\lesssim 6$ mas) for unsaturated target acquisition.\footnote{https://jwst-docs.stsci.edu/display/JTI/NIRCam+Time-Series+Imaging+Target+Acquisition}
+Furthermore, the pixels for time series modes can be characterized in detail because they will be re-used for all time series observations in a given mode.
+Target acquisition is expected to achieve centroiding accuracy $\lesssim$ 10 mas ($\lesssim 0.15$ long wavelength pixels) for unsaturated target acquisition.\footnote{https://jwst-docs.stsci.edu/near-infrared-camera/nircam-operations/nircam-target-acquisition/nircam-time-series-imaging-target-acquisition}
 This ensures that time series observations will reliably return to the same location within the same set of pixels with every visit.
 
 \subsection{Time Series Simulation}
@@ -1238,7 +1237,7 @@ The V2 and V3 are the observatory axes perpendicular to the telescope boresight 
 \begin{figure*}
 \gridline{\fig{tser_v2_v3_zoom_1.pdf}{0.45\textwidth}{Pointing Series Zoom 1} 
 \fig{tser_v2_v3_zoom_2.pdf}{0.45\textwidth}{Pointing Series Zoom 2} }
-\caption{Occasional pointing errors are expected to be quickly corrected by the fine steering mirror.
+\caption{Occasional pointing errors due to High Gain Antenna repointings are expected to be quickly corrected by the fine steering mirror with less than 1 minute e-folding timescales.
 }\label{fig:tserPointingZoom}
 \end{figure*}
 
@@ -1249,6 +1248,7 @@ The resulting flux variations are very small compared to factors like the 1/f no
 The standard deviation of the time series due to small line-of-sight telescope jitter on top of the subpixel crosshatching pattern is only 6 ppm.
 Therefore, the line-of-sight subpixel jitter is expected to have a small affect on NIRCam stability.
 Furthermore, centroid motion measurements can be used to correct the flux variations due to subpixel jitter with a polynomial or Gaussian process regression.
+Furthermore, the spacecraft telemetry can be used to identify High Gain Antenna moves to remove the short ($\lesssim$ 1 minute e-folding) centroid vibrations if desired.
 
 \begin{figure*}
 \gridline{\fig{subpx_jitter_sim.pdf}{0.7\textwidth}{}}
@@ -1258,10 +1258,16 @@ The very precise pointing expected by JWST will produce very small flux variatio
 \end{figure*}
 
 
-
-\clearpage
-
 \section{Random Telegraph Noise and RC pixels}
+
+\begin{figure*}
+\gridline{\fig{example_rtn.pdf}{0.45\textwidth}{RTN Pixels} 
+\fig{{example_rc.pdf}}{0.45\textwidth}{RC pixels}}
+\caption{Pixels sometimes exhibit unusual behaviors that are not related to counting photon flux.
+Examples are shown for RTN and RC pixels.
+}\label{fig:RTNandRC}
+\end{figure*}
+
 Several pixels exhibit RC (exponential) behavior and other exhibit unpredictable jumps in their DC levels.
 The jumps are called Random Telegraph Noise (RTN) and some examples are shown in Figure \ref{fig:RTNandRC}.
 These are rare events (400-1000 pixels out of 4$\times 10^6$) so they are unlikely to end up in a grism or in-focus aperture.
@@ -1274,18 +1280,13 @@ There are also RC pixels (as shown in Figure \ref{fig:RTNandRC}) that have expon
 These pixels consistently show RC behavior and are flagged as ``Do-not-use'' for the pipeline so they may be skipped in the aperture summation.
 There are 15 RC pixels in a 20 pixel tall F444W aperture and 31 RC pixels in a 20 pixel tall F322W2 aperture.
 
-\begin{figure*}
-\gridline{\fig{example_rtn.pdf}{0.45\textwidth}{RTN Pixels} 
-\fig{{example_rc.pdf}}{0.45\textwidth}{RC pixels}}
-\caption{Pixels sometimes exhibit unusual behaviors that are not related to counting photon flux.
-Examples are shown for RTN and RC pixels.
-}\label{fig:RTNandRC}
-\end{figure*}
-
 
 
 \section{Persistence}\label{sec:persistence}
 HST shows noticeable ramps with each HST orbit due to detector charge trapping \citep{zhou2017chargeTrap}.
+Fortunately, the JWST NIRCam persistence levels are much lower.
+\citet{leisenring2016persistence} find that the persistence rate after saturating the detectors and turning off the lamp is 0.5 DN/sec to 15 DN/sec or 0.28$e^-$ to 6.8$e^-$ at the 30 second mark, depending on the detector.
+
 Lamp sources in our laboratory tests typically have a warm up period lasting several tens of minutes, which makes it difficult to observe this same effect the detector ramps.
 However, the charge trap release time is expected to the same when illuminated as compared to when turning the lamp off.
 We therefore show a time series of an LED after it is turned off in Figure \ref{fig:persistence}.
@@ -1294,9 +1295,8 @@ At this fluence level and integration times of 9.4 seconds, each pixel reaches a
 Thus, the pixels are safely under saturation but have had plenty of time for the traps to reach equilibrium.
 
 The characteristic timescale for persistence is 12 seconds, as shown in Figure \ref{fig:persistence}.
-Thus, charge trapping release becomes undetectable after 5 minutes and is well below 0.1 DN/s per pixel.
+After 5 minutes, it is well below 0.1 DN/s.
 This release time is considerably faster than for Hubble Space Telescope, where the fast-trap release timescale is 280 seconds and the slow-release timescale is 16,300 \citep{zhou2017chargeTrap}.
-
 
 \begin{figure*}
 {\gridline{\fig{ap_labels_B4persistence_AZLabStab01refcor.pdf}{0.5\textwidth}{Box Apertures}}}
@@ -1306,22 +1306,10 @@ The source and background apertures are shown in the top image while the time se
 The characteristic timescale for charge trapping is 12 seconds.}\label{fig:persistence}
 \end{figure*}
 
-
-\subsection{Persistence with Long and Short Illumination}
-We estimate the persistence level by illuminating the detectors to $\sim$80\% well depth for either 30 seconds or 30 minutes and observe the slopes after the LED is turned off.
-We find a that the slopes rapidly the noise levels ($<$ 10 e$^-$/s) in less than 10 seconds, as shown in Figure \ref{fig:persistenceAZlab04}.
-This is similar to the measurements in \citet{leisenring2016persistence}, who find that the persistence rate after saturating the detectors and turning off the lamp is 0.5 DN/sec to 15 DN/sec or 0.28$e^-$ to 6.8$e^-$ at the 30 second mark, depending on the detector.
-The flight NIRCam long wavelength detectors in \citet{leisenring2016persistence} have smaller persistence signals than the short wavelength detectors.
-The asic dewar persistence test in Figure \ref{fig:persistenceAZlab04} is for a long wavelength detector.
-
-\begin{figure*}
-{\gridline{\fig{persistence_short_log.pdf}{0.49\textwidth}{Short Timescale Persistence. }
-\fig{persistence_long_lin.pdf}{0.49\textwidth}{Long Timescale Persistence}}}
-\caption{The NIRCam long wavelength detectors show very rapid charge trap release timescales, such that the count rates fall below the read noise level in 20 seconds.
-The data are binned to show that there is no detectable persistence on 3000 second timescales.
-An arbitrary offset of 4$e^-$/s is added on the short timescale plot to keep the values positive and possible to plot on a log scale.}\label{fig:persistenceAZlab04}
-\end{figure*}
-
+We consider an  integration of 30 seconds for a 0.17~$\mu$m wavelength bin (5 spatial pixels by 170 spectral pixels, counting only the pixels above $\sim$ 1000 DN per integration).
+After 1000 seconds, the persistence level falls to $10^{-2}~e^-$/s for the A5 detector \citep{leisenring2016persistence}, the detector used for grism time series..
+In that case, there are 255 $e^-$ electrons released in the exposure compared to a 6.7 $\times 10^6 e^-$ collected from the source or 40 ppm.
+Contrast this with HST observations of GJ 1214 b, where the ramp effect is 4000 ppm \citep{berta2012flat_gj1214} over the $\sim$45 minute visibility window for an HST orbit.
 
 \section{Conclusions}\label{sec:Conclusion}
 The NIRCam instrument will be a valuable tool to characterize the atmospheres of exoplanets with its grism time series mode.
@@ -1333,22 +1321,22 @@ We evaluate the largest sources of noise that add to JWST's error budget and lis
 \begin{itemize}
 	\item \textbf{1/f Noise:} This is a major contributor to the noise.
 	It is important to subtract along the fast-read (horizontal) direction to reduce the correlated noise.
-	Fortunately, 1/f noise averages like $1/\sqrt{N_{int}} $ from integration to integration.
+	Fortunately, 1/f noise averages like $1/\sqrt{N_{int}} $ from integration to integration after background subtraction.
 	We found efficient reductions in 1/f noise by subtracting the median value from each row in each amplifier.
 	This will be possible for imaging time series but not grism spectroscopy, where one must use the outer background regions in the spectral dispersion direction to reduce 1/f noise.
 	For detector read modes and the long wavelength grism with a small number of groups up the ramp ($<6$ for the short wave weak lens mode), the 1/f noise will be larger than the photon noise using sum extraction.
-	A covariance weighting scheme described in Section \ref{sec:optimalCovWeights} will significantly lower the read noise
+	A covariance weighting scheme described in Section \ref{sec:optimalCovWeights} can significantly lower the read noise from $\sim$1000 ppm to $\sim$250 ppm per read.
 	\item \textbf{Subpixel Sensitivity:} The NIRCam detectors all exhibit some degree of crosshatching patterns along crystallographic planes of HgCdTe.
-	Crosshatching structures extend down to the subpixel level where they will not be corrected for in standard flat fielding procedures, especially at the wavelengths that are below Nyquist sampling ($< 3.7\mu$m for the long wavelength and ($1.8\mu$m for the short wavelength).
+	Crosshatching structures extend down to the subpixel level where they will not be corrected for in standard flat fielding procedures, especially at the wavelengths that are below Nyquist sampling ($< 3.7\mu$m for the long wavelength) and ($1.8\mu$m for the short wavelength).
 	The ALONG detector (used for grism time series) experiences the most pronounced crosshatching amplitudes.
-	We estimate that up to 150 ppm variations in flux can occur for small pointing drifts of 7 mas (or 0.1 NIRCam long wavelength pixels).
-	Fortunately, the pointing drifts are expected to be very small other than brief and infrequent High Gain Antenna moves, so the expected standard deviation of flux due to pointing jitter is only $\sim$ 6 ppm.
+	We estimate that up to 150 ppm variations in flux can occur for small pointing drifts of 6 mas (or 0.1 NIRCam long wavelength pixels).
+	Fortunately, the line-of-site pointing drifts are expected to be very small (2 mas) other than brief and infrequent High Gain Antenna moves, so the standard deviation of flux due to pointing jitter is expected to be only $\sim$ 6 ppm.
 	The variations in flux at the subpixel level appear smooth enough that they could likely be calibrated as a function of position.
 	Accurate target acquisition will ensure that the same sets of pixels will be used for all grism time series, which permits detailed characterization of the subpixel behavior for re-use on multiple different visits.
 	\item \textbf{Charge Trapping/Persistence/HST Ram-up:} HST observations of exoplanets experience a well-known ``hook effect'' at the beginning of each orbit that rises like an exponential function of time.
 	This is now understood as charge trapping in the detectors \citep{zhou2017chargeTrap}.
 	JWST shows a much smaller ``hook effect'' and also much faster charge trap timescales, such that we expect it to be a negligible contributor so the NIRCam error budget.
-	Long timescale traps contribute less then 1e-/DN/px so they are less problematic.
+	Long timescale traps contribute less then 0.01 e-/s/px after 1000 seconds so they are less problematic.
 \end{itemize}
 
 %% If you wish to include an acknowledgments section in your paper,
@@ -1357,15 +1345,17 @@ We evaluate the largest sources of noise that add to JWST's error budget and lis
 \acknowledgments
 
 \section*{acknowledgements}
-MCMC fitting makes use of \texttt{emcee} \citep{foreman-mackey2013emcee} and the covariance plot was made with \texttt{corner.py} \citep{foremanCorner}.
 Funding for the E Schlawin is provided by NASA Goddard Spaceflight Center.
-This research has made
-use of the Exoplanet Orbit Database and the Exoplanet Data Explorer at \url{http://exoplanets.org}; SIMBAD database, operated at CDS, Strasbourg,
-France; NASA's Astrophysics Data System Bibliographic
-Services; the M, L, T, and Y dwarf compendium
-housed at \url{http://DwarfArchives.org}; the SpeX Prism
-Libraries at \url{http://www.browndwarfs.org/spexprism}; and the \texttt{astropy} package \citep{astropy2013}. 
-The authors wish to recognize and acknowledge the very significant cultural role and reverence that the summit of Mauna Kea has always had within the indigenous Hawaiian community. We are most fortunate to have the opportunity to conduct observations from this mountain.
+
+\software{\texttt{astropy} package \citep{astropy2013},
+\texttt{pynrc},
+\texttt{numpy},
+\texttt{scipy},
+\texttt{pysynphot} \citep{lim2015pysynphot},
+\texttt{ncdhas},
+\texttt{photutils} \citep{bradley2016photutilsv0p3},
+\texttt{matplotlib}
+}
 
 \appendix
 

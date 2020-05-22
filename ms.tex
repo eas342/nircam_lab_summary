@@ -315,7 +315,7 @@ By putting together 10 to 30 transits, it will be possible to collect enough pho
 Optimistically, 30 transits may contain enough photons to detect O$_3$ in the atmosphere of TRAPPIST-1 d with JWST if clouds have a minimal impact on its atmosphere \citep{barstow2016trappist1habitable}.
 More detailed modeling of atmospheric evolution indicates that biogenic oxygen may be too difficult to detect with any JWST instrument but desiccated oceans may produce detectable abiogenic oxygen \citep{lustig-yaeger2019detectabilityTRAPPIST-1}.
 Alternatively, 10 transits of TRAPPIST-1e could be sufficient if the planet's atmosphere has CO$_2$ and CH$_4$ biosignatures similar to early-Earth \citep{krissansen-totton2018trappist1eJWST}.
-A critical question in studying planets like TRAPPIST-1 d/e, however, is whether photon-limited performance is possible with JWST observations.
+A critical question in studying planets like TRAPPIST-1 d/e with small spectroscopic signatures, however, is whether photon-limited performance is possible with JWST observations.
 For difficult biosignatures, noise levels less than 10 ppm (parts per million) are required and this value shrinks in the presence of clouds.
 
 Experience with the Hubble Space Telescope (HST), \spitzer, and \kepler\ shows that many systematics can affect high precision time series and prevent photon-limited performance unless corrected for \citep[e.g.][]{beichman2014pasp}.
@@ -324,14 +324,15 @@ Many of these effects are detector-related including charge trapping on HST's de
 The NIRCam instrument \citep{rieke2005nircamSPIE} contains a slitless grism mode with its long wavelength channel \citep{greene2017jatisNIRCam}.
 This slitless grism mode is analogous to the WFC3 grism on HST that has been successfully employed on many transiting planets \citep[e.g.][]{deming13,kreidberg2014wasp43,sing2016continuum,wakeford2017hatp26}.
 The NIRCam grism mode will collect moderate resolution R$\sim$1100-1700 spectra over the wavelength range from 2.4 to 5.0~$\mu$m.
-This grism mode can be used simultaneously with short wavelength weak lens imaging or (in future cycles) the Dispersed Hartmann Sensor mode \citep{schlawin2017dhs}. If it becomes an approved and implemented mode, the DHS will permit spectroscopy simultaneous from 1.0 to 2.0~$\mu$m because of a dichroic beamsplitter that divides the light from NIRCam into two different channels.
-The DHS mode will permit time series spectroscopy on very bright targets ($K_S \sim 1$) inaccessible by other modes.
+This grism mode can be used simultaneously with short wavelength weak lens imaging or (in future cycles) Dispersed Hartmann Sensor spectroscopy \citep{schlawin2017dhs}. If it becomes an approved and implemented mode, the DHS will permit spectroscopy from 1.0 to 2.0~$\mu$m using a wavefront sensor.
+The DHS mode will permit time series spectroscopy on very bright targets ($K_S \sim 1$ mag (Vega)) inaccessible by other modes.
+Either the DHS or weak lens imaging can be run simultaneously with the long wavelength grism thanks to a dichroic beamsplitter.
 
 Given the finite lifetime of the JWST mission set by onboard fuel, it is important to understand the systematic errors before launch to maximize the science return of the observatory.
-We discuss the major sources of systematic errors that can affect the NIRCam instrument.
+We discuss the major sources of systematic errors that can affect time-series observations with the NIRCam instrument.
 Parallel efforts to characterize other instrument's noise sources are being done, such as with MIRI's detectors \citep{matuso2019siAsDetectorStability}.
 
-Section \ref{sec:knownEffects} lists the known systematic effects that can impeded high precision time series and increase the noise above the photon noise.
+Section \ref{sec:knownEffects} lists the known systematic effects that can degrade the precision of time series measurements compared to the the photon noise limit.
 Sections \ref{sec:preAmp} through \ref{sec:persistence} detail these noise contributions.
 We conclude in Section \ref{sec:Conclusion} that 1/f noise is the largest systematic error followed by subpixel sensitivity, while the dominant HST-related systematic should have a relatively minor impact.
 

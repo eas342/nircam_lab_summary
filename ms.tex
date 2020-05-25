@@ -343,6 +343,7 @@ For NIRCam, the eight short wavelength detectors have a 2.5 $\mu$m cutoff while 
 Each of the detectors is connected to a SIDECAR ASIC \citep{loose2006sidecarAsic} that controls how the pixels are read out and reset.
 All detectors are connected to four output amplifiers that can be read out simultaneously on four vertical stripes of the detectors.
 Each pixel's NP semiconductor junction may be measured non-destructively multiple times (referred to as ``reads'' or ``samples'') before the pixel is reset, ending an integration.
+An analog-to-digital convert turns the number of electrons collected in the detector into count of Data Numbers (DNs) between 0 and 16 bits (65,536) with a gain of $\sim$1.8 for the long-wavelength detectors and $\sim$2.0 for the short-wavelength detectors.
 The combination of all the pixels as an image is saved as a ``frame'', which together make up an integration, which ends when a pixel is reset.
 The integrations are packaged together into a single ``exposure'' and the frames are co-added into groups of 1 or more frames to save data.
 \citet{jdoxNIRCamDetectorPatterns} contains more information on the readout patterns.
@@ -353,7 +354,7 @@ These known detector effects that can impact stability are listed briefly and th
 
 The following sources of noise introduce random variations to time series:
 \begin{enumerate}[noitemsep]
-	\item \textbf{Pre-amplifier reset offsets:} (a SIDECAR ASIC-related effect) 
+	\item \textbf{Pre-amplifier reset offsets:} (a SIDECAR ASIC-related effect) \label{it:preAmpOffsets}
 The resets cause discontinuities in the pedestal level of all pixels between frames.
 Pre-amp resets can also appear in slope images (DN/second) because NIRCam's amplifiers are reset once per frame (not once per integration).
 This is an effect where averaging over more pixels does not decrease the noise, but reference pixel or background subtraction can efficiently remove the pre-amp offsets.
@@ -384,29 +385,30 @@ Fortunately, the TMC 2 control does not undergo these oscillations and will be e
 If necessary, the effect of temperature fluctuations can be calibrated to $\pm 1 e^-$ for excursions less than $\pm$ 50 mK \citep{hall2005jwstArrays}.
 	\item \textbf{SIDECAR ASIC Temperature Fluctuations:} The SIDECAR ASIC temperature will change with the operating mode. For example, in the CV3 stability test, the temperature of the A SIDECAR ASIC changed by $\sim$80 mK when the readout mode was switched from full frame to subarray.
 	This temperature change is expected to be smaller in flight due to adjustments in the operations to run all four amplifiers regardless of how many are used to collect science data.
-	\item \textbf{Detector Fringing} \textbf{\textcolor{red}{Is there a good citation?}} The thin $\sim 5\mu$m layers of the H2RG detectors will cause interference patterns on the array due to constructive and destructive interference of light at wavelengths similar to the thickness of the layers. If the detector fringe pattern changes with time, it will change the throughput of a grism image.
+	\item \textbf{Detector Fringing} The thin $\sim 6\mu$m layer of the H2RG detectors or other optics can cause interference patterns on the array due to constructive and destructive interference of light at wavelengths similar to the thickness of the layers. Older HgCdTe detectors contained a CdZnTe layer that caused a prominent fringing pattern \citep{finger2008HgCdTeCharacterization}, but JWST detectors have the CdZnTe removed so the fringe pattern comes from a different optical layer. If the detector fringe pattern changes with time, it will change the throughput of a grism image.
 	\item \textbf{Charge Trapping} A major correlated error source on HST WFC3 is the ``hook effect'' \citep{berta2012flat_gj1214}.
 	The hook effects is due to charge can be trapped within the detector's depletion region (initially lowering the flux) and then released at later times (increasing the flux) \citep{zhou2017chargeTrap}.
-	JWST's NIRCam instrument has very lower rates of persistence ($<$1 DN/sec) at 100 seconds after saturation \citep{leisenring2016persistence}, so it is expected that charge trapping will be a minor concern for JWST's HgCdTe detectors.
+	JWST's NIRCam instrument has very lower rates of persistence ($<$1 DN/sec) at 100 seconds after saturation on all detectors \citep{leisenring2016persistence}, so it is expected that charge trapping will be a minor concern for JWST's HgCdTe detectors.
 \end{enumerate}
 
 We discuss these noise contributions in more detail in Sections \ref{sec:preAmp} through \ref{sec:persistence}.
 However, we exclude the kTC noise, even/odd noise, temperature fluctuations and elevated columns because these are not expected to contribute significantly (less them $\sim$ 1 ppm) to the time series.
 
 
-\section{Pre-amp Reset Offsets from the Lockheed CV Test}\label{sec:preAmp}
+\section{Pre-amplifier Offsets and Amplifier Boundaries}
 
-The NIRCam detectors' pre-amplifiers (pre-amps) have a reference voltage that can drift with time.
+\subsection{Pre-amplifier Offsets}\label{sec:preAmp}
+The NIRCam detectors' pre-amplifiers (pre-amps) in the SIDECAR ASIC have a reference voltage that can drift with time, introduced as error source \ref{it:preAmpOffsets}.
 This can affect the pedestal level of all pixels over long ($\gtrsim$ 20 minute timescales).
 These pre-amplifier levels can either be reset at the beginning of an integration with samples up the ramp or with each frame up the ramp.
 The NIRCam detectors are reset once per frame to prevent large amplifier drifts over an integration \citep{robberto2014refPixPreAmp}.
-One set of darks was collected at Lockheed CV with a reset only once per integration to study the effects of the pre-amplifier resets.
+One set of darks was collected at during NIRCam cryogenic vacuum pre-delivery testing at Lockheed Martin with a reset only once per integration to study the effects of the pre-amplifier resets.
 
 In the Lockheed CV test, the pedestal level of all pixels could be seen to drift over 19.3 minute dark integrations by 5 to 100 DN.
 The drift was usually linear over these 19 minute exposures, but in one case was observed to drift downward from 100 DN to -50 DN and back to 100 DN \citep{robberto2014refPixPreAmp}.
 The timescales for pre-amp resets are relevant to exoplanet time series, which have transit durations of $\sim$0.5 to 3 hours for typical targets.
 However, reference pixel subtraction or background subtraction can efficiently remove pre-amp drifts, so with proper data reduction, the pre-amp drifts can be effectively eliminated.
-The NIRCam grism subarrays and dispersed source location are placed at the edge of the NIRCam Long Wavelength detector to ensure reference pixels are saved with active pixels, so reference pixels will always be available for the grism.
+The NIRCam grism subarrays and dispersed source location are placed at the edge of the NIRCam Long Wavelength detector to ensure reference pixels are nearby and saved with active pixels.
 
 Figure \ref{fig:ampResetDark} shows an example time series of the reference pixels for a dark exposure.
 The pedestal/bias level of the reference pixels undergoes a sharp jump between each frame (10.7 seconds in duration).
@@ -420,7 +422,7 @@ Fortunately, the pixels within an amplifier move together, so reference pixel su
 \centering
 \includegraphics[width=.49\columnwidth]{allamps.pdf}
 \includegraphics[width=.49\columnwidth]{allamps_long_dark.pdf}
-\caption{Reference pixel time series for a two frame integration (Left) and a long dark integration of 108 frames (Right). Each of the plots show that the pre-amplifier resets between frames in an integration cause discontinuities in the reference signal. Amplifiers 1 and 4 track the time all through a frame with the side reference pixels, whereas amplifiers 2 and 3 in the middle only contain information on the bottom and top reference pixels at the beginning and ending of a frame.
+\caption{Reference pixel time series for a two frame integration (Left) and a long dark integration of 108 frames (Right). Each of the plots show that the SIDECAR ASIC pre-amplifier resets between frames in an integration cause discontinuities in the reference signal. Amplifiers 1 and 4 track the time all through a frame with the side reference pixels, whereas amplifiers 2 and 3 in the middle only contain information on the bottom and top reference pixels at the beginning and ending of a frame.
 The long dark exposure example of 108 integrations shows the behavior over long timescales.}\label{fig:ampResetDark}
 \end{figure*}
 
@@ -428,8 +430,8 @@ The long dark exposure example of 108 integrations shows the behavior over long 
 
 NIRCam's STRIPE mode and full frame mode both employ 4 amplifiers to simultaneously read out or reset 4 pixels at once.
 This simultaneous use of 4 amplifiers reduces the frame time by a factor of 4 and thus increases the brightness of objects that can be detected before saturation as well as increase the number of reads up a detector pixel to average down readout noise.
-Users have the option to select the 1 or 4 amplifiers with the ``No. of output channels'' in APT.
-On the flip side, the four amplifiers will have different behaviors such as offsets in the bias level.
+Users have the option to select the 1 or 4 amplifiers with the ``No. of output channels'' in the Astronomer's Proposal Tool \citep[APT][]{apt2020p2}.
+On the flip side, the four amplifiers will have different behaviors such as gains and offsets in the bias level.
 The differential biases between the amplifiers will show up as step function changes in the slope of the image at the amplifier boundaries (512, 1024 and 1536), as visible in Figure \ref{fig:ampOffsetsOtisGrismSlope} (top panel).
 If a spectrum of a source is extracted without any vertical background extraction or reference pixel correction, the amplifier offsets cause sharp discontinuities in the summed spectrum.
 
@@ -438,7 +440,7 @@ For example, subtracting the average reference pixel in each amplifier will redu
 It should be noted, however, that there are gradients in the bias signal within each amplifier.
 One could subtract the mean reference pixel in each column to reduce these gradients, shown in Figure \ref{fig:ampOffsetsOtisGrismSlope}, (third from top panel) but given that there are only 4 reference pixels at the bottom of each column, this introduces extra noise in the subtraction.
 Instead, one can use the background region for each column ($\sim$80 pixels) to best remove gradients and the amplifier offsets.
-Here, we find the average of all pixels from Y=0 to 15 and Y=190 to 256 in each column and subtract this value from the whole column.
+Here, in Figure \ref{fig:ampOffsetsOtisGrismSlope} (bottom panel), we find the average of all pixels from Y=0 to 15 and Y=190 to 256 in each column and subtract this value from the whole column.
 This is repeated for all columns.
 This background subtraction method will efficiently remove the pre-amplifier offsets to the level where amplifier discontinuities become smaller than the combined read and photon noise in the image.
 
@@ -457,7 +459,7 @@ This background subtraction method will efficiently remove the pre-amplifier off
 The readout circuitry for NIRCam and other JWST NIR instruments introduces correlated noise from pixel-to-pixel.
 This is visible when examining the time series of pixels as they are read out within a frame in the order they are addressed.\footnote{See a diagram of the readout directions at \url{https://jwst-docs.stsci.edu/near-infrared-camera/nircam-instrumentation/nircam-detector-overview/nircam-detector-readout}}
 The power spectrum of this pixel-by-pixel time series reveals high power at low frequencies that drops approximately like a 1/f power law in the power spectrum of the time series.
-Figure \ref{fig:pixelTSeriesPSpec} shows the average Lomb Scargle periodogram from amplifier over 108 dark frames.
+Figure \ref{fig:pixelTSeriesPSpec} shows the average Lomb Scargle periodogram from the middle left amplifier (512-1023 px) over 108 dark frames.
 To create the periodogram, the reference pixels are used to remove amplifier offsets between frames.
 Next, the average of all frames is subtracted to remove the bias and all pixels that deviate by more than 80 DN from the average are masked to eliminate bad pixels.
 

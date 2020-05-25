@@ -337,43 +337,58 @@ Sections \ref{sec:preAmp} through \ref{sec:persistence} detail these noise contr
 We conclude in Section \ref{sec:Conclusion} that 1/f noise is the largest systematic error followed by subpixel sensitivity, while the dominant HST-related systematic should have a relatively minor impact.
 
 \section{List of Known Detector Effects}\label{sec:knownEffects}
-An ideal HgCdTe detector simply counts the photons incident on its surface (as described in section \ref{sec:detectorPrimer}).
-However, there are many non-ideal effects that can affect the stability of a light curve of a transiting exoplanet.
-Here, we review many of the known noise sources that could impact the stability of a time series beyond photon counting statistics. These known detector effects that can impact stability are listed briefly and then in more detail as related to the JWST NIRCam detectors below that.
+An ideal HgCdTe detector would simply count the photons incident on its surface (as described in Appendix \ref{sec:detectorPrimer}).
+The NIRCam, NIRSpec and NIRISS instruments on JWST use Teledyne HAWAII2RG HgCdTe detectors.
+For NIRCam, the eight short wavelength detectors have a 2.5 $\mu$m cutoff while the two long wavelength detectors have a 5.0 $\mu$m cutoff \citep{jdoxNIRCamDetectors}.
+Each of the detectors is connected to a SIDECAR ASIC \citep{loose2006sidecarAsic} that controls how the pixels are read out and reset.
+All detectors are connected to four output amplifiers that can be read out simultaneously on four vertical stripes of the detectors.
+Each pixel's NP semiconductor junction may be measured non-destructively multiple times (referred to as ``reads'' or ``samples'') before the pixel is reset, ending an integration.
+The combination of all the pixels as an image is saved as a ``frame'', which together make up an integration, which ends when a pixel is reset.
+The integrations are packaged together into a single ``exposure'' and the frames are co-added into groups of 1 or more frames to save data.
+\citet{jdoxNIRCamDetectorPatterns} contains more information on the readout patterns.
 
-\begin{itemize}[noitemsep]
-	\item \textbf{Pre-amplifier reset offsets:} (an Asic-related effect) 
+There are many non-ideal effects, however, that can affect the stability of a light curve measurement of a transiting exoplanet.
+Here, we review many of the known noise sources that could impact the stability of a time series beyond photon counting statistics.
+These known detector effects that can impact stability are listed briefly and then in more detail as related to the JWST NIRCam detectors below that.
+
+The following sources of noise introduce random variations to time series:
+\begin{enumerate}[noitemsep]
+	\item \textbf{Pre-amplifier reset offsets:} (a SIDECAR ASIC-related effect) 
 The resets cause discontinuities in the pedestal level of all pixels between frames.
 Pre-amp resets can also appear in slope images (DN/second) because NIRCam's amplifiers are reset once per frame (not once per integration).
 This is an effect where averaging over more pixels does not decrease the noise, but reference pixel or background subtraction can efficiently remove the pre-amp offsets.
 These are discussed further in Section \ref{sec:preAmp}.
 	\item \textbf{Amplifier Boundary Discontinuities} The NIRCam detectors can be read out in full frame, stripe and window modes. The full frame and stripe modes make use of 4 amplifiers that can record or reset the accumulated electrons in 4 pixels simultaneously in parallel. The parallel operation of the amplifiers reduces the frame time and reset time by a factor of 4 but can introduce subtle voltage biases between regions of the detector. If these voltage biases are not corrected, they can potentially introduce discontinuities in a spectrum, which crosses amplifier boundaries.
 	The amplifier boundary discontinuities are a consequence of the pre-amplifier reset offsets above.
-	\item \textbf{1/f noise:} The JWST HgCdTe readout electronics have a p-type metal-oxide semiconductor field-effect transistor (PFET) source follower that introduces noise to the images as well as DC biases in the ASIC electronics \citep{rauscher2011irsSquared}.
+	\item \textbf{1/f noise:} The JWST readout integrated circuits (ROICs) have a p-type metal-oxide semiconductor field-effect transistor (PFET) source follower that introduces noise to the images as well as DC biases in the ASIC electronics \citep{rauscher2011irsSquared}.
 	This is a noise source where most of the noise power is concentrated at low frequencies.
 	1/f noise causes spatial correlations primarily in the fast-read direction (along detector rows). It is highly correlated between amplifiers, suggesting that it is caused by a common reference voltage. 1/f noise can be reduced by subtracting the values from background pixels or reference pixels.
-	\item \textbf{Intrapixel sensitivity:} Telescope pointing drifts and jitter can impact the amount of flux measured if the response of pixels is not perfectly uniform.
-	This has a particularly strong impact on the time series from the Spitzer IRAC instrument \citep{ingalls2016spitzerRepeatability}.
-	It can also appear on JWST detectors because the sub-pixel flat field is not uniform.
-	Crosshatching patterns on HgCdTe detectors (which all JWST near-infrared instruments use) exist at the sub-pixel level  \citep{shapiro2018crosshatch,ninan2019crosshatchHPF}
 	\item \textbf{Even/odd offsets:} Alternating columns have different bias levels. Additionally, there are offsets between columns that can change from frame to frame, especially on NIRCam's LW detector.
 	These can be reduced with reference pixels or background subtraction.
 	\item \textbf{kTC noise:} Each reset at the beginning of an integration introduces thermal noise associated with the unknown amount of charge stored in a pixel at the reset voltage level.
-	Fortunately, the bias offset produces by kTC noise will easily subtract out when fitting a slope image from the multiple samples up the ramp.
+	Fortunately, the bias offset produced by kTC noise will easily subtract out when fitting a slope image from the multiple samples up the ramp.
 	This noise would  only become relevant when attempting to make use of the first group of a ramp (such as when only 1 group is commanded).
-	\item \textbf{Detector Temperature Fluctuations:} The JWST detectors are sensitive to temperature changes on the focal plane arrays. For example, laboratory tests show that 100 mK temperature fluctuations can result in $\sim$ 80 ADU changes on the detector that are not corrected by reference pixels \citep{hall2005jwstArrays}. Fortunately, the detectors are actively thermally controlled to keep the temperature fluctuations to mostly $\lesssim$ 1 mK.
+	\item \textbf{Elevated Columns} There is correlated noise along a column in many frames. These elevated columns can sometimes even move with time.
+	\item \textbf{Random Telegraph Noise (RTN)} Some of the pixels will exhibit spontaneous changes jumps in signal even with no illumination. Fortunately, RTN appears in only $\sim$1000 pixels out of 4$\times 10^6$ on the array and exhibited 1 jump in a 20 minute exposure.
+\end{enumerate}
+
+In addition to these random effects, there are also systematic effects that are time-variable only due variations in other variables such as temperature and telescope pointing:
+\begin{enumerate}[resume]
+	\item \textbf{Intrapixel sensitivity:} Telescope pointing drifts and jitter can impact the amount of flux measured if the response within pixels is not perfectly uniform.
+	This has a particularly strong impact on the time series from the Spitzer IRAC instrument \citep{ingalls2016spitzerRepeatability}.
+	It can also appear on JWST detectors because the sub-pixel flat field is not uniform.
+	Crosshatching patterns on HgCdTe detectors (which all JWST near-infrared instruments use) exist at the sub-pixel level  \citep{shapiro2018crosshatch,ninan2019crosshatchHPF}
+	\item \textbf{Detector Temperature Fluctuations:} The JWST detectors are sensitive to temperature changes on the focal plane arrays. For example, laboratory tests show that 100 mK temperature fluctuations can result in $\sim$ 80 DN changes on the detector that are not corrected by reference pixels \citep{hall2005jwstArrays}. Fortunately, the detectors are actively thermally controlled to keep the temperature fluctuations to mostly $\lesssim$ 1 mK.
 The one exception is that the Long Wavelength A-side detector (A5) exhibited $\sim$ 20 min oscillations with an amplitude of 15-20 mK when using the Temperature Monitor Control (TMC) 1 active thermal control.
 Fortunately, the TMC 2 control does not undergo these oscillations and will be employed in orbit.
 If necessary, the effect of temperature fluctuations can be calibrated to $\pm 1 e^-$ for excursions less than $\pm$ 50 mK \citep{hall2005jwstArrays}.
-	\item \textbf{ASIC Temperature Fluctuations:} The asic temperature will change as the operating mode. For example, in the CV3 stability test, the temperature of the A asic changed by $\sim$80 mK when the readout mode was switched from full frame to subarray.
+	\item \textbf{SIDECAR ASIC Temperature Fluctuations:} The SIDECAR ASIC temperature will change with the operating mode. For example, in the CV3 stability test, the temperature of the A SIDECAR ASIC changed by $\sim$80 mK when the readout mode was switched from full frame to subarray.
 	This temperature change is expected to be smaller in flight due to adjustments in the operations to run all four amplifiers regardless of how many are used to collect science data.
-	\item \textbf{Elevated Columns} There is correlated noise along a column in many frames. These elevated columns can sometimes even move with time.
-	\item \textbf{Random Telegraph Noise (RTN)} Some of the pixels will exhibit spontaneous changes jumps in signal even with no illumination. Fortunately, RTN appears in only $\sim$1000 pixels out of 4$\times 10^6$ on the array.
 	\item \textbf{Detector Fringing} \textbf{\textcolor{red}{Is there a good citation?}} The thin $\sim 5\mu$m layers of the H2RG detectors will cause interference patterns on the array due to constructive and destructive interference of light at wavelengths similar to the thickness of the layers. If the detector fringe pattern changes with time, it will change the throughput of a grism image.
 	\item \textbf{Charge Trapping} A major correlated error source on HST WFC3 is the ``hook effect'' \citep{berta2012flat_gj1214}.
 	The hook effects is due to charge can be trapped within the detector's depletion region (initially lowering the flux) and then released at later times (increasing the flux) \citep{zhou2017chargeTrap}.
 	JWST's NIRCam instrument has very lower rates of persistence ($<$1 DN/sec) at 100 seconds after saturation \citep{leisenring2016persistence}, so it is expected that charge trapping will be a minor concern for JWST's HgCdTe detectors.
-\end{itemize}
+\end{enumerate}
 
 We discuss these noise contributions in more detail in Sections \ref{sec:preAmp} through \ref{sec:persistence}.
 However, we exclude the kTC noise, even/odd noise, temperature fluctuations and elevated columns because these are not expected to contribute significantly (less them $\sim$ 1 ppm) to the time series.
@@ -476,7 +491,7 @@ For this reason, the ``GRISMC'' is not currently available for time series obser
 
 \subsection{Long Darks}\label{sec:longDarks}
 
-It is instructive to look at dark frames to isolate the contributions of the read-out electronics, including the side-car asic, and how much they contribute to the error budget.
+It is instructive to look at dark frames to isolate the contributions of the read-out electronics, including the side-car SIDECAR ASIC, and how much they contribute to the error budget.
 The dark frames do not have issues with the photometric stability of illumination lamps, which is a persistent challenge with ground-based tests.
 They also do not contain photon noise in the background, which can make electronic noise sources harder to see.
 We study here the contributions from read noise, including the 1/f noise from the electronics.
@@ -957,7 +972,7 @@ We investigate whether this can manifest itself on the spectrum with the NIRCam 
 \centering
 \includegraphics[width=.99\columnwidth]{fringing_grism_cv3.pdf}
 \caption{A CV3 grism spectrum over the time series grism test shows evidence for fringing and where the oscillations exceed the photon and read noise (green point).
-An illustrative sinusoidal function is plotted for comparison to better see how the frequencies change as a function of wavelength (X pixel).
+An illustrative fringing model is plotted for a constant-thickness 350 $\mu$m layer to better see how the frequencies change as a function of wavelength (X pixel).
 }\label{fig:CV3GrismSpecFringing}
 \end{figure*}
 
@@ -1386,10 +1401,10 @@ The voltage can be measured non-destructively (for many reads) as the well fills
 
 The junction of these two materials enables electrons to flow from the N-type material to the P-type material where it can complete a valence shell in the semiconductor material.
 This produces a negative charge on the P-type side.
-Conversely, the positively charged holes from the P-type material flow to the N-type material to complete the valence shell and this produces a net positive charge.
+Conversely, the positively charged holes from the P-type material flow to the N-type material to complete the valence shell and this produces a net positive charge on the N-type side.
 The resulting voltage difference is called the contact potential.
 In the region where electrons have completed the valence shells in the P-type material and holes in the N-type material, the valence shells are complete.
-This region spanning across the two semiconductor materials is called the depletion region (pictured in Figure \ref{fig:npSchematic}), because it contains no mobile charge carriers.
+This region spanning across the two semiconductor materials is called the depletion region (pictured in Figure \ref{fig:npSchematic}), because it is depleted of mobile charge carriers.
 The positive net charge on the N-type material and negative charge in the P-type material causes a voltage (potential) difference across the detector.
 It should be noted that the ``depletion region'' is depleted in {\it mobile charge carriers}, but is {\it not} depleted in net charge because it has a net positive charge in the N-type depletion region and negative charge in the P-type depletion region.
 
@@ -1399,7 +1414,7 @@ The reverse bias thus reduces the number of mobile charge carriers and increases
 The increased depletion region size also increases the well depth or capacity of electrons that the detector may collect before saturation.
 The reverse bias is applied at each reset at the beginning of a detector's integration.
 Figure \ref{fig:npSchematic} shows the initial reverse voltage that is applied during a pixel reset. 
-The physical size of the N-type HgCdTe semiconductor is much larger than the P-type HgCdTe because the density of carriers is lower in the N-type.
+The physical size of the N-type HgCdTe semiconductor is much larger than the P-type HgCdTe because the density of carriers is lower in the N-type semi-conductor.
 
 Note that Figure \ref{fig:npSchematic} shows the mobile charge carriers only.
 Textbook NP junction schematics often show the net charge and thus symbolize the regions with charge carriers as empty and the depletion region with ``+'' symbols on the N-type semiconductor and ``-'' symbols on the P-type˚ \citep[e.g.][]{halliday2004physicsText}.
@@ -1431,7 +1446,7 @@ The 65,536 DN level is tuned to be just above the HgCdTe full well capacity to m
 
 
 
-\subsection{Charge Trapping}
+\section{Charge Trapping}
 All HgCdTe detectors show a signal after bright illumination even if the illumination is removed; this is called persistence.
 The physical mechanism that explain persistence is that charges are trapped in the depletion region after illumination by photons as the detector well fills \citep{smith2008imgPersistence}
 This was specifically measured for the NIRCam detectors in \citet{leisenring2016persistence}.
@@ -1457,7 +1472,7 @@ The charge traps do not immediately empty with a detector reset, but instead rel
 This spurious signal (the shrinking of the depletion region as highlighted with red circles), causes a voltage change in future integrations that appears the same as a true signal from incoming photons.}\label{fig:npSchematicTraps}
 \end{figure}
 
-\subsection{Extracted Spectra and periodograms}
+\section{Extracted Spectra and periodograms}
 
 
 \begin{figure}[!hbtp]

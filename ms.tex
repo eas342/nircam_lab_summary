@@ -459,9 +459,9 @@ This background subtraction method will efficiently remove the pre-amplifier off
 The readout circuitry for NIRCam and other JWST NIR instruments introduces correlated noise from pixel-to-pixel.
 This is visible when examining the time series of pixels as they are read out within a frame in the order they are addressed.\footnote{See a diagram of the readout directions at \url{https://jwst-docs.stsci.edu/near-infrared-camera/nircam-instrumentation/nircam-detector-overview/nircam-detector-readout}}
 The power spectrum of this pixel-by-pixel time series reveals high power at low frequencies that drops approximately like a 1/f power law in the power spectrum of the time series.
-Figure \ref{fig:pixelTSeriesPSpec} shows the average Lomb Scargle periodogram from the middle left amplifier (512-1023 px) over 108 dark frames.
-To create the periodogram, the reference pixels are used to remove amplifier offsets between frames.
-Next, the average of all frames is subtracted to remove the bias and all pixels that deviate by more than 80 DN from the average are masked to eliminate bad pixels.
+Figure \ref{fig:pixelTSeriesPSpec} shows the average Lomb Scargle periodogram from the middle left amplifier (512-1023 px) over 108 dark groups in RAPID read mode.
+The dark frames were part of a single integration taken at NASA Johnson during the OTIS (Optical Telescope element + Integrated Science instrument module) cryogenic test.
+To create the periodogram, each group is subtracted by the average of all groups to remove the bias and all pixels that deviate by more than 80 DN from the average are masked to eliminate bad pixels.
 
 Figure \ref{fig:pixelTSeriesPSpec} shows that the noise power drops nearly like 1/f from the lowest frequency in a frame to $\sim$1000 Hz, where the curve flattens out.
 This indicates that the noise is closer to white noise, where each pixel's noise would be statistically independent from the others, at high frequencies.
@@ -477,7 +477,7 @@ The message from this power spectrum is that the read noise is significantly cor
 \centering
 \includegraphics[width=.4\columnwidth]{avg_psd_amp_1.pdf}
 \includegraphics[width=.4\columnwidth]{preamp_removed_grp_54.pdf}
-\caption{{\it Left:} The average Lomb Scargle periodogram from Amplifier 1's time series over 108 groups.
+\caption{{\it Left:} The average Lomb Scargle periodogram from Amplifier 1's time series over 108 RAPID groups.
 The noise in the spectrum is close to a 1/f power law (orange line) from 10 to 1000 Hz.
 Above 1000 Hz, it is closer to white noise (green line) with spikes at specific frequencies.
 {\it Right:} This 1/f noise introduced in the readout circuit causes prominent correlated noise along the fast-read direction (horizontal) on a dark frame.
@@ -493,7 +493,7 @@ For this reason, the ``GRISMC'' is not currently available for time series obser
 
 \subsection{Long Darks}\label{sec:longDarks}
 
-It is instructive to look at dark frames to isolate the contributions of the read-out electronics, including the side-car SIDECAR ASIC, and how much they contribute to the error budget.
+It is instructive to look at dark frames to isolate the contributions of the read-out electronics, including the SIDECAR ASIC, and how much they contribute to the error budget.
 The dark frames do not have issues with the photometric stability of illumination lamps, which is a persistent challenge with ground-based tests.
 They also do not contain photon noise in the background, which can make electronic noise sources harder to see.
 We study here the contributions from read noise, including the 1/f noise from the electronics.
@@ -503,7 +503,7 @@ A standard long dark exposure used for detector characterization is a single int
 The detectors are read in full frame mode so that each frame is 10.73677 sec in duration with 4 output amplifiers in use, thus the total time for the exposure is 19.3 min.
 We use one of these long dark integrations to create simulated time series as if it were observing many consecutive integrations in full frame mode.
 The long darks are broken into 54 sequential pairs of images that are subtracted from each other (integration 1 minus integration 0, 3 minus 2, 5 minus 4 etc. in a zero-based counting scheme).
-We also re-label the times to include the reset time that would normally occur after each integration, so the 
+We also re-label the times to include the reset time that would normally occur after each integration, so the effective exposure time is increased to 38.6 min (\textcolor{red}{\bf Fix this - should be 29.0 min}).
 
 Figure \ref{fig:longDarkPhot} shows an example dark read pair from frame 55 minus frame 54.
 In the raw data, there are 4 prominent vertical stripes that are 512 pixels wide and 2048 pixels tall due to offsets in the read-out amplifiers.
@@ -512,7 +512,7 @@ Additionally, there are obvious correlations along the fast-read (X) direction d
 
 The ramps-to-slope pipeline \texttt{ncdhas} or the STScI JWST pipeline will apply reference pixel correction, bad pixels masks and non-linearity correction before fitting the groups up the ramp to a line.
 In this work, we use \texttt{ncdhas}.
-As seen in Figure \ref{fig:longDarkPhot}, reference pixels can be used to reduce the large offsets between amplifiers.
+As seen in Figure \ref{fig:longDarkPhot}, reference pixels are read closely enough in time to reduce the large offsets between amplifiers.
 The reference pixels (making up a 4 pixel boundary on the edges of the detector) are un-illuminated and can therefore be used to measure common-mode electronic noise without being affected by photon counting noise.
 The reference pixels are most useful for subtracting the offsets between amplifiers because there are 8 rows of 512 pixels or a total of 4096 reference pixels to average for each amplifier at the bottom and top of the arrays.
 There are an additional 4 columns on the left and right side boundaries (8176 pixels) that can be used to further correct the left and right amplifier offests.
@@ -529,8 +529,8 @@ These side reference pixels also cannot correct for read noise correlations that
 \includegraphics[width=.32\columnwidth]{long_dark_dark.pdf}
 \includegraphics[width=.32\columnwidth]{long_dark_darkRed.pdf}
 \includegraphics[width=.32\columnwidth]{long_dark_darkRedRowSub.pdf}
-\caption{Time series of a 70 pixel radius photometric aperture obtained during a long dark exposure for detector ALONG=A5. The long dark exposure of 108 frames is used to construct 54 pairs of reads that are subtracted, in analogy with a series of integrations.
-{\it Top:}  Example read pair subtraction with an overlay of the apertures for 3 different reduction steps from ``Raw" data using no reference pixel correction, reference pixel-correction that uses the top, bottom and side reference pixels and finally a method using a row-by-row median subtraction.
+\caption{Time series data of a 70 pixel radius photometric aperture obtained during a long dark exposure for detector ALONG=A5. The long dark exposure of 108 frames is used to construct 54 pairs of reads that are subtracted, in analogy with a series of integrations.
+{\it Top:}  Example read pair subtraction with an overlay of the apertures for 3 different reduction steps from ``Raw" data using no reference pixel correction (left), reference pixel-correction that uses the top, bottom and side reference pixels (middle) and finally a method using a row-by-row median subtraction (right).
 {\it Bottom} The time series for each circular aperture with background subtraction using a circular annulus.
 Both the pre-amplifier offsets and row-by-row 1/f subtractions are important to reduce the effective read noise in the aperture.
 }\label{fig:longDarkPhot}

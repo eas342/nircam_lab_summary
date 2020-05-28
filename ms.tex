@@ -248,7 +248,10 @@ Tucson, AZ 85721, USA}
 Space Science and Astrobiology Division \\
 Moffett Field, CA 94035, USA}
 
-\author{Michael McElwain?}
+\author{Michael McElwain}
+\affiliation{NASA Goddard Space Flight Center \\
+Exoplanets and Stellar Astrophysics Laboratory \\
+Greenbelt, MD 20771, USA}
 
 \author{Marcia Rieke}
 \affiliation{Steward Observatory \\
@@ -271,7 +274,7 @@ Tucson, AZ 85721, USA}
 %% Mark off the abstract in the ``abstract'' environment. 
 \begin{abstract}
 
-JWST transmission and emission spectra of transiting exoplanets will provide invaluable glimpses at exoplanet atmospheres.
+JWST transmission and emission spectra of transiting exoplanets will provide invaluable glimpses of exoplanet atmospheres.
 These spectra will reveal the composition and temperature structure at a level never achieved before.
 This promising science from JWST, however, will require exquisite precision and understanding of systematic errors that can impact the time series of planets crossing in front of and behind their host stars.
 This is especially true if JWST is used to search for biosignatures in temperate atmospheres and other weak signatures.
@@ -318,10 +321,10 @@ Alternatively, 10 transits of TRAPPIST-1e could be sufficient if the planet's at
 A critical question in studying planets like TRAPPIST-1 d/e, however, is whether photon-limited performance is possible with JWST observations.
 For difficult biosignatures, noise levels less than 10 ppm (parts per million) are required and this value shrinks in the presence of clouds.
 
-Experience with the Hubble Space Telescope (HST), \spitzer, and \kepler\ shows that many systematics can affect high precision time series and prevent photon-limited performance unless corrected for \citep[e.g.][]{beichman2014pasp}.
+Experience with the \textit{Hubble Space Telescope} (HST), \spitzer, and \kepler\ shows that many systematics can affect high precision time series and prevent photon-limited performance unless corrected \citep[e.g.][]{beichman2014pasp}.
 Many of these effects are detector-related including charge trapping on HST's detector \citep{berta2012flat_gj1214,zhou2017chargeTrap}, intra-pixel sensitivity on the short wavelength bands of \spitzer\ IRAC \citep{moralesCalderon2006LdwarfsWeatherIPC} and sensitivity to pointing jitter with \kepler\footnote{https://keplerscience.arc.nasa.gov/K2/Performance.shtml} \citep[e.g.][]{vanderburg2014twoWheeledKeplerPhot,beichman2014pasp}.
 
-The NIRCam instrument \citep{rieke2005nircamSPIE} contains a slitless grism mode with its long wavelength channel \citep{greene2017jatisNIRCam}.
+The NIRCam instrument \citep{rieke2005nircamSPIE} contains a slitless grism mode with its long wavelength (LW) channel \citep{greene2017jatisNIRCam}.
 This slitless grism mode is analogous to the WFC3 grism on HST that has been successfully employed on many transiting planets \citep[e.g.][]{deming13,kreidberg2014wasp43,sing2016continuum,wakeford2017hatp26}.
 The NIRCam grism mode will collect moderate resolution R$\sim$1100-1700 spectra over the wavelength range from 2.4 to 5.0~$\mu$m.
 This grism mode can be used simultaneously with short wavelength weak lens imaging or (in future cycles) the Dispersed Hartmann Sensor mode \citep{schlawin2017dhs}. If it becomes an approved and implemented mode, the DHS will permit spectroscopy simultaneous from 1.0 to 2.0~$\mu$m because of a dichroic beamsplitter that divides the light from NIRCam into two different channels.
@@ -329,71 +332,70 @@ The DHS mode will permit time series spectroscopy on very bright targets ($K_S \
 
 Given the finite lifetime of the JWST mission set by onboard fuel, it is important to understand the systematic errors before launch to maximize the science return of the observatory.
 We discuss the major sources of systematic errors that can affect the NIRCam instrument.
-Parallel efforts to characterize other instrument's noise sources are being done, such as with MIRI's detectors \citep{matuso2019siAsDetectorStability}.
+Parallel efforts to characterize other instrument's noise sources are being carried out, such as with MIRI's detectors \citep{matuso2019siAsDetectorStability}.
 
-Section \ref{sec:knownEffects} lists the known systematic effects that can impeded high precision time series and increase the noise above the photon noise.
+Section \ref{sec:knownEffects} lists the known systematic effects that can impede high precision time series and increase the noise above the photon noise.
 Sections \ref{sec:preAmp} through \ref{sec:persistence} detail these noise contributions.
-We conclude in Section \ref{sec:Conclusion} that 1/f noise is the largest systematic error followed by subpixel sensitivity, while the dominant HST-related systematic should have a relatively minor impact.
+We conclude in Section \ref{sec:Conclusion} that 1/f noise is the largest systematic error followed by subpixel sensitivity, while the dominant HST-related systematic should have a relatively minor impact for JWST.
 
 \section{List of Known Detector Effects}\label{sec:knownEffects}
 An ideal HgCdTe detector simply counts the photons incident on its surface (as described in section \ref{sec:detectorPrimer}).
 However, there are many non-ideal effects that can affect the stability of a light curve of a transiting exoplanet.
-Here, we review many of the known noise sources that could impact the stability of a time series beyond photon counting statistics. These known detector effects that can impact stability are listed briefly and then in more detail as related to the JWST NIRCam detectors below that.
+Here, we review many of the known noise sources that could impact the stability of a time series beyond photon counting statistics. The known detector effects that can impact stability are listed briefly and then discussed in more detail as related to the JWST NIRCam detectors.
 
 \begin{itemize}[noitemsep]
-	\item \textbf{Pre-amplifier reset offsets:} (an Asic-related effect) 
+	\item \textbf{Pre-amplifier reset offsets:} (an ASIC-related effect) 
 The resets cause discontinuities in the pedestal level of all pixels between frames.
 Pre-amp resets can also appear in slope images (DN/second) because NIRCam's amplifiers are reset once per frame (not once per integration).
 This is an effect where averaging over more pixels does not decrease the noise, but reference pixel or background subtraction can efficiently remove the pre-amp offsets.
 These are discussed further in Section \ref{sec:preAmp}.
-	\item \textbf{Amplifier Boundary Discontinuities} The NIRCam detectors can be read out in full frame, stripe and window modes. The full frame and stripe modes make use of 4 amplifiers that can record or reset the accumulated electrons in 4 pixels simultaneously in parallel. The parallel operation of the amplifiers reduces the frame time and reset time by a factor of 4 but can introduce subtle voltage biases between regions of the detector. If these voltage biases are not corrected, they can potentially introduce discontinuities in a spectrum, which crosses amplifier boundaries.
-	The amplifier boundary discontinuities are a consequence of the pre-amplifier reset offsets above.
+	\item \textbf{Amplifier Boundary Discontinuities} The NIRCam detectors can be read out in full frame, stripe and window modes. The full frame and stripe modes make use of 4 amplifiers that can record or reset the accumulated electrons using 4 pixels simultaneously in parallel. The parallel operation of the amplifiers reduces the frame time and reset time by a factor of 4 but can introduce subtle voltage biases between regions of the detector. If these voltage biases are not corrected, they can potentially introduce discontinuities in a spectrum, which crosses amplifier boundaries.
+	The amplifier boundary discontinuities are a consequence of the pre-amplifier reset offsets described above.
 	\item \textbf{1/f noise:} The JWST HgCdTe readout electronics have a p-type metal-oxide semiconductor field-effect transistor (PFET) source follower that introduces noise to the images as well as DC biases in the ASIC electronics \citep{rauscher2011irsSquared}.
 	This is a noise source where most of the noise power is concentrated at low frequencies.
 	1/f noise causes spatial correlations primarily in the fast-read direction (along detector rows). It is highly correlated between amplifiers, suggesting that it is caused by a common reference voltage. 1/f noise can be reduced by subtracting the values from background pixels or reference pixels.
-	\item \textbf{Intrapixel sensitivity:} Telescope pointing drifts and jitter can impact the amount of flux measured if the response of pixels is not perfectly uniform.
+	\item \textbf{Intrapixel sensitivity:} Telescope pointing drifts and jitter can impact the amount of flux measured if the response within a pixel is not perfectly uniform.
 	This has a particularly strong impact on the time series from the Spitzer IRAC instrument \citep{ingalls2016spitzerRepeatability}.
 	It can also appear on JWST detectors because the sub-pixel flat field is not uniform.
-	Crosshatching patterns on HgCdTe detectors (which all JWST near-infrared instruments use) exist at the sub-pixel level  \citep{shapiro2018crosshatch,ninan2019crosshatchHPF}
+	Crosshatching patterns on HgCdTe detectors, which all JWST near-infrared instruments use, exist at the sub-pixel level  \citep{shapiro2018crosshatch,ninan2019crosshatchHPF}
 	\item \textbf{Even/odd offsets:} Alternating columns have different bias levels. Additionally, there are offsets between columns that can change from frame to frame, especially on NIRCam's LW detector.
 	These can be reduced with reference pixels or background subtraction.
 	\item \textbf{kTC noise:} Each reset at the beginning of an integration introduces thermal noise associated with the unknown amount of charge stored in a pixel at the reset voltage level.
-	Fortunately, the bias offset produces by kTC noise will easily subtract out when fitting a slope image from the multiple samples up the ramp.
-	This noise would  only become relevant when attempting to make use of the first group of a ramp (such as when only 1 group is commanded).
-	\item \textbf{Detector Temperature Fluctuations:} The JWST detectors are sensitive to temperature changes on the focal plane arrays. For example, laboratory tests show that 100 mK temperature fluctuations can result in $\sim$ 80 ADU changes on the detector that are not corrected by reference pixels \citep{hall2005jwstArrays}. Fortunately, the detectors are actively thermally controlled to keep the temperature fluctuations to mostly $\lesssim$ 1 mK.
-The one exception is that the Long Wavelength A-side detector (A5) exhibited $\sim$ 20 min oscillations with an amplitude of 15-20 mK when using the Temperature Monitor Control (TMC) 1 active thermal control.
+	Fortunately, the bias offset produced by kTC noise will easily subtract out when fitting a slope image from multiple samples up the ramp.
+	This noise would only become relevant when attempting to make use of the first group of a ramp, such as when only 1 group is commanded.
+	\item \textbf{Detector Temperature Fluctuations:} The JWST detectors are sensitive to temperature changes on the focal plane arrays. For example, laboratory tests show that 100 mK temperature fluctuations can result in $\sim$80 ADU changes on the detector that are not corrected by reference pixels \citep{hall2005jwstArrays}. Fortunately, the detectors are actively thermally controlled to keep the temperature fluctuations to mostly $\lesssim$ 1 mK.
+The one exception is that the NIRCam LW A-side detector (A5) exhibited $\sim$ 20 min oscillations with an amplitude of 15-20 mK when using the Temperature Monitor Control (TMC) 1 active thermal control.
 Fortunately, the TMC 2 control does not undergo these oscillations and will be employed in orbit.
 If necessary, the effect of temperature fluctuations can be calibrated to $\pm 1 e^-$ for excursions less than $\pm$ 50 mK \citep{hall2005jwstArrays}.
-	\item \textbf{ASIC Temperature Fluctuations:} The asic temperature will change as the operating mode. For example, in the CV3 stability test, the temperature of the A asic changed by $\sim$80 mK when the readout mode was switched from full frame to subarray.
+	\item \textbf{ASIC Temperature Fluctuations:} The ASIC temperature will change depending on the operating mode. For example, in the CV3 stability test, the temperature of the A ASIC changed by $\sim$80 mK when the readout mode was switched from full frame to subarray.
 	This temperature change is expected to be smaller in flight due to adjustments in the operations to run all four amplifiers regardless of how many are used to collect science data.
-	\item \textbf{Elevated Columns} There is correlated noise along a column in many frames. These elevated columns can sometimes even move with time.
+	\item \textbf{Elevated Columns} There is correlated noise along a column in many frames. These elevated columns can move with time.
 	\item \textbf{Random Telegraph Noise (RTN)} Some of the pixels will exhibit spontaneous changes jumps in signal even with no illumination. Fortunately, RTN appears in only $\sim$1000 pixels out of 4$\times 10^6$ on the array.
 	\item \textbf{Detector Fringing} \textbf{\textcolor{red}{Is there a good citation?}} The thin $\sim 5\mu$m layers of the H2RG detectors will cause interference patterns on the array due to constructive and destructive interference of light at wavelengths similar to the thickness of the layers. If the detector fringe pattern changes with time, it will change the throughput of a grism image.
 	\item \textbf{Charge Trapping} A major correlated error source on HST WFC3 is the ``hook effect'' \citep{berta2012flat_gj1214}.
-	The hook effects is due to charge can be trapped within the detector's depletion region (initially lowering the flux) and then released at later times (increasing the flux) \citep{zhou2017chargeTrap}.
+	The hook effects is due to charge can be trapped within the detector's depletion region, initially lowering the flux, and then released at later times thereby increasing the flux \citep{zhou2017chargeTrap}.
 	JWST's NIRCam instrument has very lower rates of persistence ($<$1 DN/sec) at 100 seconds after saturation \citep{leisenring2016persistence}, so it is expected that charge trapping will be a minor concern for JWST's HgCdTe detectors.
 \end{itemize}
 
 We discuss these noise contributions in more detail in Sections \ref{sec:preAmp} through \ref{sec:persistence}.
-However, we exclude the kTC noise, even/odd noise, temperature fluctuations and elevated columns because these are not expected to contribute significantly (less them $\sim$ 1 ppm) to the time series.
+However, we exclude the kTC noise, even/odd noise, temperature fluctuations and elevated columns because these are not expected to contribute significantly (less than $\sim$ 1 ppm) to the time series.
 
-
-\section{Pre-amp Reset Offsets from the Lockheed CV Test}\label{sec:preAmp}
+\section{Pre-amp Reset Offsets from the Lockheed Martin Cryo-Vacuum Test}\label{sec:preAmp}
 
 The NIRCam detectors' pre-amplifiers (pre-amps) have a reference voltage that can drift with time.
 This can affect the pedestal level of all pixels over long ($\gtrsim$ 20 minute timescales).
 These pre-amplifier levels can either be reset at the beginning of an integration with samples up the ramp or with each frame up the ramp.
 The NIRCam detectors are reset once per frame to prevent large amplifier drifts over an integration \citep{robberto2014refPixPreAmp}.
-One set of darks was collected at Lockheed CV with a reset only once per integration to study the effects of the pre-amplifier resets.
+One set of darks was collected at the Lockheed Martin (Lockheed) cryo-vacuum (CV) test with a reset only once per integration to study the effects of the pre-amplifier resets.
 
 In the Lockheed CV test, the pedestal level of all pixels could be seen to drift over 19.3 minute dark integrations by 5 to 100 DN.
 The drift was usually linear over these 19 minute exposures, but in one case was observed to drift downward from 100 DN to -50 DN and back to 100 DN \citep{robberto2014refPixPreAmp}.
 The timescales for pre-amp resets are relevant to exoplanet time series, which have transit durations of $\sim$0.5 to 3 hours for typical targets.
 However, reference pixel subtraction or background subtraction can efficiently remove pre-amp drifts, so with proper data reduction, the pre-amp drifts can be effectively eliminated.
-The NIRCam grism subarrays and dispersed source location are placed at the edge of the NIRCam Long Wavelength detector to ensure reference pixels are saved with active pixels, so reference pixels will always be available for the grism.
+The NIRCam grism subarrays and dispersed source location are placed at the edge of the LW detector to ensure reference pixels are saved with active pixels, so reference pixels will always be available for grism data.
 
 Figure \ref{fig:ampResetDark} shows an example time series of the reference pixels for a dark exposure.
-The pedestal/bias level of the reference pixels undergoes a sharp jump between each frame (10.7 seconds in duration).
+The pedestal/bias level of the reference pixels undergoes a sharp jump between each frame (10.7~s in duration).
 Fortunately, the pixels within an amplifier move together, so reference pixel subtraction or background subtraction will efficiently remove the offsets.
 %These pre-amp resets per frame causes discontinuities over every frame within an integration, but there is an upside:
 %Over long timescales (10$^3$ seconds), these resets pre-amp resets will keep the bias drifts hovering around zero without any long slopes or drifts.
@@ -411,9 +413,9 @@ The long dark exposure example of 108 integrations shows the behavior over long 
 \subsection{Amplifier Boundary Discontinuities}
 
 NIRCam's STRIPE mode and full frame mode both employ 4 amplifiers to simultaneously read out or reset 4 pixels at once.
-This simultaneous use of 4 amplifiers reduces the frame time by a factor of 4 and thus increases the brightness of objects that can be detected before saturation as well as increase the number of reads up a detector pixel to average down readout noise.
+This simultaneous use of 4 amplifiers reduces the frame time by a factor of 4 and thus increases the brightness of objects that can be detected before saturation as well as increases the number of reads for a detector pixel before saturation to average readout noise.
 Users have the option to select the 1 or 4 amplifiers with the ``No. of output channels'' in APT.
-On the flip side, the four amplifiers will have different behaviors such as offsets in the bias level.
+On the flip side, the four amplifiers will have different behaviors such as separate offsets in the bias level.
 The differential biases between the amplifiers will show up as step function changes in the slope of the image at the amplifier boundaries (512, 1024 and 1536), as visible in Figure \ref{fig:ampOffsetsOtisGrismSlope} (top panel).
 If a spectrum of a source is extracted without any vertical background extraction or reference pixel correction, the amplifier offsets cause sharp discontinuities in the summed spectrum.
 
@@ -441,25 +443,25 @@ This background subtraction method will efficiently remove the pre-amplifier off
 The readout circuitry for NIRCam and other JWST NIR instruments introduces correlated noise from pixel-to-pixel.
 This is visible when examining the time series of pixels as they are read out within a frame in the order they are addressed.\footnote{See a diagram of the readout directions at \url{https://jwst-docs.stsci.edu/near-infrared-camera/nircam-instrumentation/nircam-detector-overview/nircam-detector-readout}}
 The power spectrum of this pixel-by-pixel time series reveals high power at low frequencies that drops approximately like a 1/f power law in the power spectrum of the time series.
-Figure \ref{fig:pixelTSeriesPSpec} shows the average Lomb Scargle periodogram from amplifier over 108 dark frames.
+Figure \ref{fig:pixelTSeriesPSpec} shows the average Lomb Scargle periodogram from the readout amplifier over 108 dark frames.
 To create the periodogram, the reference pixels are used to remove amplifier offsets between frames.
 Next, the average of all frames is subtracted to remove the bias and all pixels that deviate by more than 80 DN from the average are masked to eliminate bad pixels.
 
 Figure \ref{fig:pixelTSeriesPSpec} shows that the noise power drops nearly like 1/f from the lowest frequency in a frame to $\sim$1000 Hz, where the curve flattens out.
 This indicates that the noise is closer to white noise, where each pixel's noise would be statistically independent from the others, at high frequencies.
 The periodogram also shows many spikes at high frequency on top of the 1/f noise.
-One of these prominent spies occurs at the line reset time of 524 clock cycles, which is the time to read out all the pixels in a row for the amplifier and line overheads before moving to the next row.
+One of these prominent spikes occurs at the line reset time of 524 clock cycles, which is the time to read out all the pixels in a row for the amplifier and line overheads before moving to the next row.
 
 The 1/f noise is compared to a simulated time series with the same robust standard deviation but with Gaussian white noise where each pixel is independent and identically distributed as a Gaussian.
 It is clear from Figure \ref{fig:pixelTSeriesPSpec} that the 1/f noise and the periodic signatures significantly increase the power over uncorrelated white noise (green line) at low frequencies.
 1/f rises above the white noise level at 70 cycles / 1400 Hz for amplifier 1 and the intersection ranges from 70 to 135 across the 4 amplifiers.
-The message from this power spectrum is that the read noise is significantly correlated from pixel to pixel and this will affect both high precision spectroscopy and high precision photometry.
+This power spectrum shows that the read noise is significantly correlated from pixel to pixel and this will affect both high precision spectroscopy and high precision photometry.
 
 \begin{figure*}[!hbtp]
 \centering
 \includegraphics[width=.4\columnwidth]{avg_psd_amp_1.pdf}
 \includegraphics[width=.4\columnwidth]{preamp_removed_grp_54.pdf}
-\caption{{\it Left:} The average Lomb Scargle periodogram from Amplifier 1's time series over 108 groups.
+\caption{{\it Left:} The average Lomb-Scargle periodogram from Amplifier 1's time series over 108 groups.
 The noise in the spectrum is close to a 1/f power law (orange line) from 10 to 1000 Hz.
 Above 1000 Hz, it is closer to white noise (green line) with spikes at specific frequencies.
 {\it Right:} This 1/f noise introduced in the readout circuit causes prominent correlated noise along the fast-read direction (horizontal) on a dark frame.
@@ -468,26 +470,24 @@ The amplifier offsets have been removed, but the 1/f noise from these adjacent a
 \end{figure*}
 
 The 1/f noise can be reduced by subtracting reference pixels and/or active pixels over the aperture of interest.
-As the power spectrum shows, the 1/f noise begins to contribute significantly for frequencies below 1000 Hz (ie. timescales longer than 100 cycles, where a cycle is the 10$\mu$s time to address a pixel).
+As the power spectrum shows, the 1/f noise begins to contribute significantly for frequencies below 1000 Hz (i.e., timescales longer than 100 cycles, where a cycle is the 10$\mu$s time to address a pixel).
 Ideally, source apertures would be less than 100 pixels wide so that background subtraction along rows will remove the 1/f noise but this is impossible for grism spectra dispersed along the rows.
 NIRCam has a ``GRISMC" grism that will disperse along the column direction but this mode would not work with horizontal stripe subarrays and would therefore saturate on bright targets with $K \lesssim 5.5$.
 For this reason, the ``GRISMC'' is not currently available for time series observations.
 
 \subsection{Long Darks}\label{sec:longDarks}
 
-It is instructive to look at dark frames to isolate the contributions of the read-out electronics, including the side-car asic, and how much they contribute to the error budget.
+It is instructive to look at dark frames to isolate the contributions of the read-out electronics, including the SIDECAR ASIC, and how much they contribute to the error budget.
 The dark frames do not have issues with the photometric stability of illumination lamps, which is a persistent challenge with ground-based tests.
 They also do not contain photon noise in the background, which can make electronic noise sources harder to see.
 We study here the contributions from read noise, including the 1/f noise from the electronics.
-This experiment with dark frames does not test subtle changes in behavior of the electronic read noise under illumination, such as cross-talk where pixels that have no direct flux from a source in an image correlate with other regions of the detector with high flux rates.
+This experiment with dark frames does not test subtle changes in behavior of the electronic read noise under illumination, such as crosstalk where pixels that have no direct flux from a source in an image correlate with other regions of the detector with high flux rates.
 
 A standard long dark exposure used for detector characterization is a single integration that is 108 groups of 1 frame each (RAPID mode).
-The detectors are read in full frame mode so that each frame is 10.73677 sec in duration with 4 output amplifiers in use, thus the total time for the exposure is 19.3 min.
+The detectors are read in full frame mode so that each frame is 10.73677~s in duration with 4 output amplifiers in use, thus the total time for the exposure is 19.3 min.
 We use one of these long dark integrations to create simulated time series as if it were observing many consecutive integrations in full frame mode.
 The long darks are broken into 54 sequential pairs of images that are subtracted from each other (integration 1 minus integration 0, 3 minus 2, 5 minus 4 etc. in a zero-based counting scheme).
-We also re-label the times to include the reset time that would normally occur after each integration, so the 
-
-Figure \ref{fig:longDarkPhot} shows an example dark read pair from frame 55 minus frame 54.
+We also re-label the times to include the reset time that would normally occur after each integration, so the Figure \ref{fig:longDarkPhot} shows an example dark read pair from frame 55 minus frame 54.
 In the raw data, there are 4 prominent vertical stripes that are 512 pixels wide and 2048 pixels tall due to offsets in the read-out amplifiers.
 These amplifier offsets are caused by drifts in the reference voltage that are reset once per frame and vary from amplifier to amplifier.
 Additionally, there are obvious correlations along the fast-read (X) direction due to 1/f noise that appear as horizontal stripes in the image.
@@ -495,12 +495,12 @@ Additionally, there are obvious correlations along the fast-read (X) direction d
 The ramps-to-slope pipeline \texttt{ncdhas} or the STScI JWST pipeline will apply reference pixel correction, bad pixels masks and non-linearity correction before fitting the groups up the ramp to a line.
 In this work, we use \texttt{ncdhas}.
 As seen in Figure \ref{fig:longDarkPhot}, reference pixels can be used to reduce the large offsets between amplifiers.
-The reference pixels (making up a 4 pixel boundary on the edges of the detector) are un-illuminated and can therefore be used to measure common-mode electronic noise without being affected by photon counting noise.
+The reference pixels are comprised of a 4 pixel boundary along the edges of the detector, which are not connected to detector photodiodes and can therefore be used to measure common-mode electronic noise without being affected by photon counting noise.
 The reference pixels are most useful for subtracting the offsets between amplifiers because there are 8 rows of 512 pixels or a total of 4096 reference pixels to average for each amplifier at the bottom and top of the arrays.
 There are an additional 4 columns on the left and right side boundaries (8176 pixels) that can be used to further correct the left and right amplifier offests.
 However, the 1/f noise that correlates along the fast-read (X) direction is more difficult to remove with reference pixels.
 Only 4 pixels on the left and 4 pixels on the right side may be used to subtract the 1/f noise in a given row and the 4 amplifiers can exhibit different 1/f noise. 
-Therefore, significantly residuals remain along the fast-read (X) direction in the reference-corrected read pair shown in Figure \ref{fig:longDarkPhot}.
+Therefore, significant residuals remain along the fast-read (X) direction in the reference-corrected read pair shown in Figure \ref{fig:longDarkPhot}.
 These side reference pixels also cannot correct for read noise correlations that happen on shorter length scales than 512 pixels (5 ms).
 
 \begin{figure*}[!hbtp]
@@ -512,7 +512,7 @@ These side reference pixels also cannot correct for read noise correlations that
 \includegraphics[width=.32\columnwidth]{long_dark_darkRed.pdf}
 \includegraphics[width=.32\columnwidth]{long_dark_darkRedRowSub.pdf}
 \caption{Time series of a 70 pixel radius photometric aperture obtained during a long dark exposure for detector ALONG=A5. The long dark exposure of 108 frames is used to construct 54 pairs of reads that are subtracted, in analogy with a series of integrations.
-{\it Top:}  Example read pair subtraction with an overlay of the apertures for 3 different reduction steps from ``Raw" data using no reference pixel correction, reference pixel-correction that uses the top, bottom and side reference pixels and finally a method using a row-by-row median subtraction.
+{\it Top:} Example read pair subtraction with an overlay of the apertures for 3 different reduction steps from ``Raw" data using no reference pixel correction, reference pixel-correction that uses the top, bottom and side reference pixels and finally a method using a row-by-row median subtraction.
 {\it Bottom} The time series for each circular aperture with background subtraction using a circular annulus.
 Both the pre-amplifier offsets and row-by-row 1/f subtractions are important to reduce the effective read noise in the aperture.
 }\label{fig:longDarkPhot}
@@ -520,7 +520,7 @@ Both the pre-amplifier offsets and row-by-row 1/f subtractions are important to 
 
 \subsection{Photometric Aperture}\label{sec:photApertureDark}
 
-What is most useful for exoplanet transit measurements is the photometric stability within an aperture or spectrum.
+Exoplanet transit measurements are dependent on the photometric stability within an aperture or spectrum.
 We therefore perform aperture photometry on the dark frame as if it were a weak lens image with a 70 pixel radius circular source aperture and a 75 to 100 pixel background annulus illustrated in Figure \ref{fig:longDarkPhot}.
 %Also, Figure \ref{fig:WLP8PSF} shows an example weak lens PSF with this aperture.
 The background subtraction will largely remove the offsets affecting the whole 512$\times$2048 amplifier.
@@ -532,17 +532,17 @@ If we assume each pixel's read noise is uncorrelated with its neighbors, the tot
 If we also assume that the background pixels are uncorrelated with each other and the source pixels, then the total noise in background-subtracted photometry is 1310 DN.
 
 This theoretical read noise is smaller than the photon noise expected inside an aperture during photometric stability time series applications.
-The number of DN collected within a 70 pixel radius aperture for WLP8 data in our CV3 detector stability test with 2 groups in RAPID (ie a correlated double sample) was $S_{tot}=3.9\times 10^7$ DN during the integration.
+The number of DN collected within a 70 pixel radius aperture for a weak lens plus 8 waves (WLP8) image in our CV3 detector stability test with 2 groups in RAPID, equivalent to a correlated double sample (CDS), was $S_{tot}=3.9\times 10^7$ DN during the integration.
 The peak pixel counts in this integration were 30,000 DN or about 60\% well depth for the A1 detector.
-The Poisson shot noise for photons is $N_{phot} = \sqrt{S_{tot}} / \sqrt{G} = 4,400$ DN, where $G$ is the gain ($G \approx 2.0$ for the SW detectors).
+The Poisson shot noise for photons is $N_{phot} = \sqrt{S_{tot}} / \sqrt{G} = 4,400$ DN, where $G$ is the gain ($G \approx 2.0$ for the short wave (SW) detectors).
 In terms of fractional noise, the photon shot noise should be 113 ppm and the read noise should be 33 ppm.
-Therefore, the read noise is expected to be about 1/4 the shot noise for 2 group RAPID read mode (ie CDS).
+Therefore, the read noise is expected to be about 1/4 the shot noise for 2 group RAPID read mode (i.e., CDS).
 When averaging together 111 full frames over 60 minutes (an order-of-magnitude transit duration for most planets), the photon noise would contribute 11 ppm and the read noise would contribute 3 ppm.
 
 In our experimental time series, however, the standard deviation in the time series in these 3 apertures is 22,000 to 25,000 DN (without any attempt to correct for amplifier offsets or 1/f noise using reference pixels or otherwise).
 If uncorrected, this extra read noise will contribute 560 to 630 ppm to the time series per read pair!
 This read noise would be $\sim$5$\times$ the $\sim$113 ppm photon noise.
-Fortunately, there are ways to significantly reduce the pre-amplifier offsets and 1/f noise.
+However, there are ways to significantly reduce the pre-amplifier offsets and 1/f noise.
 
 \begin{deluxetable*}{c|cc|cc}[b!]
 \tablecaption{Summary of Noise Sources in Long Dark Test}
@@ -580,17 +580,17 @@ Measured Read Noise (smoothed 40 px kernel on top of aperture) & 900 & 23 & & \\
 Measured Read Noise (variance-weighted summation)	& & & 3,060 & 830 \\
 Measured Read Noise (covariance-weighted summation)	& & & 850 & 230 \\
 \enddata
-\tablecomments{The theoretical and measured noise sources in one integration for a Weak Lens +8 and Grism Time Series.
+\tablecomments{The theoretical and measured noise sources in one integration for a weak lens +8 waves and grism time series.
 The ppm units are assuming a peak 60\% well depth or 3.9$\times 10^7$ DN during an integration for the weak lens PSF and 3.7$\times 10^6$ DN during and integration for the grism PSF.
 The noise is reported for the the aperture/spectral extraction (in DN) or relative to the photon signal (in ppm).
-The integration is assumed to be a bright source with 2 groups of 1 integration each up the ramp (Correlated Double Sampling or CDS mode).
+The integration is assumed to be a bright source with 2 groups of 1 integration each up the ramp (i.e., CDS).
 For the grism, statistics are shown for a representative 0.17~$\mu$m wide wavelength bin centered on 3.34~$\mu$m.}
 \label{tab:noiseSummary1overf}
 \end{deluxetable*}
 
-These large correlations in read noise can be reduced with the side reference pixels, which are designed to track electronic noise without the presence of background photon noise.
+These large correlations in read noise can be reduced with the reference pixels, which are designed to track electronic noise without the presence of background photon noise.
 We use the \texttt{ncdhas} pipeline to apply reference pixel correction, which dramatically reduces the amplifier offsets and also reduces 1/f noise correlations along the fast read (X) direction.
-The time series for the 3 apertures considered drops down to 10,000 DN to 11,500 DN (depending on detector), but still falls short of the expectation of 1,310 DN if the read noise is uncorrelated.
+The time series for the 3 apertures considered drops to levels from 10,000 DN to 11,500 DN (depending on detector), but still falls short of the expectation of 1,310 DN if the read noise is uncorrelated.
 
 \subsubsection{Row-by-Row Subtraction}\label{sec:photRowByRow}
 
@@ -598,7 +598,7 @@ Since these 8 reference pixels in each row are not sufficient to remove all 1/f 
 We find the median of each group up the ramp along the fast read (X) direction and subtract this from every row.
 This amounts to a row-by-row background subtraction.
 
-In the latter case, the standard deviation of the time series drops to 6000 DN, but is still larger than the expectation of 1310 DN of all noise were uncorrelated.
+In the latter case, the standard deviation of the time series drops to 6000 DN, but is still larger than the expectation of 1310 DN if all noise were uncorrelated.
 The A3 detector used for weak lens photometry has reduced 1/f noise.
 %The standard deviation of the raw time series is 15,000 compared with the 22,000 from the A5 (ALONG) detector.
 
@@ -608,19 +608,18 @@ This takes care of any differences between amplifiers.
 This individual amplifier dramatically decreases the errors.
 The standard deviations of the background-subtracted photometry range from 2,540 to 3,300 DN or 65 to 85 ppm across detectors.
 Therefore, this simple approach can dramatically decrease the 1/f noise to well below the photon limit.
-This is possible for Weak Lens photometry but not grism spectroscopy when dispersed parallel to detector rows (the fast-read direction).
+This is possible for weak lens photometry but not grism spectroscopy when dispersed parallel to detector rows (the fast-read direction).
 
 \subsubsection{Smoothed Kernel Subtraction}\label{sec:smoothKernelSub}
 
-We also consider more sophisticated ways to reduce read noise than the median row subtraction discussed in Section \ref{sec:photRowByRow}.
+We also consider more sophisticated ways to reduce read noise than the median row subtraction discussed in Section~\ref{sec:photRowByRow}.
 We start by applying a smoothing kernel to each group (1 read for RAPID mode) up the ramp of the raw data.
 The kernel is a uniform normalized kernel 1 pixel in height and 40 pixels along a row.
-This enables subtraction of 1/f noise that has length scales shorter than the line time (ie timescales shorter than 512 clock cycles or 5 milliseconds), which the median subtraction cannot remove.
+This enables subtraction of 1/f noise that has length scales shorter than the line time (i.e., timescales shorter than 512 clock cycles or 5 ms), which the median subtraction cannot remove.
 
 This smoothing kernel makes a dramatic improvement to the final weak lens aperture time series, as shown in Figure \ref{fig:longDarkWithRowKernel}.
 The standard deviation in the time series drops from the best previous method (row and column median subtraction) by a factor of nearly 10!
-For the row and column median subtraction applied to the red files, the standard deviation was 6150, 5600 and 6,600 DN for apertures 0, 1 and 2.
-For the same apertures, the standard deviation in the time series drops to 650, 890 and 570 DN.
+For the row and column median subtraction applied to the red files, the standard deviation was 6,150, 5,600 and 6,600 DN for apertures 0, 1 and 2. For the same apertures, the standard deviation in the time series drops to 650, 890 and 570 DN.
 
 \begin{figure*}[!hbtp]
 \centering
@@ -636,27 +635,26 @@ Subtraction by the smoothed image has a dramatic effect on reducing correlated 1
 The dramatic difference from the smoothing kernel is beyond what is possible for a real source.
 This is because the 40 pixel wide kernel was applied all the way through the source aperture, which would subtract and distort any signal from a star/planet source.
 In reality, the kernel should be wider than the source aperture diameter and interpolate through the source points.
-Note that this experiment would result in perfect subtraction (0 ppm noise) if the kernel was only 1 pixel wide!
+Note that this experiment would result in perfect subtraction (0 ppm noise) if the kernel was only 1 pixel wide.
 We repeated the experiment with a 161 pixel wide kernel and masked bad pixels and the source pixels.
 We use the \texttt{astropy.convolution.convolve()} routine, which calculates a convolution of the kernel by the image.
-\texttt{astropy.convolution.convolve()} ignores al NaN values in the mask and renormalizes the kernel by the sum of the remaining kernel points.
+\texttt{astropy.convolution.convolve()} ignores all NaN values in the mask and renormalizes the kernel by the sum of the remaining kernel points.
 This efficiently interpolates over bad pixels and can also interpolate over the source aperture.
 Our smoothing kernel is a flat boxcar normalized to 1.0.
 This more realistic kernel results in higher noise because of its larger window size and because it interpolates over the aperture points.
 The resulting time series has a standard deviation of 2800 DN to 3700 ppm.
 This is still larger than the 1,300 DN expectation for uncorrelated read noise, but is below the ideal photon noise limit when integrations reach 60\% well depth.
 
-
 \begin{figure*}[!hbtp]
 \centering
 \includegraphics[width=.32\columnwidth]{pixeltime_series_0.pdf}
 \includegraphics[width=.32\columnwidth]{pixeltime_series_1.pdf}
 %\includegraphics[width=.32\columnwidth]{all_amp_periodograms.pdf}
-\caption{The time series for all 4 amplifiers share common-mode behaviors for some intervals but not always (left and middle plots).
-This is visible in a short segment of the time series of all pixels for an example group up the ramp 53 in a dark ramp where the bias has already been subtracted.
-The pixels time series smoothed with a 51 pixel-wide median filter to better see the low frequency noise.
-The left panel shows the a time near the beginning of a frame, where amplifiers 1 ad 2 share some common-mode read noise.
-The right panel shows another part of the time series where Amplifiers 1 and 2 have more disparate noise signatures.
+\caption{The time series for all 4 amplifiers share common-mode behaviors for some intervals but not always (left and right plots).
+This is visible in a short segment of the time series of all pixels for an example group up-the-ramp 53 in a dark ramp where the bias has already been subtracted.
+The pixels in each time series are smoothed with a 51 pixel-wide median filter to show the low frequency noise.
+The left panel shows the a time near the beginning of a frame, where amplifiers 1 and 2 share some common-mode read noise.
+The right panel shows another part of the time series where amplifiers 1 and 2 have more disparate noise signatures.
 }\label{fig:darkPixelTimeSeries}
 \end{figure*}
 
@@ -671,8 +669,7 @@ On the other hand, if the each amplifier exhibits its own individual correlated 
 
 The net effect of this method is to increase the noise over a row-by-row median subtraction.
 The standard deviations in the time series range from 8,500 DN to 10,800 DN for this reference amplifier method as opposed to the 5,500 DN to 6,600 DN for a row-by-row median.
-This means the the correlations within an amplifier are not efficiently subtracted and may be propagated to the remaining amplifiers.
-
+This means the correlations within an amplifier are not efficiently subtracted and may be propagated to the remaining amplifiers.
 
 \subsubsection{PCA Correction}
 
@@ -682,13 +679,13 @@ This means the the correlations within an amplifier are not efficiently subtract
 \includegraphics[width=.4\columnwidth]{pca_dark_amp_all_extra_bias_sub_grp_55.pdf}
 \caption{The first 10 principal component eigenvectors identified from group 54 (left) and group 55 (right).
 Pre-amplifier reset values are seen in the first principal component, and change from one group (one read in RAPID) to another.
-These are residual values not fully subtracted by reference pixels.
+These are residual values are not fully subtracted by reference pixels.
 The principal components generally increase in frequency with principal component number.
 In other words, the highest frequency principal components explain the least amount of the variance as would be expected for 1/f noise.
 }\label{fig:pcaEigenvectors}
 \end{figure*}
 
-Another approach to treating the 1/f noise is dimensionality reduction with Principal Component Analysis.
+Another approach to treating the 1/f noise is dimensionality reduction with principal component analysis (PCA).
 Here, we assume that the counts for each pixel along a column is a random variable that can be correlated with pixels in other columns.
 Each row represents a different noise iteration.
 First, we apply reference pixel correction to remove the pre-amplifier resets.
@@ -705,12 +702,11 @@ Since the first principal components are different from one group to another, we
 We then create a noise model image which is the matrix multiplication of the eigenvectors by the principal components for 10 components.
 This model is subtracted from each group to create a 1/f-corrected image.
 
-The PCA subtraction is applied to each group up the ramp and then these groups are subtracted in pairs to create a time series.
+The PCA subtraction is applied to each group up-the-ramp and then these groups are subtracted in pairs to create a time series.
 We use 20 principal components as a starting point for this method.
 The final time series has a measured standard deviation of 5,300 to 5,500 DN within the background-subtracted aperture.
 This is comparable to the row and column subtraction standard deviation of 5,500 to 6,500 DN.
 Adding 10 more principal components for a total of 20 eigenvectors only reduces the time series noise to 5,100 to 5,400 for the 3 apertures.
-
 
 In another approach, we treat each amplifier separately so that the principal components are calculated independently.
 This approach means that a noise signature in 3 amplifiers but not the fourth does not propagate to fourth amplifier when subtracting the PCA-based model.
@@ -719,10 +715,10 @@ The resulting eigenvectors are shown in Figure \ref{fig:pcaEigenvectorsIndAmp}.
 
 If we treat each amplifier separately, the PCA model is more effective in reducing 1/f noise.
 We begin by keeping 5 principal components within each amplifier and subtracting these from each amplifier separately.
-The resulting standard deviation of the time series is 2500 to 3820 DN.
-This is improvement is beyond what is possible on a real source because the principal components include pixels over the source aperture.
+The resulting standard deviation of the time series is 2,500 to 3,820 DN.
+This improvement is beyond what is possible on a real source because the principal components include pixels over the source aperture.
 To simulate a real photometry scenario, it is necessary to interpolate over the source aperture points as done in Section \ref{sec:smoothKernelSub} for the smoothing kernel.
-However, we stop the PCA at this point because it does not do as well as the simple row-by-row amplifier-by-amplifier mean subtraction performed in Section \ref{sec:indAmpAvg}.
+However, we stop the PCA at this point because it does not do as well as the simple row-by-row amplifier-by-amplifier mean subtraction performed in Section~\ref{sec:indAmpAvg}.
 
 \begin{figure*}[!hbtp]
 \centering
@@ -733,7 +729,6 @@ The amplifier boundaries are demarcated by solid vertical lines.
 }\label{fig:pcaEigenvectorsIndAmp}
 \end{figure*}
 
-
 \begin{figure*}[!hbtp]
 \centering
 \includegraphics[width=.32\columnwidth]{spec_aps_pairwiseSubNoRed_otisLongDarkSimGrism.pdf}
@@ -742,10 +737,10 @@ The amplifier boundaries are demarcated by solid vertical lines.
 \includegraphics[width=.32\columnwidth]{tser_pairwiseSub_noRed01.pdf}
 \includegraphics[width=.32\columnwidth]{tser_pairwiseSubRed.pdf}
 \includegraphics[width=.32\columnwidth]{tser_pairwiseSubRed_backsub.pdf}
-\caption{ {\it Top Row:} The read pairs have significant pre-amp offsets and 1/f noise (left), which are reduced by reference pixels (middle) and column-by-column row-by-row subtraction (right).
+\caption{{\it Top Row:} The read pairs have significant pre-amp offsets and 1/f noise (left), which are reduced by reference pixels (middle) and column-by-column, row-by-row subtraction (right).
 The spectrum (outlined in red aperture box) is dispersed along the fast read (horizontal) direction, so it is particularly susceptible to 1/f noise.
 {\it Bottom Row:} The standard deviation of the time series dramatically decreases from 21,900 ppm to 2,680 ppm with reference pixels and 1044 ppm with column-by-column, row-by-row subtraction for the 3.34 $\mu$m bin.
-Here, the simulated grism image for an F322W2 filter spans 3 amplifier channels (512 pixels wide) and part of the leftmost amplifer, so only reference pixels and horizontal pixels with X $<$ 300 can be used to reduce the 1/f noise.
+Here, the simulated grism image for an F322W2 filter spans 3 amplifier channels (512 pixels wide) and part of the leftmost amplifier, so only reference pixels and horizontal pixels with X $<$ 300 can be used to reduce the 1/f noise.
 }\label{fig:longDarkGrism}
 \end{figure*}
 
@@ -754,8 +749,10 @@ Here, the simulated grism image for an F322W2 filter spans 3 amplifier channels 
 The NIRCam grism time series are particularly susceptible to 1/f noise because the dispersion direction is parallel to the detector's fast-read direction.
 This is visible in Figure \ref{fig:longDarkGrism} where the grism apertures (in red) are parallel to the 1/f noise correlations.
 The background subtraction along the spatial direction (vertically) will efficiently remove pre-amplifier offsets from frame to frame and amplifier to amplifier.
-However, there are only limited background regions along the horizontal direction to use to subtract out 1/f noise.
-This will result in increased noise on the right three amplifiers for the F322W2 filter (2.4 to 4.0 $\mu$m over $\sim$1600 px) and the left two amplifiers for the F444W filter (on the right three amplifiers for the F322W2 filter (2.4 to 4.0 $\mu$m over $\sim$1600 px) and the left two amplifiers for F444W filter (3.9 to 5.0 $\mu$m over $\sim$2100 px).
+However, there are only limited background regions along the horizontal direction available to subtract out 1/f noise.
+This will result in increased noise on the right three amplifiers for the F322W2 filter (2.4 to 4.0 $\mu$m over $\sim$1600 px) and the left two amplifiers for the F444W filter (3.9 to 5.0 $\mu$m over $\sim$2100 px).
+
+%, on the right three amplifiers for the F322W2 filter (2.4 to 4.0 $\mu$m over $\sim$1600 px) and the left two amplifiers for F444W filter (3.9 to 5.0 $\mu$m over $\sim$2100 px).
 
 We give some illustrative numbers for a 0.165 $\mu$m wide bin of a grism spectrum centered on 3.34 $\mu$m as listed in Table \ref{tab:noiseSummary1overf}.
 Without reference pixel subtraction, the grism apertures have standard deviations of 80,930 DN.
@@ -765,7 +762,7 @@ Therefore, 1/f noise can potentially dominate the error budget for broadband gri
 Expressed in ppm, the read noise after processing with row-by-row subtraction is 1,044 ppm as compared to a photon noise of 390 ppm for a CDS subtraction (2 groups in ramp).
 
 Given the high 1/f read noise, it is important to maximize the number of samples up the ramp.
-The read noise averages down like $\sqrt{N}$ statistics (ie. each read can be assumed independent and identically distributed).
+The read noise averages down like $\sqrt{N}$ statistics (i.e., each read can be assumed independent and identically distributed).
 Therefore, for the example bin size of 0.17~$\mu$m, there should be at least 7 reads to average per integration.
 For RAPID and BRIGHT1 modes, there should therefore be 7 groups and for BRIGHT2, there should be at least 4 groups (of 2 frames each).
 This would make the photon noise about equal to the read noise but ideally the read noise should be a small fraction of the photon noise.
@@ -784,7 +781,7 @@ The profile is normalized so that
 \begin{equation*}
 \sum_{j=1}^{m} P_j = 1.
 \end{equation*}
-Any pixel is can be used to estimate the total flux $f_i$ by dividing by the profile.
+Any pixel can be used to estimate the total flux $f_i$ by dividing by the profile.
 \begin{equation*}
 f_j = \frac{S_j}{P_j},
 \end{equation*}
@@ -795,13 +792,13 @@ The goal becomes a weighting scheme to determine which weights $w_j$ minimize th
 f_{opt} = \frac{\sum_{j=1}^{m} w_j \frac{S_j}{P_j}}{\sum_{j=1}^{m} w_j}.
 \end{equation*}
 
-If one assumes that all pixels are independent (and have zero correlation), the optimal weights (ones that minimize the variance in $f_{opt}$) are
+If one assumes that all pixels are independent thereby having zero correlation, the optimal weights (ones that minimize the variance in $f_{opt}$) are
 \begin{equation}\label{eq:varianceweights}
 w_j = \frac{1}{\mathrm{Var}(\frac{S_j}{P_j})} = \frac{1}{\frac{1}{P_j^2} \mathrm{Var}(S_j)} = \frac{P_j^2}{V_j},
 \end{equation}
 where Var() is the variance or the expectation of the squared deviation from the mean and $V_j =$Var$(S_j$) \citep{horne1986optimalE}.
 Exoplanet observations, where high signal to noise is needed to remove the planet from star signal, are generally in the foreground limit (where the variance is approximately equal to the number of photons).
-In this case, both the profile $P_j$ and variance $V_j$ will be proportional to the number of photons $N_{phot}$, so the pre-multiplier of the flux become
+In this case, both the profile $P_j$ and variance $V_j$ will be proportional to the number of photons $N_{phot}$, so the pre-multiplier of the flux becomes:           
 \begin{equation*}
 \frac{w_j}{P_j} \approx \frac{N_{phot}^2}{N_{phot} N_{phot}} = 1.0.
 \end{equation*}
@@ -819,7 +816,6 @@ where $C_{ij}$ is the covariance (Cov()) of the variable $S_i/P_i$ with $S_j/P_j
 \begin{equation}
 C_{ij} = \mathrm{Cov}\left(\frac{S_i}{P_i},\frac{S_j}{P_j}\right) = \frac{1}{P_i P_j} \mathrm{Cov}(S_i,S_j).
 \end{equation}
-
 
 The variance in the flux is
 \begin{equation}
@@ -846,11 +842,11 @@ In Section \ref{sec:empCovarianceMatrix}, we compare the results of straight sum
 \centering
 \includegraphics[width=.49\columnwidth]{spec_spatial_cov.pdf}
 \includegraphics[width=.49\columnwidth]{cross_sections_cov.pdf}
-\caption{{\it Left:} The read noise shows significant correlations between pixels (unlike the traditional assumption that each pixel's noise is statistically independent).
+\caption{{\it Left:} The read noise shows significant correlations between pixels -- unlike the traditional assumption that each pixel's noise is statistically independent.
 The data was computed from a long dark exposure of 54 read pairs where reference pixel corrections, column-by-column subtraction and row-by-row subtraction have been performed.
 The detector's diagonal elements are slightly below the published detector read noise ($13^2 = 169 (e^-)^2$) due to the row-by-row and column-by-column subtraction step.
 {\it Right:} The spectral (X) and spatial (Y) directions from the matrix are averaged to build up a higher signal to noise covariance profile.
-Spatially, the pixels' have a covariance of 20~$(e^-)^2$ and a somewhat smaller spatial covariance of 10$(e^-)^2$.}\label{fig:covSpecSpatial}
+Spatially, the pixels have a covariance of 20~$(e^-)^2$ and a somewhat smaller spatial covariance of 10$(e^-)^2$.}\label{fig:covSpecSpatial}
 \end{figure}
 
 \subsubsection{Empirical Covariance Matrix}\label{sec:empCovarianceMatrix}
@@ -861,15 +857,11 @@ These represent the steps that will be performed on grism time series before ext
 We consider a wavelength bin that is 100 pixels in the dispersion direction (0.1$\mu$m) and 14 spatial spatial pixels.
 The resulting images are similar to Figure \ref{fig:longDarkPhot} (right).
 
-
 Figure \ref{fig:covSpecSpatial} shows the covariance matrix of this wavelength bin, taken from the median covariance matrix of 20 regions of the detector.
 The diagonal elements $\sim 150 (e^-)^2$ are smaller than published NIRCam detector performance tables ($\sigma^2 \approx 13^2 (e^-)^2=169 (e^-)^2$).
 However, if we skip the row-by-row and column-by-column subtraction step, they are consistent with $\sigma^2 \approx 13^2 (e^-)^2=169 (e^-)^2$.
 It is clear that 1/f noise causes covariance most prominently along the spectral direction (the fast-read direction), with a covariance near 20~$(e^-)^2$.
 Surprisingly, there is also a covariance between spatial pixels (the slow read direction) of $\sim$10 $(e^-)^2$.
-
-
-
 
 The empirical covariance matrix from Figure \ref{fig:covSpecSpatial} is used to estimate the optimal pixel weights using Equation \ref{eq:covarianceweights}.
 We reduce the noise and jaggedness of the empirical covariance matrix in Figure \ref{fig:covSpecSpatial} by averaging the value along the diagonal, across all spectral pixels and across the spatial pixels with the same value of $i -j$.
@@ -1527,7 +1519,6 @@ There are also peaks at 1px and 20 px that are likely spurious aliases of the pi
 %% The equation counter will reset when it encounters the \appendix
 %% command and will number appendix equations (A1), (A2), etc. The
 %% Figure and Table counter will not reset.
-
 
 %\section{Extra Info}
 

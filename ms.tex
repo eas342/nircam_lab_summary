@@ -328,8 +328,8 @@ This grism mode can be used simultaneously with short wavelength weak lens imagi
 The DHS mode will permit time series spectroscopy on very bright targets ($K_S \sim 1$ mag (Vega)) inaccessible by other modes.
 Either the DHS or weak lens imaging can be run simultaneously with the long wavelength grism thanks to a dichroic beamsplitter.
 
-Given the finite lifetime of the JWST mission set by onboard fuel, it is important to understand the systematic errors before launch to maximize the science return of the observatory.
-We discuss the major sources of systematic errors that can affect time-series observations with the NIRCam instrument.
+Given the finite lifetime of the JWST mission set by onboard fuel, it is important to characterize the systematic errors before launch to maximize the science return of the observatory.
+We discuss the known sources of systematic errors that can affect time-series observations with the NIRCam instrument.
 Parallel efforts to characterize other instrument's noise sources are being done, such as with MIRI's detectors \citep{matuso2019siAsDetectorStability}.
 
 Section \ref{sec:knownEffects} lists the known systematic effects that can degrade the precision of time series measurements compared to the the photon noise limit.
@@ -359,7 +359,7 @@ The resets cause discontinuities in the pedestal level of all pixels between fra
 Pre-amp resets can also appear in slope images (DN/second) because NIRCam's amplifiers are reset once per frame (not once per integration).
 This is an effect where averaging over more pixels does not decrease the noise, but reference pixel or background subtraction can efficiently remove the pre-amp offsets.
 These are discussed further in Section \ref{sec:preAmp}.
-	\item \textbf{Amplifier Boundary Discontinuities} The NIRCam detectors can be read out in full frame, stripe and window modes. The full frame and stripe modes make use of 4 amplifiers that can record or reset the accumulated electrons in 4 pixels simultaneously in parallel. The parallel operation of the amplifiers reduces the frame time and reset time by a factor of 4 but can introduce subtle voltage biases between regions of the detector. If these voltage biases are not corrected, they can potentially introduce discontinuities in a spectrum, which crosses amplifier boundaries.
+	\item \textbf{Amplifier Boundary Discontinuities} The NIRCam detectors can be read out in full frame, stripe and window modes. The full frame and stripe modes make use of 4 amplifiers that can record or reset the accumulated electrons in 4 pixels simultaneously in parallel. The parallel operation of the amplifiers reduces the frame time and reset time by a factor of 4 but can introduce subtle voltage biases between readout amplifiers of the detector. If these voltage biases are not corrected, they can potentially introduce discontinuities in a spectrum, which crosses amplifier boundaries.
 	The amplifier boundary discontinuities are a consequence of the pre-amplifier reset offsets above.
 	\item \textbf{1/f noise:} The JWST readout integrated circuits (ROICs) have a p-type metal-oxide semiconductor field-effect transistor (PFET) source follower that introduces noise to the images as well as DC biases in the ASIC electronics \citep{rauscher2011irsSquared}.
 	This is a noise source where most of the noise power is concentrated at low frequencies.
@@ -381,7 +381,7 @@ In addition to these random effects, there are also systematic effects that are 
 	Crosshatching patterns on HgCdTe detectors (which all JWST near-infrared instruments use) exist at the sub-pixel level  \citep{shapiro2018crosshatch,ninan2019crosshatchHPF}
 	\item \textbf{Detector Temperature Fluctuations:} The JWST detectors are sensitive to temperature changes on the focal plane arrays. For example, laboratory tests show that 100 mK temperature fluctuations can result in $\sim$ 80 DN changes on the detector that are not corrected by reference pixels \citep{hall2005jwstArrays}. Fortunately, the detectors are actively thermally controlled to keep the temperature fluctuations to mostly $\lesssim$ 1 mK.
 The one exception is that the Long Wavelength A-side detector (A5) exhibited $\sim$ 20 min oscillations with an amplitude of 15-20 mK when using the Temperature Monitor Control (TMC) 1 active thermal control.
-Fortunately, the TMC 2 control does not undergo these oscillations and will be employed in orbit.
+Fortunately, the TMC 2 control (with an independent set of hardware) does not undergo these oscillations and will be employed in orbit.
 If necessary, the effect of temperature fluctuations can be calibrated to $\pm 1 e^-$ for excursions less than $\pm$ 50 mK \citep{hall2005jwstArrays}.
 	\item \textbf{SIDECAR ASIC Temperature Fluctuations:} The SIDECAR ASIC temperature will change with the operating mode. For example, in the CV3 stability test, the temperature of the A SIDECAR ASIC changed by $\sim$80 mK when the readout mode was switched from full frame to subarray.
 	This temperature change is expected to be smaller in flight due to adjustments in the operations to run all four amplifiers regardless of how many are used to collect science data.
@@ -389,6 +389,9 @@ If necessary, the effect of temperature fluctuations can be calibrated to $\pm 1
 	\item \textbf{Charge Trapping} A major correlated error source on HST WFC3 is the ``hook effect'' \citep{berta2012flat_gj1214}.
 	The hook effects is due to charge can be trapped within the detector's depletion region (initially lowering the flux) and then released at later times (increasing the flux) \citep{zhou2017chargeTrap}.
 	JWST's NIRCam instrument has very lower rates of persistence ($<$1 DN/sec) at 100 seconds after saturation on all detectors \citep{leisenring2016persistence}, so it is expected that charge trapping will be a minor concern for JWST's HgCdTe detectors.
+	\item \textbf{Reciprocity Faillure:} The response of a HgCdTe detector can change with the brightness of a source, which is called reciprocity failure \citep{biesiadzinski2011reciprocityFailure}.
+	The brightness of a star and planet system does not change significantly with time, so it will not significantly affect the {\it precision} of a lightcurve, but could affect {\it accuracy} because the filter bandpass and stellar spectral energy distribution.
+	It is possible that reciprocity failure could introduce a systematic offset, slope or curvature that depends on the count rate of the detector.
 \end{enumerate}
 
 We discuss these noise contributions in more detail in Sections \ref{sec:preAmp} through \ref{sec:persistence}.
@@ -662,10 +665,10 @@ The right panel shows another part of the time series where Amplifiers 1 and 2 h
 
 \paragraph{Reference Channel Subtraction}
 We note that the 4 channels can sometimes exhibit the same 1/f correlation behavior, as shown in Figure \ref{fig:darkPixelTimeSeries}.
-Another option to remove 1/f noise is to subtract the illuminated amplifier with a target in it by un-illuminated channels.
-We subtract the first amplifier's time series (pixels X=1 through X=512) from all amplifiers.
+Another option to remove 1/f noise is to subtract the 3 out of 4 output amplifiers that have the source on them by the 1 output amplifier without the target.
+We subtract the first amplifier's time series (pixels X=1 through X=512) from all amplifiers by shifting and flipping the 2048$\times$256 image sub-section to the corners of the 4 amplifiers at (X=1, X=513, X=1025 and X=1537).
 Of course, this means that this amplifier is perfectly subtracted and no noise or signal remains in this 1/4 of the image.
-The subtraction step should increase the read noise on an individual pixel by $\sim \sqrt{2}$ because the errors from the subtracted pixel should add in quadrature to the original pixels.
+The subtraction step should increase the read noise on an individual pixel (for the remaining 3 output amplifiers) by $\sim \sqrt{2}$ because the errors from the subtracted pixel should add in quadrature to the original pixels.
 This increase in read noise on a per-pixel level might be acceptable if it decreases the correlated errors along the rows.
 On the other hand, if the each amplifier exhibits its own individual correlated noise behavior, the reference amplifier will fail to subtract out all correlated noise and may introduce more noise.
 
